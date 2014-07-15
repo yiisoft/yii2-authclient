@@ -74,7 +74,7 @@ class VKontakte extends OAuth2
                 'photo'
             ]),
         ]);
-        return array_shift($attributes['response']);
+        return array_pop($attributes['response']);
     }
 
     /**

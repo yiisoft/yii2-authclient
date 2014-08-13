@@ -1,12 +1,46 @@
 <?php
+/**
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
 namespace yii\authclient\clients;
 
 use yii\authclient\OAuth2;
 
-//https://api.weibo.com/oauth2/authorize?client_id=130617301&response_type=code&redirect_uri=http://kangqingfei.sinaapp.com/
-//https://api.weibo.com/oauth2/access_token?client_id=130617301&client_secret=1ddf6908903658da115c5ea525bb2159&grant_type=authorization_code&redirect_uri=http://kangqingfei.sinaapp.com/&code=CODE
-
-
+/**
+ * Tencent allows authentication via Tencent OAuth.
+ * 新浪微博的第三方登陆模块
+ *
+ * In order to use Tencent OAuth you must register your application at <http://open.weibo.com/apps.
+ * 为了使用这个模块你应该在新浪微博注册你的应用
+ *
+ * Example application configuration:
+ * 下面是配置你的应用的一个例子，其中clientId是你在注册你的应用获得的appid，
+ * clientSecret是你获得的密钥
+ * ~~~
+ * 'components' => [
+ *     'authClientCollection' => [
+ *         'class' => 'yii\authclient\Collection',
+ *         'clients' => [
+ *             'weibo' => [
+ *                 'class' => 'yii\authclient\clients\Weibo',
+ *                 'clientId' => 'github_client_id',
+ *                 'clientSecret' => 'github_client_secret',
+ *             ],
+ *         ],
+ *     ]
+ *     ...
+ * ]
+ * ~~~
+ *
+ * @see http://open.weibo.com/wiki/
+ * @see http://open.weibo.com/wiki/%E5%BE%AE%E5%8D%9AAPI
+ *
+ * @author kangqingfei <kangqingfei@gmail.com> http://weibo.com/u/3227269845
+ * @since 1.0
+ */
 class Weibo extends OAuth2
 {
     /**
@@ -56,6 +90,4 @@ class Weibo extends OAuth2
         return '新浪微博';
     }
 }
-
-
  ?>

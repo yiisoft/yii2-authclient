@@ -46,7 +46,12 @@
 .auth-icon.live {
     background-position: 0 -372px;
 }
-
+.auth-icon.tencent {
+    background: url(tencent.png) 0 0 no-repeat;
+}
+.auth-icon.weibo {
+    background: url(weibo.png) 0 0 no-repeat;
+}
 .auth-link:hover .auth-icon i,
 .auth-link:focus .auth-icon i {
     display: block;

@@ -16,7 +16,7 @@ use yii\authclient\OAuth2;
  * ~~~
  * 'components' => [
  *     'authClientCollection' => [
-OD *         'class' => 'yii\authclient\Collection',
+ *         'class' => 'yii\authclient\Collection',
  *         'clients' => [
  *             'mailru' => [
  *                 'class' => 'yii\authclient\Mailru',

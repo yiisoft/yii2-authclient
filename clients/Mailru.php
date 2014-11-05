@@ -103,7 +103,7 @@
 		 * @inheritdoc
 		 */
 		protected function defaultTitle() {
-			return 'Mailru';
+			return 'Mail.ru';
 		}
 
 		/**

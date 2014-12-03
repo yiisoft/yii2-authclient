@@ -8,7 +8,6 @@
 namespace common\components\clients;
 
 use yii\authclient\OAuth2;
-use yii\helpers\Url;
 
 /**
  * Odnoklassniki OAuth2 client 
@@ -38,6 +37,10 @@ use yii\helpers\Url;
  */
 class Odnoklassniki extends OAuth2
 {
+    
+    /**
+     * @inheritdoc
+     */
     public $application_key;
     /**
      * @inheritdoc
@@ -61,7 +64,7 @@ class Odnoklassniki extends OAuth2
      */
     protected function initUserAttributes()
     {
-        return $this->api('users.getCurrentUser', 'GET');
+        return $this->api('api/users/getCurrentUser', 'GET');
     }
 
     /**
@@ -71,12 +74,13 @@ class Odnoklassniki extends OAuth2
     {
         $params['access_token'] = $accessToken->getToken();
         $params['application_key'] = $this->application_key;
+        $params['method'] = str_replace('/','.', str_replace('api/','',$url));
 
-        $a = 'application_key='.$this->application_key.'method='.$url;
+        $a = 'application_key='.$this->application_key.'method='.$params['method'];
         $b = md5($params['access_token'].$this->clientSecret);
-        $c = md5($a.$b);
-        $params['method'] = $url;
-        $params['sig'] = $c;
+        $signature = md5($a.$b);
+
+        $params['sig'] = $signature;
 
         return $this->sendRequest($method, $url, $params, $headers);
     }

@@ -87,7 +87,7 @@ ALTER TABLE auth ADD CONSTRAINT fk-auth-user_id-user-id
 FOREIGN KEY user_id REFERENCES user(id);
 ```
 
-In the SQL above `user` is a standard table that is used in advanced application template to store user
+In the SQL above `user` is a standard table that is used in advanced project template to store user
 info. Each user can authenticate using multiple external services therefore each `user` record can relate to
 multiple `auth` records. In the `auth` table `source` is the name of the auth provider used and `source_id` is
 unique user identificator that is provided by external service after successful login.

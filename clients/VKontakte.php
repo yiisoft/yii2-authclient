@@ -60,19 +60,7 @@ class VKontakte extends OAuth2
     protected function initUserAttributes()
     {
         $attributes = $this->api('users.get.json', 'GET', [
-            'fields' => implode(',', [
-                'uid',
-                'first_name',
-                'last_name',
-                'nickname',
-                'screen_name',
-                'sex',
-                'bdate',
-                'city',
-                'country',
-                'timezone',
-                'photo'
-            ]),
+            'fields' => '',
         ]);
         return array_shift($attributes['response']);
     }
@@ -111,5 +99,17 @@ class VKontakte extends OAuth2
         return [
             'id' => 'uid'
         ];
+    }
+    
+    /*
+     * @inheritdoc
+     * От контактика email приходит вместе с token, приходится чучуть постараться, 
+     * чтобы получить его
+     */
+    protected function normalizeUserAttributes($attributes)
+    {
+        $attributes = parent::normalizeUserAttributes($attributes);
+        $attributes['email'] = $this->getAccessToken()->getParam('email');
+        return $attributes;
     }
 }

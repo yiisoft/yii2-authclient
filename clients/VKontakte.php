@@ -59,7 +59,7 @@ class VKontakte extends OAuth2
      */
     protected function initUserAttributes()
     {
-        $attributes = $this->api('users.get.json', 'GET', [
+        $response = $this->api('users.get.json', 'GET', [
             'fields' => implode(',', [
                 'uid',
                 'first_name',
@@ -74,7 +74,17 @@ class VKontakte extends OAuth2
                 'photo'
             ]),
         ]);
-        return array_shift($attributes['response']);
+        $attributes = array_shift($response['response']);
+
+        $accessToken = $this->getAccessToken();
+        if (is_object($accessToken)) {
+            $accessTokenParams = $accessToken->getParams();
+            unset($accessTokenParams['access_token']);
+            unset($accessTokenParams['expires_in']);
+            $attributes = array_merge($accessTokenParams, $attributes);
+        }
+
+        return $attributes;
     }
 
     /**

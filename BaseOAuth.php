@@ -271,9 +271,6 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
             }
             case self::CONTENT_TYPE_JSON: {
                 $response = Json::decode($rawResponse, true);
-                if (isset($response['error'])) {
-                    throw new Exception('Response error: ' . $response['error']);
-                }
                 break;
             }
             case self::CONTENT_TYPE_URLENCODED: {

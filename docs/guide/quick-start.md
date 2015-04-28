@@ -116,7 +116,10 @@ Defining list of attributes, which external auth provider should return, depends
 - [[yii\authclient\OpenId]]: combination of `requiredAttributes` and `optionalAttributes`.
 - [[yii\authclient\OAuth1]] and [[yii\authclient\OAuth2]]: field `scope`, note that different
   providers use different formats for the scope.
-  
+
+> Tip: If you are using several different clients, you can unify the structure of the attributes, which they return,
+  using [[yii\authclient\BaseClient::normalizeUserAttributeMap]].
+
 ### Getting additional data via extra API calls
 
 Both [[yii\authclient\OAuth1]] and [[yii\authclient\OAuth2]] provide method `api()`, which

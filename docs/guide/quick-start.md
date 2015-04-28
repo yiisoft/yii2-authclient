@@ -3,7 +3,8 @@ Quick Start
 
 ## Adding action to controller
 
-Next step is to add [[yii\authclient\AuthAction]] to a web controller. Typically `SiteController`:
+Next step is to add [[yii\authclient\AuthAction]] to a web controller and provide a `successCallback` implementation,
+which is suitable for your needs. Typically final controller code may look like following:
 
 ```php
 class SiteController extends Controller
@@ -20,9 +21,9 @@ class SiteController extends Controller
 
     public function onAuthSuccess($client)
     {
-       $attributes = $client->getUserAttributes();
+        $attributes = $client->getUserAttributes();
 
-        /** @var Auth $auth */
+        /* @var $auth Auth */
         $auth = Auth::find()->where([
             'source' => $client->getId(),
             'source_id' => $attributes['id'],
@@ -33,7 +34,7 @@ class SiteController extends Controller
                 $user = $auth->user;
                 Yii::$app->user->login($user);
             } else { // signup
-                if (isset($attributes['email']) && isset($attributes['username']) && User::find()->where(['email' => $attributes['email']])->exists()) {
+                if (isset($attributes['email'])) && User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $client->getTitle()]),
                     ]);
@@ -84,6 +85,11 @@ we can retrieve information received. In our case we'd like to:
 - If user is guest and record found in auth then log this user in.
 - If user is guest and record not found in auth then create new user and make a record in auth table. Then log in.
 - If user is logged in and record not found in auth then try connecting additional account (save its data into auth table).
+
+> Note: different Auth clients may require different approaches while handling authentication success. For example: Twitter
+  does not allow returning of the user email, so you have to deal with this somehow.
+
+### Auth client basic structure
 
 Although, all clients are different they shares same basic interface [[yii\authclient\ClientInterface]],
 which governs common API.

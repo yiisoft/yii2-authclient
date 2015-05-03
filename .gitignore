@@ -14,6 +14,7 @@ Thumbs.db
 
 # composer vendor dir
 /vendor
+/composer.lock
 
 # composer itself is not needed
 composer.phar
@@ -28,3 +29,8 @@ phpunit.phar
 
 # local tests configuration
 /tests/data/config.local.php
+
+/tests/runtime
+/tests/docker
+/tests/dockerids
+

@@ -3,7 +3,9 @@
 
 ## コントローラにアクションを追加する
 
-次のステップでは、ウェブのコントローラ、典型的には `SiteController` に [[yii\authclient\AuthAction]] を追加します。
+次のステップは、ウェブのコントローラに [[yii\authclient\AuthAction]] を追加して、あなたの必要に応じた `successCallback` の実装を提供することです。
+典型的には、コントローラのコードは、最終的に、次のようなものになります。
+
 
 ```php
 class SiteController extends Controller
@@ -22,7 +24,7 @@ class SiteController extends Controller
     {
        $attributes = $client->getUserAttributes();
 
-        /** @var Auth $auth */
+        /* @var $auth Auth */
         $auth = Auth::find()->where([
             'source' => $client->getId(),
             'source_id' => $attributes['id'],
@@ -33,7 +35,7 @@ class SiteController extends Controller
                 $user = $auth->user;
                 Yii::$app->user->login($user);
             } else { // ユーザ登録
-                if (User::find()->where(['email' => $attributes['email']])->exists()) {
+                if (isset($attributes['email'])) && User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', "{client} のアカウントと同じメールアドレスを持つユーザが既に存在しますが、まだそのアカウントとリンクされていません。リンクするために、まずメールアドレスを使ってログインしてください。", ['client' => $client->getTitle()]),
                     ]);
@@ -86,6 +88,12 @@ class SiteController extends Controller
 - ユーザがゲストであり、auth にレコードが見つからなかった場合は、新しいユーザを作成して、auth テーブルにレコードを作成する。そして、ログインさせる。
 - ユーザがログインしており、auth にレコードが見つからなかった場合は、追加のアカウントにも接続するようにする (そのデータを auth テーブルに保存する)。
 
+> Note|注意: Auth クライアントの違いによって、認証の成功を処理するときの方法も違ったものになります。
+  たとえば、Twitter はユーザの email を返すことを許していませんので、何らかの方法でそれに対処しなければなりません。
+
+
+### Auth クライアントの基本的な構造
+
 全ての Auth クライアントには違いがありますが、同じインタフェイス  [[yii\authclient\ClientInterface]] を共有し、共通の API によって管理されます。
 
 各クライアントは、異なる目的に使用できるいくつかの説明的なデータを持っています。
@@ -108,6 +116,10 @@ class SiteController extends Controller
 - [[yii\authclient\OpenId]]: `requiredAttributes` と `optionalAttributes` の組み合わせ。
 - [[yii\authclient\OAuth1]] と [[yii\authclient\OAuth2]]: `scope` フィールド。
   プロバイダによってスコープの形式が異なることに注意。
+
+
+> Tip|ヒント: いくつかの異なるクライアントを使用する場合は、[[yii\authclient\BaseClient::normalizeUserAttributeMap]] を使って、クライアントが返す属性を統一することが出来ます。
+
 
 ### API 呼び出しによって追加のデータを取得する
 

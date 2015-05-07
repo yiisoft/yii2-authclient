@@ -53,10 +53,10 @@ class VKontakte extends OAuth2
      */
     public $apiBaseUrl = 'https://api.vk.com/method';
     /**
-     * @var array list of fields, which should be requested from API to initialize user attributes.
+     * @var array list of attribute names, which should be requested from API to initialize user attributes.
      * @since 2.0.4
      */
-    public $userFields = [
+    public $attributeNames = [
         'uid',
         'first_name',
         'last_name',
@@ -77,7 +77,7 @@ class VKontakte extends OAuth2
     protected function initUserAttributes()
     {
         $response = $this->api('users.get.json', 'GET', [
-            'fields' => implode(',', $this->userFields),
+            'fields' => implode(',', $this->attributeNames),
         ]);
         $attributes = array_shift($response['response']);
 

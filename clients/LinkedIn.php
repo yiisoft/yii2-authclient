@@ -55,6 +55,17 @@ class LinkedIn extends OAuth2
      * @inheritdoc
      */
     public $apiBaseUrl = 'https://api.linkedin.com/v1';
+    /**
+     * @var array list of attribute names, which should be requested from API to initialize user attributes.
+     * @since 2.0.4
+     */
+    public $attributeNames = [
+        'id',
+        'email-address',
+        'first-name',
+        'last-name',
+        'public-profile-url',
+    ];
 
 
     /**
@@ -88,15 +99,7 @@ class LinkedIn extends OAuth2
      */
     protected function initUserAttributes()
     {
-        $attributeNames = [
-            'id',
-            'email-address',
-            'first-name',
-            'last-name',
-            'public-profile-url',
-        ];
-
-        return $this->api('people/~:(' . implode(',', $attributeNames) . ')', 'GET');
+        return $this->api('people/~:(' . implode(',', $this->attributeNames) . ')', 'GET');
     }
 
     /**

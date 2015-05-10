@@ -1,8 +1,13 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.0.4 under development
+2.0.5 under development
 -----------------------
+
+
+
+2.0.4 May 10, 2015
+------------------
 
 - Bug #7224: Fixed incorrect POST fields composition at `yii\authclient\OAuth1` (klimov-paul)
 - Bug #7639: Automatic exception throw on 'error' key presence at `yii\authclient\BaseOAuth::processResponse()` removed (klimov-paul)

@@ -20,8 +20,8 @@ use yii\web\View;
  * @see GoogleHybrid
  * @see https://developers.google.com/+/web/signin/
  *
- * @property GoogleHybrid $client auth client instance.
- * @property string|array $callback callback JavaScript function name or URL config.
+ * @property string $callback Callback JavaScript function name. Note that the type of this property differs
+ * in getter and setter. See [[getCallback()]] and [[setCallback()]] for details.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

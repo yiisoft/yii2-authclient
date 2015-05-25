@@ -4,6 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.0.5 under development
 -----------------------
 
+- Bug #25: `yii\authclient\BaseOAuth` now can be used without without `session` application component available (klimov-paul)
 
 
 2.0.4 May 10, 2015

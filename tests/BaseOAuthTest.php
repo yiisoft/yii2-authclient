@@ -8,16 +8,18 @@ use yii\authclient\BaseOAuth;
 
 class BaseOAuthTest extends TestCase
 {
+    protected function setUp()
+    {
+        $this->mockApplication();
+    }
+
     /**
      * Creates test OAuth client instance.
      * @return BaseOAuth oauth client.
      */
     protected function createOAuthClient()
     {
-        $oauthClient = $this->getMock(BaseOAuth::className(), ['setState', 'getState', 'composeRequestCurlOptions', 'refreshAccessToken', 'apiInternal']);
-        $oauthClient->expects($this->any())->method('setState')->will($this->returnValue($oauthClient));
-        $oauthClient->expects($this->any())->method('getState')->will($this->returnValue(null));
-
+        $oauthClient = $this->getMock(BaseOAuth::className(), ['composeRequestCurlOptions', 'refreshAccessToken', 'apiInternal']);
         return $oauthClient;
     }
 

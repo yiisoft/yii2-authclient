@@ -394,7 +394,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     /**
      * Saves token as persistent state.
      * @param OAuthToken $token auth token
-     * @return static self reference.
+     * @return $this the object itself.
      */
     protected function saveAccessToken(OAuthToken $token)
     {
@@ -421,7 +421,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * Sets persistent state.
      * @param string $key state key.
      * @param mixed $value state value
-     * @return static self reference.
+     * @return $this the object itself
      */
     protected function setState($key, $value)
     {

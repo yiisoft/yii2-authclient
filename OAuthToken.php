@@ -119,7 +119,7 @@ class OAuthToken extends Object
     /**
      * Sets token value.
      * @param string $token token value.
-     * @return static self reference.
+     * @return $this the object itself
      */
     public function setToken($token)
     {

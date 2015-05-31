@@ -21,7 +21,7 @@ use yii\helpers\Json;
                 window.location = url;
             }
         }
-        popupWindowRedirect(<?= Json::encode($url) ?>, <?= Json::encode($enforceRedirect) ?>);
+        popupWindowRedirect(<?= Json::htmlEncode($url) ?>, <?= Json::htmlEncode($enforceRedirect) ?>);
     </script>
 </head>
 <body>

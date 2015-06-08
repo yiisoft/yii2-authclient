@@ -186,10 +186,10 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
             $this->composeRequestCurlOptions(strtoupper($method), $url, $params)
         );
 
-		// cURL alternatives
-		if (!extension_loaded('cURL')) {
-			return $this->sendRequestByStream($curlOptions);
-		}
+        // cURL alternatives
+        if (!extension_loaded('cURL')) {
+            return $this->sendRequestByStream($curlOptions);
+        }
 
         $curlResource = curl_init();
         foreach ($curlOptions as $option => $value) {

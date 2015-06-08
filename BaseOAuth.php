@@ -179,15 +179,21 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
             $this->defaultCurlOptions(),
             $this->getCurlOptions(),
             [
-                CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => $url,
+                'CURLOPT_HTTPHEADER' => $headers,
+                'CURLOPT_RETURNTRANSFER' => true,
+                'CURLOPT_URL' => $url,
             ],
             $this->composeRequestCurlOptions(strtoupper($method), $url, $params)
         );
+
+		// cURL alternatives
+		if (!extension_loaded('cURL')) {
+			return $this->sendRequestByStream($curlOptions);
+		}
+
         $curlResource = curl_init();
         foreach ($curlOptions as $option => $value) {
-            curl_setopt($curlResource, $option, $value);
+            curl_setopt($curlResource, constant($option), $value);
         }
         $response = curl_exec($curlResource);
         $responseHeaders = curl_getinfo($curlResource);
@@ -206,6 +212,86 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
         }
 
         return $this->processResponse($response, $this->determineContentTypeByHeaders($responseHeaders));
+    }
+
+    /**
+     * Sends HTTP request via PHP built-in stream function.
+     * @param array $curlOptions CUrl options, indexed by option name.
+     * @return array response.
+     * @throws Exception on failure.
+     */
+    protected function sendRequestByStream($curlOptions)
+    {
+        $url = null;
+        $ctxOptions = [
+            'http' => [
+                'method' => 'GET',
+                'ignore_errors' => true,
+            ],
+            'ssl' => [
+                'verify_peer' => false,
+            ],
+        ];
+        foreach ($curlOptions as $name => $value) {
+            switch ($name) {
+                case 'CURLOPT_URL': {
+                    $url = $value;
+                    break;
+                }
+                case 'CURLOPT_POST': {
+                    if ($value === true) {
+                        $ctxOptions['http']['method'] = 'POST';
+                    }
+                    break;
+                }
+                case 'CURLOPT_POSTFIELDS': {
+                    $ctxOptions['http']['content'] = $value;
+                    break;
+                }
+                case 'CURLOPT_CUSTOMREQUEST': {
+                    $ctxOptions['http']['method'] = $value;
+                    break;
+                }
+                case 'CURLOPT_HTTPHEADER': {
+                    $ctxOptions['http']['header'] = $value;
+                    break;
+                }
+                case 'CURLOPT_USERAGENT': {
+                    $ctxOptions['http']['user_agent'] = $value;
+                    break;
+                }
+                case 'CURLOPT_TIMEOUT':
+                case 'CURLOPT_CONNECTTIMEOUT': {
+                    $ctxOptions['http']['timeout'] = $value;
+                    break;
+                }
+                case 'CURLOPT_SSL_VERIFYPEER': {
+                    $ctxOptions['ssl']['verify_peer'] = $value;
+                    break;
+                }
+            }
+        }
+
+        $response = @file_get_contents($url, false, stream_context_create($ctxOptions));
+        if ($response === false) {
+            throw new Exception('HTTP request failed');
+        }
+
+        $http_code = 200;
+        $content_type = '';
+        for ($i = 0; $i < count($http_response_header); $i++) {
+            $line = $http_response_header[$i];
+            if (!strncmp($line, 'HTTP/', 5)) {
+                $http_code = intval(substr($line, strpos($line, ' ') + 1));
+            } elseif (!strncasecmp($line, 'Content-Type:', 13)) {
+                $content_type = trim(substr($line, 13));
+            }
+        }
+        if ($http_code !== 200) {
+            throw new InvalidResponseException($http_response_header, $response, 'Request failed with code: ' . $http_code . ', message: ' . $response);
+        }
+
+        return $this->processResponse($response, $this->determineContentTypeByHeaders(['content_type' => $content_type]));
     }
 
     /**
@@ -241,10 +327,10 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     protected function defaultCurlOptions()
     {
         return [
-            CURLOPT_USERAGENT => Yii::$app->name . ' OAuth ' . $this->version . ' Client',
-            CURLOPT_CONNECTTIMEOUT => 30,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_SSL_VERIFYPEER => false,
+            'CURLOPT_USERAGENT' => Yii::$app->name . ' OAuth ' . $this->version . ' Client',
+            'CURLOPT_CONNECTTIMEOUT' => 30,
+            'CURLOPT_TIMEOUT' => 30,
+            'CURLOPT_SSL_VERIFYPEER' => false,
         ];
     }
 
@@ -503,6 +589,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
 
     /**
      * Composes HTTP request CUrl options, which will be merged with the default ones.
+	 * The key must be a string that is the name of CUrl options.
      * @param string $method request type.
      * @param string $url request URL.
      * @param array $params request params.

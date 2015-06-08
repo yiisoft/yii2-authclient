@@ -19,7 +19,6 @@
     ],
     "require": {
         "yiisoft/yii2": ">=2.0.4",
-        "ext-curl": "*"
     },
     "autoload": {
         "psr-4": { "yii\\authclient\\": "" }

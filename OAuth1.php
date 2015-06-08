@@ -164,44 +164,39 @@ class OAuth1 extends BaseOAuth
     }
 
     /**
-     * Composes HTTP request CUrl options, which will be merged with the default ones.
-     * @param string $method request type.
-     * @param string $url request URL.
-     * @param array $params request params.
-     * @return array CUrl options.
-     * @throws Exception on failure.
+     * @inheritdoc
      */
     protected function composeRequestCurlOptions($method, $url, array $params)
     {
         $curlOptions = [];
         switch ($method) {
             case 'GET': {
-                $curlOptions[CURLOPT_URL] = $this->composeUrl($url, $params);
+                $curlOptions['CURLOPT_URL'] = $this->composeUrl($url, $params);
                 break;
             }
             case 'POST': {
-                $curlOptions[CURLOPT_POST] = true;
-                $curlOptions[CURLOPT_HTTPHEADER] = ['Content-type: application/x-www-form-urlencoded'];
+                $curlOptions['CURLOPT_POST'] = true;
+                $curlOptions['CURLOPT_HTTPHEADER'] = ['Content-type: application/x-www-form-urlencoded'];
                 if (!empty($params)) {
-                    $curlOptions[CURLOPT_POSTFIELDS] = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
+                    $curlOptions['CURLOPT_POSTFIELDS'] = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
                 }
                 $authorizationHeader = $this->composeAuthorizationHeader($params);
                 if (!empty($authorizationHeader)) {
-                    $curlOptions[CURLOPT_HTTPHEADER][] = $authorizationHeader;
+                    $curlOptions['CURLOPT_HTTPHEADER'][] = $authorizationHeader;
                 }
                 break;
             }
             case 'HEAD': {
-                $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
+                $curlOptions['CURLOPT_CUSTOMREQUEST'] = $method;
                 if (!empty($params)) {
-                    $curlOptions[CURLOPT_URL] = $this->composeUrl($url, $params);
+                    $curlOptions['CURLOPT_URL'] = $this->composeUrl($url, $params);
                 }
                 break;
             }
             default: {
-                $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
+                $curlOptions['CURLOPT_CUSTOMREQUEST'] = $method;
                 if (!empty($params)) {
-                    $curlOptions[CURLOPT_POSTFIELDS] = $params;
+                    $curlOptions['CURLOPT_POSTFIELDS'] = $params;
                 }
             }
         }

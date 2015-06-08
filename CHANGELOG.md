@@ -5,6 +5,7 @@ Yii Framework 2 authclient extension Change Log
 -----------------------
 
 - Bug #25: `yii\authclient\BaseOAuth` now can be used without without `session` application component available (klimov-paul)
+- Enh #27: Now allows sending HTTP requests via `file_get_contents()`, if not cURL extension. (hightman)
 
 
 2.0.4 May 10, 2015

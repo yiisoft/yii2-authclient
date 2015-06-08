@@ -237,6 +237,11 @@ class OpenId extends BaseClient implements ClientInterface
      */
     protected function sendRequest($url, $method = 'GET', $params = [])
     {
+        // cURL alternatives
+        if (!extension_loaded('cURL')) {
+            return $this->sendRequestByStream($url, $method, $params);
+        }
+
         $params = http_build_query($params, '', '&');
         $curl = curl_init($url . ($method == 'GET' && $params ? '?' . $params : ''));
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -279,6 +284,63 @@ class OpenId extends BaseClient implements ClientInterface
 
         if (curl_errno($curl)) {
             throw new Exception(curl_error($curl), curl_errno($curl));
+        }
+
+        return $response;
+    }
+
+    /**
+     * Sends request to the server via PHP built-in stream function.
+     * @param string $url request URL.
+     * @param string $method request method.
+     * @param array $params request parameters.
+     * @return array|string response.
+     * @throws \yii\base\Exception on failure.
+     */
+    protected function sendRequestByStream($url, $method = 'GET', $params = [])
+    {
+        $params = http_build_query($params, '', '&');
+        if ($method === 'GET' || $method === 'HEAD') {
+            $url .= '?' . $params;
+        }
+
+        $ctxOptions = [
+            'http' => [
+                'method' => $method,
+                'ignore_errors' => true,
+                'header' => ['Accept: application/xrds+xml, */*'],
+            ],
+            'ssl' => [
+                'verify_peer' => false,
+            ],
+        ];
+        if ($this->verifyPeer !== null) {
+            $ctxOptions['ssl']['verify_peer'] = $this->verifyPeer === true;
+            if ($this->capath) {
+                $ctxOptions['ssl']['capath'] = $this->capath;
+            }
+            if ($this->cainfo) {
+                $ctxOptions['ssl']['cafile'] = $this->cainfo;
+            }
+        }
+        if ($method == 'POST') {
+            $ctxOptions['http']['content'] = $params;
+        }
+
+        $response = @file_get_contents($url, false, stream_context_create($ctxOptions));
+        if ($response === false) {
+            throw new Exception('HTTP request failed');
+        }
+
+        if ($method == 'HEAD') {
+            $headers = [];
+            foreach ($http_response_header as $header) {
+                $pos = strpos($header, ':');
+                $name = strtolower(trim(substr($header, 0, $pos)));
+                $headers[$name] = trim(substr($header, $pos+1));
+            }
+
+            return $headers;
         }
 
         return $response;

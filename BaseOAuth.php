@@ -249,6 +249,23 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     }
 
     /**
+     * Detect if the params have a file to upload.
+     *
+     * @param array $params
+     *
+     * @return boolean
+     */
+    protected function paramsHaveFile(array $params)
+    {
+    	foreach ($params as $value) {
+    		if ($value instanceof \CURLFile) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+
+    /**
      * Processes raw response converting it to actual data.
      * @param string $rawResponse raw response.
      * @param string $contentType response content type.

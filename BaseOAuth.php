@@ -168,12 +168,12 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * Sends HTTP request.
      * @param string $method request type.
      * @param string $url request URL.
-     * @param array $params request params.
+     * @param mixed $params request params.
      * @param array $headers additional request headers.
      * @return array response.
      * @throws Exception on failure.
      */
-    protected function sendRequest($method, $url, array $params = [], array $headers = [])
+    protected function sendRequest($method, $url, $params = [], array $headers = [])
     {
         $curlOptions = $this->mergeCurlOptions(
             $this->defaultCurlOptions(),
@@ -499,12 +499,12 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * Performs request to the OAuth API.
      * @param string $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
      * @param string $method request method.
-     * @param array $params request parameters.
+     * @param mixed $params request parameters.
      * @param array $headers additional request headers.
      * @return array API response
      * @throws Exception on failure.
      */
-    public function api($apiSubUrl, $method = 'GET', array $params = [], array $headers = [])
+    public function api($apiSubUrl, $method = 'GET', $params = [], array $headers = [])
     {
         if (preg_match('/^https?:\\/\\//is', $apiSubUrl)) {
             $url = $apiSubUrl;
@@ -526,7 +526,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * @return array CUrl options.
      * @throws Exception on failure.
      */
-    abstract protected function composeRequestCurlOptions($method, $url, array $params);
+    abstract protected function composeRequestCurlOptions($method, $url, $params);
 
     /**
      * Gets new auth token to replace expired one.
@@ -540,10 +540,10 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * @param OAuthToken $accessToken actual access token.
      * @param string $url absolute API URL.
      * @param string $method request method.
-     * @param array $params request parameters.
+     * @param mixed $params request parameters.
      * @param array $headers additional request headers.
      * @return array API response.
      * @throws Exception on failure.
      */
-    abstract protected function apiInternal($accessToken, $url, $method, array $params, array $headers);
+    abstract protected function apiInternal($accessToken, $url, $method, $params, array $headers);
 }

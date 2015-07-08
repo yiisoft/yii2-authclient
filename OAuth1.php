@@ -182,7 +182,7 @@ class OAuth1 extends BaseOAuth
             case 'POST': {
                 $curlOptions[CURLOPT_POST] = true;
                 if (!empty($params)) {
-                    $curlOptions[CURLOPT_POSTFIELDS] = !parent::paramsHaveFile($params) ? (is_array($params) || is_object($params)) ? http_build_query($params, null, '&', PHP_QUERY_RFC3986) : $params : $params;
+                    $curlOptions[CURLOPT_POSTFIELDS] = (is_array($params)) ? !parent::paramsHaveFile($params) ? http_build_query($params, null, '&', PHP_QUERY_RFC3986) : $params : $params;
                 }
                 $authorizationHeader = $this->composeAuthorizationHeader($params);
                 if (!empty($authorizationHeader)) {

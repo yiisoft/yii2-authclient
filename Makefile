@@ -13,7 +13,7 @@ help:
 
 test: docker-php
 	composer require "yiisoft/yii2:${YII_VERSION}" --prefer-dist
-	composer install --prefer-dist
+	composer install --prefer-dist --ignore-platform-reqs
 	docker run --rm=true -v $(shell pwd):/opt/test yiitest/php:${PHP_VERSION} phpunit --verbose --color
 
 docker-php: dockerfiles

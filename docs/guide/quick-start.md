@@ -34,7 +34,7 @@ class SiteController extends Controller
                 $user = $auth->user;
                 Yii::$app->user->login($user);
             } else { // signup
-                if (isset($attributes['email'])) && User::find()->where(['email' => $attributes['email']])->exists()) {
+                if (isset($attributes['email']) && User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $client->getTitle()]),
                     ]);

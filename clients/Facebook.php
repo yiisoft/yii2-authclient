@@ -63,7 +63,7 @@ class Facebook extends OAuth2
      */
     protected function initUserAttributes()
     {
-        return $this->api('me', 'GET');
+        return $this->api('me?fields=id,name,email', 'GET');
     }
 
     /**

@@ -80,12 +80,12 @@ CREATE TABLE user (
 CREATE TABLE auth (
     id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id int(11) NOT NULL,
-    source string(255) NOT NULL,
-    source_id string(255) NOT NULL
+    source varchar(255) NOT NULL,
+    source_id varchar(255) NOT NULL
 );
 
 ALTER TABLE auth ADD CONSTRAINT fk-auth-user_id-user-id
-FOREIGN KEY user_id REFERENCES auth(id);
+FOREIGN KEY user_id REFERENCES auth(id) ON DELETE CASCADE ON UPDATE CASCADE;
 ```
 
 上記の SQL における `user` は、アドバンストプロジェクトテンプレートでユーザ情報を保存するために使われている標準的なテーブルです。

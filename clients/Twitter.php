@@ -64,14 +64,24 @@ class Twitter extends OAuth1
      * @inheritdoc
      */
     public $apiBaseUrl = 'https://api.twitter.com/1.1';
-
+    /**
+     * @var array list of query parameters, which should be requested from API to initialize user attributes.
+     * @since 2.0.4
+     */
+    public $queryParameters = [
+        'id',
+        'email-address',
+        'first-name',
+        'last-name',
+        'public-profile-url',
+    ];
 
     /**
      * @inheritdoc
      */
     protected function initUserAttributes()
     {
-        return $this->api('account/verify_credentials.json', 'GET');
+        return $this->api('account/verify_credentials.json', 'GET', $this->initUserParameters);
     }
 
     /**

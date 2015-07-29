@@ -50,6 +50,14 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * @var string auth request scope.
      */
     public $scope;
+    /**
+     * @var array parameters for initializing authenticated user attributes.
+     */
+    public $initUserParameters = [];
+    /**
+     * @var array headers for initializing authenticated user attributes.
+     */
+    public $initUserHeaders = [];
 
     /**
      * @var string URL, which user will be redirected after authentication at the OAuth provider web site.

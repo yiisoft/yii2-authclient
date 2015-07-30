@@ -112,11 +112,12 @@ class OAuth1 extends BaseOAuth
      * Fetches OAuth access token.
      * @param OAuthToken $requestToken OAuth request token.
      * @param string $oauthVerifier OAuth verifier.
+     * @param string $oauthToken OAuth token.
      * @param array $params additional request params.
      * @return OAuthToken OAuth access token.
      * @throws Exception on failure.
      */
-    public function fetchAccessToken(OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
+    public function fetchAccessToken(OAuthToken $requestToken = null, $oauthVerifier = null, $oauthToken = null, array $params = [])
     {
         if (!is_object($requestToken)) {
             $requestToken = $this->getState('requestToken');
@@ -124,10 +125,8 @@ class OAuth1 extends BaseOAuth
                 throw new Exception('Request token is required to fetch access token!');
             }
         }
-        $this->removeState('requestToken');
         $defaultParams = [
-            'oauth_consumer_key' => $this->consumerKey,
-            'oauth_token' => $requestToken->getToken()
+            'oauth_consumer_key' => $this->consumerKey
         ];
         if ($oauthVerifier === null) {
             if (isset($_REQUEST['oauth_verifier'])) {
@@ -137,8 +136,18 @@ class OAuth1 extends BaseOAuth
         if (!empty($oauthVerifier)) {
             $defaultParams['oauth_verifier'] = $oauthVerifier;
         }
+        if ($oauthToken === null) {
+            if (isset($_REQUEST['oauth_token'])) {
+                $oauthToken = $_REQUEST['oauth_token'];
+            }
+        }
+        if ($oauthToken == $requestToken->getToken()) {
+            $defaultParams['oauth_token'] = $oauthToken;
+        } else {
+            throw new Exception('Temporary token passed back by server does not match the stored one'); // Potential man-in-the-middle
+        }
         $response = $this->sendSignedRequest($this->accessTokenMethod, $this->accessTokenUrl, array_merge($defaultParams, $params));
-
+        $this->removeState('requestToken');
         $token = $this->createToken([
             'params' => $response
         ]);
@@ -326,7 +335,9 @@ class OAuth1 extends BaseOAuth
         $signatureKeyParts = [
             $this->consumerSecret
         ];
-        $accessToken = $this->getAccessToken();
+        if (is_null($accessToken = $this->getState('requestToken'))) {
+            $accessToken = $this->getAccessToken();
+        }
         if (is_object($accessToken)) {
             $signatureKeyParts[] = $accessToken->getTokenSecret();
         } else {

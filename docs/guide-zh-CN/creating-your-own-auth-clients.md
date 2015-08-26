@@ -8,7 +8,7 @@
  - 对于 OAuth 1/1.0a 使用 [[yii\authclient\OAuth1]].
  - 对于 OpenID 使用 [[yii\authclient\OpenId]].
 
-在此步骤，你可以决定验证客户端的默认名称、标题和视图选项，声明相应的方法：
+在此步骤中，你可以决定验证客户端的默认名称、标题和视图选项，声明相应的方法：
 
 ```php
 use yii\authclient\OAuth2;
@@ -92,8 +92,8 @@ class MyAuthClient extends OAuth2
 
 你也可以指定默认的验证范围。
 
-> 注意：某些 OAuth 提供商可能并不严格遵循 OAuth 标准，或没有清晰说明与 OAuth 标准
-  的差别，可能需要为实现这些可客户端做额外的工作。
+> 注意：某些 OAuth 提供商可能并不严格遵循 OAuth 标准，或没有清晰说明与 OAuth 标准的差别，
+  可能需要为实现这些可客户端做额外的工作。
 
 ## [[yii\authclient\OAuth1]]
 
@@ -129,6 +129,6 @@ class MyAuthClient extends OAuth1
 
 你也可以指定默认的验证范围。
 
-> 注意：某些 OAuth 提供商可能并不严格遵循 OAuth 标准，或没有清晰说明与 OAuth 标准
-  的差别，可能需要为实现这些可客户端做额外的工作。
+> 注意：某些 OAuth 提供商可能并不严格遵循 OAuth 标准，或没有清晰说明与 OAuth 标准的差别，
+  可能需要为实现这些可客户端做额外的工作。
 

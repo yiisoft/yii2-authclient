@@ -35,7 +35,7 @@ class SiteController extends Controller
                 $user = $auth->user;
                 Yii::$app->user->login($user);
             } else { // ユーザ登録
-                if (isset($attributes['email'])) && User::find()->where(['email' => $attributes['email']])->exists()) {
+                if (isset($attributes['email']) && User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', "{client} のアカウントと同じメールアドレスを持つユーザが既に存在しますが、まだそのアカウントとリンクされていません。リンクするために、まずメールアドレスを使ってログインしてください。", ['client' => $client->getTitle()]),
                     ]);

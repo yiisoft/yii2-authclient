@@ -21,7 +21,7 @@ jQuery(function($) {
                 directories: 'no',
                 status: 'yes',
                 width: 450,
-                height: 380
+                height: 410
             }
         }, options);
 

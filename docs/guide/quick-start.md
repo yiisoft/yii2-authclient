@@ -31,8 +31,8 @@ class SiteController extends Controller
         
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
-                $user = $auth->user;
-                Yii::$app->user->login($user);
+                $user_id = $auth->user_id;
+                Yii::$app->user->login($user_id);
             } else { // signup
                 if (isset($attributes['email']) && User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [

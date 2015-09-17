@@ -91,4 +91,15 @@ class Facebook extends OAuth2
     {
         return 'Facebook';
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function defaultViewOptions()
+    {
+        return [
+            'popupWidth' => 860,
+            'popupHeight' => 480,
+        ];
+    }
 }

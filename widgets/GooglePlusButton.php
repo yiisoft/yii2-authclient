@@ -42,6 +42,7 @@ class GooglePlusButton extends AuthChoiceItem
      */
     private $_callback;
 
+
     /**
      * @param string|array $callback callback JavaScript function name or URL config.
      */

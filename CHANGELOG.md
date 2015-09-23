@@ -1,6 +1,11 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
+2.0.6 under development
+-----------------------
+
+
+
 2.0.5 September 23, 2015
 ------------------------
 

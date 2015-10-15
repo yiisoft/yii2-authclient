@@ -53,6 +53,11 @@ class VKontakte extends OAuth2
      */
     public $apiBaseUrl = 'https://api.vk.com/method';
 
+    /**
+     * @var array
+     */
+    public $attributesName = [];
+
 
     /**
      * @inheritdoc
@@ -60,7 +65,7 @@ class VKontakte extends OAuth2
     protected function initUserAttributes()
     {
         $attributes = $this->api('users.get.json', 'GET', [
-            'fields' => '',
+            'fields' => $this->attributesName
         ]);
         return array_shift($attributes['response']);
     }

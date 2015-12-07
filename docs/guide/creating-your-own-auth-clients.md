@@ -42,7 +42,7 @@ Depending on actual base class, you will need to redeclare different fields and 
 
 ## [[yii\authclient\OpenId]]
 
-All you need is to specify auth URL, by redeclaring `authUrl` field.
+All you need is to specify auth URL, by redeclaring [[yii\authclient\OpenId::authUrl|authUrl]] field.
 You may also setup default required and/or optional attributes.
 For example:
 
@@ -68,10 +68,11 @@ class MyAuthClient extends OpenId
 
 You will need to specify:
 
-- Auth URL by redeclaring `authUrl` field.
-- Token request URL by redeclaring `tokenUrl` field.
-- API base URL by redeclaring `apiBaseUrl` field.
-- User attribute fetching strategy by redeclaring `initUserAttributes()` method.
+- Auth URL by redeclaring [[yii\authclient\OAuth2::authUrl|authUrl]] field.
+- Token request URL by redeclaring [[yii\authclient\OAuth2::tokenUrl|tokenUrl]] field.
+- API base URL by redeclaring [[yii\authclient\OAuth2::apiBaseUrl|apiBaseUrl]] field.
+- User attribute fetching strategy by redeclaring [[yii\authclient\OAuth2::initUserAttributes()|initUserAttributes()]] 
+method.
 
 For example:
 
@@ -102,11 +103,12 @@ You may also specify default auth scopes.
 
 You will need to specify:
 
-- Auth URL by redeclaring `authUrl` field.
-- Request token URL by redeclaring `requestTokenUrl` field.
-- Access token URL by redeclaring `accessTokenUrl` field.
-- API base URL by redeclaring `apiBaseUrl` field.
-- User attribute fetching strategy by redeclaring `initUserAttributes()` method.
+- Auth URL by redeclaring [[yii\authclient\OAuth1::authUrl|authUrl]] field.
+- Request token URL by redeclaring [[yii\authclient\OAuth1::requestTokenUrl|requestTokenUrl]] field.
+- Access token URL by redeclaring [[yii\authclient\OAuth1::accessTokenUrl|accessTokenUrl]] field.
+- API base URL by redeclaring [[yii\authclient\OAuth1::apiBaseUrl|apiBaseUrl]] field.
+- User attribute fetching strategy by redeclaring [[yii\authclient\OAuth1::initUserAttributes()|initUserAttributes()]] 
+method.
 
 For example:
 

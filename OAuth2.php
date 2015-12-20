@@ -50,6 +50,14 @@ class OAuth2 extends BaseOAuth
      */
     public $tokenUrl;
 
+    /**
+     * @return string token URL.
+     */
+    public function getTokenUrl()
+    {
+        return $this->tokenUrl;
+    }
+
 
     /**
      * Composes user authorization URL.
@@ -68,7 +76,7 @@ class OAuth2 extends BaseOAuth
             $defaultParams['scope'] = $this->scope;
         }
 
-        return $this->composeUrl($this->authUrl, array_merge($defaultParams, $params));
+        return $this->composeUrl($this->getAuthUrl(), array_merge($defaultParams, $params));
     }
 
     /**
@@ -86,7 +94,7 @@ class OAuth2 extends BaseOAuth
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->getReturnUrl(),
         ];
-        $response = $this->sendRequest('POST', $this->tokenUrl, array_merge($defaultParams, $params));
+        $response = $this->sendRequest('POST', $this->getTokenUrl(), array_merge($defaultParams, $params));
         $token = $this->createToken(['params' => $response]);
         $this->setAccessToken($token);
 
@@ -156,7 +164,7 @@ class OAuth2 extends BaseOAuth
             'grant_type' => 'refresh_token'
         ];
         $params = array_merge($token->getParams(), $params);
-        $response = $this->sendRequest('POST', $this->tokenUrl, $params);
+        $response = $this->sendRequest('POST', $this->getTokenUrl(), $params);
 
         $token = $this->createToken(['params' => $response]);
         $this->setAccessToken($token);

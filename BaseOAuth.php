@@ -92,6 +92,22 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     }
 
     /**
+     * @return string auth URL.
+     */
+    public function getAuthUrl()
+    {        
+        return $this->authUrl;
+    }
+
+    /**
+     * @return string API base URL.
+     */
+    public function getApiBaseUrl()
+    {        
+        return $this->apiBaseUrl;
+    }
+
+    /**
      * @param array $curlOptions cURL options.
      */
     public function setCurlOptions(array $curlOptions)
@@ -475,7 +491,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      */
     protected function getStateKeyPrefix()
     {
-        return get_class($this) . '_' . sha1($this->authUrl) . '_';
+        return get_class($this) . '_' . sha1($this->getAuthUrl()) . '_';
     }
 
     /**
@@ -492,7 +508,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
         if (preg_match('/^https?:\\/\\//is', $apiSubUrl)) {
             $url = $apiSubUrl;
         } else {
-            $url = $this->apiBaseUrl . '/' . $apiSubUrl;
+            $url = $this->getApiBaseUrl() . '/' . $apiSubUrl;
         }
         $accessToken = $this->getAccessToken();
         if (!is_object($accessToken) || !$accessToken->getIsValid()) {

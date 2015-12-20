@@ -64,6 +64,22 @@ class OAuth1 extends BaseOAuth
 
 
     /**
+     * @return string request token URL.
+     */
+    public function getRequestTokenUrl()
+    {        
+        return $this->requestTokenUrl;
+    }
+    
+    /**
+     * @return string access token URL.
+     */
+    public function getAccessTokenUrl()
+    {        
+        return $this->accessTokenUrl;
+    }
+
+    /**
      * Fetches the OAuth request token.
      * @param array $params additional request params.
      * @return OAuthToken request token.
@@ -79,7 +95,7 @@ class OAuth1 extends BaseOAuth
         if (!empty($this->scope)) {
             $defaultParams['scope'] = $this->scope;
         }
-        $response = $this->sendSignedRequest($this->requestTokenMethod, $this->requestTokenUrl, array_merge($defaultParams, $params));
+        $response = $this->sendSignedRequest($this->requestTokenMethod, $this->getRequestTokenUrl(), array_merge($defaultParams, $params));
         $token = $this->createToken([
             'params' => $response
         ]);
@@ -105,7 +121,7 @@ class OAuth1 extends BaseOAuth
         }
         $params['oauth_token'] = $requestToken->getToken();
 
-        return $this->composeUrl($this->authUrl, $params);
+        return $this->composeUrl($this->getAuthUrl(), $params);
     }
 
     /**
@@ -137,7 +153,7 @@ class OAuth1 extends BaseOAuth
         if (!empty($oauthVerifier)) {
             $defaultParams['oauth_verifier'] = $oauthVerifier;
         }
-        $response = $this->sendSignedRequest($this->accessTokenMethod, $this->accessTokenUrl, array_merge($defaultParams, $params));
+        $response = $this->sendSignedRequest($this->accessTokenMethod, $this->getAccessTokenUrl(), array_merge($defaultParams, $params));
 
         $token = $this->createToken([
             'params' => $response

@@ -657,7 +657,7 @@ class OpenId extends BaseClient implements ClientInterface
      */
     public function buildAuthUrl($identifierSelect = null)
     {
-        $authUrl = $this->authUrl;
+        $authUrl = $this->getAuthUrl();
         $claimedId = $this->getClaimedId();
         if (empty($claimedId)) {
             $this->setClaimedId($authUrl);

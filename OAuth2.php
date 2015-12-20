@@ -68,7 +68,7 @@ class OAuth2 extends BaseOAuth
             $defaultParams['scope'] = $this->scope;
         }
 
-        return $this->composeUrl($this->authUrl, array_merge($defaultParams, $params));
+        return $this->composeUrl($this->getAuthUrl(), array_merge($defaultParams, $params));
     }
 
     /**

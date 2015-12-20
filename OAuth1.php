@@ -105,7 +105,7 @@ class OAuth1 extends BaseOAuth
         }
         $params['oauth_token'] = $requestToken->getToken();
 
-        return $this->composeUrl($this->authUrl, $params);
+        return $this->composeUrl($this->getAuthUrl(), $params);
     }
 
     /**

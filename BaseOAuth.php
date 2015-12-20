@@ -92,6 +92,14 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     }
 
     /**
+     * @return string auth URL.
+     */
+    public function getAuthUrl()
+    {        
+        return $this->authUrl;
+    }
+
+    /**
      * @param array $curlOptions cURL options.
      */
     public function setCurlOptions(array $curlOptions)
@@ -475,7 +483,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      */
     protected function getStateKeyPrefix()
     {
-        return get_class($this) . '_' . sha1($this->authUrl) . '_';
+        return get_class($this) . '_' . sha1($this->getAuthUrl()) . '_';
     }
 
     /**

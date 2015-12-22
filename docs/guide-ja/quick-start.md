@@ -35,7 +35,7 @@ class SiteController extends Controller
                 $user = $auth->user;
                 Yii::$app->user->login($user);
             } else { // ユーザ登録
-                if (isset($attributes['email'])) && User::find()->where(['email' => $attributes['email']])->exists()) {
+                if (isset($attributes['email']) && User::find()->where(['email' => $attributes['email']])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', "{client} のアカウントと同じメールアドレスを持つユーザが既に存在しますが、まだそのアカウントとリンクされていません。リンクするために、まずメールアドレスを使ってログインしてください。", ['client' => $client->getTitle()]),
                     ]);
@@ -88,7 +88,7 @@ class SiteController extends Controller
 - ユーザがゲストであり、auth にレコードが見つからなかった場合は、新しいユーザを作成して、auth テーブルにレコードを作成する。そして、ログインさせる。
 - ユーザがログインしており、auth にレコードが見つからなかった場合は、追加のアカウントにも接続するようにする (そのデータを auth テーブルに保存する)。
 
-> Note|注意: Auth クライアントの違いによって、認証の成功を処理するときの方法も違ったものになります。
+> Note: Auth クライアントの違いによって、認証の成功を処理するときの方法も違ったものになります。
   たとえば、Twitter はユーザの email を返すことを許していませんので、何らかの方法でそれに対処しなければなりません。
 
 
@@ -118,7 +118,7 @@ class SiteController extends Controller
   プロバイダによってスコープの形式が異なることに注意。
 
 
-> Tip|ヒント: いくつかの異なるクライアントを使用する場合は、[[yii\authclient\BaseClient::normalizeUserAttributeMap]] を使って、クライアントが返す属性を統一することが出来ます。
+> Tip: いくつかの異なるクライアントを使用する場合は、[[yii\authclient\BaseClient::normalizeUserAttributeMap]] を使って、クライアントが返す属性を統一することが出来ます。
 
 
 ### API 呼び出しによって追加のデータを取得する

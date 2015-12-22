@@ -40,7 +40,7 @@ class MyAuthClient extends OAuth2
 
 ## [[yii\authclient\OpenId]]
 
-必要なことは、`authUrl` フィールドを宣言し直して URL を指定することだけです。
+必要なことは、[[yii\authclient\OpenId::authUrl|authUrl]] フィールドを宣言し直して URL を指定することだけです。
 デフォルトの 必須属性 および/または オプション属性を設定することも可能です。
 例えば、
 
@@ -66,10 +66,10 @@ class MyAuthClient extends OpenId
 
 以下のものを指定する必要があります。
 
-- 認証 URL - `authUrl` フィールド。
-- トークンリクエスト URL - `tokenUrl` フィールド。
-- API のベース URL - `apiBaseUrl` フィールド。
-- ユーザ属性取得ストラテジー - `initUserAttributes()` メソッド。
+- 認証 URL - [[yii\authclient\OAuth2::authUrl|authUrl]] フィールド。
+- トークンリクエスト URL - [[yii\authclient\OAuth2::tokenUrl|tokenUrl]] フィールド。
+- API のベース URL - [[yii\authclient\OAuth2::apiBaseUrl|apiBaseUrl]] フィールド。
+- ユーザ属性取得ストラテジー - [[yii\authclient\OAuth2::initUserAttributes()|initUserAttributes()]] メソッド。
 
 例えば、
 
@@ -93,18 +93,18 @@ class MyAuthClient extends OAuth2
 
 デフォルトの auth スコープを指定することも出来ます。
 
-> Note|注意: OAuth プロバイダの中には、OAuth の標準を厳格に遵守せず、標準と異なる仕様を導入しているものもあります。
+> Note: OAuth プロバイダの中には、OAuth の標準を厳格に遵守せず、標準と異なる仕様を導入しているものもあります。
   そのようなものに対してクライアントを実装するためには、追加の労力が必要になることがあります。
 
 ## [[yii\authclient\OAuth1]]
 
 以下のものを指定する必要があります。
 
-- 認証 URL - `authUrl` フィールド。
-- リクエストトークン URL - `requestTokenUrl` フィールド。
-- アクセストークン URL - `accessTokenUrl` フィールド。
-- API のベース URL - `apiBaseUrl` フィールド。
-- ユーザ属性取得ストラテジー - `initUserAttributes()` メソッド。
+- 認証 URL - [[yii\authclient\OAuth1::authUrl|authUrl]] フィールド。
+- リクエストトークン URL - [[yii\authclient\OAuth1::requestTokenUrl|requestTokenUrl]] フィールド。
+- アクセストークン URL - [[yii\authclient\OAuth1::accessTokenUrl|accessTokenUrl]] フィールド。
+- API のベース URL - [[yii\authclient\OAuth1::apiBaseUrl|apiBaseUrl]] フィールド。
+- ユーザ属性取得ストラテジー - [[yii\authclient\OAuth1::initUserAttributes()|initUserAttributes()]] メソッド。
 
 例えば、
 
@@ -130,5 +130,5 @@ class MyAuthClient extends OAuth1
 
 デフォルトの auth スコープを指定することも出来ます。
 
-> Note|注意: OAuth プロバイダの中には、OAuth の標準を厳格に遵守せず、標準と異なる仕様を導入しているものもあります。
+> Note: OAuth プロバイダの中には、OAuth の標準を厳格に遵守せず、標準と異なる仕様を導入しているものもあります。
   そのようなものに対してクライアントを実装するためには、追加の労力が必要になることがあります。

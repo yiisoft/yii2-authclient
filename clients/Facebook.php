@@ -57,13 +57,23 @@ class Facebook extends OAuth2
      */
     public $scope = 'email';
 
+    /**
+    * @var array list of attribute names, which should be requested from API to initialize user attributes.
+    * @since 2.0.5
+    */
+   public $attributeNames = [
+       'name',
+       'email',
+   ];
 
     /**
      * @inheritdoc
      */
     protected function initUserAttributes()
     {
-        return $this->api('me', 'GET');
+        return $this->api('me', 'GET', [
+            'fields' => implode(',', $this->attributeNames),
+        ]);
     }
 
     /**
@@ -80,5 +90,16 @@ class Facebook extends OAuth2
     protected function defaultTitle()
     {
         return 'Facebook';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function defaultViewOptions()
+    {
+        return [
+            'popupWidth' => 860,
+            'popupHeight' => 480,
+        ];
     }
 }

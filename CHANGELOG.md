@@ -1,10 +1,17 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.0.5 under development
+2.0.6 under development
 -----------------------
 
+
+
+2.0.5 September 23, 2015
+------------------------
+
 - Bug #25: `yii\authclient\BaseOAuth` now can be used without without `session` application component available (klimov-paul)
+- Enh #40: Added `attributeNames` field to `yii\authclient\clients\Facebook`, which allows definition of attributes list fetched from API (samdark)
+- Chg: #47: Default popup size for `yii\authclient\clients\Facebook` has been increased up to 860x480 (lame07, klimov-paul)
 
 
 2.0.4 May 10, 2015

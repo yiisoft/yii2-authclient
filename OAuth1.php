@@ -61,7 +61,10 @@ class OAuth1 extends BaseOAuth
      * @var string access token HTTP method.
      */
     public $accessTokenMethod = 'GET';
-
+    /**
+     * @var boolean whether to use temporary token secret to compose signature key.
+     */
+    public $useTemporaryTokenSecret = false;
 
     /**
      * Fetches the OAuth request token.
@@ -325,7 +328,7 @@ class OAuth1 extends BaseOAuth
         $signatureKeyParts = [
             $this->consumerSecret
         ];
-        if (is_null($token = $this->getState('requestToken'))) {
+        if (!$this->useTemporaryTokenSecret || is_null($token = $this->getState('requestToken'))) {
             $token = $this->getAccessToken();
         }
         if (is_object($token)) {

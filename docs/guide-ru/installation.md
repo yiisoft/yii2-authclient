@@ -86,7 +86,7 @@ CREATE TABLE auth (
 );
 
 ALTER TABLE auth ADD CONSTRAINT fk-auth-user_id-user-id
-FOREIGN KEY user_id REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
+FOREIGN KEY auth(user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
 ```
 
 В приведённом выше SQL представлена стандартная таблица `user`, используемая в шаблоне проекта Advanced для хранения

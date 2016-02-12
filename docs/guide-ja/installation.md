@@ -85,7 +85,7 @@ CREATE TABLE auth (
 );
 
 ALTER TABLE auth ADD CONSTRAINT fk-auth-user_id-user-id
-FOREIGN KEY user_id REFERENCES auth(id) ON DELETE CASCADE ON UPDATE CASCADE;
+FOREIGN KEY auth(user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
 ```
 
 上記の SQL における `user` は、アドバンストプロジェクトテンプレートでユーザ情報を保存するために使われている標準的なテーブルです。

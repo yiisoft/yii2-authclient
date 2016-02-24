@@ -7,6 +7,8 @@ Next step is to add [[yii\authclient\AuthAction]] to a web controller and provid
 which is suitable for your needs. Typically final controller code may look like following:
 
 ```php
+use app\components\AuthHandler;
+
 class SiteController extends Controller
 {
     public function actions()

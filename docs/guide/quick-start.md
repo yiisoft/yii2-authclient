@@ -26,6 +26,8 @@ class SiteController extends Controller
 }
 ```
 
+Note that it's important for `auth` action to be publically accessible so make sure it's not denied by access control filter.
+
 Where AuthHandler implementation could be like this:
 
 ```php

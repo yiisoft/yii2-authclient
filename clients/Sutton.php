@@ -40,11 +40,11 @@ class Sutton extends OAuth2
     /**
      * @inheritdoc
      */
-    public $tokenUrl = 'https://staging-api.sutton.com/v1/oauth2/token';
+    public $tokenUrl = 'https://api.sutton.com/v1/oauth2/token';
     /**
      * @inheritdoc
      */
-    public $apiBaseUrl = 'https://staging-api.sutton.com/v1';
+    public $apiBaseUrl = 'https://api.sutton.com/v1';
     /**
      * @var array list of attribute names, which should be requested from API to initialize user attributes.
      * @since 2.0.4

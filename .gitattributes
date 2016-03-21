@@ -1,5 +1,6 @@
 # Ignore all test and documentation for archive
 /.editorconfig      export-ignore
+/.github            export-ignore
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
 /.scrutinizer.yml   export-ignore

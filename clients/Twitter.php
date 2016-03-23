@@ -23,6 +23,7 @@ use yii\authclient\OAuth1;
  *         'clients' => [
  *             'twitter' => [
  *                 'class' => 'yii\authclient\clients\Twitter',
+ *                 'requestEmail' => 'true',
  *                 'consumerKey' => 'twitter_consumer_key',
  *                 'consumerSecret' => 'twitter_consumer_secret',
  *             ],
@@ -67,11 +68,22 @@ class Twitter extends OAuth1
 
 
     /**
+     * @var bool whether to request user's email from Twitter API.
+     * The “Request email addresses from users” checkbox must be set in your app permissions 
+     * @see https://dev.twitter.com/rest/reference/get/account/verify_credentials Twitter API documentation
+     */
+    public $requestEmail = false;
+  
+    /**
      * @inheritdoc
      */
     protected function initUserAttributes()
     {
-        return $this->api('account/verify_credentials.json', 'GET');
+        $params = [];
+        if($this->requestEmail){
+          $params = ['include_email' => 'true'];
+        }
+        return $this->api('account/verify_credentials.json', 'GET', $params);
     }
 
     /**

@@ -71,6 +71,7 @@ class Twitter extends OAuth1
      * @var bool whether to request user's email from Twitter API.
      * The "Request email addresses from users" checkbox must be set in your app permissions
      * @see https://dev.twitter.com/rest/reference/get/account/verify_credentials
+     * @since 2.0.6
      */
     public $requestEmail = false;
   

@@ -83,7 +83,7 @@ CREATE TABLE auth (
     source_id varchar(255) NOT NULL
 );
 
-ALTER TABLE auth ADD CONSTRAINT fk-auth-user_id-user-id
+ALTER TABLE auth ADD CONSTRAINT `fk-auth-user_id-user-id`
 FOREIGN KEY auth(user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
 ```
 

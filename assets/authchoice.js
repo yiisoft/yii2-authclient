@@ -28,7 +28,7 @@ jQuery(function($) {
         return this.each(function() {
             var $container = $(this);
 
-            $container.find('a').on('click', function(e) {
+            $container.find('a.auth-link').on('click', function(e) {
                 e.preventDefault();
 
                 var authChoicePopup = $container.data('authChoicePopup');

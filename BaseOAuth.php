@@ -50,6 +50,11 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * @var string auth request scope.
      */
     public $scope;
+    /**
+     * @var boolean whether to automatically perform 'refresh access token' request on expired access token.
+     * @since 2.0.6
+     */
+    public $autoRefreshAccessToken = true;
 
     /**
      * @var string URL, which user will be redirected after authentication at the OAuth provider web site.
@@ -410,7 +415,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
         $token = $this->getState('token');
         if (is_object($token)) {
             /* @var $token OAuthToken */
-            if ($token->getIsExpired()) {
+            if ($token->getIsExpired() && $this->autoRefreshAccessToken) {
                 $token = $this->refreshAccessToken($token);
             }
         }

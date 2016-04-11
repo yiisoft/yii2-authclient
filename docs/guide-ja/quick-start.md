@@ -80,8 +80,9 @@ class AuthHandler
             } else { // ユーザ登録
                 if ($email !== null && User::find()->where(['email' => $email])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('app', "{client} のアカウントと同じメールアドレスを持つユーザが既に存在しますが、まだそのアカウントとリンクされていません。リンクするために、まずメールアドレスを使ってログインしてください。", ['client' => $client->getTitle()]),
+                        Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $this->client->getTitle()]),
                     ]);
+                    /* "{client} のアカウントと同じメールアドレスを持つユーザが既に存在しますが、まだそのアカウントとリンクされていません。リンクするために、まずメールアドレスを使ってログインしてください。" */
                 } else {
                     $password = Yii::$app->security->generateRandomString(6);
                     $user = new User([
@@ -110,6 +111,7 @@ class AuthHandler
                                     'client' => $this->client->getTitle(),
                                     'errors' => json_encode($auth->getErrors()),
                                 ]),
+                                /* '{client} のアカウントを保存することが出来ません: {errors}' */
                             ]);
                         }
                     } else {
@@ -118,6 +120,7 @@ class AuthHandler
                                 'client' => $this->client->getTitle(),
                                 'errors' => json_encode($user->getErrors()),
                             ]),
+                            /* 'ユーザを保存することが出来ません: {errors}' */
                         ]);
                     }
                 }
@@ -134,10 +137,11 @@ class AuthHandler
                     $user = $auth->user;
                     $this->updateUserInfo($user);
                     Yii::$app->getSession()->setFlash('success', [
-                        Yii::t('app', '{client} のアカウントをリンクしました。', [
+                        Yii::t('app', 'Linked {client} account.', [
                             'client' => $this->client->getTitle()
                         ]),
                     ]);
+                    /* '{client} のアカウントをリンクしました。' */
                 } else {
                     Yii::$app->getSession()->setFlash('error', [
                         Yii::t('app', 'Unable to link {client} account: {errors}', [
@@ -145,13 +149,15 @@ class AuthHandler
                             'errors' => json_encode($auth->getErrors()),
                         ]),
                     ]);
+                    /* '{client} のアカウントをリンクすることが出来ません: {errors}' */
                 }
-            } else { // there's existing auth
+            } else { // 既に使用されている
                 Yii::$app->getSession()->setFlash('error', [
                     Yii::t('app',
-                        '{client} のアカウントをリンクすることが出来ません。それを使用している別のユーザがいます。',
+                        'Unable to link {client} account. There is another user using it.',
                         ['client' => $this->client->getTitle()]),
                 ]);
+　　　　　　　　/* '{client} のアカウントをリンクすることが出来ません。それを使用している別のユーザがいます。' */
             }
         }
     }

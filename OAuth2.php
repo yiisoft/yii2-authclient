@@ -15,7 +15,7 @@ use yii\base\Exception;
  *
  * In oder to acquire access token perform following sequence:
  *
- * ~~~
+ * ```php
  * use yii\authclient\OAuth2;
  *
  * $oauthClient = new OAuth2();
@@ -24,7 +24,7 @@ use yii\base\Exception;
  * // After user returns at our site:
  * $code = $_GET['code'];
  * $accessToken = $oauthClient->fetchAccessToken($code); // Get access token
- * ~~~
+ * ```
  *
  * @see http://oauth.net/2/
  *

@@ -16,7 +16,7 @@ use yii\authclient\OAuth2;
  *
  * Example application configuration:
  *
- * ~~~
+ * ```php
  * 'components' => [
  *     'authClientCollection' => [
  *         'class' => 'yii\authclient\Collection',
@@ -30,7 +30,7 @@ use yii\authclient\OAuth2;
  *     ]
  *     ...
  * ]
- * ~~~
+ * ```
  *
  * @see https://account.live.com/developers/applications
  * @see http://msdn.microsoft.com/en-us/library/live/hh243647.aspx

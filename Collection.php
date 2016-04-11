@@ -16,7 +16,7 @@ use Yii;
  *
  * Example application configuration:
  *
- * ~~~
+ * ```php
  * 'components' => [
  *     'authClientCollection' => [
  *         'class' => 'yii\authclient\Collection',
@@ -33,7 +33,7 @@ use Yii;
  *     ]
  *     ...
  * ]
- * ~~~
+ * ```
  *
  * @property ClientInterface[] $clients List of auth clients. This property is read-only.
  *

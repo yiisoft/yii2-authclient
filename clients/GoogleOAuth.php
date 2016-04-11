@@ -19,7 +19,7 @@ use yii\authclient\OAuth2;
  *
  * Example application configuration:
  *
- * ~~~
+ * ```php
  * 'components' => [
  *     'authClientCollection' => [
  *         'class' => 'yii\authclient\Collection',
@@ -33,7 +33,7 @@ use yii\authclient\OAuth2;
  *     ]
  *     ...
  * ]
- * ~~~
+ * ```
  *
  * @see https://console.developers.google.com/project
  *

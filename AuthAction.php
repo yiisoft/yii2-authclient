@@ -23,7 +23,7 @@ use Yii;
  *
  * Usage:
  *
- * ~~~
+ * ```php
  * class SiteController extends Controller
  * {
  *     public function actions()
@@ -42,7 +42,7 @@ use Yii;
  *         // user login or signup comes here
  *     }
  * }
- * ~~~
+ * ```
  *
  * Usually authentication via external services is performed inside the popup window.
  * This action handles the redirection and closing of popup window correctly.
@@ -73,13 +73,13 @@ class AuthAction extends Action
      * This callback should accept [[ClientInterface]] instance as an argument.
      * For example:
      *
-     * ~~~
+     * ```php
      * public function onAuthSuccess($client)
      * {
      *     $attributes = $client->getUserAttributes();
      *     // user login or signup comes here
      * }
-     * ~~~
+     * ```
      *
      * If this callback returns [[Response]] instance, it will be used as action response,
      * otherwise redirection to [[successUrl]] will be performed.

@@ -16,7 +16,7 @@ use yii\authclient\OAuth2;
  *
  * Example application configuration:
  *
- * ~~~
+ * ```php
  * 'components' => [
  *     'authClientCollection' => [
  *         'class' => 'yii\authclient\Collection',
@@ -30,7 +30,7 @@ use yii\authclient\OAuth2;
  *     ]
  *     ...
  * ]
- * ~~~
+ * ```
  *
  * @see http://vk.com/editapp?act=create
  * @see http://vk.com/developers.php?oid=-1&p=users.get

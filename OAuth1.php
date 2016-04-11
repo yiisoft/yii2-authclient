@@ -15,7 +15,7 @@ use Yii;
  *
  * In order to acquire access token perform following sequence:
  *
- * ~~~
+ * ```php
  * use yii\authclient\OAuth1;
  *
  * $oauthClient = new OAuth1();
@@ -24,7 +24,7 @@ use Yii;
  * return Yii::$app->getResponse()->redirect($url); // Redirect to authorization URL
  * // After user returns at our site:
  * $accessToken = $oauthClient->fetchAccessToken($requestToken); // Upgrade to access token
- * ~~~
+ * ```
  *
  * @see http://oauth.net/
  *

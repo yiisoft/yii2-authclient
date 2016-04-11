@@ -18,7 +18,7 @@ use Yii;
  *
  * Example application configuration:
  *
- * ~~~
+ * ```php
  * 'components' => [
  *     'authClientCollection' => [
  *         'class' => 'yii\authclient\Collection',
@@ -32,7 +32,7 @@ use Yii;
  *     ]
  *     ...
  * ]
- * ~~~
+ * ```
  *
  * @see http://developer.linkedin.com/documents/authentication
  * @see https://www.linkedin.com/secure/developer

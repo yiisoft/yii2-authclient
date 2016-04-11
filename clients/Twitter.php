@@ -16,7 +16,7 @@ use yii\authclient\OAuth1;
  *
  * Example application configuration:
  *
- * ~~~
+ * ```php
  * 'components' => [
  *     'authClientCollection' => [
  *         'class' => 'yii\authclient\Collection',
@@ -31,7 +31,7 @@ use yii\authclient\OAuth1;
  *     ]
  *     ...
  * ]
- * ~~~
+ * ```
  *
  * @see https://dev.twitter.com/apps/new
  * @see https://dev.twitter.com/docs/api

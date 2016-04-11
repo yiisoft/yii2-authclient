@@ -16,7 +16,7 @@ use Yii;
  *
  * Usage:
  *
- * ~~~
+ * ```php
  * use yii\authclient\OpenId;
  *
  * $client = new OpenId();
@@ -28,7 +28,7 @@ use Yii;
  *     $userAttributes = $client->getUserAttributes(); // get account info
  *     ...
  * }
- * ~~~
+ * ```
  *
  * AX and SREG extensions are supported.
  * To use them, specify [[requiredAttributes]] and/or [[optionalAttributes]].
@@ -53,18 +53,20 @@ class OpenId extends BaseClient implements ClientInterface
      * @var array list of attributes, which always should be returned from server.
      * Attribute names should be always specified in AX format.
      * For example:
-     * ~~~
+     *
+     * ```php
      * ['namePerson/friendly', 'contact/email']
-     * ~~~
+     * ```
      */
     public $requiredAttributes = [];
     /**
      * @var array list of attributes, which could be returned from server.
      * Attribute names should be always specified in AX format.
      * For example:
-     * ~~~
+     *
+     * ```php
      * ['namePerson/first', 'namePerson/last']
-     * ~~~
+     * ```
      */
     public $optionalAttributes = [];
     /**

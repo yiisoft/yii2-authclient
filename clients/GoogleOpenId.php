@@ -19,7 +19,7 @@ use yii\authclient\OpenId;
  *
  * Example application configuration:
  *
- * ~~~
+ * ```php
  * 'components' => [
  *     'authClientCollection' => [
  *         'class' => 'yii\authclient\Collection',
@@ -31,7 +31,7 @@ use yii\authclient\OpenId;
  *     ]
  *     ...
  * ]
- * ~~~
+ * ```
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

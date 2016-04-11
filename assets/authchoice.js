@@ -12,6 +12,7 @@
 jQuery(function($) {
     $.fn.authchoice = function(options) {
         options = $.extend({
+            triggerSelector: 'a.auth-link',
             popup: {
                 resizable: 'yes',
                 scrollbars: 'no',
@@ -28,7 +29,7 @@ jQuery(function($) {
         return this.each(function() {
             var $container = $(this);
 
-            $container.find('a').on('click', function(e) {
+            $container.find(options.triggerSelector).on('click', function(e) {
                 e.preventDefault();
 
                 var authChoicePopup = $container.data('authChoicePopup');

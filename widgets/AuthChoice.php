@@ -10,6 +10,7 @@ namespace yii\authclient\widgets;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use Yii;
+use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\authclient\ClientInterface;
@@ -22,17 +23,17 @@ use yii\authclient\ClientInterface;
  *
  * Example:
  *
- * ~~~php
+ * ```php
  * <?= yii\authclient\widgets\AuthChoice::widget([
  *     'baseAuthUrl' => ['site/auth']
  * ]); ?>
- * ~~~
+ * ```
  *
  * You can customize the widget appearance by using [[begin()]] and [[end()]] syntax
  * along with using method [[clientLink()]] or [[createClientUrl()]].
  * For example:
  *
- * ~~~php
+ * ```php
  * <?php
  * use yii\authclient\widgets\AuthChoice;
  * ?>
@@ -45,7 +46,7 @@ use yii\authclient\ClientInterface;
  * <?php endforeach; ?>
  * </ul>
  * <?php AuthChoice::end(); ?>
- * ~~~
+ * ```
  *
  * This widget supports following keys for [[ClientInterface::getViewOptions()]] result:
  *  - popupWidth - integer width of the popup window in pixels.
@@ -80,6 +81,10 @@ class AuthChoice extends Widget
     public $options = [
         'class' => 'auth-clients'
     ];
+    /**
+     * @var array additional options to be passed to the underlying JS plugin.
+     */
+    public $clientOptions = [];
     /**
      * @var boolean indicates if popup window should be used instead of direct links.
      */
@@ -177,16 +182,18 @@ class AuthChoice extends Widget
      */
     public function clientLink($client, $text = null, array $htmlOptions = [])
     {
-        if ($text === null) {
-            $text = Html::tag('span', '', ['class' => 'auth-icon ' . $client->getName()]);
-            $text .= Html::tag('span', $client->getTitle(), ['class' => 'auth-title']);
-        }
-        if (!array_key_exists('class', $htmlOptions)) {
-            $htmlOptions['class'] = 'auth-link ' . $client->getName();
-        }
-
         $viewOptions = $client->getViewOptions();
+
         if (empty($viewOptions['widget'])) {
+            if ($text === null) {
+                $text = Html::tag('span', '', ['class' => 'auth-icon ' . $client->getName()]);
+                $text .= Html::tag('span', $client->getTitle(), ['class' => 'auth-title']);
+            }
+            if (!array_key_exists('class', $htmlOptions)) {
+                $htmlOptions['class'] = $client->getName();
+            }
+            Html::addCssClass($htmlOptions, ['widget' => 'auth-link']);
+
             if ($this->popupMode) {
                 if (isset($viewOptions['popupWidth'])) {
                     $htmlOptions['data-popup-width'] = $viewOptions['popupWidth'];
@@ -249,7 +256,12 @@ class AuthChoice extends Widget
         $view = Yii::$app->getView();
         if ($this->popupMode) {
             AuthChoiceAsset::register($view);
-            $view->registerJs("\$('#" . $this->getId() . "').authchoice();");
+            if (empty($this->clientOptions)) {
+                $options = '';
+            } else {
+                $options = Json::htmlEncode($this->clientOptions);
+            }
+            $view->registerJs("\$('#" . $this->getId() . "').authchoice({$options});");
         } else {
             AuthChoiceStyleAsset::register($view);
         }

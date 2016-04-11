@@ -56,15 +56,15 @@ class Facebook extends OAuth2
      * @inheritdoc
      */
     public $scope = 'email';
-
     /**
-    * @var array list of attribute names, which should be requested from API to initialize user attributes.
-    * @since 2.0.5
-    */
-   public $attributeNames = [
-       'name',
-       'email',
-   ];
+     * @var array list of attribute names, which should be requested from API to initialize user attributes.
+     * @since 2.0.5
+     */
+    public $attributeNames = [
+        'name',
+        'email',
+    ];
+
 
     /**
      * @inheritdoc

@@ -64,8 +64,8 @@ class GoogleOAuth extends OAuth2
         parent::init();
         if ($this->scope === null) {
             $this->scope = implode(' ', [
-                'profile',
-                'email',
+                'https://www.googleapis.com/auth/userinfo.profile',
+                'https://www.googleapis.com/auth/userinfo.email',
             ]);
         }
     }

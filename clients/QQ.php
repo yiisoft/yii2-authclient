@@ -25,7 +25,7 @@ use yii\web\HttpException;
  *         'class' => 'yii\authclient\Collection',
  *         'clients' => [
  *             'qq' => [
- *                 'class' => 'yii\authclient\Qq',
+ *                 'class' => 'yii\authclient\QQ',
  *                 'clientId' => 'qq_appid',
  *                 'clientSecret' => 'qq_appkey',
  *             ],

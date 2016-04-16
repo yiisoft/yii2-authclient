@@ -7,7 +7,7 @@ Yii Framework 2 authclient extension Change Log
 - Bug #37: Fixed `\yii\authclient\widgets\AuthChoice` overrides any `<a>` tag click behavior between `begin()` and `end()` methods (klimov-paul)
 - Enh #31: Allow to disable automatic 'refresh access token' requests (klimov-paul)
 - Enh #58: Added support for user attribute request params setup for Twitter (umanamente, klimov-paul)
-
+- Enh #102: Added Tencent QQ, WeChat, Sina WeiBo clients (xutongle)
 
 2.0.5 September 23, 2015
 ------------------------

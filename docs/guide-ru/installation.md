@@ -50,9 +50,7 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
 - Яндекс (с помощью [[yii\authclient\clients\YandexOpenId|OpenID]] и [[yii\authclient\clients\YandexOAuth|OAuth]]).
-- [[yii\authclient\clients\QQ|QQ]].
-- [[yii\authclient\clients\WeChat|WeChat]].
-- [[yii\authclient\clients\Weibo|WeiBo]].
+
 
 Конфигурация для каждого клиента несколько отличается. Для OAuth, это обязательное получение ID клиента и секретного
 ключа сервиса, который Вы собираетесь использовать. Для OpenID, в большинстве случаев, это работает из коробки.

@@ -50,9 +50,7 @@ Out of the box the following clients are provided:
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
 - Yandex (via [[yii\authclient\clients\YandexOpenId|OpenID]] and [[yii\authclient\clients\YandexOAuth|OAuth]]).
-- [[yii\authclient\clients\QQ|QQ]].
-- [[yii\authclient\clients\WeChat|WeChat]].
-- [[yii\authclient\clients\Weibo|WeiBo]].
+
 
 Configuration for each client is a bit different. For OAuth it's required to get client ID and secret key from
 the service you're going to use. For OpenID it works out of the box in most cases.

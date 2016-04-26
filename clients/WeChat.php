@@ -38,7 +38,7 @@ use yii\web\HttpException;
  * @see https://open.weixin.qq.com/
  * @see https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN
  *
- * @author Xu Tongle <xutongle@gmail.com>
+ * @author Jiandong Yu <flyyjd@gmail.com>
  * @since 2.0.6
  */
 class WeChat extends OAuth2

@@ -38,7 +38,7 @@ use yii\web\HttpException;
  * @see http://connect.qq.com/
  * @see http://wiki.connect.qq.com/
  *
- * @author Xu Tongle <xutongle@gmail.com>
+ * @author Jiandong Yu <flyyjd@gmail.com>
  * @since 2.0.6
  */
 class QQ extends OAuth2

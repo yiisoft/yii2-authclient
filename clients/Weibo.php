@@ -34,7 +34,7 @@ use yii\authclient\OAuth2;
  * @see http://open.weibo.com/
  * @see http://open.weibo.com/wiki/
  *
- * @author Xu Tongle <xutongle@gmail.com>
+ * @author Jiandong Yu <flyyjd@gmail.com>
  * @since 2.0.6
  */
 class Weibo extends OAuth2

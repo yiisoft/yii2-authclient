@@ -46,6 +46,15 @@
 .auth-icon.live {
     background-position: 0 -372px;
 }
+.auth-icon.qq {
+    background-position: 0 -405px
+}
+.auth-icon.weibo {
+    background-position: 0 -439px
+}
+.auth-icon.weixin {
+    background-position: 0 -473px
+}
 
 .auth-link:hover .auth-icon i,
 .auth-link:focus .auth-icon i {

@@ -49,6 +49,9 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 - [[yii\authclient\clients\Twitter|Twitter]]
 - [[yii\authclient\clients\VKontakte|VKontakte]]
 - Yandex ([[yii\authclient\clients\YandexOpenId|OpenID]] または [[yii\authclient\clients\YandexOAuth|OAuth]] で)
+- [[yii\authclient\clients\Qq|Qq]].
+- [[yii\authclient\clients\Weibo|Weibo]].
+- [[yii\authclient\clients\Weixin|Weixin(Wechat)]].
 
 それぞれのクライアントの構成は少しずつ異なります。
 OAuth では、使おうとしているサービスからクライアント ID と秘密キーを取得することが必要です。

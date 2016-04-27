@@ -1,6 +1,6 @@
 <?php
 
-namespace yujiandong\authclient;
+namespace yii\authclient\clients;
 
 use yii\authclient\OAuth2;
 use yii\web\HttpException;
@@ -19,7 +19,7 @@ use Yii;
  *         'class' => 'yii\authclient\Collection',
  *         'clients' => [
  *             'weixin' => [
- *                 'class' => 'yujiandong\authclient\Weixin',
+ *                 'class' => 'yii\authclient\clients\Weixin',
  *                 'clientId' => 'weixin_appid',
  *                 'clientSecret' => 'weixin_appkey',
  *             ],
@@ -33,6 +33,7 @@ use Yii;
  * @see https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN
  *
  * @author Jiandong Yu <flyyjd@gmail.com>
+ * @since 2.0
  */
 class Weixin extends OAuth2
 {
@@ -157,18 +158,7 @@ class Weixin extends OAuth2
      */
     protected function defaultTitle()
 	{
-        return '微信';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function defaultViewOptions()
-	{
-        return [
-            'popupWidth' => 800,
-            'popupHeight' => 500,
-        ];
+        return 'Weixin';
     }
 
 }

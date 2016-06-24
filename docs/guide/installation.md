@@ -47,6 +47,7 @@ Out of the box the following clients are provided:
 - Google (via [[yii\authclient\clients\GoogleOpenId|OpenID]] and [[yii\authclient\clients\GoogleOAuth|OAuth]]).
 - [[yii\authclient\clients\LinkedIn|LinkedIn]].
 - [[yii\authclient\clients\Live|Microsoft Live]].
+- [[yii\authclient\clients\Spotify|Spotify]].
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
 - Yandex (via [[yii\authclient\clients\YandexOpenId|OpenID]] and [[yii\authclient\clients\YandexOAuth|OAuth]]).

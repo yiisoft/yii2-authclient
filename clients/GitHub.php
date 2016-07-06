@@ -61,10 +61,7 @@ class GitHub extends OAuth2
     {
         parent::init();
         if ($this->scope === null) {
-            $this->scope = implode(' ', [
-                'user',
-                'user:email',
-            ]);
+            $this->scope = 'user';
         }
     }
 
@@ -73,7 +70,25 @@ class GitHub extends OAuth2
      */
     protected function initUserAttributes()
     {
-        return $this->api('user', 'GET');
+        $attributes = $this->api('user', 'GET');
+
+        if (empty($attributes['email'])) {
+            // in case user set 'Keep my email address private' in GitHub profile, email should be retrieved via extra API request
+            $scopes = explode(' ', $this->scope);
+            if (in_array('user:email', $scopes, true) || in_array('user', $scopes, true)) {
+                $emails = $this->api('user/emails', 'GET');
+                if (!empty($emails)) {
+                    foreach ($emails as $email) {
+                        if ($email['primary'] == 1 && $email['verified'] == 1) {
+                            $attributes['email'] = $email['email'];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $attributes;
     }
 
     /**

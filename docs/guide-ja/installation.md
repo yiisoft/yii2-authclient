@@ -64,28 +64,39 @@ OpenID では、たいていの場合、何も設定しなくても動作しま�
 
 ユーザの情報をデータベースに保存しようとする場合、スキーマは次のようなものになります。
 
-```sql
-CREATE TABLE user (
-    id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username varchar(255) NOT NULL,
-    auth_key varchar(32) NOT NULL,
-    password_hash varchar(255) NOT NULL,
-    password_reset_token varchar(255),
-    email varchar(255) NOT NULL,
-    status smallint(6) NOT NULL DEFAULT 10,
-    created_at int(11) NOT NULL,
-    updated_at int(11) NOT NULL
-);
+```php
+class m??????_??????_auth extends \yii\db\Migration
+{
+    public function up()
+    {
+        $this->createTable('user', [
+            'id' => $this->primaryKey(),
+            'username' => $this->string()->notNull(),
+            'auth_key' => $this->string()->notNull(),
+            'password_hash' => $this->string()->notNull(),
+            'password_reset_token' => $this->string()->notNull(),
+            'email' => $this->string()->notNull(),
+            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
+        ]);
 
-CREATE TABLE auth (
-    id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id int(11) NOT NULL,
-    source varchar(255) NOT NULL,
-    source_id varchar(255) NOT NULL
-);
+        $this->createTable('auth', [
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull(),
+            'source' => $this->string()->notNull(),
+            'source_id' => $this->string()->notNull(),
+        ]);
 
-ALTER TABLE auth ADD CONSTRAINT `fk-auth-user_id-user-id`
-FOREIGN KEY auth(user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
+        $this->addForeignKey('fk-auth-user_id-user-id', 'auth', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
+    }
+
+    public function down()
+    {
+        $this->dropTable('auth');
+        $this->dropTable('user');
+    }
+}
 ```
 
 上記の SQL における `user` は、アドバンストプロジェクトテンプレートでユーザ情報を保存するために使われている標準的なテーブルです。

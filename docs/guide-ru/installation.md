@@ -63,33 +63,44 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 обеспечить как возможность аутентификации через внешние сервисы, так и старый метод аутентификации с ипользованием 
 логина и пароля.
 
-Если мы храним информацию о пользователях в базе данных, то её схема может выглядеть следующим образом:
+Если мы храним информацию о пользователях в базе данных, то код соответвующей миграции может выглядеть следующим образом:
 
-```sql
-CREATE TABLE user (
-    id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username varchar(255) NOT NULL,
-    auth_key varchar(32) NOT NULL,
-    password_hash varchar(255) NOT NULL,
-    password_reset_token varchar(255),
-    email varchar(255) NOT NULL,
-    status smallint(6) NOT NULL DEFAULT 10,
-    created_at int(11) NOT NULL,
-    updated_at int(11) NOT NULL
-);
+```php
+class m??????_??????_auth extends \yii\db\Migration
+{
+    public function up()
+    {
+        $this->createTable('user', [
+            'id' => $this->primaryKey(),
+            'username' => $this->string()->notNull(),
+            'auth_key' => $this->string()->notNull(),
+            'password_hash' => $this->string()->notNull(),
+            'password_reset_token' => $this->string()->notNull(),
+            'email' => $this->string()->notNull(),
+            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
+        ]);
 
-CREATE TABLE auth (
-    id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id int(11) NOT NULL,
-    source varchar(255) NOT NULL,
-    source_id varchar(255) NOT NULL
-);
+        $this->createTable('auth', [
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull(),
+            'source' => $this->string()->notNull(),
+            'source_id' => $this->string()->notNull(),
+        ]);
 
-ALTER TABLE auth ADD CONSTRAINT fk-auth-user_id-user-id
-FOREIGN KEY auth(user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
+        $this->addForeignKey('fk-auth-user_id-user-id', 'auth', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
+    }
+
+    public function down()
+    {
+        $this->dropTable('auth');
+        $this->dropTable('user');
+    }
+}
 ```
 
-В приведённом выше SQL представлена стандартная таблица `user`, используемая в шаблоне проекта Advanced для хранения
+В приведённом выше примере представлена стандартная таблица `user`, используемая в шаблоне проекта Advanced для хранения
 информации о пользователях. Каждый пользователь может пройти аутентификацию используя несколько внешних сервисов,
 поэтому каждая запись в `user` может относится к нескольким записям в `auth`. Поле `source` в таблице `auth`
 это название используемого провайдера аутентификации и `source_id` это уникальный идентификатор пользователя,

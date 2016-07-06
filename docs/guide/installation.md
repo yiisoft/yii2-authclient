@@ -61,34 +61,45 @@ and then check against it on subsequent authentications. It's not a good idea to
 services only since these may fail and there won't be a way for the user to log in. Instead it's better to provide
 both external authentication and good old login and password.
 
-If we're storing user information in a database the schema could be the following:
+If we're storing user information in a database the corresponding migration code could be the following:
 
-```sql
-CREATE TABLE user (
-    id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username varchar(255) NOT NULL,
-    auth_key varchar(32) NOT NULL,
-    password_hash varchar(255) NOT NULL,
-    password_reset_token varchar(255),
-    email varchar(255) NOT NULL,
-    status smallint(6) NOT NULL DEFAULT 10,
-    created_at int(11) NOT NULL,
-    updated_at int(11) NOT NULL
-);
+```php
+class m??????_??????_auth extends \yii\db\Migration
+{
+    public function up()
+    {
+        $this->createTable('user', [
+            'id' => $this->primaryKey(),
+            'username' => $this->string()->notNull(),
+            'auth_key' => $this->string()->notNull(),
+            'password_hash' => $this->string()->notNull(),
+            'password_reset_token' => $this->string()->notNull(),
+            'email' => $this->string()->notNull(),
+            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
+        ]);
 
-CREATE TABLE auth (
-    id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id int(11) NOT NULL,
-    source varchar(255) NOT NULL,
-    source_id varchar(255) NOT NULL
-);
+        $this->createTable('auth', [
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull(),
+            'source' => $this->string()->notNull(),
+            'source_id' => $this->string()->notNull(),
+        ]);
 
-ALTER TABLE auth ADD CONSTRAINT `fk-auth-user_id-user-id`
-FOREIGN KEY auth(user_id) REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
+        $this->addForeignKey('fk-auth-user_id-user-id', 'auth', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
+    }
+
+    public function down()
+    {
+        $this->dropTable('auth');
+        $this->dropTable('user');
+    }
+}
 ```
 
-In the SQL above `user` is a standard table that is used in advanced project template to store user
-info. Each user can authenticate using multiple external services therefore each `user` record can relate to
+In the above example `user` is a standard table that is used in advanced project template to store user info.
+Each user can authenticate using multiple external services therefore each `user` record can relate to
 multiple `auth` records. In the `auth` table `source` is the name of the auth provider used and `source_id` is
 unique user identificator that is provided by external service after successful login.
 

@@ -1,8 +1,8 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.0.6 under development
------------------------
+2.0.6 July 08, 2016
+-------------------
 
 - Bug #37: Fixed `\yii\authclient\widgets\AuthChoice` overrides any `<a>` tag click behavior between `begin()` and `end()` methods (klimov-paul)
 - Enh #31: Allow to disable automatic 'refresh access token' requests (klimov-paul)

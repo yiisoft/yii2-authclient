@@ -81,7 +81,7 @@ class Twitter extends OAuth1
      * @since 2.0.6
      */
     public $attributeParams = [];
-  
+
 
     /**
      * @inheritdoc

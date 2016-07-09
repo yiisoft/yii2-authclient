@@ -61,7 +61,10 @@ class OAuth1 extends BaseOAuth
      * @var string access token HTTP method.
      */
     public $accessTokenMethod = 'GET';
-
+    /**
+     * @var boolean whether to use temporary token secret to compose signature key.
+     */
+    public $useTemporaryTokenSecret = false;
 
     /**
      * Fetches the OAuth request token.
@@ -71,6 +74,7 @@ class OAuth1 extends BaseOAuth
     public function fetchRequestToken(array $params = [])
     {
         $this->removeState('token');
+        $this->removeState('requestToken');
         $defaultParams = [
             'oauth_consumer_key' => $this->consumerKey,
             'oauth_callback' => $this->getReturnUrl(),
@@ -124,7 +128,6 @@ class OAuth1 extends BaseOAuth
                 throw new Exception('Request token is required to fetch access token!');
             }
         }
-        $this->removeState('requestToken');
         $defaultParams = [
             'oauth_consumer_key' => $this->consumerKey,
             'oauth_token' => $requestToken->getToken()
@@ -138,7 +141,7 @@ class OAuth1 extends BaseOAuth
             $defaultParams['oauth_verifier'] = $oauthVerifier;
         }
         $response = $this->sendSignedRequest($this->accessTokenMethod, $this->accessTokenUrl, array_merge($defaultParams, $params));
-
+        $this->removeState('requestToken');
         $token = $this->createToken([
             'params' => $response
         ]);
@@ -326,9 +329,11 @@ class OAuth1 extends BaseOAuth
         $signatureKeyParts = [
             $this->consumerSecret
         ];
-        $accessToken = $this->getAccessToken();
-        if (is_object($accessToken)) {
-            $signatureKeyParts[] = $accessToken->getTokenSecret();
+        if (!$this->useTemporaryTokenSecret || is_null($token = $this->getState('requestToken'))) {
+            $token = $this->getAccessToken();
+        }
+        if (is_object($token)) {
+            $signatureKeyParts[] = $token->getTokenSecret();
         } else {
             $signatureKeyParts[] = '';
         }

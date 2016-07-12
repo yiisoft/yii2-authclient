@@ -77,6 +77,29 @@ class CollectionTest extends TestCase
         $this->assertTrue($collection->hasClient($clientName), 'Existing client check fails!');
         $this->assertFalse($collection->hasClient('unExistingClientName'), 'Not existing client check fails!');
     }
+
+    /**
+     * @depends testCreateProvider
+     */
+    public function testSetupHttpClient()
+    {
+        $collection = new Collection();
+        $collection->httpClient = new \yii\httpclient\Client();
+
+        $clientId = 'testClientId';
+        $clientClassName = TestClient::className();
+        $clients = [
+            $clientId => [
+                'class' => $clientClassName
+            ]
+        ];
+        $collection->setClients($clients);
+
+        /* @var $provider TestClient */
+        $provider = $collection->getClient($clientId);
+
+        $this->assertSame($collection->httpClient, $provider->getHttpClient());
+    }
 }
 
 class TestClient extends BaseClient

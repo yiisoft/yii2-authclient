@@ -55,8 +55,8 @@ class BaseOAuthTest extends TestCase
             'option1' => 'value1',
             'option2' => 'value2',
         ];
-        $oauthClient->setCurlOptions($curlOptions);
-        $this->assertEquals($curlOptions, $oauthClient->getCurlOptions(), 'Unable to setup cURL options!');
+        $oauthClient->setRequestOptions($curlOptions);
+        $this->assertEquals($curlOptions, $oauthClient->getRequestOptions(), 'Unable to setup cURL options!');
     }
 
     public function testSetupComponents()
@@ -132,77 +132,6 @@ class BaseOAuthTest extends TestCase
         $oauthClient = $this->createOAuthClient();
         $composedUrl = $this->invokeOAuthClientMethod($oauthClient, 'composeUrl', [$url, $params]);
         $this->assertEquals($expectedUrl, $composedUrl);
-    }
-
-    /**
-     * Data provider for {@link testDetermineContentTypeByHeaders}.
-     * @return array test data.
-     */
-    public function determineContentTypeByHeadersDataProvider()
-    {
-        return [
-            [
-                ['content_type' => 'application/json'],
-                'json'
-            ],
-            [
-                ['content_type' => 'application/x-www-form-urlencoded'],
-                'urlencoded'
-            ],
-            [
-                ['content_type' => 'application/xml'],
-                'xml'
-            ],
-            [
-                ['some_header' => 'some_header_value'],
-                'auto'
-            ],
-            [
-                ['content_type' => 'unknown'],
-                'auto'
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider determineContentTypeByHeadersDataProvider
-     *
-     * @param array  $headers              request headers.
-     * @param string $expectedResponseType expected response type.
-     */
-    public function testDetermineContentTypeByHeaders(array $headers, $expectedResponseType)
-    {
-        $oauthClient = $this->createOAuthClient();
-        $responseType = $this->invokeOAuthClientMethod($oauthClient, 'determineContentTypeByHeaders', [$headers]);
-        $this->assertEquals($expectedResponseType, $responseType);
-    }
-
-    /**
-     * Data provider for [[testDetermineContentTypeByRaw]].
-     * @return array test data.
-     */
-    public function determineContentTypeByRawDataProvider()
-    {
-        return [
-            ['{name: value}', 'json'],
-            ['name=value', 'urlencoded'],
-            ['name1=value1&name2=value2', 'urlencoded'],
-            ['<?xml version="1.0" encoding="UTF-8"?><tag>Value</tag>', 'xml'],
-            ['<tag>Value</tag>', 'xml'],
-        ];
-    }
-
-    /**
-     * @dataProvider determineContentTypeByRawDataProvider
-     *
-     * @param string $rawResponse          raw response content.
-     * @param string $expectedResponseType expected response type.
-     */
-    public function testDetermineContentTypeByRaw($rawResponse, $expectedResponseType)
-    {
-        $oauthClient = $this->createOAuthClient();
-        $responseType = $this->invokeOAuthClientMethod($oauthClient, 'determineContentTypeByRaw', [$rawResponse]);
-        $this->assertEquals($expectedResponseType, $responseType);
     }
 
     /**

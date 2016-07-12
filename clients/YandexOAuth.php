@@ -65,14 +65,14 @@ class YandexOAuth extends OAuth2
     /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, array $params, array $headers)
+    protected function apiInternal($accessToken, $url, $method, $data, $headers)
     {
-        if (!isset($params['format'])) {
-            $params['format'] = 'json';
+        if (!isset($data['format'])) {
+            $data['format'] = 'json';
         }
-        $params['oauth_token'] = $accessToken->getToken();
+        $data['oauth_token'] = $accessToken->getToken();
 
-        return $this->sendRequest($method, $url, $params, $headers);
+        return $this->sendRequest($method, $url, $data, $headers);
     }
 
     /**

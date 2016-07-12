@@ -79,7 +79,7 @@ class OAuth1 extends BaseOAuth
         if (!empty($this->scope)) {
             $defaultParams['scope'] = $this->scope;
         }
-        $response = $this->sendSignedRequest($this->requestTokenMethod, $this->requestTokenUrl, array_merge($defaultParams, $params));
+        $response = $this->sendRequest($this->requestTokenMethod, $this->requestTokenUrl, array_merge($defaultParams, $params));
         $token = $this->createToken([
             'params' => $response
         ]);
@@ -137,7 +137,7 @@ class OAuth1 extends BaseOAuth
         if (!empty($oauthVerifier)) {
             $defaultParams['oauth_verifier'] = $oauthVerifier;
         }
-        $response = $this->sendSignedRequest($this->accessTokenMethod, $this->accessTokenUrl, array_merge($defaultParams, $params));
+        $response = $this->sendRequest($this->accessTokenMethod, $this->accessTokenUrl, array_merge($defaultParams, $params));
 
         $token = $this->createToken([
             'params' => $response
@@ -148,75 +148,56 @@ class OAuth1 extends BaseOAuth
     }
 
     /**
-     * Sends HTTP request, signed by [[signatureMethod]].
-     * @param string $method request type.
-     * @param string $url request URL.
-     * @param array $params request params.
-     * @param array $headers additional request headers.
-     * @return array response.
+     * @inheritdoc
      */
-    protected function sendSignedRequest($method, $url, array $params = [], array $headers = [])
+    protected function createRequest(array $config = [])
     {
-        $params = array_merge($params, $this->generateCommonRequestParams());
-        $params = $this->signRequest($method, $url, $params);
+        $request = parent::createRequest($config);
 
-        return $this->sendRequest($method, $url, $params, $headers);
-    }
-
-    /**
-     * Composes HTTP request CUrl options, which will be merged with the default ones.
-     * @param string $method request type.
-     * @param string $url request URL.
-     * @param array $params request params.
-     * @return array CUrl options.
-     * @throws Exception on failure.
-     */
-    protected function composeRequestCurlOptions($method, $url, array $params)
-    {
-        $curlOptions = [];
-        switch ($method) {
-            case 'GET': {
-                $curlOptions[CURLOPT_URL] = $this->composeUrl($url, $params);
-                break;
-            }
-            case 'POST': {
-                $curlOptions[CURLOPT_POST] = true;
-                $curlOptions[CURLOPT_HTTPHEADER] = ['Content-type: application/x-www-form-urlencoded'];
-                if (!empty($params)) {
-                    $curlOptions[CURLOPT_POSTFIELDS] = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
-                }
-                $authorizationHeader = $this->composeAuthorizationHeader($params);
-                if (!empty($authorizationHeader)) {
-                    $curlOptions[CURLOPT_HTTPHEADER][] = $authorizationHeader;
-                }
-                break;
-            }
-            case 'HEAD': {
-                $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
-                if (!empty($params)) {
-                    $curlOptions[CURLOPT_URL] = $this->composeUrl($url, $params);
-                }
-                break;
-            }
-            default: {
-                $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
-                if (!empty($params)) {
-                    $curlOptions[CURLOPT_POSTFIELDS] = $params;
-                }
-            }
+        $data = $request->getData();
+        if (empty($data)) {
+            $data = $this->generateCommonRequestParams();
+        } else {
+            $data = array_merge($this->generateCommonRequestParams(), $data);
         }
+        $request->setData($data);
 
-        return $curlOptions;
+        return $request;
     }
 
     /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, array $params, array $headers)
+    protected function sendRequest($method, $url, $data = [], $headers = [])
     {
-        $params['oauth_consumer_key'] = $this->consumerKey;
-        $params['oauth_token'] = $accessToken->getToken();
-        $response = $this->sendSignedRequest($method, $url, $params, $headers);
+        $request = $this->createRequest([
+                'method' => $method,
+                'url' => $url,
+                'data' => $data,
+                'headers' => $headers,
+            ])
+            ->addOptions($this->defaultRequestOptions())
+            ->addOptions($this->getRequestOptions());
+
+        $this->signRequest($request);
+
+        $response = $request->send();
+
+        if (!$response->getIsOk()) {
+            throw new InvalidResponseException($response, 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent());
+        }
+
+        return $response->getData();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function apiInternal($accessToken, $url, $method, $data, $headers)
+    {
+        $data['oauth_consumer_key'] = $this->consumerKey;
+        $data['oauth_token'] = $accessToken->getToken();
+        $response = $this->sendRequest($method, $url, $data, $headers);
 
         return $response;
     }
@@ -279,21 +260,25 @@ class OAuth1 extends BaseOAuth
     }
 
     /**
-     * Sign request with [[signatureMethod]].
-     * @param string $method request method.
-     * @param string $url request URL.
-     * @param array $params request params.
-     * @return array signed request params.
+     * Sign given request with [[signatureMethod]].
+     * @param \yii\httpclient\Request $request request instance.
      */
-    protected function signRequest($method, $url, array $params)
+    protected function signRequest($request)
     {
         $signatureMethod = $this->getSignatureMethod();
+        $params = $request->getData();
+
         $params['oauth_signature_method'] = $signatureMethod->getName();
-        $signatureBaseString = $this->composeSignatureBaseString($method, $url, $params);
+        $signatureBaseString = $this->composeSignatureBaseString($request->getMethod(), $request->getUrl(), $params);
         $signatureKey = $this->composeSignatureKey();
         $params['oauth_signature'] = $signatureMethod->generateSignature($signatureBaseString, $signatureKey);
 
-        return $params;
+        $request->setData($params);
+
+        $authorizationHeader = $this->composeAuthorizationHeader($params);
+        if (!empty($authorizationHeader)) {
+            $request->addHeaders($authorizationHeader);
+        }
     }
 
     /**
@@ -338,14 +323,14 @@ class OAuth1 extends BaseOAuth
     }
 
     /**
-     * Composes authorization header content.
+     * Composes authorization header.
      * @param array $params request params.
      * @param string $realm authorization realm.
-     * @return string authorization header content.
+     * @return array authorization header in format: [name => content].
      */
     protected function composeAuthorizationHeader(array $params, $realm = '')
     {
-        $header = 'Authorization: OAuth';
+        $header = 'OAuth';
         $headerParams = [];
         if (!empty($realm)) {
             $headerParams[] = 'realm="' . rawurlencode($realm) . '"';
@@ -360,6 +345,6 @@ class OAuth1 extends BaseOAuth
             $header .= ' ' . implode(', ', $headerParams);
         }
 
-        return $header;
+        return ['Authorization' => $header];
     }
 }

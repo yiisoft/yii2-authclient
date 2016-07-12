@@ -18,28 +18,22 @@ use yii\base\Exception;
 class InvalidResponseException extends Exception
 {
     /**
-     * @var array response headers.
+     * @var \yii\httpclient\Response HTTP response instance.
      */
-    public $responseHeaders = [];
-    /**
-     * @var string response body.
-     */
-    public $responseBody = '';
+    public $response;
 
 
     /**
      * Constructor.
-     * @param array $responseHeaders response headers
-     * @param string $responseBody response body
+     * @param \yii\httpclient\Response $response response body
      * @param string $message error message
      * @param integer $code error code
      * @param \Exception $previous The previous exception used for the exception chaining.
      * @internal param int $status HTTP status code, such as 404, 500, etc.
      */
-    public function __construct($responseHeaders, $responseBody, $message = null, $code = 0, \Exception $previous = null)
+    public function __construct($response, $message = null, $code = 0, \Exception $previous = null)
     {
-        $this->responseBody = $responseBody;
-        $this->responseHeaders = $responseHeaders;
+        $this->response = $response;
         parent::__construct($message, $code, $previous);
     }
 }

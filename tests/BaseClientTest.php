@@ -149,6 +149,23 @@ class BaseClientTest extends TestCase
 
         $this->assertEquals(array_merge($rawUserAttributes, $expectedNormalizedUserAttributes), $normalizedUserAttributes);
     }
+
+    public function testSetupHttpClient()
+    {
+        $client = new Client();
+
+        $client->setHttpClient([
+            'baseUrl' => 'http://domain.com'
+        ]);
+        $httpClient = $client->getHttpClient();
+
+        $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to setup http client.');
+        $this->assertEquals('http://domain.com', $httpClient->baseUrl, 'Unable to setup http client property.');
+
+        $client = new Client();
+        $httpClient = $client->getHttpClient();
+        $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to get default http client.');
+    }
 }
 
 class Client extends BaseClient

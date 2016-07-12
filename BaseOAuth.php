@@ -10,7 +10,6 @@ namespace yii\authclient;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
 use Yii;
-use yii\helpers\Json;
 
 /**
  * BaseOAuth is a base class for the OAuth clients.
@@ -19,7 +18,7 @@ use yii\helpers\Json;
  *
  * @property OAuthToken $accessToken Auth token instance. Note that the type of this property differs in
  * getter and setter. See [[getAccessToken()]] and [[setAccessToken()]] for details.
- * @property array $curlOptions CURL options. This property is read-only.
+ * @property array $requestOptions HTTP request options.
  * @property string $returnUrl Return URL.
  * @property signature\BaseMethod $signatureMethod Signature method instance. Note that the type of this
  * property differs in getter and setter. See [[getSignatureMethod()]] and [[setSignatureMethod()]] for details.
@@ -29,11 +28,6 @@ use yii\helpers\Json;
  */
 abstract class BaseOAuth extends BaseClient implements ClientInterface
 {
-    const CONTENT_TYPE_JSON = 'json'; // JSON format
-    const CONTENT_TYPE_URLENCODED = 'urlencoded'; // urlencoded query string, like name1=value1&name2=value2
-    const CONTENT_TYPE_XML = 'xml'; // XML format
-    const CONTENT_TYPE_AUTO = 'auto'; // attempts to determine format automatically
-
     /**
      * @var string protocol version.
      */
@@ -64,9 +58,9 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     private $_returnUrl;
     /**
      * @var array cURL request options. Option values from this field will overwrite corresponding
-     * values from [[defaultCurlOptions()]].
+     * values from [[defaultRequestOptions()]].
      */
-    private $_curlOptions = [];
+    private $_requestOptions = [];
     /**
      * @var OAuthToken|array access token instance or its array configuration.
      */
@@ -97,19 +91,19 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     }
 
     /**
-     * @param array $curlOptions cURL options.
+     * @param array $options HTTP request options.
      */
-    public function setCurlOptions(array $curlOptions)
+    public function setRequestOptions(array $options)
     {
-        $this->_curlOptions = $curlOptions;
+        $this->_requestOptions = $options;
     }
 
     /**
-     * @return array cURL options.
+     * @return array HTTP request options.
      */
-    public function getCurlOptions()
+    public function getRequestOptions()
     {
-        return $this->_curlOptions;
+        return $this->_requestOptions;
     }
 
     /**
@@ -170,187 +164,75 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     }
 
     /**
+     * Creates HTTP request instance.
+     * @param array $config request object configuration.
+     * @return \yii\httpclient\Request HTTP request instance.
+     */
+    protected function createRequest(array $config = [])
+    {
+        $request = $this->getHttpClient()->createRequest();
+
+        if (isset($config['headers'])) {
+            $request->addHeaders($config['headers']);
+            unset($config['headers']);
+        }
+        if (isset($config['data'])) {
+            if (is_array($config['data'])) {
+                $request->setData($config['data']);
+            } else {
+                $request->setContent($config['data']);
+            }
+            unset($config['data']);
+        }
+        if (isset($config['options'])) {
+            $request->addOptions($config['options']);
+            unset($config['options']);
+        }
+
+        Yii::configure($request, $config);
+
+        return $request;
+    }
+
+    /**
      * Sends HTTP request.
      * @param string $method request type.
      * @param string $url request URL.
-     * @param array $params request params.
+     * @param array|string $data request data.
      * @param array $headers additional request headers.
      * @return array response.
      * @throws Exception on failure.
      */
-    protected function sendRequest($method, $url, array $params = [], array $headers = [])
+    protected function sendRequest($method, $url, $data = [], $headers = [])
     {
-        $curlOptions = $this->mergeCurlOptions(
-            $this->defaultCurlOptions(),
-            $this->getCurlOptions(),
-            [
-                CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_URL => $url,
-            ],
-            $this->composeRequestCurlOptions(strtoupper($method), $url, $params)
-        );
-        $curlResource = curl_init();
-        foreach ($curlOptions as $option => $value) {
-            curl_setopt($curlResource, $option, $value);
-        }
-        $response = curl_exec($curlResource);
-        $responseHeaders = curl_getinfo($curlResource);
+        $response = $this->createRequest([
+                'method' => $method,
+                'url' => $url,
+                'data' => $data,
+                'headers' => $headers,
+            ])
+            ->addOptions($this->defaultRequestOptions())
+            ->addOptions($this->getRequestOptions())
+            ->send();
 
-        // check cURL error
-        $errorNumber = curl_errno($curlResource);
-        $errorMessage = curl_error($curlResource);
-
-        curl_close($curlResource);
-
-        if ($errorNumber > 0) {
-            throw new Exception('Curl error requesting "' .  $url . '": #' . $errorNumber . ' - ' . $errorMessage);
-        }
-        if (strncmp($responseHeaders['http_code'], '20', 2) !== 0) {
-            throw new InvalidResponseException($responseHeaders, $response, 'Request failed with code: ' . $responseHeaders['http_code'] . ', message: ' . $response);
+        if (!$response->getIsOk()) {
+            throw new InvalidResponseException($response, 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent());
         }
 
-        return $this->processResponse($response, $this->determineContentTypeByHeaders($responseHeaders));
+        return $response->getData();
     }
 
     /**
-     * Merge CUrl options.
-     * If each options array has an element with the same key value, the latter
-     * will overwrite the former.
-     * @param array $options1 options to be merged to.
-     * @param array $options2 options to be merged from. You can specify additional
-     * arrays via third argument, fourth argument etc.
-     * @return array merged options (the original options are not changed.)
+     * Returns default HTTP request options.
+     * @return array HTTP request options.
      */
-    protected function mergeCurlOptions($options1, $options2)
-    {
-        $args = func_get_args();
-        $res = array_shift($args);
-        while (!empty($args)) {
-            $next = array_shift($args);
-            foreach ($next as $k => $v) {
-                if (is_array($v) && !empty($res[$k]) && is_array($res[$k])) {
-                    $res[$k] = array_merge($res[$k], $v);
-                } else {
-                    $res[$k] = $v;
-                }
-            }
-        }
-        return $res;
-    }
-
-    /**
-     * Returns default cURL options.
-     * @return array cURL options.
-     */
-    protected function defaultCurlOptions()
+    protected function defaultRequestOptions()
     {
         return [
-            CURLOPT_USERAGENT => Yii::$app->name . ' OAuth ' . $this->version . ' Client',
-            CURLOPT_CONNECTTIMEOUT => 30,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_SSL_VERIFYPEER => false,
+            'userAgent' => Yii::$app->name . ' OAuth ' . $this->version . ' Client',
+            'timeout' => 30,
+            'sslVerifyPeer' => false,
         ];
-    }
-
-    /**
-     * Processes raw response converting it to actual data.
-     * @param string $rawResponse raw response.
-     * @param string $contentType response content type.
-     * @throws Exception on failure.
-     * @return array actual response.
-     */
-    protected function processResponse($rawResponse, $contentType = self::CONTENT_TYPE_AUTO)
-    {
-        if (empty($rawResponse)) {
-            return [];
-        }
-        switch ($contentType) {
-            case self::CONTENT_TYPE_AUTO: {
-                $contentType = $this->determineContentTypeByRaw($rawResponse);
-                if ($contentType == self::CONTENT_TYPE_AUTO) {
-                    throw new Exception('Unable to determine response content type automatically.');
-                }
-                $response = $this->processResponse($rawResponse, $contentType);
-                break;
-            }
-            case self::CONTENT_TYPE_JSON: {
-                $response = Json::decode($rawResponse, true);
-                break;
-            }
-            case self::CONTENT_TYPE_URLENCODED: {
-                $response = [];
-                parse_str($rawResponse, $response);
-                break;
-            }
-            case self::CONTENT_TYPE_XML: {
-                $response = $this->convertXmlToArray($rawResponse);
-                break;
-            }
-            default: {
-                throw new Exception('Unknown response type "' . $contentType . '".');
-            }
-        }
-        return $response;
-    }
-
-    /**
-     * Converts XML document to array.
-     * @param string|\SimpleXMLElement $xml xml to process.
-     * @return array XML array representation.
-     */
-    protected function convertXmlToArray($xml)
-    {
-        if (!is_object($xml)) {
-            $xml = simplexml_load_string($xml);
-        }
-        $result = (array) $xml;
-        foreach ($result as $key => $value) {
-            if (is_object($value)) {
-                $result[$key] = $this->convertXmlToArray($value);
-            }
-        }
-        return $result;
-    }
-
-    /**
-     * Attempts to determine HTTP request content type by headers.
-     * @param array $headers request headers.
-     * @return string content type.
-     */
-    protected function determineContentTypeByHeaders(array $headers)
-    {
-        if (isset($headers['content_type'])) {
-            if (stripos($headers['content_type'], 'json') !== false) {
-                return self::CONTENT_TYPE_JSON;
-            }
-            if (stripos($headers['content_type'], 'urlencoded') !== false) {
-                return self::CONTENT_TYPE_URLENCODED;
-            }
-            if (stripos($headers['content_type'], 'xml') !== false) {
-                return self::CONTENT_TYPE_XML;
-            }
-        }
-        return self::CONTENT_TYPE_AUTO;
-    }
-
-    /**
-     * Attempts to determine the content type from raw content.
-     * @param string $rawContent raw response content.
-     * @return string response type.
-     */
-    protected function determineContentTypeByRaw($rawContent)
-    {
-        if (preg_match('/^\\{.*\\}$/is', $rawContent)) {
-            return self::CONTENT_TYPE_JSON;
-        }
-        if (preg_match('/^[^=|^&]+=[^=|^&]+(&[^=|^&]+=[^=|^&]+)*$/is', $rawContent)) {
-            return self::CONTENT_TYPE_URLENCODED;
-        }
-        if (preg_match('/^<.*>$/is', $rawContent)) {
-            return self::CONTENT_TYPE_XML;
-        }
-        return self::CONTENT_TYPE_AUTO;
     }
 
     /**
@@ -487,12 +369,12 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * Performs request to the OAuth API.
      * @param string $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
      * @param string $method request method.
-     * @param array $params request parameters.
+     * @param array|string $data request data.
      * @param array $headers additional request headers.
      * @return array API response
      * @throws Exception on failure.
      */
-    public function api($apiSubUrl, $method = 'GET', array $params = [], array $headers = [])
+    public function api($apiSubUrl, $method = 'GET', $data = [], $headers = [])
     {
         if (preg_match('/^https?:\\/\\//is', $apiSubUrl)) {
             $url = $apiSubUrl;
@@ -503,18 +385,8 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
         if (!is_object($accessToken) || !$accessToken->getIsValid()) {
             throw new Exception('Invalid access token.');
         }
-        return $this->apiInternal($accessToken, $url, $method, $params, $headers);
+        return $this->apiInternal($accessToken, $url, $method, $data, $headers);
     }
-
-    /**
-     * Composes HTTP request CUrl options, which will be merged with the default ones.
-     * @param string $method request type.
-     * @param string $url request URL.
-     * @param array $params request params.
-     * @return array CUrl options.
-     * @throws Exception on failure.
-     */
-    abstract protected function composeRequestCurlOptions($method, $url, array $params);
 
     /**
      * Gets new auth token to replace expired one.
@@ -528,10 +400,10 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      * @param OAuthToken $accessToken actual access token.
      * @param string $url absolute API URL.
      * @param string $method request method.
-     * @param array $params request parameters.
+     * @param array|string $data request data.
      * @param array $headers additional request headers.
      * @return array API response.
      * @throws Exception on failure.
      */
-    abstract protected function apiInternal($accessToken, $url, $method, array $params, array $headers);
+    abstract protected function apiInternal($accessToken, $url, $method, $data, $headers);
 }

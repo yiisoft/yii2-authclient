@@ -43,6 +43,13 @@ use Yii;
 class Collection extends Component
 {
     /**
+     * @var \yii\httpclient\Client|array|string HTTP client instance or configuration for the [[clients]].
+     * If set, this value will be passed as 'httpClient' config option while instantiating particular client object.
+     * This option is useful for adjusting HTTP client configuration for the entire list of auth clients.
+     */
+    public $httpClient;
+
+    /**
      * @var array list of Auth clients with their configuration in format: 'clientId' => [...]
      */
     private $_clients = [];
@@ -105,6 +112,10 @@ class Collection extends Component
     protected function createClient($id, $config)
     {
         $config['id'] = $id;
+
+        if (!isset($config['httpClient']) && $this->httpClient !== null) {
+            $config['httpClient'] = $this->httpClient;
+        }
 
         return Yii::createObject($config);
     }

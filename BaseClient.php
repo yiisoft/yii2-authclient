@@ -11,8 +11,10 @@ use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
+use yii\di\Instance;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
+use yii\httpclient\Client;
 
 /**
  * BaseClient is a base Auth Client class.
@@ -25,6 +27,7 @@ use yii\helpers\StringHelper;
  * @property string $title Service title.
  * @property array $userAttributes List of user attributes.
  * @property array $viewOptions View options in format: optionName => optionValue.
+ * @property Client $httpClient internal HTTP client.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -74,6 +77,10 @@ abstract class BaseClient extends Component implements ClientInterface
      * @var array view options in format: optionName => optionValue
      */
     private $_viewOptions;
+    /**
+     * @var Client|array|string internal HTTP client.
+     */
+    private $_httpClient = 'yii\httpclient\Client';
 
 
     /**
@@ -194,6 +201,25 @@ abstract class BaseClient extends Component implements ClientInterface
         }
 
         return $this->_viewOptions;
+    }
+
+    /**
+     * @return array|Client internal HTTP client.
+     */
+    public function getHttpClient()
+    {
+        if (!is_object($this->_httpClient)) {
+            $this->_httpClient = Instance::ensure($this->_httpClient, Client::className());
+        }
+        return $this->_httpClient;
+    }
+
+    /**
+     * @param array|Client $httpClient internal HTTP client.
+     */
+    public function setHttpClient($httpClient)
+    {
+        $this->_httpClient = $httpClient;
     }
 
     /**

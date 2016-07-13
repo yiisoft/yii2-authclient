@@ -10,7 +10,7 @@ namespace yii\authclient\clients;
 use yii\authclient\OAuth2;
 
 /**
- * YandexOAuth allows authentication via Yandex OAuth.
+ * Yandex allows authentication via Yandex OAuth.
  *
  * In order to use Yandex OAuth you must register your application at <https://oauth.yandex.ru/client/new>.
  *
@@ -22,7 +22,7 @@ use yii\authclient\OAuth2;
  *         'class' => 'yii\authclient\Collection',
  *         'clients' => [
  *             'yandex' => [
- *                 'class' => 'yii\authclient\clients\YandexOAuth',
+ *                 'class' => 'yii\authclient\clients\Yandex',
  *                 'clientId' => 'yandex_client_id',
  *                 'clientSecret' => 'yandex_client_secret',
  *             ],
@@ -38,7 +38,7 @@ use yii\authclient\OAuth2;
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-class YandexOAuth extends OAuth2
+class Yandex extends OAuth2
 {
     /**
      * @inheritdoc

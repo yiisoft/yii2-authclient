@@ -8,7 +8,7 @@
 namespace yii\authclient\clients;
 
 /**
- * GoogleHybrid is an enhanced version of the [[GoogleOAuth]], which uses Google+ hybrid sign-in flow,
+ * GoogleHybrid is an enhanced version of the [[Google]], which uses Google+ hybrid sign-in flow,
  * which relies on embedded JavaScript code to generate a sign-in button.
  *
  * Example application configuration:
@@ -47,14 +47,14 @@ namespace yii\authclient\clients;
  * ],
  * ```
  *
- * @see GoogleOAuth
- * @see yii\authclient\widgets\GooglePlusButton
+ * @see Google
+ * @see \yii\authclient\widgets\GooglePlusButton
  * @see https://developers.google.com/+/web/signin
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-class GoogleHybrid extends GoogleOAuth
+class GoogleHybrid extends Google
 {
     /**
      * @inheritdoc

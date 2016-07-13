@@ -25,7 +25,7 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
         'class' => 'yii\authclient\Collection',
         'clients' => [
             'google' => [
-                'class' => 'yii\authclient\clients\GoogleOpenId'
+                'class' => 'yii\authclient\clients\Google'
             ],
             'facebook' => [
                 'class' => 'yii\authclient\clients\Facebook',
@@ -43,12 +43,12 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 
 - [[\yii\authclient\clients\Facebook|Facebook]]
 - [[yii\authclient\clients\GitHub|GitHub]]
-- Google ([[yii\authclient\clients\GoogleOpenId|OpenID]] または [[yii\authclient\clients\GoogleOAuth|OAuth]] で)
+- Google ([[yii\authclient\clients\Google|OAuth]] または [[yii\authclient\clients\GoogleHybrid|OAuth Hybrid]] で)
 - [[yii\authclient\clients\LinkedIn|LinkedIn]]
 - [[yii\authclient\clients\Live|Microsoft Live]]
 - [[yii\authclient\clients\Twitter|Twitter]]
 - [[yii\authclient\clients\VKontakte|VKontakte]]
-- Yandex ([[yii\authclient\clients\YandexOpenId|OpenID]] または [[yii\authclient\clients\YandexOAuth|OAuth]] で)
+- [[yii\authclient\clients\Yandex|Yandex]]
 
 それぞれのクライアントの構成は少しずつ異なります。
 OAuth では、使おうとしているサービスからクライアント ID と秘密キーを取得することが必要です。

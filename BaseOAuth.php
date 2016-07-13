@@ -26,7 +26,7 @@ use Yii;
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-abstract class BaseOAuth extends BaseClient implements ClientInterface
+abstract class BaseOAuth extends BaseClient
 {
     /**
      * @var string protocol version.
@@ -59,6 +59,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     /**
      * @var array cURL request options. Option values from this field will overwrite corresponding
      * values from [[defaultRequestOptions()]].
+     * @since 2.1
      */
     private $_requestOptions = [];
     /**
@@ -92,6 +93,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
 
     /**
      * @param array $options HTTP request options.
+     * @since 2.1
      */
     public function setRequestOptions(array $options)
     {
@@ -100,6 +102,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
 
     /**
      * @return array HTTP request options.
+     * @since 2.1
      */
     public function getRequestOptions()
     {
@@ -107,7 +110,8 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     }
 
     /**
-     * @param array|OAuthToken $token
+     * Sets access token to be used.
+     * @param array|OAuthToken $token access token or its configuration.
      */
     public function setAccessToken($token)
     {
@@ -131,6 +135,7 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     }
 
     /**
+     * Set signature method to be used.
      * @param array|signature\BaseMethod $signatureMethod signature method instance or its array configuration.
      * @throws InvalidParamException on wrong argument.
      */
@@ -238,12 +243,14 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
      */
     protected function composeUrl($url, array $params = [])
     {
-        if (strpos($url, '?') === false) {
-            $url .= '?';
-        } else {
-            $url .= '&';
+        if (!empty($params)) {
+            if (strpos($url, '?') === false) {
+                $url .= '?';
+            } else {
+                $url .= '&';
+            }
+            $url .= http_build_query($params, '', '&', PHP_QUERY_RFC3986);
         }
-        $url .= http_build_query($params, '', '&', PHP_QUERY_RFC3986);
         return $url;
     }
 

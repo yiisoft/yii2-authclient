@@ -262,6 +262,7 @@ class OAuth1 extends BaseOAuth
     /**
      * Sign given request with [[signatureMethod]].
      * @param \yii\httpclient\Request $request request instance.
+     * @since 2.1 this method is public.
      */
     public function signRequest($request)
     {

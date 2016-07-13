@@ -117,6 +117,11 @@ class BaseOAuthTest extends TestCase
                 ],
                 'http://test.url?with=some&param1=value1&param2=value2',
             ],
+            [
+                'http://test.url',
+                [],
+                'http://test.url',
+            ],
         ];
     }
 

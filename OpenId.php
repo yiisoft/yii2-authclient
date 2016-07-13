@@ -42,7 +42,7 @@ use Yii;
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-class OpenId extends BaseClient implements ClientInterface
+class OpenId extends BaseClient
 {
     /**
      * @var string authentication base URL, which should be used to compose actual authentication URL

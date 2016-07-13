@@ -95,11 +95,12 @@ class VKontakte extends OAuth2
     /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, $data, $headers)
+    protected function applyAccessTokenToRequest($request, $accessToken)
     {
+        $data = $request->getData();
         $data['uids'] = $accessToken->getParam('user_id');
         $data['access_token'] = $accessToken->getToken();
-        return $this->sendRequest($method, $url, $data, $headers);
+        $request->setData($data);
     }
 
     /**

@@ -167,11 +167,11 @@ class OAuth1 extends BaseOAuth
      * Composes HTTP request CUrl options, which will be merged with the default ones.
      * @param string $method request type.
      * @param string $url request URL.
-     * @param array $params request params.
+     * @param mixed $params request params.
      * @return array CUrl options.
      * @throws Exception on failure.
      */
-    protected function composeRequestCurlOptions($method, $url, array $params)
+    protected function composeRequestCurlOptions($method, $url, $params)
     {
         $curlOptions = [];
         switch ($method) {
@@ -181,9 +181,8 @@ class OAuth1 extends BaseOAuth
             }
             case 'POST': {
                 $curlOptions[CURLOPT_POST] = true;
-                $curlOptions[CURLOPT_HTTPHEADER] = ['Content-type: application/x-www-form-urlencoded'];
                 if (!empty($params)) {
-                    $curlOptions[CURLOPT_POSTFIELDS] = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
+                    $curlOptions[CURLOPT_POSTFIELDS] = (is_array($params)) ? !parent::paramsHaveFile($params) ? http_build_query($params, null, '&', PHP_QUERY_RFC3986) : $params : $params;
                 }
                 $authorizationHeader = $this->composeAuthorizationHeader($params);
                 if (!empty($authorizationHeader)) {
@@ -212,7 +211,7 @@ class OAuth1 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, array $params, array $headers)
+    protected function apiInternal($accessToken, $url, $method, $params, array $headers)
     {
         $params['oauth_consumer_key'] = $this->consumerKey;
         $params['oauth_token'] = $accessToken->getToken();

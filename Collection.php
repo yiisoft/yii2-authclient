@@ -22,8 +22,10 @@ use Yii;
  *         'class' => 'yii\authclient\Collection',
  *         'clients' => [
  *             'google' => [
- *                 'class' => 'yii\authclient\clients\GoogleOpenId'
- *             ],
+                    'class' => 'yii\authclient\clients\GoogleOAuth',
+                    'clientId' => 'google_client_id',
+                    'clientSecret' => 'google_client_secret',
+                ],
  *             'facebook' => [
  *                 'class' => 'yii\authclient\clients\Facebook',
  *                 'clientId' => 'facebook_client_id',

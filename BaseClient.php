@@ -308,4 +308,36 @@ abstract class BaseClient extends Component implements ClientInterface
 
         return $attributes;
     }
+
+    /**
+     * Creates HTTP request instance.
+     * @param array $config request object configuration.
+     * @return \yii\httpclient\Request HTTP request instance.
+     * @since 2.1
+     */
+    protected function createRequest(array $config = [])
+    {
+        $request = $this->getHttpClient()->createRequest();
+
+        if (isset($config['headers'])) {
+            $request->addHeaders($config['headers']);
+            unset($config['headers']);
+        }
+        if (isset($config['data'])) {
+            if (is_array($config['data'])) {
+                $request->setData($config['data']);
+            } else {
+                $request->setContent($config['data']);
+            }
+            unset($config['data']);
+        }
+        if (isset($config['options'])) {
+            $request->addOptions($config['options']);
+            unset($config['options']);
+        }
+
+        Yii::configure($request, $config);
+
+        return $request;
+    }
 }

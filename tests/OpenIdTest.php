@@ -65,6 +65,7 @@ class OpenIdTest extends TestCase
     public function testDiscover()
     {
         $this->markTestSkipped('OpenID is almost dead. There are no famous public servers that support it.');
+
         $url = 'http://openid.yandex.ru';
         $client = new OpenId();
         $info = $client->discover($url);

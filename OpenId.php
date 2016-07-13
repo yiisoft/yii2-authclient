@@ -239,51 +239,40 @@ class OpenId extends BaseClient implements ClientInterface
      */
     protected function sendRequest($url, $method = 'GET', $params = [])
     {
-        $params = http_build_query($params, '', '&');
-        $curl = curl_init($url . ($method == 'GET' && $params ? '?' . $params : ''));
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: application/xrds+xml, */*']);
+        $request = $this->createRequest([
+            'url' => $url,
+            'method' => $method,
+            'data' => $params,
+            'options' => [
+                'followLocation' => true,
+                'sslVerifyPeer' => false,
+            ],
+        ]);
 
         if ($this->verifyPeer !== null) {
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->verifyPeer);
+            $options = [
+                'sslVerifyPeer' => $this->verifyPeer
+            ];
             if ($this->capath) {
-                curl_setopt($curl, CURLOPT_CAPATH, $this->capath);
+                $options['sslCapath'] = $this->capath;
             }
             if ($this->cainfo) {
-                curl_setopt($curl, CURLOPT_CAINFO, $this->cainfo);
+                $options['sslCafile'] = $this->cainfo;
             }
+            $request->addOptions($options);
         }
 
-        if ($method == 'POST') {
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-        } elseif ($method == 'HEAD') {
-            curl_setopt($curl, CURLOPT_HEADER, true);
-            curl_setopt($curl, CURLOPT_NOBODY, true);
-        } else {
-            curl_setopt($curl, CURLOPT_HTTPGET, true);
-        }
-        $response = curl_exec($curl);
+        $response = $request->send();
 
         if ($method == 'HEAD') {
             $headers = [];
-            foreach (explode("\n", $response) as $header) {
-                $pos = strpos($header, ':');
-                $name = strtolower(trim(substr($header, 0, $pos)));
-                $headers[$name] = trim(substr($header, $pos+1));
+            foreach ($response->getHeaders()->toArray() as $name => $values) {
+                $headers[strtolower($name)] = array_pop($values);
             }
-
             return $headers;
         }
 
-        if (curl_errno($curl)) {
-            throw new Exception(curl_error($curl), curl_errno($curl));
-        }
-
-        return $response;
+        return $response->getContent();
     }
 
     /**

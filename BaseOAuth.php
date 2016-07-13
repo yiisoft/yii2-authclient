@@ -164,37 +164,6 @@ abstract class BaseOAuth extends BaseClient implements ClientInterface
     }
 
     /**
-     * Creates HTTP request instance.
-     * @param array $config request object configuration.
-     * @return \yii\httpclient\Request HTTP request instance.
-     */
-    protected function createRequest(array $config = [])
-    {
-        $request = $this->getHttpClient()->createRequest();
-
-        if (isset($config['headers'])) {
-            $request->addHeaders($config['headers']);
-            unset($config['headers']);
-        }
-        if (isset($config['data'])) {
-            if (is_array($config['data'])) {
-                $request->setData($config['data']);
-            } else {
-                $request->setContent($config['data']);
-            }
-            unset($config['data']);
-        }
-        if (isset($config['options'])) {
-            $request->addOptions($config['options']);
-            unset($config['options']);
-        }
-
-        Yii::configure($request, $config);
-
-        return $request;
-    }
-
-    /**
      * Sends HTTP request.
      * @param string $method request type.
      * @param string $url request URL.

@@ -21,24 +21,6 @@ class OAuth1Test extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
-    /**
-     * Invokes the OAuth client method even if it is protected.
-     * @param  OAuth1 $oauthClient OAuth client instance.
-     * @param  string $methodName  name of the method to be invoked.
-     * @param  array  $arguments   method arguments.
-     * @return mixed  method invoke result.
-     */
-    protected function invokeOAuthClientMethod($oauthClient, $methodName, array $arguments = [])
-    {
-        $classReflection = new \ReflectionClass(get_class($oauthClient));
-        $methodReflection = $classReflection->getMethod($methodName);
-        $methodReflection->setAccessible(true);
-        $result = $methodReflection->invokeArgs($oauthClient, $arguments);
-        $methodReflection->setAccessible(false);
-
-        return $result;
-    }
-
     // Tests :
 
     public function testSignRequest()
@@ -101,7 +83,7 @@ class OAuth1Test extends TestCase
     public function testComposeAuthorizationHeader($realm, array $params, $expectedAuthorizationHeader)
     {
         $oauthClient = new OAuth1();
-        $authorizationHeader = $this->invokeOAuthClientMethod($oauthClient, 'composeAuthorizationHeader', [$params, $realm]);
+        $authorizationHeader = $this->invoke($oauthClient, 'composeAuthorizationHeader', [$params, $realm]);
         $this->assertEquals($expectedAuthorizationHeader, $authorizationHeader);
     }
 

@@ -7,8 +7,8 @@
 
 namespace yii\authclient;
 
-use yii\base\Exception;
 use Yii;
+use yii\base\InvalidParamException;
 
 /**
  * OAuth1 serves as a client for the OAuth 1/1.0a flow.
@@ -93,14 +93,14 @@ class OAuth1 extends BaseOAuth
      * @param OAuthToken $requestToken OAuth request token.
      * @param array $params additional request params.
      * @return string authorize URL
-     * @throws Exception on failure.
+     * @throws InvalidParamException on failure.
      */
     public function buildAuthUrl(OAuthToken $requestToken = null, array $params = [])
     {
         if (!is_object($requestToken)) {
             $requestToken = $this->getState('requestToken');
             if (!is_object($requestToken)) {
-                throw new Exception('Request token is required to build authorize URL!');
+                throw new InvalidParamException('Request token is required to build authorize URL!');
             }
         }
         $params['oauth_token'] = $requestToken->getToken();
@@ -114,14 +114,14 @@ class OAuth1 extends BaseOAuth
      * @param string $oauthVerifier OAuth verifier.
      * @param array $params additional request params.
      * @return OAuthToken OAuth access token.
-     * @throws Exception on failure.
+     * @throws InvalidParamException on failure.
      */
     public function fetchAccessToken(OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
     {
         if (!is_object($requestToken)) {
             $requestToken = $this->getState('requestToken');
             if (!is_object($requestToken)) {
-                throw new Exception('Request token is required to fetch access token!');
+                throw new InvalidParamException('Request token is required to fetch access token!');
             }
         }
         $this->removeState('requestToken');
@@ -168,38 +168,21 @@ class OAuth1 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    protected function sendRequest($method, $url, $data = [], $headers = [])
+    protected function executeRequest($request)
     {
-        $request = $this->createRequest([
-                'method' => $method,
-                'url' => $url,
-                'data' => $data,
-                'headers' => $headers,
-            ])
-            ->addOptions($this->defaultRequestOptions())
-            ->addOptions($this->getRequestOptions());
-
         $this->signRequest($request);
-
-        $response = $request->send();
-
-        if (!$response->getIsOk()) {
-            throw new InvalidResponseException($response, 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent());
-        }
-
-        return $response->getData();
+        return parent::executeRequest($request);
     }
 
     /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, $data, $headers)
+    protected function applyAccessTokenToRequest($request, $accessToken)
     {
+        $data = $request->getData();
         $data['oauth_consumer_key'] = $this->consumerKey;
         $data['oauth_token'] = $accessToken->getToken();
-        $response = $this->sendRequest($method, $url, $data, $headers);
-
-        return $response;
+        $request->setData($data);
     }
 
     /**
@@ -266,8 +249,14 @@ class OAuth1 extends BaseOAuth
      */
     public function signRequest($request)
     {
-        $signatureMethod = $this->getSignatureMethod();
         $params = $request->getData();
+
+        if (isset($params['oauth_signature_method'])) {
+            // avoid double sign of request
+            return;
+        }
+
+        $signatureMethod = $this->getSignatureMethod();
 
         $params['oauth_signature_method'] = $signatureMethod->getName();
         $signatureBaseString = $this->composeSignatureBaseString($request->getMethod(), $request->getUrl(), $params);

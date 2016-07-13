@@ -22,6 +22,8 @@ class AuthActionTest extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
+    // Tests :
+
     public function testSetGet()
     {
         $action = new AuthAction(null, null);

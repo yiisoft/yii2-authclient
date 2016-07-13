@@ -8,7 +8,7 @@ class BaseClientTest extends TestCase
 {
     public function testSetGet()
     {
-        $client = new Client();
+        $client = new ClientMock();
 
         $id = 'test_id';
         $client->setId($id);
@@ -46,7 +46,7 @@ class BaseClientTest extends TestCase
 
     public function testGetDefaults()
     {
-        $client = new Client();
+        $client = new ClientMock();
 
         $this->assertNotEmpty($client->getName(), 'Unable to get default name!');
         $this->assertNotEmpty($client->getTitle(), 'Unable to get default title!');
@@ -141,7 +141,7 @@ class BaseClientTest extends TestCase
      */
     public function testNormalizeUserAttributes($normalizeUserAttributeMap, $rawUserAttributes, $expectedNormalizedUserAttributes)
     {
-        $client = new Client();
+        $client = new ClientMock();
         $client->setNormalizeUserAttributeMap($normalizeUserAttributeMap);
 
         $client->setUserAttributes($rawUserAttributes);
@@ -152,7 +152,7 @@ class BaseClientTest extends TestCase
 
     public function testSetupHttpClient()
     {
-        $client = new Client();
+        $client = new ClientMock();
 
         $client->setHttpClient([
             'baseUrl' => 'http://domain.com'
@@ -162,12 +162,12 @@ class BaseClientTest extends TestCase
         $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to setup http client.');
         $this->assertEquals('http://domain.com', $httpClient->baseUrl, 'Unable to setup http client property.');
 
-        $client = new Client();
+        $client = new ClientMock();
         $httpClient = $client->getHttpClient();
         $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to get default http client.');
     }
 }
 
-class Client extends BaseClient
+class ClientMock extends BaseClient
 {
 }

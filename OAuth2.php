@@ -8,7 +8,6 @@
 namespace yii\authclient;
 
 use Yii;
-use yii\base\Exception;
 
 /**
  * OAuth2 serves as a client for the OAuth 2 flow.
@@ -96,11 +95,11 @@ class OAuth2 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, $data, $headers)
+    protected function applyAccessTokenToRequest($request, $accessToken)
     {
+        $data = $request->getData();
         $data['access_token'] = $accessToken->getToken();
-
-        return $this->sendRequest($method, $url, $data, $headers);
+        $request->setData($data);
     }
 
     /**

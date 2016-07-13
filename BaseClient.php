@@ -204,18 +204,22 @@ abstract class BaseClient extends Component implements ClientInterface
     }
 
     /**
-     * @return array|Client internal HTTP client.
+     * Returns HTTP client.
+     * @return Client internal HTTP client.
+     * @since 2.1
      */
     public function getHttpClient()
     {
         if (!is_object($this->_httpClient)) {
-            $this->_httpClient = Instance::ensure($this->_httpClient, Client::className());
+            $this->_httpClient = $this->createHttpClient($this->_httpClient);
         }
         return $this->_httpClient;
     }
 
     /**
+     * Sets HTTP client to be used.
      * @param array|Client $httpClient internal HTTP client.
+     * @since 2.1
      */
     public function setHttpClient($httpClient)
     {
@@ -267,6 +271,17 @@ abstract class BaseClient extends Component implements ClientInterface
     protected function defaultViewOptions()
     {
         return [];
+    }
+
+    /**
+     * Creates HTTP client instance from reference or configuration.
+     * @param string|array $reference component name or array configuration.
+     * @return Client HTTP client instance.
+     * @since 2.1
+     */
+    protected function createHttpClient($reference)
+    {
+        return Instance::ensure($reference, Client::className());
     }
 
     /**

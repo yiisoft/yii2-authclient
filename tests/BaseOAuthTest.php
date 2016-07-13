@@ -5,6 +5,7 @@ namespace yiiunit\extensions\authclient;
 use yii\authclient\signature\PlainText;
 use yii\authclient\OAuthToken;
 use yii\authclient\BaseOAuth;
+use yii\httpclient\Client;
 
 class BaseOAuthTest extends TestCase
 {
@@ -19,26 +20,8 @@ class BaseOAuthTest extends TestCase
      */
     protected function createOAuthClient()
     {
-        $oauthClient = $this->getMock(BaseOAuth::className(), ['composeRequestCurlOptions', 'refreshAccessToken', 'apiInternal']);
+        $oauthClient = $this->getMock(BaseOAuth::className(), ['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest']);
         return $oauthClient;
-    }
-
-    /**
-     * Invokes the OAuth client method even if it is protected.
-     * @param  BaseOAuth $oauthClient OAuth client instance.
-     * @param  string    $methodName  name of the method to be invoked.
-     * @param  array     $arguments   method arguments.
-     * @return mixed     method invoke result.
-     */
-    protected function invokeOAuthClientMethod($oauthClient, $methodName, array $arguments = [])
-    {
-        $classReflection = new \ReflectionClass(get_class($oauthClient));
-        $methodReflection = $classReflection->getMethod($methodName);
-        $methodReflection->setAccessible(true);
-        $result = $methodReflection->invokeArgs($oauthClient, $arguments);
-        $methodReflection->setAccessible(false);
-
-        return $result;
     }
 
     // Tests :
@@ -57,6 +40,25 @@ class BaseOAuthTest extends TestCase
         ];
         $oauthClient->setRequestOptions($curlOptions);
         $this->assertEquals($curlOptions, $oauthClient->getRequestOptions(), 'Unable to setup cURL options!');
+    }
+
+    public function testSetupHttpClient()
+    {
+        $oauthClient = $this->createOAuthClient();
+        $oauthClient->apiBaseUrl = 'http://api.test.url';
+
+        $this->assertEquals($oauthClient->apiBaseUrl, $oauthClient->getHttpClient()->baseUrl);
+
+        $httpClient = new Client();
+        $oauthClient->setHttpClient($httpClient);
+        $actualHttpClient = $oauthClient->getHttpClient();
+        $this->assertNotSame($httpClient, $actualHttpClient);
+        $this->assertEquals($oauthClient->apiBaseUrl, $actualHttpClient->baseUrl);
+
+        $oauthClient->setHttpClient([
+            'transport' => 'yii\httpclient\CurlTransport'
+        ]);
+        $this->assertEquals($oauthClient->apiBaseUrl, $oauthClient->getHttpClient()->baseUrl);
     }
 
     public function testSetupComponents()
@@ -135,7 +137,7 @@ class BaseOAuthTest extends TestCase
     public function testComposeUrl($url, array $params, $expectedUrl)
     {
         $oauthClient = $this->createOAuthClient();
-        $composedUrl = $this->invokeOAuthClientMethod($oauthClient, 'composeUrl', [$url, $params]);
+        $composedUrl = $this->invoke($oauthClient, 'composeUrl', [$url, $params]);
         $this->assertEquals($expectedUrl, $composedUrl);
     }
 
@@ -174,7 +176,6 @@ class BaseOAuthTest extends TestCase
     public function testApiUrl($apiBaseUrl, $apiSubUrl, $expectedApiFullUrl)
     {
         $oauthClient = $this->createOAuthClient();
-        $oauthClient->expects($this->any())->method('apiInternal')->will($this->returnArgument(1));
 
         $accessToken = new OAuthToken();
         $accessToken->setToken('test_access_token');
@@ -183,6 +184,10 @@ class BaseOAuthTest extends TestCase
 
         $oauthClient->apiBaseUrl = $apiBaseUrl;
 
-        $this->assertEquals($expectedApiFullUrl, $oauthClient->api($apiSubUrl));
+        $request = $oauthClient->createApiRequest()
+            ->setUrl($apiSubUrl)
+            ->prepare();
+
+        $this->assertEquals($expectedApiFullUrl, $request->getUrl());
     }
 }

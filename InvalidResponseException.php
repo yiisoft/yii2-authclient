@@ -19,6 +19,7 @@ class InvalidResponseException extends Exception
 {
     /**
      * @var \yii\httpclient\Response HTTP response instance.
+     * @since 2.1
      */
     public $response;
 

@@ -19,8 +19,12 @@ Upgrade from yii2-authclient 2.0.6
 * Virtual property `yii\authclient\BaseOAuth::curlOptions` and related methods have been removed -
   use `yii\authclient\BaseOAuth::requestOptions` instead.
 
-* Following methods have been removed: `yii\authclient\BaseOAuth::processResponse()`.
+* Following methods have been removed: `yii\authclient\BaseOAuth::processResponse()`, `yii\authclient\BaseOAuth::apiInternal()`.
   Make sure you do not invoke them.
+
+* Class `yii\authclient\InvalidResponseException` reworked: fields `responseHeaders` and `responseBody` have been removed,
+  field `response` added instead holding `yii\httpclient\Response` instance, class constructor adjusted accordingly.
+  Make sure you throw and process this exception correctly.
 
 * Classes `yii\authclient\clients\GoogleOpenId` and `yii\authclient\clients\YandexOpenId` have been removed,
   since Google and Yandex no longer supports OpenID protocol. Make sure you do not use or refer these classes.

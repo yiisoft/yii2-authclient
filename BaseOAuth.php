@@ -34,6 +34,8 @@ abstract class BaseOAuth extends BaseClient
     public $version = '1.0';
     /**
      * @var string API base URL.
+     * This field will be used as [[\yii\httpclient\Client::baseUrl]] value of [[httpClient]].
+     * Note: changing this property will take no effect after [[httpClient]] is instantiated.
      */
     public $apiBaseUrl;
     /**
@@ -160,40 +162,34 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
+     * @inheritdoc
+     */
+    public function setHttpClient($httpClient)
+    {
+        if (is_object($httpClient)) {
+            $httpClient = clone $httpClient;
+            $httpClient->baseUrl = $this->apiBaseUrl;
+        }
+        parent::setHttpClient($httpClient);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function createHttpClient($reference)
+    {
+        $httpClient = parent::createHttpClient($reference);
+        $httpClient->baseUrl = $this->apiBaseUrl;
+        return $httpClient;
+    }
+
+    /**
      * Composes default [[returnUrl]] value.
      * @return string return URL.
      */
     protected function defaultReturnUrl()
     {
         return Yii::$app->getRequest()->getAbsoluteUrl();
-    }
-
-    /**
-     * Sends HTTP request.
-     * @param string $method request type.
-     * @param string $url request URL.
-     * @param array|string $data request data.
-     * @param array $headers additional request headers.
-     * @return array response.
-     * @throws Exception on failure.
-     */
-    protected function sendRequest($method, $url, $data = [], $headers = [])
-    {
-        $response = $this->createRequest([
-                'method' => $method,
-                'url' => $url,
-                'data' => $data,
-                'headers' => $headers,
-            ])
-            ->addOptions($this->defaultRequestOptions())
-            ->addOptions($this->getRequestOptions())
-            ->send();
-
-        if (!$response->getIsOk()) {
-            throw new InvalidResponseException($response, 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent());
-        }
-
-        return $response->getData();
     }
 
     /**
@@ -233,6 +229,46 @@ abstract class BaseOAuth extends BaseClient
             $tokenConfig['class'] = OAuthToken::className();
         }
         return Yii::createObject($tokenConfig);
+    }
+
+    /**
+     * Sends HTTP request, returning response data.
+     * @param string $method request type.
+     * @param string $url request URL.
+     * @param array|string $data request data.
+     * @param array $headers additional request headers.
+     * @return array response data.
+     */
+    protected function sendRequest($method, $url, $data = [], $headers = [])
+    {
+        $request = $this->createRequest([
+                'method' => $method,
+                'url' => $url,
+                'data' => $data,
+                'headers' => $headers,
+            ])
+            ->addOptions($this->defaultRequestOptions())
+            ->addOptions($this->getRequestOptions());
+
+        return $this->executeRequest($request);
+    }
+
+    /**
+     * Sends the given HTTP request, returning response data.
+     * @param \yii\httpclient\Request $request HTTP request to be sent.
+     * @return array response data.
+     * @throws InvalidResponseException on failure.
+     * @since 2.1
+     */
+    protected function executeRequest($request)
+    {
+        $response = $request->send();
+
+        if (!$response->getIsOk()) {
+            throw new InvalidResponseException($response, 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent());
+        }
+
+        return $response->getData();
     }
 
     /**
@@ -342,26 +378,51 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
-     * Performs request to the OAuth API.
-     * @param string $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
-     * @param string $method request method.
-     * @param array|string $data request data.
-     * @param array $headers additional request headers.
-     * @return array API response
+     * Creates an HTTP request for the API call.
+     * @see createRequest()
+     * @param array $config request object configuration.
+     * @return \yii\httpclient\Request request instance.
      * @throws Exception on failure.
+     * @since 2.1
      */
-    public function api($apiSubUrl, $method = 'GET', $data = [], $headers = [])
+    public function createApiRequest(array $config = [])
     {
-        if (preg_match('/^https?:\\/\\//is', $apiSubUrl)) {
-            $url = $apiSubUrl;
+        if (isset($config['accessToken'])) {
+            $accessToken = $config['accessToken'];
         } else {
-            $url = $this->apiBaseUrl . '/' . $apiSubUrl;
+            $accessToken = $this->getAccessToken();
         }
-        $accessToken = $this->getAccessToken();
         if (!is_object($accessToken) || !$accessToken->getIsValid()) {
             throw new Exception('Invalid access token.');
         }
-        return $this->apiInternal($accessToken, $url, $method, $data, $headers);
+
+        $request = $this->createRequest($config);
+
+        $this->applyAccessTokenToRequest($request, $accessToken);
+
+        return $request;
+    }
+
+    /**
+     * Performs request to the OAuth API returning response data.
+     * You may use [[createApiRequest()]] method instead gaining more control over request execution.
+     * @see createApiRequest()
+     * @param string $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
+     * @param string $method request method.
+     * @param array|string $data request data or content.
+     * @param array $headers additional request headers.
+     * @return array API response data.
+     */
+    public function api($apiSubUrl, $method = 'GET', $data = [], $headers = [])
+    {
+        $request = $this->createApiRequest([
+            'url' => $apiSubUrl,
+            'method' => $method,
+            'data' => $data,
+            'headers' => $headers,
+        ]);
+
+        return $this->executeRequest($request);
     }
 
     /**
@@ -372,14 +433,10 @@ abstract class BaseOAuth extends BaseClient
     abstract public function refreshAccessToken(OAuthToken $token);
 
     /**
-     * Performs request to the OAuth API.
-     * @param OAuthToken $accessToken actual access token.
-     * @param string $url absolute API URL.
-     * @param string $method request method.
-     * @param array|string $data request data.
-     * @param array $headers additional request headers.
-     * @return array API response.
-     * @throws Exception on failure.
+     * Applies access token to the HTTP request instance.
+     * @param \yii\httpclient\Request $request HTTP request instance.
+     * @param OAuthToken $accessToken access token instance.
+     * @since 2.1
      */
-    abstract protected function apiInternal($accessToken, $url, $method, $data, $headers);
+    abstract protected function applyAccessTokenToRequest($request, $accessToken);
 }

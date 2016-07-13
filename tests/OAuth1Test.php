@@ -45,10 +45,15 @@ class OAuth1Test extends TestCase
     {
         $oauthClient = new OAuth1();
 
+        $request = $oauthClient->createRequest();
+
         $oauthSignatureMethod = new PlainText();
         $oauthClient->setSignatureMethod($oauthSignatureMethod);
 
-        $signedParams = $this->invokeOAuthClientMethod($oauthClient, 'signRequest', ['GET', 'http://test.url', []]);
+        $oauthClient->signRequest($request);
+
+        $signedParams = $request->getData();
+
         $this->assertNotEmpty($signedParams['oauth_signature'], 'Unable to sign request!');
     }
 
@@ -65,7 +70,7 @@ class OAuth1Test extends TestCase
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'oauth_test_name_2' => 'oauth_test_value_2',
                 ],
-                'Authorization: OAuth oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"'
+                ['Authorization' => 'OAuth oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"']
             ],
             [
                 'test_realm',
@@ -73,7 +78,7 @@ class OAuth1Test extends TestCase
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'oauth_test_name_2' => 'oauth_test_value_2',
                 ],
-                'Authorization: OAuth realm="test_realm", oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"'
+                ['Authorization' => 'OAuth realm="test_realm", oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"']
             ],
             [
                 '',
@@ -81,7 +86,7 @@ class OAuth1Test extends TestCase
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'test_name_2' => 'test_value_2',
                 ],
-                'Authorization: OAuth oauth_test_name_1="oauth_test_value_1"'
+                ['Authorization' => 'OAuth oauth_test_name_1="oauth_test_value_1"']
             ],
         ];
     }

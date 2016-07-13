@@ -315,7 +315,7 @@ abstract class BaseClient extends Component implements ClientInterface
      * @return \yii\httpclient\Request HTTP request instance.
      * @since 2.1
      */
-    protected function createRequest(array $config = [])
+    public function createRequest(array $config = [])
     {
         $request = $this->getHttpClient()->createRequest();
 

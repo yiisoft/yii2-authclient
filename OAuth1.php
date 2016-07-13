@@ -150,7 +150,7 @@ class OAuth1 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    protected function createRequest(array $config = [])
+    public function createRequest(array $config = [])
     {
         $request = parent::createRequest($config);
 
@@ -263,7 +263,7 @@ class OAuth1 extends BaseOAuth
      * Sign given request with [[signatureMethod]].
      * @param \yii\httpclient\Request $request request instance.
      */
-    protected function signRequest($request)
+    public function signRequest($request)
     {
         $signatureMethod = $this->getSignatureMethod();
         $params = $request->getData();

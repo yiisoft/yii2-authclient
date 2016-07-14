@@ -102,7 +102,7 @@ class OAuth2 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    protected function applyAccessTokenToRequest($request, $accessToken)
+    public function applyAccessTokenToRequest($request, $accessToken)
     {
         $data = $request->getData();
         $data['access_token'] = $accessToken->getToken();

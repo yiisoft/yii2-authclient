@@ -150,6 +150,8 @@ class OAuth1 extends BaseOAuth
             ->setUrl($this->accessTokenUrl)
             ->setData(array_merge($defaultParams, $params));
 
+        $this->signRequest($request, $requestToken);
+
         $response = $this->sendRequest($request);
 
         $token = $this->createToken([
@@ -172,7 +174,7 @@ class OAuth1 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    protected function applyAccessTokenToRequest($request, $accessToken)
+    public function applyAccessTokenToRequest($request, $accessToken)
     {
         $data = $request->getData();
         $data['oauth_consumer_key'] = $this->consumerKey;
@@ -240,9 +242,10 @@ class OAuth1 extends BaseOAuth
     /**
      * Sign given request with [[signatureMethod]].
      * @param \yii\httpclient\Request $request request instance.
+     * @param OAuthToken|null $token OAuth token to be used for signature, if not set [[accessToken]] will be used.
      * @since 2.1 this method is public.
      */
-    public function signRequest($request)
+    public function signRequest($request, $token = null)
     {
         $params = $request->getData();
 
@@ -266,7 +269,7 @@ class OAuth1 extends BaseOAuth
 
         $params['oauth_signature_method'] = $signatureMethod->getName();
         $signatureBaseString = $this->composeSignatureBaseString($request->getMethod(), $url, $params);
-        $signatureKey = $this->composeSignatureKey();
+        $signatureKey = $this->composeSignatureKey($token);
         $params['oauth_signature'] = $signatureMethod->generateSignature($signatureBaseString, $signatureKey);
 
         $request->setData($params);
@@ -300,19 +303,24 @@ class OAuth1 extends BaseOAuth
 
     /**
      * Composes request signature key.
+     * @param OAuthToken|null $token OAuth token to be used for signature key.
      * @return string signature key.
      */
-    protected function composeSignatureKey()
+    protected function composeSignatureKey($token = null)
     {
         $signatureKeyParts = [
             $this->consumerSecret
         ];
-        $accessToken = $this->getAccessToken();
-        if (is_object($accessToken)) {
-            $signatureKeyParts[] = $accessToken->getTokenSecret();
+
+        if ($token === null) {
+            $token = $this->getAccessToken();
+        }
+        if (is_object($token)) {
+            $signatureKeyParts[] = $token->getTokenSecret();
         } else {
             $signatureKeyParts[] = '';
         }
+
         $signatureKeyParts = array_map('rawurlencode', $signatureKeyParts);
 
         return implode('&', $signatureKeyParts);

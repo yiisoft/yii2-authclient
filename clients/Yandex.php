@@ -65,7 +65,7 @@ class Yandex extends OAuth2
     /**
      * @inheritdoc
      */
-    protected function applyAccessTokenToRequest($request, $accessToken)
+    public function applyAccessTokenToRequest($request, $accessToken)
     {
         $data = $request->getData();
         if (!isset($data['format'])) {

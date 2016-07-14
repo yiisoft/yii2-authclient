@@ -390,5 +390,5 @@ abstract class BaseOAuth extends BaseClient
      * @param OAuthToken $accessToken access token instance.
      * @since 2.1
      */
-    abstract protected function applyAccessTokenToRequest($request, $accessToken);
+    abstract public function applyAccessTokenToRequest($request, $accessToken);
 }

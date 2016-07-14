@@ -33,13 +33,6 @@ class BaseOAuthTest extends TestCase
         $returnUrl = 'http://test.return.url';
         $oauthClient->setReturnUrl($returnUrl);
         $this->assertEquals($returnUrl, $oauthClient->getReturnUrl(), 'Unable to setup return URL!');
-
-        $curlOptions = [
-            'option1' => 'value1',
-            'option2' => 'value2',
-        ];
-        $oauthClient->setRequestOptions($curlOptions);
-        $this->assertEquals($curlOptions, $oauthClient->getRequestOptions(), 'Unable to setup cURL options!');
     }
 
     public function testSetupHttpClient()

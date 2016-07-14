@@ -246,15 +246,15 @@ class OAuth1 extends BaseOAuth
     {
         $params = $request->getData();
 
+        if (isset($params['oauth_signature_method'])) {
+            // avoid double sign of request
+            return;
+        }
+
         if (empty($params)) {
             $params = $this->generateCommonRequestParams();
         } else {
             $params = array_merge($this->generateCommonRequestParams(), $params);
-        }
-
-        if (isset($params['oauth_signature_method'])) {
-            // avoid double sign of request
-            return;
         }
 
         $url = $request->getUrl();

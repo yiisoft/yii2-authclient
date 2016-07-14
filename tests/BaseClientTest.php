@@ -42,6 +42,13 @@ class BaseClientTest extends TestCase
         ];
         $client->setViewOptions($viewOptions);
         $this->assertEquals($viewOptions, $client->getViewOptions(), 'Unable to setup view options!');
+
+        $requestOptions = [
+            'option1' => 'value1',
+            'option2' => 'value2',
+        ];
+        $client->setRequestOptions($requestOptions);
+        $this->assertEquals($requestOptions, $client->getRequestOptions(), 'Unable to setup request options!');
     }
 
     public function testGetDefaults()

@@ -275,6 +275,18 @@ class OpenId extends BaseClient
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function defaultRequestOptions()
+    {
+        return [
+            'userAgent' => Yii::$app->name . ' OpenID Client',
+            'timeout' => 30,
+            'sslVerifyPeer' => false,
+        ];
+    }
+
+    /**
      * Combines given URLs into single one.
      * @param string $baseUrl base URL.
      * @param string|array $additionalUrl additional URL string or information array.

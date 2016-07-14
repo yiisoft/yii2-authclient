@@ -8,7 +8,6 @@
 namespace yii\authclient;
 
 use Yii;
-use yii\base\Exception;
 
 /**
  * OAuth2 serves as a client for the OAuth 2 flow.
@@ -86,7 +85,14 @@ class OAuth2 extends BaseOAuth
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->getReturnUrl(),
         ];
-        $response = $this->sendRequest('POST', $this->tokenUrl, array_merge($defaultParams, $params));
+
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData(array_merge($defaultParams, $params));
+
+        $response = $this->sendRequest($request);
+
         $token = $this->createToken(['params' => $response]);
         $this->setAccessToken($token);
 
@@ -94,53 +100,13 @@ class OAuth2 extends BaseOAuth
     }
 
     /**
-     * Composes HTTP request CUrl options, which will be merged with the default ones.
-     * @param string $method request type.
-     * @param string $url request URL.
-     * @param array $params request params.
-     * @return array CUrl options.
-     * @throws Exception on failure.
-     */
-    protected function composeRequestCurlOptions($method, $url, array $params)
-    {
-        $curlOptions = [];
-        switch ($method) {
-            case 'GET': {
-                $curlOptions[CURLOPT_URL] = $this->composeUrl($url, $params);
-                break;
-            }
-            case 'POST': {
-                $curlOptions[CURLOPT_POST] = true;
-                $curlOptions[CURLOPT_HTTPHEADER] = ['Content-type: application/x-www-form-urlencoded'];
-                $curlOptions[CURLOPT_POSTFIELDS] = http_build_query($params, '', '&', PHP_QUERY_RFC3986);
-                break;
-            }
-            case 'HEAD': {
-                $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
-                if (!empty($params)) {
-                    $curlOptions[CURLOPT_URL] = $this->composeUrl($url, $params);
-                }
-                break;
-            }
-            default: {
-                $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
-                if (!empty($params)) {
-                    $curlOptions[CURLOPT_POSTFIELDS] = $params;
-                }
-            }
-        }
-
-        return $curlOptions;
-    }
-
-    /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, array $params, array $headers)
+    public function applyAccessTokenToRequest($request, $accessToken)
     {
-        $params['access_token'] = $accessToken->getToken();
-
-        return $this->sendRequest($method, $url, $params, $headers);
+        $data = $request->getData();
+        $data['access_token'] = $accessToken->getToken();
+        $request->setData($data);
     }
 
     /**
@@ -156,7 +122,13 @@ class OAuth2 extends BaseOAuth
             'grant_type' => 'refresh_token'
         ];
         $params = array_merge($token->getParams(), $params);
-        $response = $this->sendRequest('POST', $this->tokenUrl, $params);
+
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData($params);
+
+        $response = $this->sendRequest($request);
 
         $token = $this->createToken(['params' => $response]);
         $this->setAccessToken($token);

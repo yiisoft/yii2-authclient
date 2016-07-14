@@ -26,7 +26,7 @@ After extension is installed you need to setup auth client collection applicatio
         'class' => 'yii\authclient\Collection',
         'clients' => [
             'google' => [
-                'class' => 'yii\authclient\clients\GoogleOpenId'
+                'class' => 'yii\authclient\clients\Google'
             ],
             'facebook' => [
                 'class' => 'yii\authclient\clients\Facebook',
@@ -44,12 +44,12 @@ Out of the box the following clients are provided:
 
 - [[\yii\authclient\clients\Facebook|Facebook]].
 - [[yii\authclient\clients\GitHub|GitHub]].
-- Google (via [[yii\authclient\clients\GoogleOpenId|OpenID]] and [[yii\authclient\clients\GoogleOAuth|OAuth]]).
+- Google (via [[yii\authclient\clients\Google|OAuth]] and [[yii\authclient\clients\GoogleHybrid|OAuth Hybrid]]).
 - [[yii\authclient\clients\LinkedIn|LinkedIn]].
 - [[yii\authclient\clients\Live|Microsoft Live]].
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
-- Yandex (via [[yii\authclient\clients\YandexOpenId|OpenID]] and [[yii\authclient\clients\YandexOAuth|OAuth]]).
+- [[yii\authclient\clients\Yandex|Yandex]].
 
 Configuration for each client is a bit different. For OAuth it's required to get client ID and secret key from
 the service you're going to use. For OpenID it works out of the box in most cases.

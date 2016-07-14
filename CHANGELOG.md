@@ -1,10 +1,13 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.0.7 under development
+2.1.0 under development
 -----------------------
 
-- no changes in this release.
+- Enh #27: This extension no longer require PHP 'cURL' extension to be installed (klimov-paul)
+- Enh #33: Added ability to pass raw request content at `\yii\authclient\BaseOAuth::api()` (klimov-paul)
+- Enh #41: Added support for signature generation from request token at `\yii\authclient\OAuth1::fetchAccessToken()` (klimov-paul)
+- Enh #108: This extension now uses `yii2-httpclient` library for the HTTP requests (klimov-paul)
 
 
 2.0.6 July 08, 2016

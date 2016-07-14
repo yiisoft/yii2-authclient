@@ -21,34 +21,21 @@ class OAuth1Test extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
-    /**
-     * Invokes the OAuth client method even if it is protected.
-     * @param  OAuth1 $oauthClient OAuth client instance.
-     * @param  string $methodName  name of the method to be invoked.
-     * @param  array  $arguments   method arguments.
-     * @return mixed  method invoke result.
-     */
-    protected function invokeOAuthClientMethod($oauthClient, $methodName, array $arguments = [])
-    {
-        $classReflection = new \ReflectionClass(get_class($oauthClient));
-        $methodReflection = $classReflection->getMethod($methodName);
-        $methodReflection->setAccessible(true);
-        $result = $methodReflection->invokeArgs($oauthClient, $arguments);
-        $methodReflection->setAccessible(false);
-
-        return $result;
-    }
-
     // Tests :
 
     public function testSignRequest()
     {
         $oauthClient = new OAuth1();
 
+        $request = $oauthClient->createRequest();
+
         $oauthSignatureMethod = new PlainText();
         $oauthClient->setSignatureMethod($oauthSignatureMethod);
 
-        $signedParams = $this->invokeOAuthClientMethod($oauthClient, 'signRequest', ['GET', 'http://test.url', []]);
+        $oauthClient->signRequest($request);
+
+        $signedParams = $request->getData();
+
         $this->assertNotEmpty($signedParams['oauth_signature'], 'Unable to sign request!');
     }
 
@@ -65,7 +52,7 @@ class OAuth1Test extends TestCase
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'oauth_test_name_2' => 'oauth_test_value_2',
                 ],
-                'Authorization: OAuth oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"'
+                ['Authorization' => 'OAuth oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"']
             ],
             [
                 'test_realm',
@@ -73,7 +60,7 @@ class OAuth1Test extends TestCase
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'oauth_test_name_2' => 'oauth_test_value_2',
                 ],
-                'Authorization: OAuth realm="test_realm", oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"'
+                ['Authorization' => 'OAuth realm="test_realm", oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"']
             ],
             [
                 '',
@@ -81,7 +68,7 @@ class OAuth1Test extends TestCase
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'test_name_2' => 'test_value_2',
                 ],
-                'Authorization: OAuth oauth_test_name_1="oauth_test_value_1"'
+                ['Authorization' => 'OAuth oauth_test_name_1="oauth_test_value_1"']
             ],
         ];
     }
@@ -96,7 +83,7 @@ class OAuth1Test extends TestCase
     public function testComposeAuthorizationHeader($realm, array $params, $expectedAuthorizationHeader)
     {
         $oauthClient = new OAuth1();
-        $authorizationHeader = $this->invokeOAuthClientMethod($oauthClient, 'composeAuthorizationHeader', [$params, $realm]);
+        $authorizationHeader = $this->invoke($oauthClient, 'composeAuthorizationHeader', [$params, $realm]);
         $this->assertEquals($expectedAuthorizationHeader, $authorizationHeader);
     }
 

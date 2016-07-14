@@ -11,8 +11,10 @@ use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
+use yii\di\Instance;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
+use yii\httpclient\Client;
 
 /**
  * BaseClient is a base Auth Client class.
@@ -25,6 +27,8 @@ use yii\helpers\StringHelper;
  * @property string $title Service title.
  * @property array $userAttributes List of user attributes.
  * @property array $viewOptions View options in format: optionName => optionValue.
+ * @property Client $httpClient internal HTTP client.
+ * @property array $requestOptions HTTP request options.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -74,6 +78,16 @@ abstract class BaseClient extends Component implements ClientInterface
      * @var array view options in format: optionName => optionValue
      */
     private $_viewOptions;
+    /**
+     * @var Client|array|string internal HTTP client.
+     */
+    private $_httpClient = 'yii\httpclient\Client';
+    /**
+     * @var array cURL request options. Option values from this field will overwrite corresponding
+     * values from [[defaultRequestOptions()]].
+     * @since 2.1
+     */
+    private $_requestOptions = [];
 
 
     /**
@@ -197,6 +211,47 @@ abstract class BaseClient extends Component implements ClientInterface
     }
 
     /**
+     * Returns HTTP client.
+     * @return Client internal HTTP client.
+     * @since 2.1
+     */
+    public function getHttpClient()
+    {
+        if (!is_object($this->_httpClient)) {
+            $this->_httpClient = $this->createHttpClient($this->_httpClient);
+        }
+        return $this->_httpClient;
+    }
+
+    /**
+     * Sets HTTP client to be used.
+     * @param array|Client $httpClient internal HTTP client.
+     * @since 2.1
+     */
+    public function setHttpClient($httpClient)
+    {
+        $this->_httpClient = $httpClient;
+    }
+
+    /**
+     * @param array $options HTTP request options.
+     * @since 2.1
+     */
+    public function setRequestOptions(array $options)
+    {
+        $this->_requestOptions = $options;
+    }
+
+    /**
+     * @return array HTTP request options.
+     * @since 2.1
+     */
+    public function getRequestOptions()
+    {
+        return $this->_requestOptions;
+    }
+
+    /**
      * Generates service name.
      * @return string service name.
      */
@@ -244,6 +299,17 @@ abstract class BaseClient extends Component implements ClientInterface
     }
 
     /**
+     * Creates HTTP client instance from reference or configuration.
+     * @param string|array $reference component name or array configuration.
+     * @return Client HTTP client instance.
+     * @since 2.1
+     */
+    protected function createHttpClient($reference)
+    {
+        return Instance::ensure($reference, Client::className());
+    }
+
+    /**
      * Normalize given user attributes according to [[normalizeUserAttributeMap]].
      * @param array $attributes raw attributes.
      * @throws InvalidConfigException on incorrect normalize attribute map.
@@ -281,5 +347,53 @@ abstract class BaseClient extends Component implements ClientInterface
         }
 
         return $attributes;
+    }
+
+    /**
+     * Creates HTTP request instance.
+     * @param array $config request object configuration.
+     * @return \yii\httpclient\Request HTTP request instance.
+     * @since 2.1
+     */
+    public function createRequest(array $config = [])
+    {
+        $request = $this->getHttpClient()->createRequest();
+
+        if (isset($config['headers'])) {
+            $request->addHeaders($config['headers']);
+            unset($config['headers']);
+        }
+        if (isset($config['data'])) {
+            if (is_array($config['data'])) {
+                $request->setData($config['data']);
+            } else {
+                $request->setContent($config['data']);
+            }
+            unset($config['data']);
+        }
+
+        $request->addOptions($this->defaultRequestOptions())
+            ->addOptions($this->getRequestOptions());
+
+        if (isset($config['options'])) {
+            $request->addOptions($config['options']);
+            unset($config['options']);
+        }
+
+        Yii::configure($request, $config);
+
+        return $request;
+    }
+
+    /**
+     * Returns default HTTP request options.
+     * @return array HTTP request options.
+     */
+    protected function defaultRequestOptions()
+    {
+        return [
+            'timeout' => 30,
+            'sslVerifyPeer' => false,
+        ];
     }
 }

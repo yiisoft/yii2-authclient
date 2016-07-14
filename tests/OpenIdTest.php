@@ -19,23 +19,6 @@ class OpenIdTest extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
-    /**
-     * Invokes the object method even if it is protected.
-     * @param object $object object instance
-     * @param string $methodName name of the method to be invoked.
-     * @param array $args method arguments.
-     * @return mixed method invoke result.
-     */
-    protected function invokeMethod($object, $methodName, array $args = [])
-    {
-        $classReflection = new \ReflectionClass(get_class($object));
-        $methodReflection = $classReflection->getMethod($methodName);
-        $methodReflection->setAccessible(true);
-        $result = $methodReflection->invokeArgs($object, $args);
-        $methodReflection->setAccessible(false);
-        return $result;
-    }
-
     // Tests :
 
     public function testSetGet()
@@ -65,6 +48,7 @@ class OpenIdTest extends TestCase
     public function testDiscover()
     {
         $this->markTestSkipped('OpenID is almost dead. There are no famous public servers that support it.');
+
         $url = 'http://openid.yandex.ru';
         $client = new OpenId();
         $info = $client->discover($url);
@@ -124,7 +108,7 @@ class OpenIdTest extends TestCase
     public function testCompareUrl($url1, $url2, $expectedResult)
     {
         $client = new OpenId();
-        $comparisonResult = $this->invokeMethod($client, 'compareUrl', [$url1, $url2]);
+        $comparisonResult = $this->invoke($client, 'compareUrl', [$url1, $url2]);
         $this->assertEquals($expectedResult, $comparisonResult);
     }
 }

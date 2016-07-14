@@ -132,11 +132,11 @@ class LinkedIn extends OAuth2
     /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, array $params, array $headers)
+    public function applyAccessTokenToRequest($request, $accessToken)
     {
-        $params['oauth2_access_token'] = $accessToken->getToken();
-
-        return $this->sendRequest($method, $url, $params, $headers);
+        $data = $request->getData();
+        $data['oauth2_access_token'] = $accessToken->getToken();
+        $request->setData($data);
     }
 
     /**

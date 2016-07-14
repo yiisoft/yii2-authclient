@@ -190,7 +190,7 @@ Each client has some descriptive data, which can be used for different purposes:
 - `id` - unique client id, which separates it from other clients, it could be used in URLs, logs etc.
 - `name` - external auth provider name, which this client is match too. Different auth clients
   can share the same name, if they refer to the same external auth provider.
-  For example: clients for Google OpenID and Google OAuth have same name "google".
+  For example: clients for Google and Google Hybrid have same name "google".
   This attribute can be used inside the database, CSS styles and so on.
 - `title` - user friendly name for the external auth provider, it is used to present auth client
   at the view layer.

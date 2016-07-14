@@ -26,7 +26,7 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
         'class' => 'yii\authclient\Collection',
         'clients' => [
             'google' => [
-                'class' => 'yii\authclient\clients\GoogleOpenId'
+                'class' => 'yii\authclient\clients\Google'
             ],
             'facebook' => [
                 'class' => 'yii\authclient\clients\Facebook',
@@ -44,12 +44,12 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 
 - [[\yii\authclient\clients\Facebook|Facebook]].
 - [[yii\authclient\clients\GitHub|GitHub]].
-- Google (с помощью [[yii\authclient\clients\GoogleOpenId|OpenID]] и [[yii\authclient\clients\GoogleOAuth|OAuth]]).
+- Google (с помощью [[yii\authclient\clients\Google|OAuth]] и [[yii\authclient\clients\GoogleHybrid|OAuth Hybrid]]).
 - [[yii\authclient\clients\LinkedIn|LinkedIn]].
 - [[yii\authclient\clients\Live|Microsoft Live]].
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
-- Яндекс (с помощью [[yii\authclient\clients\YandexOpenId|OpenID]] и [[yii\authclient\clients\YandexOAuth|OAuth]]).
+- [[yii\authclient\clients\Yandex|Yandex]].
 
 Конфигурация для каждого клиента несколько отличается. Для OAuth, это обязательное получение ID клиента и секретного
 ключа сервиса, который Вы собираетесь использовать. Для OpenID, в большинстве случаев, это работает из коробки.

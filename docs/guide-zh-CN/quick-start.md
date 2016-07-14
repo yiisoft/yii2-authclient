@@ -99,7 +99,7 @@ class SiteController extends Controller
 - `id` - 唯一客户 ID，用于与其它客户端区分，它可以用于 URL 和日志等。
 - `name` - 外部验证提供商名称，与该客户端匹配。不同的客户端可以使用相同的名称，
   即它们指的是同一个外部验证提供商。
-  例如：谷歌 OpenID 客户端和 Google OAuth 客户端有一个相同的名称 “google”。
+  例如：谷歌 Google 客户端和 Google Hybrid 客户端有一个相同的名称 “google”。
   该树形可以用在数据库内部、CSS 样式中等等。
 - `title` - 用户友好的外部验证提供商名称，用于在验证客户端的视图层展示。
 

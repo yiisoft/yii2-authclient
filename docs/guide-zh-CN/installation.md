@@ -25,7 +25,7 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
         'class' => 'yii\authclient\Collection',
         'clients' => [
             'google' => [
-                'class' => 'yii\authclient\clients\GoogleOpenId'
+                'class' => 'yii\authclient\clients\Google'
             ],
             'facebook' => [
                 'class' => 'yii\authclient\clients\Facebook',
@@ -43,12 +43,12 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 
 - [[\yii\authclient\clients\Facebook|Facebook]].
 - [[yii\authclient\clients\GitHub|GitHub]].
-- Google (通过 [[yii\authclient\clients\GoogleOpenId|OpenID]] 和 [[yii\authclient\clients\GoogleOAuth|OAuth]]).
+- Google (通过 [[yii\authclient\clients\Google|OAuth]] 和 [[yii\authclient\clients\GoogleHybrid|OAuth Hybrid]]).
 - [[yii\authclient\clients\LinkedIn|LinkedIn]].
 - [[yii\authclient\clients\Live|Microsoft Live]].
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
-- Yandex (通过 [[yii\authclient\clients\YandexOpenId|OpenID]] 和 [[yii\authclient\clients\YandexOAuth|OAuth]]).
+- [[yii\authclient\clients\Yandex|Yandex]].
 
 配置每个客户端稍有不同。对于 OAuth 客户端需要从服务端获取客户端 ID 和密钥。而对于 OpenID 客户端，大多数情况下不需要调整。
 

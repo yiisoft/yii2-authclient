@@ -10,7 +10,7 @@ namespace yii\authclient\clients;
 use yii\authclient\OAuth2;
 
 /**
- * GoogleOAuth allows authentication via Google OAuth.
+ * Google allows authentication via Google OAuth.
  *
  * In order to use Google OAuth you must create a project at <https://console.developers.google.com/project>
  * and setup its credentials at <https://console.developers.google.com/project/[yourProjectId]/apiui/credential>.
@@ -25,7 +25,7 @@ use yii\authclient\OAuth2;
  *         'class' => 'yii\authclient\Collection',
  *         'clients' => [
  *             'google' => [
- *                 'class' => 'yii\authclient\clients\GoogleOAuth',
+ *                 'class' => 'yii\authclient\clients\Google',
  *                 'clientId' => 'google_client_id',
  *                 'clientSecret' => 'google_client_secret',
  *             ],
@@ -40,7 +40,7 @@ use yii\authclient\OAuth2;
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-class GoogleOAuth extends OAuth2
+class Google extends OAuth2
 {
     /**
      * @inheritdoc

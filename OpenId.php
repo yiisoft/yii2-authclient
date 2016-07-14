@@ -239,15 +239,14 @@ class OpenId extends BaseClient
      */
     protected function sendRequest($url, $method = 'GET', $params = [])
     {
-        $request = $this->createRequest([
-            'url' => $url,
-            'method' => $method,
-            'data' => $params,
-            'options' => [
+        $request = $this->createRequest()
+            ->setMethod($method)
+            ->setUrl($url)
+            ->setData($params)
+            ->addOptions([
                 'followLocation' => true,
                 'sslVerifyPeer' => false,
-            ],
-        ]);
+            ]);
 
         if ($this->verifyPeer !== null) {
             $options = [

@@ -18,7 +18,6 @@ use Yii;
  *
  * @property OAuthToken $accessToken Auth token instance. Note that the type of this property differs in
  * getter and setter. See [[getAccessToken()]] and [[setAccessToken()]] for details.
- * @property array $requestOptions HTTP request options.
  * @property string $returnUrl Return URL.
  * @property signature\BaseMethod $signatureMethod Signature method instance. Note that the type of this
  * property differs in getter and setter. See [[getSignatureMethod()]] and [[setSignatureMethod()]] for details.
@@ -59,12 +58,6 @@ abstract class BaseOAuth extends BaseClient
      */
     private $_returnUrl;
     /**
-     * @var array cURL request options. Option values from this field will overwrite corresponding
-     * values from [[defaultRequestOptions()]].
-     * @since 2.1
-     */
-    private $_requestOptions = [];
-    /**
      * @var OAuthToken|array access token instance or its array configuration.
      */
     private $_accessToken;
@@ -91,24 +84,6 @@ abstract class BaseOAuth extends BaseClient
             $this->_returnUrl = $this->defaultReturnUrl();
         }
         return $this->_returnUrl;
-    }
-
-    /**
-     * @param array $options HTTP request options.
-     * @since 2.1
-     */
-    public function setRequestOptions(array $options)
-    {
-        $this->_requestOptions = $options;
-    }
-
-    /**
-     * @return array HTTP request options.
-     * @since 2.1
-     */
-    public function getRequestOptions()
-    {
-        return $this->_requestOptions;
     }
 
     /**
@@ -193,8 +168,7 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
-     * Returns default HTTP request options.
-     * @return array HTTP request options.
+     * @inheritdoc
      */
     protected function defaultRequestOptions()
     {
@@ -232,35 +206,13 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
-     * Sends HTTP request, returning response data.
-     * @param string $method request type.
-     * @param string $url request URL.
-     * @param array|string $data request data.
-     * @param array $headers additional request headers.
-     * @return array response data.
-     */
-    protected function sendRequest($method, $url, $data = [], $headers = [])
-    {
-        $request = $this->createRequest([
-                'method' => $method,
-                'url' => $url,
-                'data' => $data,
-                'headers' => $headers,
-            ])
-            ->addOptions($this->defaultRequestOptions())
-            ->addOptions($this->getRequestOptions());
-
-        return $this->executeRequest($request);
-    }
-
-    /**
      * Sends the given HTTP request, returning response data.
      * @param \yii\httpclient\Request $request HTTP request to be sent.
      * @return array response data.
-     * @throws InvalidResponseException on failure.
+     * @throws InvalidResponseException on invalid remote response.
      * @since 2.1
      */
-    protected function executeRequest($request)
+    protected function sendRequest($request)
     {
         $response = $request->send();
 
@@ -422,7 +374,7 @@ abstract class BaseOAuth extends BaseClient
             'headers' => $headers,
         ]);
 
-        return $this->executeRequest($request);
+        return $this->sendRequest($request);
     }
 
     /**

@@ -28,6 +28,7 @@ use yii\httpclient\Client;
  * @property array $userAttributes List of user attributes.
  * @property array $viewOptions View options in format: optionName => optionValue.
  * @property Client $httpClient internal HTTP client.
+ * @property array $requestOptions HTTP request options.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -81,6 +82,12 @@ abstract class BaseClient extends Component implements ClientInterface
      * @var Client|array|string internal HTTP client.
      */
     private $_httpClient = 'yii\httpclient\Client';
+    /**
+     * @var array cURL request options. Option values from this field will overwrite corresponding
+     * values from [[defaultRequestOptions()]].
+     * @since 2.1
+     */
+    private $_requestOptions = [];
 
 
     /**
@@ -227,6 +234,24 @@ abstract class BaseClient extends Component implements ClientInterface
     }
 
     /**
+     * @param array $options HTTP request options.
+     * @since 2.1
+     */
+    public function setRequestOptions(array $options)
+    {
+        $this->_requestOptions = $options;
+    }
+
+    /**
+     * @return array HTTP request options.
+     * @since 2.1
+     */
+    public function getRequestOptions()
+    {
+        return $this->_requestOptions;
+    }
+
+    /**
      * Generates service name.
      * @return string service name.
      */
@@ -346,6 +371,10 @@ abstract class BaseClient extends Component implements ClientInterface
             }
             unset($config['data']);
         }
+
+        $request->addOptions($this->defaultRequestOptions())
+            ->addOptions($this->getRequestOptions());
+
         if (isset($config['options'])) {
             $request->addOptions($config['options']);
             unset($config['options']);
@@ -354,5 +383,17 @@ abstract class BaseClient extends Component implements ClientInterface
         Yii::configure($request, $config);
 
         return $request;
+    }
+
+    /**
+     * Returns default HTTP request options.
+     * @return array HTTP request options.
+     */
+    protected function defaultRequestOptions()
+    {
+        return [
+            'timeout' => 30,
+            'sslVerifyPeer' => false,
+        ];
     }
 }

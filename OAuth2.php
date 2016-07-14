@@ -85,7 +85,14 @@ class OAuth2 extends BaseOAuth
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->getReturnUrl(),
         ];
-        $response = $this->sendRequest('POST', $this->tokenUrl, array_merge($defaultParams, $params));
+
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData(array_merge($defaultParams, $params));
+
+        $response = $this->sendRequest($request);
+
         $token = $this->createToken(['params' => $response]);
         $this->setAccessToken($token);
 
@@ -115,7 +122,13 @@ class OAuth2 extends BaseOAuth
             'grant_type' => 'refresh_token'
         ];
         $params = array_merge($token->getParams(), $params);
-        $response = $this->sendRequest('POST', $this->tokenUrl, $params);
+
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData($params);
+
+        $response = $this->sendRequest($request);
 
         $token = $this->createToken(['params' => $response]);
         $this->setAccessToken($token);

@@ -79,7 +79,14 @@ class OAuth1 extends BaseOAuth
         if (!empty($this->scope)) {
             $defaultParams['scope'] = $this->scope;
         }
-        $response = $this->sendRequest($this->requestTokenMethod, $this->requestTokenUrl, array_merge($defaultParams, $params));
+
+        $request = $this->createRequest()
+            ->setMethod($this->requestTokenMethod)
+            ->setUrl($this->requestTokenUrl)
+            ->setData(array_merge($defaultParams, $params));
+
+        $response = $this->sendRequest($request);
+
         $token = $this->createToken([
             'params' => $response
         ]);
@@ -137,7 +144,13 @@ class OAuth1 extends BaseOAuth
         if (!empty($oauthVerifier)) {
             $defaultParams['oauth_verifier'] = $oauthVerifier;
         }
-        $response = $this->sendRequest($this->accessTokenMethod, $this->accessTokenUrl, array_merge($defaultParams, $params));
+
+        $request = $this->createRequest()
+            ->setMethod($this->accessTokenMethod)
+            ->setUrl($this->accessTokenUrl)
+            ->setData(array_merge($defaultParams, $params));
+
+        $response = $this->sendRequest($request);
 
         $token = $this->createToken([
             'params' => $response
@@ -150,28 +163,10 @@ class OAuth1 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    public function createRequest(array $config = [])
-    {
-        $request = parent::createRequest($config);
-
-        $data = $request->getData();
-        if (empty($data)) {
-            $data = $this->generateCommonRequestParams();
-        } else {
-            $data = array_merge($this->generateCommonRequestParams(), $data);
-        }
-        $request->setData($data);
-
-        return $request;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function executeRequest($request)
+    protected function sendRequest($request)
     {
         $this->signRequest($request);
-        return parent::executeRequest($request);
+        return parent::sendRequest($request);
     }
 
     /**
@@ -251,15 +246,26 @@ class OAuth1 extends BaseOAuth
     {
         $params = $request->getData();
 
+        if (empty($params)) {
+            $params = $this->generateCommonRequestParams();
+        } else {
+            $params = array_merge($this->generateCommonRequestParams(), $params);
+        }
+
         if (isset($params['oauth_signature_method'])) {
             // avoid double sign of request
             return;
         }
 
+        $url = $request->getUrl();
+        if (strpos($url, '://') === false) {
+            $url = $request->client->baseUrl . '/' . $url;
+        }
+
         $signatureMethod = $this->getSignatureMethod();
 
         $params['oauth_signature_method'] = $signatureMethod->getName();
-        $signatureBaseString = $this->composeSignatureBaseString($request->getMethod(), $request->getUrl(), $params);
+        $signatureBaseString = $this->composeSignatureBaseString($request->getMethod(), $url, $params);
         $signatureKey = $this->composeSignatureKey();
         $params['oauth_signature'] = $signatureMethod->generateSignature($signatureBaseString, $signatureKey);
 

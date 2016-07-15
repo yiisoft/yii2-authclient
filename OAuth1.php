@@ -298,9 +298,11 @@ class OAuth1 extends BaseOAuth
 
         $request->setData($params);
 
-        $authorizationHeader = $this->composeAuthorizationHeader($params);
-        if (!empty($authorizationHeader)) {
-            $request->addHeaders($authorizationHeader);
+        if (strcasecmp($request->getMethod(), 'POST') === 0) {
+            $authorizationHeader = $this->composeAuthorizationHeader($params);
+            if (!empty($authorizationHeader)) {
+                $request->addHeaders($authorizationHeader);
+            }
         }
     }
 

@@ -160,4 +160,71 @@ class OAuth2 extends BaseOAuth
 
         return parent::createToken($tokenConfig);
     }
+
+    /**
+     * Authenticate OAuth client directly at the provider without third party (user) involved,
+     * using 'client_credentials' grant type.
+     * @see http://tools.ietf.org/html/rfc6749#section-4.4
+     * @param array $params additional request params.
+     * @return OAuthToken access token.
+     */
+    public function authenticateClient($params = [])
+    {
+        $defaultParams = [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'grant_type' => 'client_credentials',
+        ];
+
+        if (!empty($this->scope)) {
+            $defaultParams['scope'] = $this->scope;
+        }
+
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData(array_merge($defaultParams, $params));
+
+        $response = $this->sendRequest($request);
+
+        $token = $this->createToken(['params' => $response]);
+        $this->setAccessToken($token);
+
+        return $token;
+    }
+
+    /**
+     * Authenticates user directly by username/password pair, using 'password' grant type.
+     * @see https://tools.ietf.org/html/rfc6749#section-4.3
+     * @param string $username
+     * @param string $password
+     * @param array $params additional request params.
+     * @return OAuthToken access token.
+     */
+    public function authenticateUser($username, $password, $params = [])
+    {
+        $defaultParams = [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'grant_type' => 'password',
+            'username' => $username,
+            'password' => $password,
+        ];
+
+        if (!empty($this->scope)) {
+            $defaultParams['scope'] = $this->scope;
+        }
+
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData(array_merge($defaultParams, $params));
+
+        $response = $this->sendRequest($request);
+
+        $token = $this->createToken(['params' => $response]);
+        $this->setAccessToken($token);
+
+        return $token;
+    }
 }

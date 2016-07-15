@@ -9,6 +9,7 @@ namespace yii\authclient;
 
 use Yii;
 use yii\base\InvalidParamException;
+use yii\httpclient\Request;
 
 /**
  * OAuth1 serves as a client for the OAuth 1/1.0a flow.
@@ -165,10 +166,36 @@ class OAuth1 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    protected function sendRequest($request)
+    public function createRequest(array $config = [])
     {
-        $this->signRequest($request);
-        return parent::sendRequest($request);
+        $request = parent::createRequest($config);
+        $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeRequestSend']);
+        return $request;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createApiRequest(array $config = [])
+    {
+        $request = parent::createApiRequest($config);
+
+        // ensure correct event handlers order :
+        $request->off(Request::EVENT_BEFORE_SEND, [$this, 'beforeRequestSend']);
+        $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeRequestSend']);
+
+        return $request;
+    }
+
+    /**
+     * Handles [[Request::EVENT_BEFORE_SEND]] event.
+     * Ensures every request has been signed up before sending.
+     * @param \yii\httpclient\RequestEvent $event event instance.
+     * @since 2.1
+     */
+    public function beforeRequestSend($event)
+    {
+        $this->signRequest($event->request);
     }
 
     /**
@@ -260,10 +287,7 @@ class OAuth1 extends BaseOAuth
             $params = array_merge($this->generateCommonRequestParams(), $params);
         }
 
-        $url = $request->getUrl();
-        if (strpos($url, '://') === false) {
-            $url = $request->client->baseUrl . '/' . $url;
-        }
+        $url = $request->getFullUrl();
 
         $signatureMethod = $this->getSignatureMethod();
 

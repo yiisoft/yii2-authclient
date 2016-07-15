@@ -10,6 +10,7 @@ namespace yii\authclient;
 use yii\base\Exception;
 use yii\base\InvalidParamException;
 use Yii;
+use yii\httpclient\Request;
 
 /**
  * BaseOAuth is a base class for the OAuth clients.
@@ -333,26 +334,31 @@ abstract class BaseOAuth extends BaseClient
      * Creates an HTTP request for the API call.
      * @see createRequest()
      * @param array $config request object configuration.
-     * @return \yii\httpclient\Request request instance.
-     * @throws Exception on failure.
+     * @return Request HTTP request instance.
      * @since 2.1
      */
     public function createApiRequest(array $config = [])
     {
-        if (isset($config['accessToken'])) {
-            $accessToken = $config['accessToken'];
-        } else {
-            $accessToken = $this->getAccessToken();
-        }
+        $request = $this->createRequest($config);
+        $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeApiRequestSend']);
+        return $request;
+    }
+
+    /**
+     * Handles [[Request::EVENT_BEFORE_SEND]] event.
+     * Applies [[accessToken]] to the request.
+     * @param \yii\httpclient\RequestEvent $event event instance.
+     * @throws Exception on invalid access token.
+     * @since 2.1
+     */
+    public function beforeApiRequestSend($event)
+    {
+        $accessToken = $this->getAccessToken();
         if (!is_object($accessToken) || !$accessToken->getIsValid()) {
             throw new Exception('Invalid access token.');
         }
 
-        $request = $this->createRequest($config);
-
-        $this->applyAccessTokenToRequest($request, $accessToken);
-
-        return $request;
+        $this->applyAccessTokenToRequest($event->request, $accessToken);
     }
 
     /**

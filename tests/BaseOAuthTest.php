@@ -178,9 +178,8 @@ class BaseOAuthTest extends TestCase
         $oauthClient->apiBaseUrl = $apiBaseUrl;
 
         $request = $oauthClient->createApiRequest()
-            ->setUrl($apiSubUrl)
-            ->prepare();
+            ->setUrl($apiSubUrl);
 
-        $this->assertEquals($expectedApiFullUrl, $request->getUrl());
+        $this->assertEquals($expectedApiFullUrl, $request->getFullUrl());
     }
 }

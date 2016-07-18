@@ -14,6 +14,7 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 ```json
 "yiisoft/yii2-authclient": "*"
 ```
+
 в секцию `require` вашего composer.json.
 
 ## Настройка приложения

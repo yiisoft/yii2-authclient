@@ -14,4 +14,6 @@ Getting Started
 Additional topics
 -----------------
 
+* [Getting additional data via extra API calls](usage-api.md)
 * [Creating your own auth clients](creating-your-own-auth-clients.md)
+* [OAuth 2.0 direct authentication](oauth-direct-authentication.md)

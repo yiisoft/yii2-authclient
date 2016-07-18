@@ -28,7 +28,7 @@ class SiteController extends Controller
 }
 ```
 
-Note that it's important for `auth` action to be publically accessible so make sure it's not denied by access control filter.
+Note that it's important for `auth` action to be public accessible, so make sure it's not denied by access control filter.
 
 Where AuthHandler implementation could be like this:
 
@@ -43,7 +43,7 @@ use yii\authclient\ClientInterface;
 use yii\helpers\ArrayHelper;
 
 /**
- * AuthHandler handles successful authentification via Yii auth component
+ * AuthHandler handles successful authentication via Yii auth component
  */
 class AuthHandler
 {
@@ -64,7 +64,7 @@ class AuthHandler
         $id = ArrayHelper::getValue($attributes, 'id');
         $nickname = ArrayHelper::getValue($attributes, 'login');
 
-        /** @var Auth $auth */
+        /* @var Auth $auth */
         $auth = Auth::find()->where([
             'source' => $this->client->getId(),
             'source_id' => $id,
@@ -72,7 +72,7 @@ class AuthHandler
 
         if (Yii::$app->user->isGuest) {
             if ($auth) { // login
-                /** @var User $user */
+                /* @var User $user */
                 $user = $auth->user;
                 $this->updateUserInfo($user);
                 Yii::$app->user->login($user, Yii::$app->params['user.rememberMeDuration']);
@@ -211,26 +211,6 @@ Defining list of attributes, which external auth provider should return, depends
 > Tip: If you are using several different clients, you can unify the structure of the attributes, which they return,
   using [[yii\authclient\BaseClient::normalizeUserAttributeMap]].
 
-### Getting additional data via extra API calls
-
-Both [[yii\authclient\OAuth1]] and [[yii\authclient\OAuth2]] provide method `api()`, which
-can be used to access external auth provider REST API. However this method is very basic and
-it may be not enough to access full external API functionality. This method is mainly used to
-fetch the external user account data.
-
-To use API calls, you need to setup [[yii\authclient\BaseOAuth::apiBaseUrl]] according to the
-API specification. Then you can call [[yii\authclient\BaseOAuth::api()]] method:
-
-```php
-use yii\authclient\OAuth2;
-
-$client = new OAuth2;
-
-// ...
-
-$client->apiBaseUrl = 'https://www.googleapis.com/oauth2/v1';
-$userInfo = $client->api('userinfo', 'GET');
-```
 
 ## Adding widget to login view
 

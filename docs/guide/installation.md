@@ -14,6 +14,7 @@ or add
 ```json
 "yiisoft/yii2-authclient": "*"
 ```
+
 to the `require` section of your composer.json.
 
 ## Configuring application
@@ -101,7 +102,7 @@ class m??????_??????_auth extends \yii\db\Migration
 In the above example `user` is a standard table that is used in advanced project template to store user info.
 Each user can authenticate using multiple external services therefore each `user` record can relate to
 multiple `auth` records. In the `auth` table `source` is the name of the auth provider used and `source_id` is
-unique user identificator that is provided by external service after successful login.
+unique user identifier that is provided by external service after successful login.
 
 Using tables created above we can generate `Auth` model. No further adjustments needed.
 

@@ -28,6 +28,7 @@ use yii\httpclient\Client;
  * @property array $viewOptions View options in format: optionName => optionValue.
  * @property Client $httpClient internal HTTP client.
  * @property array $requestOptions HTTP request options.
+ * @property StateStorageInterface $stateStorage state storage.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -88,6 +89,10 @@ abstract class BaseClient extends Component implements ClientInterface
      * @since 2.1
      */
     private $_requestOptions = [];
+    /**
+     * @var StateStorageInterface|array|string state storage to be used.
+     */
+    private $_stateStorage = 'yii\authclient\SessionStateStorage';
 
 
     /**
@@ -252,6 +257,25 @@ abstract class BaseClient extends Component implements ClientInterface
     }
 
     /**
+     * @return StateStorageInterface stage storage.
+     */
+    public function getStateStorage()
+    {
+        if (!is_object($this->_stateStorage)) {
+            $this->_stateStorage = Yii::createObject($this->_stateStorage);
+        }
+        return $this->_stateStorage;
+    }
+
+    /**
+     * @param StateStorageInterface|array|string $stateStorage stage storage to be used.
+     */
+    public function setStateStorage($stateStorage)
+    {
+        $this->_stateStorage = $stateStorage;
+    }
+
+    /**
      * Generates service name.
      * @return string service name.
      */
@@ -367,5 +391,46 @@ abstract class BaseClient extends Component implements ClientInterface
             'timeout' => 30,
             'sslVerifyPeer' => false,
         ];
+    }
+
+    /**
+     * Sets persistent state.
+     * @param string $key state key.
+     * @param mixed $value state value
+     * @return $this the object itself
+     */
+    protected function setState($key, $value)
+    {
+        $this->getStateStorage()->set($this->getStateKeyPrefix() . $key, $value);
+        return $this;
+    }
+
+    /**
+     * Returns persistent state value.
+     * @param string $key state key.
+     * @return mixed state value.
+     */
+    protected function getState($key)
+    {
+        return $this->getStateStorage()->get($this->getStateKeyPrefix() . $key);
+    }
+
+    /**
+     * Removes persistent state value.
+     * @param string $key state key.
+     * @return boolean success.
+     */
+    protected function removeState($key)
+    {
+        return $this->getStateStorage()->remove($this->getStateKeyPrefix() . $key);
+    }
+
+    /**
+     * Returns session key prefix, which is used to store internal states.
+     * @return string session key prefix.
+     */
+    protected function getStateKeyPrefix()
+    {
+        return get_class($this) . '_' . $this->getId() . '_';
     }
 }

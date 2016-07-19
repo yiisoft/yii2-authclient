@@ -332,6 +332,8 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Creates an HTTP request for the API call.
+     * The created request will be automatically processed adding access token parameters and signature
+     * before sending. You may use [[createRequest()]] to gain full control over request composition and execution.
      * @see createRequest()
      * @return Request HTTP request instance.
      * @since 2.1
@@ -362,7 +364,7 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Performs request to the OAuth API returning response data.
-     * You may use [[createApiRequest()]] method instead gaining more control over request execution.
+     * You may use [[createApiRequest()]] method instead, gaining more control over request execution.
      * @see createApiRequest()
      * @param string $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
      * @param string $method request method.

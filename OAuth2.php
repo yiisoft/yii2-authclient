@@ -26,6 +26,7 @@ use Yii;
  * ```
  *
  * @see http://oauth.net/2/
+ * @see https://tools.ietf.org/html/rfc6749
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

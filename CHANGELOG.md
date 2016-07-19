@@ -10,6 +10,7 @@ Yii Framework 2 authclient extension Change Log
 - Enh #41: Added support for signature generation from request token at `\yii\authclient\OAuth1::fetchAccessToken()` (klimov-paul)
 - Enh #108: This extension now uses `yii2-httpclient` library for the HTTP requests (klimov-paul)
 - Enh #118: Added support for 'password' grant type via `\yii\authclient\OAuth2::authenticateUser()` (klimov-paul)
+- Enh #121: Auth client 'State Storage' abstraction layer extracted (klimov-paul)
 
 
 2.0.6 July 08, 2016

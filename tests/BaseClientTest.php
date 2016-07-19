@@ -3,9 +3,15 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\BaseClient;
+use yii\authclient\SessionStateStorage;
 
 class BaseClientTest extends TestCase
 {
+    protected function setUp()
+    {
+        $this->mockApplication();
+    }
+
     /**
      * Creates test OAuth client instance.
      * @return BaseClient oauth client.
@@ -15,6 +21,8 @@ class BaseClientTest extends TestCase
         $oauthClient = $this->getMock(BaseClient::className(), ['initUserAttributes']);
         return $oauthClient;
     }
+
+    // Tests :
 
     public function testSetGet()
     {
@@ -182,5 +190,19 @@ class BaseClientTest extends TestCase
         $client = $this->createClient();
         $httpClient = $client->getHttpClient();
         $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to get default http client.');
+    }
+
+    public function testSetupStateStorage()
+    {
+        $client = $this->createClient();
+
+        $stateStorage = new SessionStateStorage();
+        $client->setStateStorage($stateStorage);
+
+        $this->assertSame($stateStorage, $client->getStateStorage(), 'Unable to setup state storage.');
+
+        $client = $this->createClient();
+        $stateStorage = $client->getStateStorage();
+        $this->assertTrue($stateStorage instanceof SessionStateStorage, 'Unable to get default http client.');
     }
 }

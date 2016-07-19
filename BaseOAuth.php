@@ -270,67 +270,6 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
-     * Sets persistent state.
-     * @param string $key state key.
-     * @param mixed $value state value
-     * @return $this the object itself
-     */
-    protected function setState($key, $value)
-    {
-        if (!Yii::$app->has('session')) {
-            return $this;
-        }
-        /* @var \yii\web\Session $session */
-        $session = Yii::$app->get('session');
-        $key = $this->getStateKeyPrefix() . $key;
-        $session->set($key, $value);
-        return $this;
-    }
-
-    /**
-     * Returns persistent state value.
-     * @param string $key state key.
-     * @return mixed state value.
-     */
-    protected function getState($key)
-    {
-        if (!Yii::$app->has('session')) {
-            return null;
-        }
-        /* @var \yii\web\Session $session */
-        $session = Yii::$app->get('session');
-        $key = $this->getStateKeyPrefix() . $key;
-        $value = $session->get($key);
-        return $value;
-    }
-
-    /**
-     * Removes persistent state value.
-     * @param string $key state key.
-     * @return boolean success.
-     */
-    protected function removeState($key)
-    {
-        if (!Yii::$app->has('session')) {
-            return true;
-        }
-        /* @var \yii\web\Session $session */
-        $session = Yii::$app->get('session');
-        $key = $this->getStateKeyPrefix() . $key;
-        $session->remove($key);
-        return true;
-    }
-
-    /**
-     * Returns session key prefix, which is used to store internal states.
-     * @return string session key prefix.
-     */
-    protected function getStateKeyPrefix()
-    {
-        return get_class($this) . '_' . sha1($this->authUrl) . '_';
-    }
-
-    /**
      * Creates an HTTP request for the API call.
      * The created request will be automatically processed adding access token parameters and signature
      * before sending. You may use [[createRequest()]] to gain full control over request composition and execution.

@@ -333,13 +333,12 @@ abstract class BaseOAuth extends BaseClient
     /**
      * Creates an HTTP request for the API call.
      * @see createRequest()
-     * @param array $config request object configuration.
      * @return Request HTTP request instance.
      * @since 2.1
      */
-    public function createApiRequest(array $config = [])
+    public function createApiRequest()
     {
-        $request = $this->createRequest($config);
+        $request = $this->createRequest();
         $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeApiRequestSend']);
         return $request;
     }
@@ -373,12 +372,18 @@ abstract class BaseOAuth extends BaseClient
      */
     public function api($apiSubUrl, $method = 'GET', $data = [], $headers = [])
     {
-        $request = $this->createApiRequest([
-            'url' => $apiSubUrl,
-            'method' => $method,
-            'data' => $data,
-            'headers' => $headers,
-        ]);
+        $request = $this->createApiRequest()
+            ->setMethod($method)
+            ->setUrl($apiSubUrl)
+            ->addHeaders($headers);
+
+        if (!empty($data)) {
+            if (is_array($data)) {
+                $request->setData($data);
+            } else {
+                $request->setContent($data);
+            }
+        }
 
         return $this->sendRequest($request);
     }

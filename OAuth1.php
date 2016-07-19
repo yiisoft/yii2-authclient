@@ -166,9 +166,9 @@ abstract class OAuth1 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    public function createRequest(array $config = [])
+    public function createRequest()
     {
-        $request = parent::createRequest($config);
+        $request = parent::createRequest();
         $request->on(Request::EVENT_BEFORE_SEND, [$this, 'beforeRequestSend']);
         return $request;
     }
@@ -176,9 +176,9 @@ abstract class OAuth1 extends BaseOAuth
     /**
      * @inheritdoc
      */
-    public function createApiRequest(array $config = [])
+    public function createApiRequest()
     {
-        $request = parent::createApiRequest($config);
+        $request = parent::createApiRequest();
 
         // ensure correct event handlers order :
         $request->off(Request::EVENT_BEFORE_SEND, [$this, 'beforeRequestSend']);

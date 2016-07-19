@@ -242,11 +242,7 @@ class OpenId extends BaseClient
         $request = $this->createRequest()
             ->setMethod($method)
             ->setUrl($url)
-            ->setData($params)
-            ->addOptions([
-                'followLocation' => true,
-                'sslVerifyPeer' => false,
-            ]);
+            ->setData($params);
 
         if ($this->verifyPeer !== null) {
             $options = [
@@ -282,6 +278,7 @@ class OpenId extends BaseClient
         return [
             'userAgent' => Yii::$app->name . ' OpenID Client',
             'timeout' => 30,
+            'followLocation' => true,
             'sslVerifyPeer' => false,
         ];
     }

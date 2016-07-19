@@ -21,11 +21,21 @@ class OAuth1Test extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
+    /**
+     * Creates test OAuth1 client instance.
+     * @return OAuth1 oauth client.
+     */
+    protected function createClient()
+    {
+        $oauthClient = $this->getMock(OAuth1::className(), ['initUserAttributes']);
+        return $oauthClient;
+    }
+
     // Tests :
 
     public function testSignRequest()
     {
-        $oauthClient = new OAuth1();
+        $oauthClient = $this->createClient();
 
         $request = $oauthClient->createRequest();
 
@@ -82,14 +92,14 @@ class OAuth1Test extends TestCase
      */
     public function testComposeAuthorizationHeader($realm, array $params, $expectedAuthorizationHeader)
     {
-        $oauthClient = new OAuth1();
+        $oauthClient = $this->createClient();
         $authorizationHeader = $this->invoke($oauthClient, 'composeAuthorizationHeader', [$params, $realm]);
         $this->assertEquals($expectedAuthorizationHeader, $authorizationHeader);
     }
 
     public function testBuildAuthUrl()
     {
-        $oauthClient = new OAuth1();
+        $oauthClient = $this->createClient();
         $authUrl = 'http://test.auth.url';
         $oauthClient->authUrl = $authUrl;
 

@@ -18,9 +18,9 @@ class BaseOAuthTest extends TestCase
      * Creates test OAuth client instance.
      * @return BaseOAuth oauth client.
      */
-    protected function createOAuthClient()
+    protected function createClient()
     {
-        $oauthClient = $this->getMock(BaseOAuth::className(), ['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest']);
+        $oauthClient = $this->getMock(BaseOAuth::className(), ['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes']);
         return $oauthClient;
     }
 
@@ -28,7 +28,7 @@ class BaseOAuthTest extends TestCase
 
     public function testSetGet()
     {
-        $oauthClient = $this->createOAuthClient();
+        $oauthClient = $this->createClient();
 
         $returnUrl = 'http://test.return.url';
         $oauthClient->setReturnUrl($returnUrl);
@@ -37,7 +37,7 @@ class BaseOAuthTest extends TestCase
 
     public function testSetupHttpClient()
     {
-        $oauthClient = $this->createOAuthClient();
+        $oauthClient = $this->createClient();
         $oauthClient->apiBaseUrl = 'http://api.test.url';
 
         $this->assertEquals($oauthClient->apiBaseUrl, $oauthClient->getHttpClient()->baseUrl);
@@ -56,7 +56,7 @@ class BaseOAuthTest extends TestCase
 
     public function testSetupComponents()
     {
-        $oauthClient = $this->createOAuthClient();
+        $oauthClient = $this->createClient();
 
         $oauthToken = new OAuthToken();
         $oauthClient->setAccessToken($oauthToken);
@@ -72,7 +72,7 @@ class BaseOAuthTest extends TestCase
      */
     public function testSetupComponentsByConfig()
     {
-        $oauthClient = $this->createOAuthClient();
+        $oauthClient = $this->createClient();
 
         $oauthToken = [
             'token' => 'test_token',
@@ -129,7 +129,7 @@ class BaseOAuthTest extends TestCase
      */
     public function testComposeUrl($url, array $params, $expectedUrl)
     {
-        $oauthClient = $this->createOAuthClient();
+        $oauthClient = $this->createClient();
         $composedUrl = $this->invoke($oauthClient, 'composeUrl', [$url, $params]);
         $this->assertEquals($expectedUrl, $composedUrl);
     }
@@ -168,7 +168,7 @@ class BaseOAuthTest extends TestCase
      */
     public function testApiUrl($apiBaseUrl, $apiSubUrl, $expectedApiFullUrl)
     {
-        $oauthClient = $this->createOAuthClient();
+        $oauthClient = $this->createClient();
 
         $accessToken = new OAuthToken();
         $accessToken->setToken('test_access_token');

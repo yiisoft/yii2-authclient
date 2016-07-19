@@ -3,7 +3,7 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\Collection;
-use yii\authclient\BaseClient;
+use yiiunit\extensions\authclient\data\TestClient;
 
 class CollectionTest extends TestCase
 {
@@ -100,8 +100,4 @@ class CollectionTest extends TestCase
 
         $this->assertSame($collection->httpClient, $provider->getHttpClient());
     }
-}
-
-class TestClient extends BaseClient
-{
 }

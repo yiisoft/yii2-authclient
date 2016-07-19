@@ -19,11 +19,21 @@ class OAuth2Test extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
+    /**
+     * Creates test OAuth2 client instance.
+     * @return OAuth2 oauth client.
+     */
+    protected function createClient()
+    {
+        $oauthClient = $this->getMock(OAuth2::className(), ['initUserAttributes']);
+        return $oauthClient;
+    }
+
     // Tests :
 
     public function testBuildAuthUrl()
     {
-        $oauthClient = new OAuth2();
+        $oauthClient = $this->createClient();
         $authUrl = 'http://test.auth.url';
         $oauthClient->authUrl = $authUrl;
         $clientId = 'test_client_id';

@@ -30,7 +30,7 @@ use Yii;
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-class OAuth2 extends BaseOAuth
+abstract class OAuth2 extends BaseOAuth
 {
     /**
      * @var string protocol version.

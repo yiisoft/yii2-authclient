@@ -32,7 +32,7 @@ use yii\httpclient\Request;
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-class OAuth1 extends BaseOAuth
+abstract class OAuth1 extends BaseOAuth
 {
     /**
      * @var string protocol version.

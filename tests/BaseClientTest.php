@@ -6,9 +6,19 @@ use yii\authclient\BaseClient;
 
 class BaseClientTest extends TestCase
 {
+    /**
+     * Creates test OAuth client instance.
+     * @return BaseClient oauth client.
+     */
+    protected function createClient()
+    {
+        $oauthClient = $this->getMock(BaseClient::className(), ['initUserAttributes']);
+        return $oauthClient;
+    }
+
     public function testSetGet()
     {
-        $client = new ClientMock();
+        $client = $this->createClient();
 
         $id = 'test_id';
         $client->setId($id);
@@ -53,7 +63,7 @@ class BaseClientTest extends TestCase
 
     public function testGetDefaults()
     {
-        $client = new ClientMock();
+        $client = $this->createClient();
 
         $this->assertNotEmpty($client->getName(), 'Unable to get default name!');
         $this->assertNotEmpty($client->getTitle(), 'Unable to get default title!');
@@ -148,7 +158,7 @@ class BaseClientTest extends TestCase
      */
     public function testNormalizeUserAttributes($normalizeUserAttributeMap, $rawUserAttributes, $expectedNormalizedUserAttributes)
     {
-        $client = new ClientMock();
+        $client = $this->createClient();
         $client->setNormalizeUserAttributeMap($normalizeUserAttributeMap);
 
         $client->setUserAttributes($rawUserAttributes);
@@ -159,7 +169,7 @@ class BaseClientTest extends TestCase
 
     public function testSetupHttpClient()
     {
-        $client = new ClientMock();
+        $client = $this->createClient();
 
         $client->setHttpClient([
             'baseUrl' => 'http://domain.com'
@@ -169,12 +179,8 @@ class BaseClientTest extends TestCase
         $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to setup http client.');
         $this->assertEquals('http://domain.com', $httpClient->baseUrl, 'Unable to setup http client property.');
 
-        $client = new ClientMock();
+        $client = $this->createClient();
         $httpClient = $client->getHttpClient();
         $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to get default http client.');
     }
-}
-
-class ClientMock extends BaseClient
-{
 }

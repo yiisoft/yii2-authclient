@@ -35,5 +35,9 @@ Upgrade from yii2-authclient 2.0.6
 * Class `yii\authclient\clients\YandexOAuth` has been renamed to `yii\authclient\clients\Yandex`.
   Make sure you are using correct name for this class.
 
+* Method `yii\authclient\BaseClient::initUserAttributes()` has been made abstract.
+  If you extend `yii\authclient\BaseClient` class, make sure you provide implementation for this method,
+  or declare your class as abstract.
 
-
+* Classes `yii\authclient\OAuth1` and `yii\authclient\OAuth2` have been made abstract.
+  Make sure you do not instantiate these classes.

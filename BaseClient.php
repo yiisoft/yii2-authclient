@@ -10,7 +10,6 @@ namespace yii\authclient;
 use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
-use yii\base\NotSupportedException;
 use yii\di\Instance;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
@@ -80,6 +79,7 @@ abstract class BaseClient extends Component implements ClientInterface
     private $_viewOptions;
     /**
      * @var Client|array|string internal HTTP client.
+     * @since 2.1
      */
     private $_httpClient = 'yii\httpclient\Client';
     /**
@@ -273,10 +273,7 @@ abstract class BaseClient extends Component implements ClientInterface
      * Initializes authenticated user attributes.
      * @return array auth user attributes.
      */
-    protected function initUserAttributes()
-    {
-        throw new NotSupportedException('Method "' . get_class($this) . '::' . __FUNCTION__ . '" not implemented.');
-    }
+    abstract protected function initUserAttributes();
 
     /**
      * Returns the default [[normalizeUserAttributeMap]] value.

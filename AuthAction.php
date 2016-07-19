@@ -88,7 +88,7 @@ class AuthAction extends Action
     public $successCallback;
     /**
      * @var string name or alias of the view file, which should be rendered in order to perform redirection.
-     * If not set default one will be used.
+     * If not set - default one will be used.
      */
     public $redirectView;
 
@@ -175,27 +175,28 @@ class AuthAction extends Action
             $client = $collection->getClient($clientId);
 
             return $this->auth($client);
-        } else {
-            throw new NotFoundHttpException();
         }
+
+        throw new NotFoundHttpException();
     }
 
     /**
+     * Perform authentication for the given client.
      * @param mixed $client auth client instance.
      * @return Response response instance.
      * @throws \yii\base\NotSupportedException on invalid client.
      */
     protected function auth($client)
     {
-        if ($client instanceof OpenId) {
-            return $this->authOpenId($client);
-        } elseif ($client instanceof OAuth2) {
+        if ($client instanceof OAuth2) {
             return $this->authOAuth2($client);
         } elseif ($client instanceof OAuth1) {
             return $this->authOAuth1($client);
-        } else {
-            throw new NotSupportedException('Provider "' . get_class($client) . '" is not supported.');
+        } elseif ($client instanceof OpenId) {
+            return $this->authOpenId($client);
         }
+
+        throw new NotSupportedException('Provider "' . get_class($client) . '" is not supported.');
     }
 
     /**

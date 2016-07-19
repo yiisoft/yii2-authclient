@@ -20,23 +20,28 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 该扩展安装后，你需要设置验证客户端集合应用程序组件：
 
 ```php
-'components' => [
-    'authClientCollection' => [
-        'class' => 'yii\authclient\Collection',
-        'clients' => [
-            'google' => [
-                'class' => 'yii\authclient\clients\Google'
+return [
+    'components' => [
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => 'google_client_id',
+                    'clientSecret' => 'google_client_secret',
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => 'facebook_client_id',
+                    'clientSecret' => 'facebook_client_secret',
+                ],
+                // etc.
             ],
-            'facebook' => [
-                'class' => 'yii\authclient\clients\Facebook',
-                'clientId' => 'facebook_client_id',
-                'clientSecret' => 'facebook_client_secret',
-            ],
-            // etc.
-        ],
-    ]
-    ...
-]
+        ]
+        // ...
+    ],
+    // ...
+];
 ```
 
 提供了以下几个立即可用的客户端：

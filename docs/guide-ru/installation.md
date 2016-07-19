@@ -22,23 +22,28 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 После установки расширения необходимо настроить компонент приложения auth client collection: 
 
 ```php
-'components' => [
-    'authClientCollection' => [
-        'class' => 'yii\authclient\Collection',
-        'clients' => [
-            'google' => [
-                'class' => 'yii\authclient\clients\Google'
+return [
+    'components' => [
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => 'google_client_id',
+                    'clientSecret' => 'google_client_secret',
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => 'facebook_client_id',
+                    'clientSecret' => 'секретный_ключ_facebook_client',
+                ],
+                // и т.д.
             ],
-            'facebook' => [
-                'class' => 'yii\authclient\clients\Facebook',
-                'clientId' => 'facebook_client_id',
-                'clientSecret' => 'секретный_ключ_facebook_client',
-            ],
-            // и т.д.
-        ],
-    ]
-    ...
-]
+        ]
+        // ...
+    ],
+    // ...
+];
 ```
 
 Из коробки предоставляются следующие клиенты:

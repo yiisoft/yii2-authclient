@@ -16,4 +16,5 @@
 
 * [Получение дополнительных данных с помощью дополнительных обращений к API](usage-api.md)
 * [Создание собственных клиентов аутентификации](creating-your-own-auth-clients.md)
-* [OAuth 2.0 direct authentication](oauth-direct-authentication.md)
+* [Непосредственная аутентификация по OAuth 2.0](oauth-direct-authentication.md)
+* [Настройка HTTP клиента](setup-http-client.md)

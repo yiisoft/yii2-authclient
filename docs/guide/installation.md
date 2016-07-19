@@ -4,7 +4,7 @@ Installation
 ## Installing an extension
 
 In order to install extension use Composer. Either run
-                                            
+
 ```
 composer require --prefer-dist yiisoft/yii2-authclient "*"
 ```
@@ -22,23 +22,28 @@ to the `require` section of your composer.json.
 After extension is installed you need to setup auth client collection application component:
 
 ```php
-'components' => [
-    'authClientCollection' => [
-        'class' => 'yii\authclient\Collection',
-        'clients' => [
-            'google' => [
-                'class' => 'yii\authclient\clients\Google'
+return [
+    'components' => [
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => 'google_client_id',
+                    'clientSecret' => 'google_client_secret',
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => 'facebook_client_id',
+                    'clientSecret' => 'facebook_client_secret',
+                ],
+                // etc.
             ],
-            'facebook' => [
-                'class' => 'yii\authclient\clients\Facebook',
-                'clientId' => 'facebook_client_id',
-                'clientSecret' => 'facebook_client_secret',
-            ],
-            // etc.
-        ],
-    ]
-    ...
-]
+        ]
+        // ...
+    ],
+    // ...
+];
 ```
 
 Out of the box the following clients are provided:

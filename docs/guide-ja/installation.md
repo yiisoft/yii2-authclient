@@ -20,23 +20,28 @@ composer require --prefer-dist yiisoft/yii2-authclient "*"
 エクステンションがインストールされた後に、認証クライアントコレクションのアプリケーションコンポーネントをセットアップする必要があります。
 
 ```php
-'components' => [
-    'authClientCollection' => [
-        'class' => 'yii\authclient\Collection',
-        'clients' => [
-            'google' => [
-                'class' => 'yii\authclient\clients\Google'
+return [
+    'components' => [
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'google' => [
+                    'class' => 'yii\authclient\clients\Google',
+                    'clientId' => 'google_client_id',
+                    'clientSecret' => 'google_client_secret',
+                ],
+                'facebook' => [
+                    'class' => 'yii\authclient\clients\Facebook',
+                    'clientId' => 'facebook_client_id',
+                    'clientSecret' => 'facebook_client_secret',
+                ],
+                // etc.
             ],
-            'facebook' => [
-                'class' => 'yii\authclient\clients\Facebook',
-                'clientId' => 'facebook_client_id',
-                'clientSecret' => 'facebook_client_secret',
-            ],
-            // etc.
-        ],
-    ]
-    ...
-]
+        ]
+        // ...
+    ],
+    // ...
+];
 ```
 
 特別な設定なしに使用できる次のクライアントが提供されています。

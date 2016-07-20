@@ -37,17 +37,16 @@ if ($loginForm->load(Yii::$app->request->post()) && $loginForm->validate()) {
 
 ## クライアント・クレデンシャル・グラント
 
-[クライアント・クレデンシャル・グラント](https://tools.ietf.org/html/rfc6749#section-4.4) ワークフローは、work flow authenticates only OAuth client
-(your application) without any third party (actual user) being involved. It is used, if you need to access only
-some general API, which is not related to the user.
+[クライアント・クレデンシャル・グラント](https://tools.ietf.org/html/rfc6749#section-4.4) ワークフローは、OAuth クライアント (あなたのアプリケーション) のみを、そのサードパーティ (実際のユーザ) とは無関係に認証するものです。
+ユーザには関係のない、何らかの一般的な API にだけアクセス出来れば良いという場合に使います。
 
-You may authenticate client only via this work flow using [[\yii\authclient\OAuth2::authenticateClient()]].
-For example:
+[[\yii\authclient\OAuth2::authenticateClient()]] を使うと、このワークフローによってクライアントだけを認証することが出来ます。
+例えば、
 
 ```php
 /* @var $client \yii\authclient\OAuth2 */
 $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
-// direct authentication of client only:
+// クライアントだけの直接認証
 $accessToken = $client->authenticateClient();
 ```

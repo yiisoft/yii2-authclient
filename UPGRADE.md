@@ -11,29 +11,28 @@ for both A and B.
 Upgrade from yii2-authclient 2.0.6
 ----------------------------------
 
-* The signature of the following methods has been changed: `yii\authclient\BaseOAuth::sendRequest()`,
-  `yii\authclient\BaseOAuth::api()`.
-  Make sure you invoke those methods correctly. In case you are
-  extending related classes, you should check, if overridden methods match parent declaration.
-
-* Virtual property `yii\authclient\BaseOAuth::curlOptions` and related methods have been removed -
-  use `yii\authclient\BaseOAuth::requestOptions` instead.
-
-* Following methods have been removed: `yii\authclient\BaseOAuth::processResponse()`, `yii\authclient\BaseOAuth::apiInternal()`.
-  Make sure you do not invoke them.
-
-* Class `yii\authclient\InvalidResponseException` reworked: fields `responseHeaders` and `responseBody` have been removed,
-  field `response` added instead holding `yii\httpclient\Response` instance, class constructor adjusted accordingly.
-  Make sure you throw and process this exception correctly.
-
-* Classes `yii\authclient\clients\GoogleOpenId` and `yii\authclient\clients\YandexOpenId` have been removed,
-  since Google and Yandex no longer supports OpenID protocol. Make sure you do not use or refer these classes.
-
 * Class `yii\authclient\clients\GoogleOAuth` has been renamed to `yii\authclient\clients\Google`.
   Make sure you are using correct name for this class.
 
 * Class `yii\authclient\clients\YandexOAuth` has been renamed to `yii\authclient\clients\Yandex`.
   Make sure you are using correct name for this class.
+
+* The signature of the following methods has been changed: `yii\authclient\BaseOAuth::sendRequest()`,
+  `yii\authclient\BaseOAuth::api()`, `yii\authclient\OAuth1::composeSignatureKey()`, `yii\authclient\OAuth1::composeAuthorizationHeader()`.
+  Make sure you invoke those methods correctly. In case you are extending related classes, you should check,
+  if overridden methods match parent declaration.
+
+* Virtual property `yii\authclient\BaseOAuth::curlOptions` and related methods have been removed -
+  use `yii\authclient\BaseOAuth::requestOptions` instead.
+
+* Following methods have been removed: `yii\authclient\OAuth1::sendSignedRequest()`, `yii\authclient\BaseOAuth::processResponse()`,
+  `yii\authclient\BaseOAuth::apiInternal()`, `yii\authclient\BaseOAuth::convertXmlToArray()`, `yii\authclient\BaseOAuth::determineContentTypeByHeaders()`,
+  `yii\authclient\BaseOAuth::determineContentTypeByRaw()`.
+  Make sure you do not invoke them.
+
+* Class `yii\authclient\InvalidResponseException` reworked: fields `responseHeaders` and `responseBody` have been removed,
+  field `response` added instead, holding `yii\httpclient\Response` instance. Class constructor adjusted accordingly.
+  Make sure you throw and process this exception correctly.
 
 * Method `yii\authclient\BaseClient::initUserAttributes()` has been made abstract.
   If you extend `yii\authclient\BaseClient` class, make sure you provide implementation for this method,
@@ -41,3 +40,6 @@ Upgrade from yii2-authclient 2.0.6
 
 * Classes `yii\authclient\OAuth1` and `yii\authclient\OAuth2` have been made abstract.
   Make sure you do not instantiate these classes.
+
+* Classes `yii\authclient\clients\GoogleOpenId` and `yii\authclient\clients\YandexOpenId` have been removed,
+  since Google and Yandex no longer supports OpenID protocol. Make sure you do not use or refer these classes.

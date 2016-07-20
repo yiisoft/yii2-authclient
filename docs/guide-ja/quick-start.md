@@ -4,7 +4,7 @@
 ## コントローラにアクションを追加する
 
 次のステップは、ウェブのコントローラに [[yii\authclient\AuthAction]] を追加して、あなたの必要に応じた `successCallback` の実装を提供することです。
-典型的には、コントローラのコードは、最終的に、次のようなものになります。
+典型的な場合、コントローラのコードは、最終的には次のようなものになります。
 
 
 ```php
@@ -44,7 +44,7 @@ use yii\authclient\ClientInterface;
 use yii\helpers\ArrayHelper;
 
 /**
- * AuthHandler Yii auth コンポーネントによって認証の成功を処理する
+ * Yii の auth コンポーネントによって認証の成功を処理する AuthHandler
  */
 class AuthHandler
 {
@@ -73,7 +73,7 @@ class AuthHandler
 
         if (Yii::$app->user->isGuest) {
             if ($auth) { // ログイン
-                /** @var User $user */
+                /* @var User $user */
                 $user = $auth->user;
                 $this->updateUserInfo($user);
                 Yii::$app->user->login($user, Yii::$app->params['user.rememberMeDuration']);
@@ -133,7 +133,7 @@ class AuthHandler
                     'source_id' => (string)$attributes['id'],
                 ]);
                 if ($auth->save()) {
-                    /** @var User $user */
+                    /* @var User $user */
                     $user = $auth->user;
                     $this->updateUserInfo($user);
                     Yii::$app->getSession()->setFlash('success', [
@@ -217,26 +217,6 @@ class AuthHandler
 
 > Tip: いくつかの異なるクライアントを使用する場合は、[[yii\authclient\BaseClient::normalizeUserAttributeMap]] を使って、クライアントが返す属性を統一することが出来ます。
 
-
-### API 呼び出しによって追加のデータを取得する
-
-[[yii\authclient\OAuth1]] と [[yii\authclient\OAuth2]] は、ともに、`api()` メソッドをサポートしており、これによって外部認証プロバイダの REST API にアクセスすることが出来ます。
-ただし、このメソッドは非常に基本的なもので、外部 API の完全な機能にアクセスするためには、十分なものではありません。
-このメソッドは、主として、外部のユーザアカウントの情報を取得するために使用されます。
-
-API の呼び出しを使用するためには、API の仕様に従って [[yii\authclient\BaseOAuth::apiBaseUrl]] をセットアップする必要があります。
-そうすれば [[yii\authclient\BaseOAuth::api()]] メソッドを呼ぶことが出来ます。
-
-```php
-use yii\authclient\OAuth2;
-
-$client = new OAuth2;
-
-// ...
-
-$client->apiBaseUrl = 'https://www.googleapis.com/oauth2/v1';
-$userInfo = $client->api('userinfo', 'GET');
-```
 
 ## ログインビューにウィジェットを追加する
 

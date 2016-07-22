@@ -11,6 +11,7 @@ Yii Framework 2 authclient extension Change Log
 - Enh #108: This extension now uses `yii2-httpclient` library for the HTTP requests (klimov-paul)
 - Enh #118: Added support for 'password' grant type via `\yii\authclient\OAuth2::authenticateUser()` (klimov-paul)
 - Enh #121: Auth client 'State Storage' abstraction layer extracted (klimov-paul)
+- Enh #124: Methods `clientLink()` and `renderMainContent()` of `yii\authclient\widgets\AuthChoice` reworked to return HTML instead of echo (klimov-paul)
 
 
 2.0.6 July 08, 2016

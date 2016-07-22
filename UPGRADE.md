@@ -18,9 +18,9 @@ Upgrade from yii2-authclient 2.0.6
   Make sure you are using correct name for this class.
 
 * The signature of the following methods has been changed: `yii\authclient\BaseOAuth::sendRequest()`,
-  `yii\authclient\BaseOAuth::api()`, `yii\authclient\OAuth1::composeSignatureKey()`, `yii\authclient\OAuth1::composeAuthorizationHeader()`.
-  Make sure you invoke those methods correctly. In case you are extending related classes, you should check,
-  if overridden methods match parent declaration.
+  `yii\authclient\BaseOAuth::api()`, `yii\authclient\OAuth1::composeSignatureKey()`, `yii\authclient\OAuth1::composeAuthorizationHeader()`,
+  `yii\authclient\widgets\AuthChoice::createClientUrl()`. Make sure you invoke those methods correctly.
+  In case you are extending related classes, you should check, if overridden methods match parent declaration.
 
 * Virtual property `yii\authclient\BaseOAuth::curlOptions` and related methods have been removed -
   use `yii\authclient\BaseOAuth::requestOptions` instead.
@@ -43,3 +43,7 @@ Upgrade from yii2-authclient 2.0.6
 
 * Classes `yii\authclient\clients\GoogleOpenId` and `yii\authclient\clients\YandexOpenId` have been removed,
   since Google and Yandex no longer supports OpenID protocol. Make sure you do not use or refer these classes.
+
+* Methods `clientLink()` and `renderMainContent()` of `yii\authclient\widgets\AuthChoice` has been changed to return
+  the generated HTML instead of echo it. Make sure you invoke or override these methods correctly.
+

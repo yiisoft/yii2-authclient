@@ -186,10 +186,12 @@ class AuthChoice extends Widget
         if (empty($viewOptions['widget'])) {
             if ($text === null) {
                 $text = Html::tag('span', '', ['class' => 'auth-icon ' . $client->getName()]);
-                $text .= Html::tag('span', $client->getTitle(), ['class' => 'auth-title']);
             }
-            if (!array_key_exists('class', $htmlOptions)) {
+            if (!isset($htmlOptions['class'])) {
                 $htmlOptions['class'] = $client->getName();
+            }
+            if (!isset($htmlOptions['title'])) {
+                $htmlOptions['title'] = $client->getTitle();
             }
             Html::addCssClass($htmlOptions, ['widget' => 'auth-link']);
 
@@ -241,7 +243,7 @@ class AuthChoice extends Widget
     {
         $items = [];
         foreach ($this->getClients() as $externalService) {
-            $items[] = Html::tag('li', $this->clientLink($externalService), ['class' => 'auth-client']);
+            $items[] = Html::tag('li', $this->clientLink($externalService));
         }
         return Html::tag('ul', implode('', $items), ['class' => 'auth-clients']);
     }

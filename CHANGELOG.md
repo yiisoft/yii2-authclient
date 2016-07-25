@@ -8,6 +8,7 @@ Yii Framework 2 authclient extension Change Log
 - Enh #30: Added support for 'client_credentials' grant type via `\yii\authclient\OAuth2::authenticateClient()` (klimov-paul)
 - Enh #33: Added ability to pass raw request content at `\yii\authclient\BaseOAuth::api()` (klimov-paul)
 - Enh #41: Added support for signature generation from request token at `\yii\authclient\OAuth1::fetchAccessToken()` (klimov-paul)
+- Enh #63: Markup for `\yii\authclient\widgets\AuthChoice` simplified (klimov-paul)
 - Enh #108: This extension now uses `yii2-httpclient` library for the HTTP requests (klimov-paul)
 - Enh #118: Added support for 'password' grant type via `\yii\authclient\OAuth2::authenticateUser()` (klimov-paul)
 - Enh #121: Auth client 'State Storage' abstraction layer extracted (klimov-paul)

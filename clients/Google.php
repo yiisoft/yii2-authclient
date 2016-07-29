@@ -1,13 +1,14 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
+ * @link      http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license   http://www.yiiframework.com/license/
  */
 
 namespace yii\authclient\clients;
 
 use yii\authclient\OAuth2;
+use yii\web\BadRequestHttpException;
 
 /**
  * Google allows authentication via Google OAuth.
@@ -35,10 +36,10 @@ use yii\authclient\OAuth2;
  * ]
  * ```
  *
- * @see https://console.developers.google.com/project
+ * @see    https://console.developers.google.com/project
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
- * @since 2.0
+ * @since  2.0
  */
 class Google extends OAuth2
 {
@@ -54,7 +55,6 @@ class Google extends OAuth2
      * @inheritdoc
      */
     public $apiBaseUrl = 'https://www.googleapis.com/plus/v1';
-
 
     /**
      * @inheritdoc
@@ -92,5 +92,41 @@ class Google extends OAuth2
     protected function defaultTitle()
     {
         return 'Google';
+    }
+
+    /**
+     * Generates the auth state value.
+     * @return string auth state value.
+     */
+    protected function generateAuthState()
+    {
+        return sha1(uniqid(get_class($this), true));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fetchAccessToken($authCode, array $params = [])
+    {
+        $authState = $this->getState('authState');
+        if (!isset($_REQUEST['state']) || empty($authState) || strcmp($_REQUEST['state'], $authState) !== 0) {
+            throw new BadRequestHttpException('Invalid auth state parameter.');
+        } else {
+            $this->removeState('authState');
+        }
+
+        return parent::fetchAccessToken($authCode, $params);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function buildAuthUrl(array $params = [])
+    {
+        $authState = $this->generateAuthState();
+        $this->setState('authState', $authState);
+        $params['state'] = $authState;
+
+        return parent::buildAuthUrl($params);
     }
 }

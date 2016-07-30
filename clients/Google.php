@@ -1,12 +1,13 @@
 <?php
 /**
- * @link      http://www.yiiframework.com/
+ * @link http://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license   http://www.yiiframework.com/license/
+ * @license http://www.yiiframework.com/license/
  */
 
 namespace yii\authclient\clients;
 
+use Yii;
 use yii\authclient\OAuth2;
 use yii\web\BadRequestHttpException;
 
@@ -128,5 +129,18 @@ class Google extends OAuth2
         $params['state'] = $authState;
 
         return parent::buildAuthUrl($params);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function defaultReturnUrl()
+    {
+        $params = $_GET;
+        unset($params['code']);
+        unset($params['state']);
+        $params[0] = Yii::$app->controller->getRoute();
+
+        return Yii::$app->getUrlManager()->createAbsoluteUrl($params);
     }
 }

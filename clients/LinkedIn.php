@@ -105,60 +105,11 @@ class LinkedIn extends OAuth2
     /**
      * @inheritdoc
      */
-    public function buildAuthUrl(array $params = [])
-    {
-        $authState = $this->generateAuthState();
-        $this->setState('authState', $authState);
-        $params['state'] = $authState;
-
-        return parent::buildAuthUrl($params);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function fetchAccessToken($authCode, array $params = [])
-    {
-        $authState = $this->getState('authState');
-        if (!isset($_REQUEST['state']) || empty($authState) || strcmp($_REQUEST['state'], $authState) !== 0) {
-            throw new HttpException(400, 'Invalid auth state parameter.');
-        } else {
-            $this->removeState('authState');
-        }
-
-        return parent::fetchAccessToken($authCode, $params);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
         $data = $request->getData();
         $data['oauth2_access_token'] = $accessToken->getToken();
         $request->setData($data);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function defaultReturnUrl()
-    {
-        $params = $_GET;
-        unset($params['code']);
-        unset($params['state']);
-        $params[0] = Yii::$app->controller->getRoute();
-
-        return Yii::$app->getUrlManager()->createAbsoluteUrl($params);
-    }
-
-    /**
-     * Generates the auth state value.
-     * @return string auth state value.
-     */
-    protected function generateAuthState()
-    {
-        return sha1(uniqid(get_class($this), true));
     }
 
     /**

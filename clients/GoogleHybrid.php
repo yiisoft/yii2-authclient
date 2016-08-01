@@ -59,6 +59,12 @@ class GoogleHybrid extends Google
     /**
      * @inheritdoc
      */
+    public $validateAuthState = false;
+
+
+    /**
+     * @inheritdoc
+     */
     protected function defaultReturnUrl()
     {
         return 'postmessage';

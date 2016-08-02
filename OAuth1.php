@@ -10,6 +10,7 @@ namespace yii\authclient;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\httpclient\Request;
+use yii\web\HttpException;
 
 /**
  * OAuth1 serves as a client for the OAuth 1/1.0a flow.
@@ -118,21 +119,35 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Fetches OAuth access token.
+     * @param string $oauthToken OAuth token returned with redirection back to client.
      * @param OAuthToken $requestToken OAuth request token.
      * @param string $oauthVerifier OAuth verifier.
      * @param array $params additional request params.
      * @return OAuthToken OAuth access token.
      * @throws InvalidParamException on failure.
+     * @throws HttpException in case oauth token miss-matches request token.
      */
-    public function fetchAccessToken(OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
+    public function fetchAccessToken($oauthToken = null, OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
     {
+        if ($oauthToken === null) {
+            if (isset($_REQUEST['oauth_token'])) {
+                $oauthToken = $_REQUEST['oauth_token'];
+            }
+        }
+
         if (!is_object($requestToken)) {
             $requestToken = $this->getState('requestToken');
             if (!is_object($requestToken)) {
                 throw new InvalidParamException('Request token is required to fetch access token!');
             }
         }
+
+        if (strcmp($requestToken->getToken(), $oauthToken) !== 0) {
+            throw new HttpException(400, 'Invalid auth state parameter.');
+        }
+
         $this->removeState('requestToken');
+
         $defaultParams = [
             'oauth_consumer_key' => $this->consumerKey,
             'oauth_token' => $requestToken->getToken()

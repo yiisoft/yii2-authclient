@@ -17,8 +17,8 @@ Upgrade from yii2-authclient 2.0.6
 * Class `yii\authclient\clients\YandexOAuth` has been renamed to `yii\authclient\clients\Yandex`.
   Make sure you are using correct name for this class.
 
-* The signature of the following methods has been changed: `yii\authclient\BaseOAuth::sendRequest()`,
-  `yii\authclient\BaseOAuth::api()`, `yii\authclient\OAuth1::composeSignatureKey()`, `yii\authclient\OAuth1::composeAuthorizationHeader()`,
+* The signature of the following methods has been changed: `yii\authclient\BaseOAuth::sendRequest()`, `yii\authclient\BaseOAuth::api()`,
+  `yii\authclient\OAuth1::composeSignatureKey()`, `yii\authclient\OAuth1::composeAuthorizationHeader()`, `yii\authclient\OAuth1::fetchAccessToken()`,
   `yii\authclient\widgets\AuthChoice::createClientUrl()`. Make sure you invoke those methods correctly.
   In case you are extending related classes, you should check, if overridden methods match parent declaration.
 

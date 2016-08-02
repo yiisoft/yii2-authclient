@@ -312,21 +312,17 @@ class AuthAction extends Action
         }
 
         if (isset($_REQUEST['oauth_token'])) {
-            $oauthToken = $_REQUEST['oauth_token'];
-        }
-
-        if (!isset($oauthToken)) {
-            // Get request token.
-            $requestToken = $client->fetchRequestToken();
-            // Get authorization URL.
-            $url = $client->buildAuthUrl($requestToken);
-            // Redirect to authorization URL.
-            return Yii::$app->getResponse()->redirect($url);
-        } else {
             // Upgrade to access token.
-            $client->fetchAccessToken();
+            $client->fetchAccessToken($_REQUEST['oauth_token']);
             return $this->authSuccess($client);
         }
+
+        // Get request token.
+        $requestToken = $client->fetchRequestToken();
+        // Get authorization URL.
+        $url = $client->buildAuthUrl($requestToken);
+        // Redirect to authorization URL.
+        return Yii::$app->getResponse()->redirect($url);
     }
 
     /**

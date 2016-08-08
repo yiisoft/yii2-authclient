@@ -64,6 +64,11 @@ abstract class OAuth1 extends BaseOAuth
      */
     public $accessTokenMethod = 'GET';
 
+    /**
+     * @var null|bool add an Authorization header when signing a request (leave null for auto-detect)
+     */
+    public $addAuthorizationHeader = null;
+
 
     /**
      * Fetches the OAuth request token.
@@ -313,7 +318,9 @@ abstract class OAuth1 extends BaseOAuth
 
         $request->setData($params);
 
-        if (strcasecmp($request->getMethod(), 'POST') === 0) {
+        if ($this->addAuthorizationHeader ||
+            (is_null($this->addAuthorizationHeader) && strcasecmp($request->getMethod(), 'POST') === 0)
+        ) {
             $authorizationHeader = $this->composeAuthorizationHeader($params);
             if (!empty($authorizationHeader)) {
                 $request->addHeaders($authorizationHeader);

@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.1.1 under development
 -----------------------
 
-- no changes in this release.
+- Bug #128: Fixed `\yii\authclient\BaseClient::createRequest()` does not apply `defaultRequestOptions` and `requestOptions` (klimov-paul)
 
 
 2.1.0 August 04, 2016

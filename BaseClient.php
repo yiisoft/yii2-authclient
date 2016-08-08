@@ -379,7 +379,10 @@ abstract class BaseClient extends Component implements ClientInterface
      */
     public function createRequest()
     {
-        return $this->getHttpClient()->createRequest();
+        return $this->getHttpClient()
+            ->createRequest()
+            ->addOptions($this->defaultRequestOptions())
+            ->addOptions($this->getRequestOptions());
     }
 
     /**

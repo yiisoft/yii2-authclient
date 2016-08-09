@@ -192,6 +192,26 @@ class BaseClientTest extends TestCase
         $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to get default http client.');
     }
 
+    /**
+     * @depends testSetGet
+     * @depends testSetupHttpClient
+     */
+    public function testCreateRequest()
+    {
+        $client = $this->createClient();
+
+        $request = $client->createRequest();
+        $this->assertTrue($request instanceof \yii\httpclient\Request);
+
+        $options = [
+            'userAgent' => 'Test User Agent'
+        ];
+        $client->setRequestOptions($options);
+        $request = $client->createRequest();
+        $expectedOptions = array_merge($options, $this->invoke($client, 'defaultRequestOptions'));
+        $this->assertEquals($expectedOptions, $request->getOptions());
+    }
+
     public function testSetupStateStorage()
     {
         $client = $this->createClient();

@@ -63,6 +63,13 @@ abstract class OAuth1 extends BaseOAuth
      * @var string access token HTTP method.
      */
     public $accessTokenMethod = 'GET';
+    /**
+     * @var array|null list of the request methods, which require adding 'Authorization' header.
+     * By default only POST requests will have 'Authorization' header.
+     * You may set this option to `null` in order to make all requests to use 'Authorization' header.
+     * @since 2.1.1
+     */
+    public $authorizationHeaderMethods = ['POST'];
 
 
     /**
@@ -313,7 +320,7 @@ abstract class OAuth1 extends BaseOAuth
 
         $request->setData($params);
 
-        if (strcasecmp($request->getMethod(), 'POST') === 0) {
+        if ($this->authorizationHeaderMethods === null || in_array(strtoupper($request->getMethod()), array_map('strtoupper', $this->authorizationHeaderMethods), true)) {
             $authorizationHeader = $this->composeAuthorizationHeader($params);
             if (!empty($authorizationHeader)) {
                 $request->addHeaders($authorizationHeader);

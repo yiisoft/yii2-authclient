@@ -50,6 +50,42 @@ class OAuth1Test extends TestCase
     }
 
     /**
+     * @depends testSignRequest
+     */
+    public function testAuthorizationHeaderMethods()
+    {
+        $oauthClient = $this->createClient();
+
+        $request = $oauthClient->createRequest();
+        $request->setMethod('POST');
+        $oauthClient->signRequest($request);
+        $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
+
+        $request = $oauthClient->createRequest();
+        $request->setMethod('GET');
+        $oauthClient->signRequest($request);
+        $this->assertEmpty($request->getHeaders()->get('Authorization'));
+
+        $oauthClient->authorizationHeaderMethods = ['GET'];
+        $request = $oauthClient->createRequest();
+        $request->setMethod('GET');
+        $oauthClient->signRequest($request);
+        $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
+
+        $oauthClient->authorizationHeaderMethods = null;
+        $request = $oauthClient->createRequest();
+        $request->setMethod('GET');
+        $oauthClient->signRequest($request);
+        $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
+
+        $oauthClient->authorizationHeaderMethods = [];
+        $request = $oauthClient->createRequest();
+        $request->setMethod('POST');
+        $oauthClient->signRequest($request);
+        $this->assertEmpty($request->getHeaders()->get('Authorization'));
+    }
+
+    /**
      * Data provider for [[testComposeAuthorizationHeader()]].
      * @return array test data.
      */

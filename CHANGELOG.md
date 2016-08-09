@@ -5,6 +5,7 @@ Yii Framework 2 authclient extension Change Log
 -----------------------
 
 - Bug #128: Fixed `\yii\authclient\BaseClient::createRequest()` does not apply `defaultRequestOptions` and `requestOptions` (klimov-paul)
+- Enh #27: Added `\yii\authclient\OAuth1::authorizationHeaderMethods` option allowing to control request methods, which require authorization header (klimov-paul)
 
 
 2.1.0 August 04, 2016

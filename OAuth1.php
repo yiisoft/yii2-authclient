@@ -79,7 +79,7 @@ abstract class OAuth1 extends BaseOAuth
      */
     public function fetchRequestToken(array $params = [])
     {
-        $this->removeState('token');
+        $this->setAccessToken(null);
         $defaultParams = [
             'oauth_consumer_key' => $this->consumerKey,
             'oauth_callback' => $this->getReturnUrl(),

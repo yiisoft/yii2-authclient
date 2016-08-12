@@ -11,6 +11,8 @@ class BaseOAuthTest extends TestCase
 {
     protected function setUp()
     {
+        parent::setUp();
+
         $this->mockApplication();
     }
 
@@ -67,8 +69,27 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($oauthSignatureMethod, $oauthClient->getSignatureMethod(), 'Unable to setup signature method!');
     }
 
+    public function testSetupAccessToken()
+    {
+        $oauthClient = $this->createClient();
+
+        $accessToken = new OAuthToken();
+        $oauthClient->setAccessToken($accessToken);
+
+        $this->assertSame($accessToken, $oauthClient->getAccessToken());
+
+        $oauthClient->setAccessToken(['token' => 'token-mock']);
+        $accessToken = $oauthClient->getAccessToken();
+        $this->assertTrue($accessToken instanceof OAuthToken);
+        $this->assertEquals('token-mock', $accessToken->getToken());
+
+        $oauthClient->setAccessToken(null);
+        $this->assertNull($oauthClient->getAccessToken());
+    }
+
     /**
      * @depends testSetupComponents
+     * @depends testSetupAccessToken
      */
     public function testSetupComponentsByConfig()
     {
@@ -160,6 +181,8 @@ class BaseOAuthTest extends TestCase
     }
 
     /**
+     * @depends testSetupAccessToken
+     *
      * @dataProvider apiUrlDataProvider
      *
      * @param $apiBaseUrl

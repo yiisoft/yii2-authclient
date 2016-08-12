@@ -93,7 +93,7 @@ abstract class BaseOAuth extends BaseClient
      */
     public function setAccessToken($token)
     {
-        if (!is_object($token)) {
+        if (!is_object($token) && $token !== null) {
             $token = $this->createToken($token);
         }
         $this->_accessToken = $token;
@@ -245,10 +245,10 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Saves token as persistent state.
-     * @param OAuthToken $token auth token
+     * @param OAuthToken|null $token auth token to be saved.
      * @return $this the object itself.
      */
-    protected function saveAccessToken(OAuthToken $token)
+    protected function saveAccessToken($token)
     {
         return $this->setState('token', $token);
     }

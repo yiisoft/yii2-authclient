@@ -43,11 +43,11 @@ class VKontakte extends OAuth2
     /**
      * @inheritdoc
      */
-    public $authUrl = 'http://api.vk.com/oauth/authorize';
+    public $authUrl = 'https://oauth.vk.com/authorize';
     /**
      * @inheritdoc
      */
-    public $tokenUrl = 'https://api.vk.com/oauth/access_token';
+    public $tokenUrl = 'https://oauth.vk.com/access_token';
     /**
      * @inheritdoc
      */

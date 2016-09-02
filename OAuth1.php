@@ -28,7 +28,8 @@ use yii\web\HttpException;
  * $accessToken = $oauthClient->fetchAccessToken($requestToken); // Upgrade to access token
  * ```
  *
- * @see http://oauth.net/
+ * @see https://oauth.net/1/
+ * https://tools.ietf.org/html/rfc5849
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -93,6 +94,9 @@ abstract class OAuth1 extends BaseOAuth
             ->setMethod($this->requestTokenMethod)
             ->setUrl($this->requestTokenUrl)
             ->setData(array_merge($defaultParams, $params));
+
+        $this->signRequest($request);
+        $request->setContent(''); // enforce empty body, avoiding duplicate param server error
 
         $response = $this->sendRequest($request);
 

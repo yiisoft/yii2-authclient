@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.1.2 under development
 -----------------------
 
-- no changes in this release.
+- Bug #135: Fixed `\yii\authclient\OAuth1::fetchRequestToken()` duplicates auth params in the request body, which may cause error on some OAuth 1.0 providers (klimov-paul)
 
 
 2.1.1 August 29, 2016

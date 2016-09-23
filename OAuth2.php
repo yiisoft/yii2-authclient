@@ -18,7 +18,8 @@ use yii\web\HttpException;
  * ```php
  * use yii\authclient\OAuth2;
  *
- * $oauthClient = new OAuth2();
+ * // assuming class MyAuthClient extends OAuth2
+ * $oauthClient = new MyAuthClient();
  * $url = $oauthClient->buildAuthUrl(); // Build authorization URL
  * Yii::$app->getResponse()->redirect($url); // Redirect to authorization URL.
  * // After user returns at our site:

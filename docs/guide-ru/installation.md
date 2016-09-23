@@ -6,13 +6,13 @@
 Для установки расширения используйте Composer. Запустите
                                             
 ```
-composer require --prefer-dist yiisoft/yii2-authclient "*"
+composer require --prefer-dist yiisoft/yii2-authclient "~2.1.0"
 ```
 
 или добавьте
 
 ```json
-"yiisoft/yii2-authclient": "*"
+"yiisoft/yii2-authclient": "~2.1.0"
 ```
 
 в секцию `require` вашего composer.json.

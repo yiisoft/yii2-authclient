@@ -6,13 +6,13 @@
 要安装该扩展，请使用 Composer。运行
                                             
 ```
-composer require --prefer-dist yiisoft/yii2-authclient "*"
+composer require --prefer-dist yiisoft/yii2-authclient "~2.1.0"
 ```
 
 或在你的 composer.json 文件的“require”一节添加以下代码：
 
 ```json
-"yiisoft/yii2-authclient": "*"
+"yiisoft/yii2-authclient": "~2.1.0"
 ```
 
 ## 配置应用程序

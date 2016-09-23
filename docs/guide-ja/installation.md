@@ -6,13 +6,13 @@
 エクステンションをインストールするためには、Composer を使います。次のコマンドを実行します。
 
 ```
-composer require --prefer-dist yiisoft/yii2-authclient "*"
+composer require --prefer-dist yiisoft/yii2-authclient "~2.1.0"
 ```
 
 または、あなたの composer.json の `require` セクションに次の行を追加します。
 
 ```json
-"yiisoft/yii2-authclient": "*"
+"yiisoft/yii2-authclient": "~2.1.0"
 ```
 
 ## アプリケーションを構成する

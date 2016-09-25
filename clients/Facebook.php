@@ -102,4 +102,15 @@ class Facebook extends OAuth2
             'popupHeight' => 480,
         ];
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function applyAccessTokenToRequest($request, $accessToken)
+    {
+        $data = $request->getData();
+        $data['access_token'] = $accessToken->getToken();
+        $data['appsecret_proof'] = hash_hmac('sha256', $accessToken->getToken(), $this->clientSecret);
+        $request->setData($data);
+    }
 }

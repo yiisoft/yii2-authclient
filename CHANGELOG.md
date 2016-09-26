@@ -5,7 +5,7 @@ Yii Framework 2 authclient extension Change Log
 -----------------------
 
 - Bug #135: Fixed `\yii\authclient\OAuth1::fetchRequestToken()` duplicates auth params in the request body, which may cause error on some OAuth 1.0 providers (klimov-paul)
-- Enh #132: Added `appsecret_proof` generation for the API requests at `yii\authclient\clients\Facebook` (blackhpro, SDKiller, klimov-paul)
+- Enh #67: Added `appsecret_proof` generation for the API requests at `yii\authclient\clients\Facebook` (blackhpro, SDKiller, klimov-paul)
 
 
 2.1.1 August 29, 2016

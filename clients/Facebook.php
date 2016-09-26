@@ -79,6 +79,18 @@ class Facebook extends OAuth2
     /**
      * @inheritdoc
      */
+    public function applyAccessTokenToRequest($request, $accessToken)
+    {
+        parent::applyAccessTokenToRequest($request, $accessToken);
+
+        $data = $request->getData();
+        $data['appsecret_proof'] = hash_hmac('sha256', $accessToken->getToken(), $this->clientSecret);
+        $request->setData($data);
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function defaultName()
     {
         return 'facebook';

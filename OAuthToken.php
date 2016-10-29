@@ -8,10 +8,13 @@
 namespace yii\authclient;
 
 use yii\base\Object;
+use yii\helpers\ArrayHelper;
 
 /**
  * Token represents OAuth token.
  *
+ * @property string $tokenParamKey
+ * @property string $tokenSecretParamKey
  * @property integer $expireDuration Token expiration duration. Note that the type of this property differs in
  * getter and setter. See [[getExpireDuration()]] and [[setExpireDuration()]] for details.
  * @property string $expireDurationParamKey Expire duration param key.
@@ -29,11 +32,11 @@ class OAuthToken extends Object
     /**
      * @var string key in [[params]] array, which stores token key.
      */
-    public $tokenParamKey = 'oauth_token';
+    private $_tokenParamKey = 'oauth_token';
     /**
      * @var string key in [[params]] array, which stores token secret key.
      */
-    public $tokenSecretParamKey = 'oauth_token_secret';
+    private $_tokenSecretParamKey = 'oauth_token_secret';
     /**
      * @var integer object creation timestamp.
      */
@@ -58,6 +61,48 @@ class OAuthToken extends Object
         if ($this->createTimestamp === null) {
             $this->createTimestamp = time();
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getTokenParamKey()
+    {
+        return $this->_tokenParamKey;
+    }
+
+    /**
+     * @param string $tokenParamKey
+     * @return $this
+     */
+    public function setTokenParamKey($tokenParamKey)
+    {
+        if ($value = ArrayHelper::remove($this->_params, $this->_tokenParamKey)) {
+            $this->_params[$tokenParamKey] = $value;
+        }
+        $this->_tokenParamKey = $tokenParamKey;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTokenSecretParamKey()
+    {
+        return $this->_tokenSecretParamKey;
+    }
+
+    /**
+     * @param string $tokenSecretParamKey
+     * @return $this
+     */
+    public function setTokenSecretParamKey($tokenSecretParamKey)
+    {
+        if ($value = ArrayHelper::remove($this->_params, $this->_tokenSecretParamKey)) {
+            $this->_params[$tokenSecretParamKey] = $value;
+        }
+        $this->_tokenSecretParamKey = $tokenSecretParamKey;
+        return $this;
     }
 
     /**

@@ -39,7 +39,7 @@ interface StateStorageInterface
     /**
      * Removes a state variable.
      * @param string $key the name of the variable to be removed
-     * @return boolean success.
+     * @return bool success.
      */
     public function remove($key);
 }

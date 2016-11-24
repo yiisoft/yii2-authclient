@@ -270,7 +270,7 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Generates timestamp.
-     * @return integer timestamp.
+     * @return int timestamp.
      */
     protected function generateTimestamp()
     {

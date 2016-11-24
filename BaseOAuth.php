@@ -47,7 +47,7 @@ abstract class BaseOAuth extends BaseClient
      */
     public $scope;
     /**
-     * @var boolean whether to automatically perform 'refresh access token' request on expired access token.
+     * @var bool whether to automatically perform 'refresh access token' request on expired access token.
      * @since 2.0.6
      */
     public $autoRefreshAccessToken = true;

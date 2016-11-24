@@ -423,7 +423,7 @@ abstract class BaseClient extends Component implements ClientInterface
     /**
      * Removes persistent state value.
      * @param string $key state key.
-     * @return boolean success.
+     * @return bool success.
      */
     protected function removeState($key)
     {

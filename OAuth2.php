@@ -52,7 +52,7 @@ abstract class OAuth2 extends BaseOAuth
      */
     public $tokenUrl;
     /**
-     * @var boolean whether to use and validate auth 'state' parameter in authentication flow.
+     * @var bool whether to use and validate auth 'state' parameter in authentication flow.
      * If enabled - the opaque value will be generated and applied to auth URL to maintain
      * state between the request and callback. The authorization server includes this value,
      * when redirecting the user-agent back to the client.

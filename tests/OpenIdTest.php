@@ -103,7 +103,7 @@ class OpenIdTest extends TestCase
      *
      * @param string $url1
      * @param string $url2
-     * @param boolean $expectedResult
+     * @param bool $expectedResult
      */
     public function testCompareUrl($url1, $url2, $expectedResult)
     {

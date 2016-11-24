@@ -220,7 +220,7 @@ class AuthAction extends Action
     /**
      * Redirect to the given URL or simply close the popup window.
      * @param mixed $url URL to redirect, could be a string or array config to generate a valid URL.
-     * @param boolean $enforceRedirect indicates if redirect should be performed even in case of popup window.
+     * @param bool $enforceRedirect indicates if redirect should be performed even in case of popup window.
      * @return \yii\web\Response response instance.
      */
     public function redirect($url, $enforceRedirect = true)

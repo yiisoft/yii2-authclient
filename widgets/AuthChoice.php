@@ -262,7 +262,7 @@ class AuthChoice extends Widget
             } else {
                 $options = Json::htmlEncode($this->clientOptions);
             }
-            $view->registerJs("\$('#" . $this->getId() . "').authchoice({$options});");
+            $view->registerJs("jQuery('#" . $this->getId() . "').authchoice({$options});");
         } else {
             AuthChoiceStyleAsset::register($view);
         }

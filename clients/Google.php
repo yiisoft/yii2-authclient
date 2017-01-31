@@ -73,6 +73,15 @@ class Google extends OAuth2
     /**
      * @inheritdoc
      */
+    public function buildAuthUrl(array $params = [])
+    {
+        $params['access_type'] = 'offline';
+        return parent::buildAuthUrl($params);
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function initUserAttributes()
     {
         return $this->api('people/me', 'GET');

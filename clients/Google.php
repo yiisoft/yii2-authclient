@@ -8,6 +8,7 @@
 namespace yii\authclient\clients;
 
 use yii\authclient\OAuth2;
+use yii\authclient\OAuthToken;
 
 /**
  * Google allows authentication via Google OAuth.

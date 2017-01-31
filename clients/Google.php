@@ -82,6 +82,30 @@ class Google extends OAuth2
     /**
      * @inheritdoc
      */
+    public function refreshAccessToken(OAuthToken $token)
+    {
+        $params = [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $token->getParam('refresh_token')
+        ];
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData($params);
+
+        $response = $this->sendRequest($request);
+
+        $token = $this->createToken(['params' => $response]);
+        $this->setAccessToken($token);
+
+        return $token;
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function initUserAttributes()
     {
         return $this->api('people/me', 'GET');

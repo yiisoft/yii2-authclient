@@ -96,7 +96,6 @@ abstract class OAuth1 extends BaseOAuth
             ->setData(array_merge($defaultParams, $params));
 
         $this->signRequest($request);
-        $request->setContent(''); // enforce empty body, avoiding duplicate param server error
 
         $response = $this->sendRequest($request);
 
@@ -322,14 +321,21 @@ abstract class OAuth1 extends BaseOAuth
         $signatureKey = $this->composeSignatureKey($token);
         $params['oauth_signature'] = $signatureMethod->generateSignature($signatureBaseString, $signatureKey);
 
-        $request->setData($params);
-
         if ($this->authorizationHeaderMethods === null || in_array(strtoupper($request->getMethod()), array_map('strtoupper', $this->authorizationHeaderMethods), true)) {
             $authorizationHeader = $this->composeAuthorizationHeader($params);
             if (!empty($authorizationHeader)) {
                 $request->addHeaders($authorizationHeader);
+
+                // removing authorization header params, avoiding duplicate param server error :
+                foreach ($params as $key => $value) {
+                    if (substr_compare($key, 'oauth', 0, 5) === 0) {
+                        unset($params[$key]);
+                    }
+                }
             }
         }
+
+        $request->setData($params);
     }
 
     /**

@@ -301,7 +301,7 @@ abstract class OAuth1 extends BaseOAuth
     {
         $params = $request->getData();
 
-        if (isset($params['oauth_signature_method'])) {
+        if (isset($params['oauth_signature_method']) || $request->hasHeaders() && $request->getHeaders()->has('authorization')) {
             // avoid double sign of request
             return;
         }

@@ -22,7 +22,9 @@ class BaseOAuthTest extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMock(BaseOAuth::className(), ['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes']);
+        $oauthClient = $this->getMockBuilder(BaseOAuth::className())
+            ->setMethods(['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes'])
+            ->getMock();
         return $oauthClient;
     }
 

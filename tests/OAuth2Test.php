@@ -25,7 +25,9 @@ class OAuth2Test extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMock(OAuth2::className(), ['initUserAttributes']);
+        $oauthClient = $this->getMockBuilder(OAuth2::className())
+            ->setMethods(['initUserAttributes'])
+            ->getMock();
         return $oauthClient;
     }
 

@@ -18,7 +18,9 @@ class BaseClientTest extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMock(BaseClient::className(), ['initUserAttributes']);
+        $oauthClient = $this->getMockBuilder(BaseClient::className())
+            ->setMethods(['initUserAttributes'])
+            ->getMock();
         return $oauthClient;
     }
 

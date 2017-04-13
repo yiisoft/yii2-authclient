@@ -12,7 +12,9 @@ class BaseMethodTest extends TestCase
      */
     protected function createTestSignatureMethod()
     {
-        $signatureMethod = $this->getMock('\yii\authclient\signature\BaseMethod', ['getName', 'generateSignature']);
+        $signatureMethod = $this->getMockBuilder('\yii\authclient\signature\BaseMethod')
+            ->setMethods(['getName', 'generateSignature'])
+            ->getMock();
         $signatureMethod->expects($this->any())->method('getName')->will($this->returnValue('testMethodName'));
         $signatureMethod->expects($this->any())->method('generateSignature')->will($this->returnValue('testSignature'));
 

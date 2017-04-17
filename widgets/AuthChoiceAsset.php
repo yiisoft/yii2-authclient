@@ -19,7 +19,6 @@ use yii\web\AssetBundle;
  */
 class AuthChoiceAsset extends AssetBundle
 {
-    public $sourcePath = '@yii/authclient/assets';
     public $js = [
         'authchoice.js',
     ];
@@ -27,4 +26,9 @@ class AuthChoiceAsset extends AssetBundle
         'yii\authclient\widgets\AuthChoiceStyleAsset',
         'yii\web\YiiAsset',
     ];
+    public function init()
+    {
+        $this->sourcePath = __DIR__."/../assets";
+        parent::init();
+    }
 }

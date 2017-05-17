@@ -28,7 +28,7 @@ before_script:
     fi
 
 script:
-  - phpunit --verbose $PHPUNIT_FLAGS
+  - phpunit --verbose $PHPUNIT_FLAGS --exclude-group google
 
 after_script:
   - |

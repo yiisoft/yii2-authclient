@@ -5,6 +5,7 @@ Yii Framework 2 authclient extension Change Log
 -----------------------
 
 - Bug #152: Fixed `\yii\authclient\OAuth1::fetchRequestToken()` skips formatting for `yii\httpclient\Request` (klimov-paul)
+- Enh #156: Added `\yii\authclient\signature\RsaSha` supporting general 'SHAwithRSA' signature method (klimov-paul)
 
 
 2.1.2 February 15, 2017

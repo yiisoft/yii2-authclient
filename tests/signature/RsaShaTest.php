@@ -2,10 +2,10 @@
 
 namespace yiiunit\extensions\authclient\signature;
 
-use yii\authclient\signature\RsaSha1;
+use yii\authclient\signature\RsaSha;
 use yiiunit\extensions\authclient\TestCase;
 
-class RsaSha1Test extends TestCase
+class RsaShaTest extends TestCase
 {
     /**
      * Returns test public certificate string.
@@ -59,9 +59,34 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
 
     // Tests :
 
+    /**
+     * Data provider for [[testGetName()]]
+     * @return array test data
+     */
+    public function dataProviderGetName()
+    {
+        return [
+            [OPENSSL_ALGO_SHA1, 'RSA-SHA1'],
+            [OPENSSL_ALGO_SHA256, 'RSA-SHA256'],
+            ['sha256', 'RSA-SHA256'],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderGetName
+     *
+     * @param $algorithm
+     * @param $expectedName
+     */
+    public function testGetName($algorithm, $expectedName)
+    {
+        $signatureMethod = new RsaSha(['algorithm' => $algorithm]);
+        $this->assertEquals($expectedName, $signatureMethod->getName());
+    }
+
     public function testGenerateSignature()
     {
-        $signatureMethod = new RsaSha1();
+        $signatureMethod = new RsaSha(['algorithm' => OPENSSL_ALGO_SHA1]);
         $signatureMethod->setPrivateCertificate($this->getTestPrivateCertificate());
         $signatureMethod->setPublicCertificate($this->getTestPublicCertificate());
 
@@ -77,7 +102,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
      */
     public function testVerify()
     {
-        $signatureMethod = new RsaSha1();
+        $signatureMethod = new RsaSha(['algorithm' => OPENSSL_ALGO_SHA1]);
         $signatureMethod->setPrivateCertificate($this->getTestPrivateCertificate());
         $signatureMethod->setPublicCertificate($this->getTestPublicCertificate());
 
@@ -92,7 +117,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
 
     public function testInitPrivateCertificate()
     {
-        $signatureMethod = new RsaSha1();
+        $signatureMethod = new RsaSha(['algorithm' => OPENSSL_ALGO_SHA1]);
 
         $certificateFileName = __FILE__;
         $signatureMethod->privateCertificateFile = $certificateFileName;
@@ -101,7 +126,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
 
     public function testInitPublicCertificate()
     {
-        $signatureMethod = new RsaSha1();
+        $signatureMethod = new RsaSha(['algorithm' => OPENSSL_ALGO_SHA1]);
 
         $certificateFileName = __FILE__;
         $signatureMethod->publicCertificateFile = $certificateFileName;

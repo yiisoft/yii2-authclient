@@ -106,13 +106,15 @@ class RsaSha extends BaseMethod
     {
         if (is_int($this->algorithm)) {
             $constants = get_defined_constants(true);
-            foreach ($constants['openssl'] as $name => $value) {
-                if (strpos($name, 'OPENSSL_ALGO_') !== 0) {
-                    continue;
-                }
-                if ($value === $this->algorithm) {
-                    $algorithmName = substr($name, strlen('OPENSSL_ALGO_'));
-                    break;
+            if (isset($constants['openssl'])) {
+                foreach ($constants['openssl'] as $name => $value) {
+                    if (strpos($name, 'OPENSSL_ALGO_') !== 0) {
+                        continue;
+                    }
+                    if ($value === $this->algorithm) {
+                        $algorithmName = substr($name, strlen('OPENSSL_ALGO_'));
+                        break;
+                    }
                 }
             }
 

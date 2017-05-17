@@ -80,6 +80,10 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
      */
     public function testGetName($algorithm, $expectedName)
     {
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('Constants processing is unavailable at HHVM');
+        }
+
         $signatureMethod = new RsaSha(['algorithm' => $algorithm]);
         $this->assertEquals($expectedName, $signatureMethod->getName());
     }

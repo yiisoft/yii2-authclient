@@ -11,6 +11,8 @@ use Yii;
  */
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    public static $params;
+
     /**
      * Clean up after test.
      * By default the application created with [[mockApplication]] will be destroyed.
@@ -19,6 +21,21 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         parent::tearDown();
         $this->destroyApplication();
+    }
+
+    /**
+     * Returns a test configuration param from /data/config.php
+     * @param string $name params name
+     * @param mixed $default default value to use when param is not set.
+     * @return mixed  the value of the configuration param
+     */
+    public static function getParam($name, $default = null)
+    {
+        if (static::$params === null) {
+            static::$params = require(__DIR__ . '/data/config.php');
+        }
+
+        return isset(static::$params[$name]) ? static::$params[$name] : $default;
     }
 
     /**

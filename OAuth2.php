@@ -8,6 +8,7 @@
 namespace yii\authclient;
 
 use Yii;
+use yii\helpers\Json;
 use yii\web\HttpException;
 
 /**
@@ -210,6 +211,7 @@ abstract class OAuth2 extends BaseOAuth
      * @see http://tools.ietf.org/html/rfc6749#section-4.4
      * @param array $params additional request params.
      * @return OAuthToken access token.
+     * @since 2.1.0
      */
     public function authenticateClient($params = [])
     {
@@ -243,6 +245,7 @@ abstract class OAuth2 extends BaseOAuth
      * @param string $password user password.
      * @param array $params additional request params.
      * @return OAuthToken access token.
+     * @since 2.1.0
      */
     public function authenticateUser($username, $password, $params = [])
     {
@@ -262,6 +265,63 @@ abstract class OAuth2 extends BaseOAuth
             ->setMethod('POST')
             ->setUrl($this->tokenUrl)
             ->setData(array_merge($defaultParams, $params));
+
+        $response = $this->sendRequest($request);
+
+        $token = $this->createToken(['params' => $response]);
+        $this->setAccessToken($token);
+
+        return $token;
+    }
+
+    /**
+     * Authenticates client using JSON Web Token (JWT).
+     * Note: do not forget to setup [[signatureMethod]] in your OAuth client configuration to make this method function correctly.
+     * @see https://tools.ietf.org/html/rfc7515
+     * @param array $header JWS header parameters.
+     * @param array $payload JWS payload (message or claim-set)
+     * @param array $params additional request params.
+     * @return OAuthToken access token.
+     * @since 2.1.3
+     */
+    public function authenticateJwt($header = [], $payload = [], $params = [])
+    {
+        $signatureMethod = $this->getSignatureMethod();
+
+        $header = array_merge([
+            'typ' => 'JWT'
+        ], $header);
+        if (!isset($header['alg'])) {
+            $signatureName = $signatureMethod->getName();
+            if (preg_match('/^([a-z])[a-z]*\-([a-z])[a-z]*([0-9]+)$/is', $signatureName, $matches)) {
+                // convert 'RSA-SHA256' to 'RS256' :
+                $signatureName = $matches[1] . $matches[2] . $matches[3];
+            }
+            $header['alg'] = $signatureName;
+        }
+
+        $payload = array_merge([
+            'iss' => $this->clientId,
+            'scope' => $this->scope,
+            'aud' => $this->tokenUrl,
+            'iat' => time(),
+        ], $payload);
+        if (!isset($payload['exp'])) {
+            $payload['exp'] = $payload['iat'] + 3600;
+        }
+
+        $signatureBaseString = base64_encode(Json::encode($header)) . '.' . base64_encode(Json::encode($payload));
+        $signature = $signatureMethod->generateSignature($signatureBaseString, '');
+
+        $assertion = $signatureBaseString . '.' . $signature;
+
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData(array_merge([
+                'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+                'assertion' => $assertion,
+            ], $params));
 
         $response = $this->sendRequest($request);
 

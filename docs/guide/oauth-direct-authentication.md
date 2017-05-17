@@ -51,3 +51,24 @@ $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 // direct authentication of client only:
 $accessToken = $client->authenticateClient();
 ```
+
+
+## JSON Web Token (JWT)
+
+JSON Web Token (JWT) work flow allows authentication of the particular account using [JSON Web Signature (JWS)](https://tools.ietf.org/html/rfc7515).
+The following example allows authentication of [Google Service Account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount):
+
+```php
+use yii\authclient\clients\Google;
+use yii\authclient\signature\RsaSha;
+
+$oauthClient = new Google([
+    'clientId' => 'your-service-account-id@developer.gserviceaccount.com',
+    'signatureMethod' => [
+        'class' => RsaSha::className(),
+        'algorithm' => OPENSSL_ALGO_SHA256,
+        'privateCertificate' => "-----BEGIN PRIVATE KEY-----   ...   -----END PRIVATE KEY-----\n"
+    ]
+]);
+$accessToken = $oauthClient->authenticateJwt();
+```

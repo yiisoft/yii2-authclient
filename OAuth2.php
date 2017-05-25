@@ -108,8 +108,6 @@ abstract class OAuth2 extends BaseOAuth
         }
 
         $defaultParams = [
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
             'code' => $authCode,
             'grant_type' => 'authorization_code',
             'redirect_uri' => $this->getReturnUrl(),
@@ -119,6 +117,8 @@ abstract class OAuth2 extends BaseOAuth
             ->setMethod('POST')
             ->setUrl($this->tokenUrl)
             ->setData(array_merge($defaultParams, $params));
+
+        $this->applyClientCredentialsToRequest($request);
 
         $response = $this->sendRequest($request);
 
@@ -139,6 +139,20 @@ abstract class OAuth2 extends BaseOAuth
     }
 
     /**
+     * Applies client credentials (e.g. [[clientId]] and [[clientSecret]]) to the HTTP request instance.
+     * This method should be invoked before sending any HTTP request, which requires client credentials.
+     * @param \yii\httpclient\Request $request HTTP request instance.
+     * @since 2.1.3
+     */
+    protected function applyClientCredentialsToRequest($request)
+    {
+        $request->addData([
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+        ]);
+    }
+
+    /**
      * Gets new auth token to replace expired one.
      * @param OAuthToken $token expired auth token.
      * @return OAuthToken new auth token.
@@ -146,8 +160,6 @@ abstract class OAuth2 extends BaseOAuth
     public function refreshAccessToken(OAuthToken $token)
     {
         $params = [
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
             'grant_type' => 'refresh_token'
         ];
         $params = array_merge($token->getParams(), $params);
@@ -156,6 +168,8 @@ abstract class OAuth2 extends BaseOAuth
             ->setMethod('POST')
             ->setUrl($this->tokenUrl)
             ->setData($params);
+
+        $this->applyClientCredentialsToRequest($request);
 
         $response = $this->sendRequest($request);
 
@@ -174,6 +188,7 @@ abstract class OAuth2 extends BaseOAuth
         $params = $_GET;
         unset($params['code']);
         unset($params['state']);
+        unset($params['nonce']);
         $params[0] = Yii::$app->controller->getRoute();
 
         return Yii::$app->getUrlManager()->createAbsoluteUrl($params);
@@ -216,8 +231,6 @@ abstract class OAuth2 extends BaseOAuth
     public function authenticateClient($params = [])
     {
         $defaultParams = [
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
             'grant_type' => 'client_credentials',
         ];
 
@@ -229,6 +242,8 @@ abstract class OAuth2 extends BaseOAuth
             ->setMethod('POST')
             ->setUrl($this->tokenUrl)
             ->setData(array_merge($defaultParams, $params));
+
+        $this->applyClientCredentialsToRequest($request);
 
         $response = $this->sendRequest($request);
 
@@ -250,8 +265,6 @@ abstract class OAuth2 extends BaseOAuth
     public function authenticateUser($username, $password, $params = [])
     {
         $defaultParams = [
-            'client_id' => $this->clientId,
-            'client_secret' => $this->clientSecret,
             'grant_type' => 'password',
             'username' => $username,
             'password' => $password,
@@ -265,6 +278,8 @@ abstract class OAuth2 extends BaseOAuth
             ->setMethod('POST')
             ->setUrl($this->tokenUrl)
             ->setData(array_merge($defaultParams, $params));
+
+        $this->applyClientCredentialsToRequest($request);
 
         $response = $this->sendRequest($request);
 

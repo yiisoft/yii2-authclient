@@ -10,6 +10,7 @@ namespace yii\authclient;
 use Jose\Factory\JWKFactory;
 use Jose\Loader;
 use Yii;
+use yii\authclient\signature\HmacSha;
 use yii\base\InvalidConfigException;
 use yii\helpers\Json;
 use yii\web\HttpException;

@@ -10,6 +10,8 @@ namespace yii\authclient;
 use Jose\Factory\JWKFactory;
 use Jose\Loader;
 use Yii;
+use yii\base\InvalidConfigException;
+use yii\helpers\Json;
 use yii\web\HttpException;
 
 /**
@@ -48,6 +50,7 @@ use yii\web\HttpException;
  * @see http://openid.net/connect/
  * @see OAuth2
  *
+ * @property bool $validateAuthNonce whether to use and validate auth 'nonce' parameter in authentication flow.
  * @property array $configParams OpenID provider configuration parameters.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
@@ -83,10 +86,34 @@ class OpenIdConnect extends OAuth2
     ];
 
     /**
+     * @var bool|null whether to use and validate auth 'nonce' parameter in authentication flow.
+     * The option is used for preventing replay attacks.
+     */
+    private $_validateAuthNonce;
+    /**
      * @var array OpenID provider configuration parameters.
      */
     private $_configParams;
 
+
+    /**
+     * @return bool whether to use and validate auth 'nonce' parameter in authentication flow.
+     */
+    public function getValidateAuthNonce()
+    {
+        if ($this->_validateAuthNonce === null) {
+            $this->_validateAuthNonce = $this->validateJws && in_array('nonce', $this->getConfigParam('claims_supported'));
+        }
+        return $this->_validateAuthNonce;
+    }
+
+    /**
+     * @param bool $validateAuthNonce whether to use and validate auth 'nonce' parameter in authentication flow.
+     */
+    public function setValidateAuthNonce($validateAuthNonce)
+    {
+        $this->_validateAuthNonce = $validateAuthNonce;
+    }
 
     /**
      * @return array OpenID provider configuration parameters.
@@ -146,6 +173,13 @@ class OpenIdConnect extends OAuth2
         if ($this->tokenUrl === null) {
             $this->tokenUrl = $this->getConfigParam('token_endpoint');
         }
+
+        if (!isset($params['nonce']) && $this->getValidateAuthNonce()) {
+            $nonce = $this->generateAuthNonce();
+            $this->setState('authNonce', $nonce);
+            $params['nonce'] = $nonce;
+        }
+
         return parent::fetchAccessToken($authCode, $params);
     }
 
@@ -179,12 +213,36 @@ class OpenIdConnect extends OAuth2
             $request->addHeaders([
                 'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)
             ]);
-        } else {
-            // 'client_secret_post'
+        } elseif (in_array('client_secret_post', $supportedAuthMethods)) {
             $request->addData([
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
             ]);
+        } elseif (in_array('client_secret_jwt', $supportedAuthMethods)) {
+            $header = [
+                'typ' => 'JWT',
+                'alg' => 'HS256',
+            ];
+            $payload = [
+                'iss' => $this->clientId,
+                'sub' => $this->clientId,
+                'aud' => $this->tokenUrl,
+                'jti' => $this->generateAuthNonce(),
+                'iat' => time(),
+                'exp' => time() + 3600,
+            ];
+
+            $signatureBaseString = base64_encode(Json::encode($header)) . '.' . base64_encode(Json::encode($payload));
+            $signatureMethod = new HmacSha(['algorithm' => 'sha256']);
+            $signature = $signatureMethod->generateSignature($signatureBaseString, $this->clientSecret);
+
+            $assertion = $signatureBaseString . '.' . $signature;
+
+            $request->addData([
+                'assertion' => $assertion,
+            ]);
+        } else {
+            throw new InvalidConfigException('Unable to authenticate request: none of following auth methods is suported: ' . implode(', ', $supportedAuthMethods));
         }
     }
 
@@ -197,8 +255,8 @@ class OpenIdConnect extends OAuth2
         // OAuth2 specifics :
         unset($params['code']);
         unset($params['state']);
-        unset($params['nonce']);
         // OpenIdConnect specifics :
+        unset($params['nonce']);
         unset($params['authuser']);
         unset($params['session_state']);
         unset($params['prompt']);
@@ -216,6 +274,15 @@ class OpenIdConnect extends OAuth2
             $jwsData = $this->loadJws($tokenConfig['params']['id_token']);
             $this->validateClaims($jwsData);
             $tokenConfig['params'] = array_merge($tokenConfig['params'], $jwsData);
+
+            if ($this->getValidateAuthNonce()) {
+                $authNonce = $this->getState('authNonce');
+                if (!isset($jwsData['nonce']) || empty($authNonce) || strcmp($jwsData['nonce'], $authNonce) !== 0) {
+                    throw new HttpException(400, 'Invalid auth nonce');
+                } else {
+                    $this->removeState('authNonce');
+                }
+            }
         }
 
         return parent::createToken($tokenConfig);
@@ -252,5 +319,14 @@ class OpenIdConnect extends OAuth2
         if (!isset($claims['aud']) || (strcmp($claims['aud'], $this->clientId) !== 0)) {
             throw new HttpException(400, 'Invalid "aud"');
         }
+    }
+
+    /**
+     * Generates the auth nonce value.
+     * @return string auth nonce value.
+     */
+    protected function generateAuthNonce()
+    {
+        return Yii::$app->security->generateRandomString();
     }
 }

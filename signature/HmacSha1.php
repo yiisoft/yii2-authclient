@@ -7,41 +7,22 @@
 
 namespace yii\authclient\signature;
 
-use yii\base\NotSupportedException;
-
 /**
+ * @deprecated
+ *
  * HmacSha1 represents 'HMAC-SHA1' signature method.
  *
- * > **Note:** This class requires PHP "Hash" extension(<http://php.net/manual/en/book.hash.php>).
+ * Since 2.1.3 this class is deprecated, use [[HmacSha]] with `sha1` algorithm instead.
+ *
+ * @see HmacSha
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-class HmacSha1 extends BaseMethod
+class HmacSha1 extends HmacSha
 {
     /**
      * @inheritdoc
      */
-    public function init()
-    {
-        if (!function_exists('hash_hmac')) {
-            throw new NotSupportedException('PHP "Hash" extension is required.');
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getName()
-    {
-        return 'HMAC-SHA1';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function generateSignature($baseString, $key)
-    {
-        return base64_encode(hash_hmac('sha1', $baseString, $key, true));
-    }
+    public $algorithm = 'sha1';
 }

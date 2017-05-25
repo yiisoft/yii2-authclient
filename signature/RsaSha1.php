@@ -12,7 +12,7 @@ namespace yii\authclient\signature;
  *
  * RsaSha1 represents 'RSA-SHA1' signature method.
  *
- * This class is deprecated, use [[RsaSha]] with `OPENSSL_ALGO_SHA1` algorithm instead.
+ * Since 2.1.3 this class is deprecated, use [[RsaSha]] with `OPENSSL_ALGO_SHA1` algorithm instead.
  *
  * @see RsaSha
  *

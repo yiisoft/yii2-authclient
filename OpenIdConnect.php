@@ -12,6 +12,9 @@ use Jose\Loader;
 use Yii;
 use yii\authclient\signature\HmacSha;
 use yii\base\InvalidConfigException;
+use yii\base\InvalidParamException;
+use yii\caching\Cache;
+use yii\di\Instance;
 use yii\helpers\Json;
 use yii\web\HttpException;
 
@@ -51,6 +54,7 @@ use yii\web\HttpException;
  * @see http://openid.net/connect/
  * @see OAuth2
  *
+ * @property Cache|array|string|null $cache the cache component, see [[setCache()]] for details.
  * @property bool $validateAuthNonce whether to use and validate auth 'nonce' parameter in authentication flow.
  * @property array $configParams OpenID provider configuration parameters.
  *
@@ -85,6 +89,12 @@ class OpenIdConnect extends OAuth2
         'RS256', 'RS384', 'RS512',
         'PS256', 'PS384', 'PS512'
     ];
+    /**
+     * @var string the prefix for the key used to store [[configParams]] data in cache.
+     * Actual cache key will be formed addition [[id]] value to it.
+     * @see cache
+     */
+    public $configParamsCacheKeyPrefix = 'config-params-';
 
     /**
      * @var bool|null whether to use and validate auth 'nonce' parameter in authentication flow.
@@ -95,6 +105,17 @@ class OpenIdConnect extends OAuth2
      * @var array OpenID provider configuration parameters.
      */
     private $_configParams;
+    /**
+     * @var Cache|string the cache object or the ID of the cache application component that
+     * is used for caching. This can be one of the following:
+     *
+     * - an application component ID (e.g. `cache`)
+     * - a configuration array
+     * - a [[\yii\caching\Cache]] object
+     *
+     * When this is not set, it means caching is not enabled.
+     */
+    private $_cache = 'cache';
 
 
     /**
@@ -117,12 +138,49 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
+     * @return Cache|null the cache object, `null` - if not enabled.
+     */
+    public function getCache()
+    {
+        if ($this->_cache !== null && !is_object($this->_cache)) {
+            $this->_cache = Instance::ensure($this->_cache, Cache::className());
+        }
+        return $this->_cache;
+    }
+
+    /**
+     * Sets up a component to be used for caching.
+     * This can be one of the following:
+     *
+     * - an application component ID (e.g. `cache`)
+     * - a configuration array
+     * - a [[\yii\caching\Cache]] object
+     *
+     * When `null` is passed, it means caching is not enabled.
+     * @param Cache|array|string|null $cache the cache object or the ID of the cache application component.
+     */
+    public function setCache($cache)
+    {
+        $this->_cache = $cache;
+    }
+
+    /**
      * @return array OpenID provider configuration parameters.
      */
     public function getConfigParams()
     {
         if ($this->_configParams === null) {
-            $this->_configParams = $this->discoverConfig();
+            $cache = $this->getCache();
+            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId();
+            if ($cache === null || ($configParams = $cache->get($cacheKey)) === false) {
+                $configParams = $this->discoverConfig();
+            }
+
+            $this->_configParams = $configParams;
+
+            if ($cache !== null) {
+                $cache->set($cacheKey, $configParams);
+            }
         }
         return $this->_configParams;
     }
@@ -134,10 +192,8 @@ class OpenIdConnect extends OAuth2
      */
     public function getConfigParam($name)
     {
-        if ($this->_configParams === null) {
-            $this->_configParams = $this->discoverConfig();
-        }
-        return $this->_configParams[$name];
+        $params = $this->getConfigParams();
+        return $params[$name];
     }
 
     /**

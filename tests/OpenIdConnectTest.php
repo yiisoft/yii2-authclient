@@ -3,6 +3,7 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OpenIdConnect;
+use yii\caching\ArrayCache;
 
 class OpenIdConnectTest extends TestCase
 {
@@ -23,6 +24,7 @@ class OpenIdConnectTest extends TestCase
     {
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
+            'cache' => null,
         ]);
         $configParams = $authClient->getConfigParams();
         $this->assertNotEmpty($configParams);
@@ -35,10 +37,41 @@ class OpenIdConnectTest extends TestCase
     /**
      * @depends testDiscoverConfig
      */
+    public function testDiscoverConfigCache()
+    {
+        $cache = new ArrayCache();
+
+        $authClient = new OpenIdConnect([
+            'issuerUrl' => 'https://accounts.google.com',
+            'id' => 'google',
+            'cache' => $cache,
+        ]);
+        $cachedConfigParams = $authClient->getConfigParams();
+
+        $authClient = new OpenIdConnect([
+            'issuerUrl' => 'https://invalid-url.com',
+            'id' => 'google',
+            'cache' => $cache,
+        ]);
+        $this->assertEquals($cachedConfigParams, $authClient->getConfigParams());
+
+        $authClient = new OpenIdConnect([
+            'issuerUrl' => 'https://invalid-url.com',
+            'id' => 'foo',
+            'cache' => $cache,
+        ]);
+        $this->expectException('yii\httpclient\Exception');
+        $authClient->getConfigParams();
+    }
+
+    /**
+     * @depends testDiscoverConfig
+     */
     public function testBuildAuthUrl()
     {
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
+            'cache' => null,
         ]);
         $clientId = 'test_client_id';
         $authClient->clientId = $clientId;

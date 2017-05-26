@@ -21,7 +21,7 @@ use yii\web\HttpException;
 /**
  * OpenIdConnect serves as a client for the OpenIdConnect flow.
  *
- * Example application configuration:
+ * Application configuration example:
  *
  * ```php
  * 'components' => [
@@ -38,14 +38,14 @@ use yii\web\HttpException;
  *             ],
  *         ],
  *     ]
- *     ...
+ *     // ...
  * ]
  * ```
  *
  * This class requires `spomky-labs/jose` library to be installed for JWS verification. This can be done via composer:
  *
  * ```
- * composer require --prefer-dist "spomky-labs/jose::~5.0.6"
+ * composer require --prefer-dist "spomky-labs/jose:~5.0.6"
  * ```
  *
  * Note: if you are using well-trusted OpenIdConnect provider, you may disable [[validateJws]], making installation of

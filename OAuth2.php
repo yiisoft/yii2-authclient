@@ -185,7 +185,7 @@ abstract class OAuth2 extends BaseOAuth
      */
     protected function defaultReturnUrl()
     {
-        $params = $_GET;
+        $params = Yii::$app->getRequest()->getQueryParams();
         unset($params['code']);
         unset($params['state']);
         $params[0] = Yii::$app->controller->getRoute();

@@ -308,7 +308,7 @@ class OpenIdConnect extends OAuth2
      */
     protected function defaultReturnUrl()
     {
-        $params = $_GET;
+        $params = Yii::$app->getRequest()->getQueryParams();
         // OAuth2 specifics :
         unset($params['code']);
         unset($params['state']);

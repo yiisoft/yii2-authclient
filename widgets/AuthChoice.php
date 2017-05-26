@@ -165,7 +165,7 @@ class AuthChoice extends Widget
         $baseAuthUrl = [
             Yii::$app->controller->getRoute()
         ];
-        $params = $_GET;
+        $params = Yii::$app->getRequest()->getQueryParams();
         unset($params[$this->clientIdGetParamName]);
         $baseAuthUrl = array_merge($baseAuthUrl, $params);
 

@@ -7,7 +7,7 @@ Yii Framework 2 authclient extension Change Log
 - Bug #152: Fixed `\yii\authclient\OAuth1::fetchRequestToken()` skips formatting for `yii\httpclient\Request` (klimov-paul)
 - Enh #155: Added `\yii\authclient\OpenIdConnect` supporting [OpenID Connect](http://openid.net/connect/) protocol (klimov-paul)
 - Enh #156: Added `\yii\authclient\signature\RsaSha` and `\yii\authclient\signature\HmacSha` supporting general 'SHAwithRSA' and 'HMAC SHA' signature methods (klimov-paul)
-- Enh #157: Added `\yii\authclient\OAuth2::authenticateJwt()` supporting authentication via JSON Web Token (JWT) (klimov-paul)
+- Enh #157: Added `\yii\authclient\OAuth2::authenticateUserJwt()` supporting authentication via JSON Web Token (JWT) (klimov-paul)
 
 
 2.1.2 February 15, 2017

@@ -25,22 +25,19 @@ class GoogleTest extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
-    public function testJwt()
+    public function testAuthenticateUserJwt()
     {
         $params = $this->getParam('google');
         if (empty($params['serviceAccount'])) {
             $this->markTestSkipped("Google service account name is not configured.");
         }
 
-        $oauthClient = new Google([
-            'clientId' => $params['serviceAccount'],
-            'signatureMethod' => [
-                'class' => RsaSha::className(),
-                'algorithm' => OPENSSL_ALGO_SHA256,
-                'privateCertificate' => $params['serviceAccountPrivateKey']
-            ]
+        $oauthClient = new Google();
+        $token = $oauthClient->authenticateUserJwt($params['serviceAccount'], [
+            'class' => RsaSha::className(),
+            'algorithm' => OPENSSL_ALGO_SHA256,
+            'privateCertificate' => $params['serviceAccountPrivateKey']
         ]);
-        $token = $oauthClient->authenticateJwt();
         $this->assertTrue($token instanceof OAuthToken);
         $this->assertNotEmpty($token->getToken());
     }

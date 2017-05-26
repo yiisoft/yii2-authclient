@@ -289,18 +289,33 @@ abstract class OAuth2 extends BaseOAuth
     }
 
     /**
-     * Authenticates client using JSON Web Token (JWT).
-     * Note: do not forget to setup [[signatureMethod]] in your OAuth client configuration to make this method function correctly.
+     * Authenticates user directly using JSON Web Token (JWT).
      * @see https://tools.ietf.org/html/rfc7515
-     * @param array $header JWS header parameters.
-     * @param array $payload JWS payload (message or claim-set)
+     * @param string $username
+     * @param \yii\authclient\signature\BaseMethod|array $signature signature method or its array configuration.
+     * If empty - [[signatureMethod]] will be used.
+     * @param array $options additional options. Valid options are:
+     *
+     * - header: array, additional JWS header parameters.
+     * - payload: array, additional JWS payload (message or claim-set) parameters.
+     * - signatureKey: string, signature key to be used, if not set - [[clientSecret]] will be used.
+     *
      * @param array $params additional request params.
      * @return OAuthToken access token.
      * @since 2.1.3
      */
-    public function authenticateJwt($header = [], $payload = [], $params = [])
+    public function authenticateUserJwt($username, $signature = null, $options = [], $params = [])
     {
-        $signatureMethod = $this->getSignatureMethod();
+        if (empty($signature)) {
+            $signatureMethod = $this->getSignatureMethod();
+        } elseif (is_object($signature)) {
+            $signatureMethod = $signature;
+        } else {
+            $signatureMethod = $this->createSignatureMethod($signature);
+        }
+
+        $header = isset($options['header']) ? $options['header'] : [];
+        $payload = isset($options['payload']) ? $options['payload'] : [];
 
         $header = array_merge([
             'typ' => 'JWT'
@@ -315,7 +330,7 @@ abstract class OAuth2 extends BaseOAuth
         }
 
         $payload = array_merge([
-            'iss' => $this->clientId,
+            'iss' => $username,
             'scope' => $this->scope,
             'aud' => $this->tokenUrl,
             'iat' => time(),
@@ -325,7 +340,8 @@ abstract class OAuth2 extends BaseOAuth
         }
 
         $signatureBaseString = base64_encode(Json::encode($header)) . '.' . base64_encode(Json::encode($payload));
-        $signature = $signatureMethod->generateSignature($signatureBaseString, '');
+        $signatureKey = isset($options['signatureKey']) ? $options['signatureKey'] : $this->clientSecret;
+        $signature = $signatureMethod->generateSignature($signatureBaseString, $signatureKey);
 
         $assertion = $signatureBaseString . '.' . $signature;
 

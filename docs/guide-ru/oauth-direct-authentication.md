@@ -62,13 +62,14 @@ JSON Web Token (JWT) позволяет аутентифицировать ко�
 use yii\authclient\clients\Google;
 use yii\authclient\signature\RsaSha;
 
-$oauthClient = new Google([
-    'clientId' => 'your-service-account-id@developer.gserviceaccount.com',
-    'signatureMethod' => [
+$oauthClient = new Google();
+
+$accessToken = $oauthClient->authenticateUserJwt(
+    'your-service-account-id@developer.gserviceaccount.com',
+    [
         'class' => RsaSha::className(),
         'algorithm' => OPENSSL_ALGO_SHA256,
         'privateCertificate' => "-----BEGIN PRIVATE KEY-----   ...   -----END PRIVATE KEY-----\n"
     ]
-]);
-$accessToken = $oauthClient->authenticateJwt();
+);
 ```

@@ -20,6 +20,9 @@
     "require": {
         "yiisoft/yii2-httpclient": "~2.0.1"
     },
+    "suggest": {
+        "spomky-labs/jose": "required for JWS,JWT or JWK related flows like OpenIDConnect"
+    },
     "autoload": {
         "psr-4": { "yii\\authclient\\": "" }
     },

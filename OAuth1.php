@@ -312,7 +312,10 @@ abstract class OAuth1 extends BaseOAuth
             $params = array_merge($this->generateCommonRequestParams(), $params);
         }
 
-        $url = $request->getFullUrl();
+        // query parameters handling according to https://tools.ietf.org/html/rfc5849#section-3.4.1.3
+	    $url = $url=strtok($request->getFullUrl(),'?');
+	    parse_str(parse_url($request->getFullUrl(), PHP_URL_QUERY), $url_query);
+	    $params = array_merge($params, $url_query);
 
         $signatureMethod = $this->getSignatureMethod();
 

@@ -7,7 +7,9 @@
 
 namespace yii\authclient\clients;
 
+use Yii;
 use yii\authclient\OAuth2;
+use yii\web\BadRequestHttpException;
 
 /**
  * GitHub allows authentication via GitHub OAuth.
@@ -105,5 +107,54 @@ class GitHub extends OAuth2
     protected function defaultTitle()
     {
         return 'GitHub';
+    }
+
+    /**
+     * Generates the auth state value.
+     * @return string auth state value.
+     */
+    protected function generateAuthState()
+    {
+        return sha1(uniqid(get_class($this), true));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fetchAccessToken($authCode, array $params = [])
+    {
+        $authState = $this->getState('authState');
+        if (!isset($_REQUEST['state']) || empty($authState) || strcmp($_REQUEST['state'], $authState) !== 0) {
+            throw new BadRequestHttpException('Invalid auth state parameter.');
+        } else {
+            $this->removeState('authState');
+        }
+
+        return parent::fetchAccessToken($authCode, $params);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function buildAuthUrl(array $params = [])
+    {
+        $authState = $this->generateAuthState();
+        $this->setState('authState', $authState);
+        $params['state'] = $authState;
+
+        return parent::buildAuthUrl($params);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function defaultReturnUrl()
+    {
+        $params = $_GET;
+        unset($params['code']);
+        unset($params['state']);
+        $params[0] = Yii::$app->controller->getRoute();
+
+        return Yii::$app->getUrlManager()->createAbsoluteUrl($params);
     }
 }

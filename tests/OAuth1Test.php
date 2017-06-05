@@ -3,7 +3,7 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth1;
-use yii\authclient\signature\PlainText;
+use yii\authclient\signature\BaseMethod;
 use yii\authclient\OAuthToken;
 
 class OAuth1Test extends TestCase
@@ -40,8 +40,22 @@ class OAuth1Test extends TestCase
         $oauthClient = $this->createClient();
 
         $request = $oauthClient->createRequest();
+        $request->setUrl('https://example.com?s=some');
+        $request->setData([
+            'a' => 'another',
+        ]);
 
-        $oauthSignatureMethod = new PlainText();
+        /* @var $oauthSignatureMethod BaseMethod|\PHPUnit_Framework_MockObject_MockObject */
+        $oauthSignatureMethod = $this->getMockBuilder(BaseMethod::className())
+            ->setMethods(['getName', 'generateSignature'])
+            ->getMock();
+        $oauthSignatureMethod->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('test'));
+        $oauthSignatureMethod->expects($this->any())
+            ->method('generateSignature')
+            ->will($this->returnArgument(0));
+
         $oauthClient->setSignatureMethod($oauthSignatureMethod);
 
         $oauthClient->signRequest($request);
@@ -49,6 +63,23 @@ class OAuth1Test extends TestCase
         $signedParams = $request->getData();
 
         $this->assertNotEmpty($signedParams['oauth_signature'], 'Unable to sign request!');
+
+        $parts = [
+            'GET',
+            'https://example.com',
+            http_build_query([
+                'a' => 'another',
+                'oauth_nonce' => $signedParams['oauth_nonce'],
+                'oauth_signature_method' => $signedParams['oauth_signature_method'],
+                'oauth_timestamp' => $signedParams['oauth_timestamp'],
+                'oauth_version' => $signedParams['oauth_version'],
+                's' => 'some',
+            ])
+        ];
+        $parts = array_map('rawurlencode', $parts);
+        $expectedSignature = implode('&', $parts);
+
+        $this->assertEquals($expectedSignature, $signedParams['oauth_signature'], 'Invalid base signature string!');
     }
 
     /**

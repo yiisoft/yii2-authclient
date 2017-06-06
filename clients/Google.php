@@ -8,6 +8,7 @@
 namespace yii\authclient\clients;
 
 use yii\authclient\OAuth2;
+use yii\authclient\OAuthToken;
 
 /**
  * Google allows authentication via Google OAuth.
@@ -68,6 +69,39 @@ class Google extends OAuth2
                 'email',
             ]);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function buildAuthUrl(array $params = [])
+    {
+        $params['access_type'] = 'offline';
+        return parent::buildAuthUrl($params);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function refreshAccessToken(OAuthToken $token)
+    {
+        $params = [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $token->getParam('refresh_token')
+        ];
+        $request = $this->createRequest()
+            ->setMethod('POST')
+            ->setUrl($this->tokenUrl)
+            ->setData($params);
+
+        $response = $this->sendRequest($request);
+
+        $token = $this->createToken(['params' => $response]);
+        $this->setAccessToken($token);
+
+        return $token;
     }
 
     /**

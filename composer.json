@@ -23,6 +23,12 @@
     "suggest": {
         "spomky-labs/jose": "required for JWS,JWT or JWK related flows like OpenIDConnect"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
     "autoload": {
         "psr-4": { "yii\\authclient\\": "" }
     },

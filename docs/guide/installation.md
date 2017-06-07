@@ -57,6 +57,7 @@ Out of the box the following clients are provided:
 - [[yii\authclient\clients\VKontakte|VKontakte]].
 - [[yii\authclient\clients\Yandex|Yandex]].
 
+
 Configuration for each client is a bit different. For OAuth it's required to get client ID and secret key from
 the service you're going to use. For OpenID it works out of the box in most cases.
 

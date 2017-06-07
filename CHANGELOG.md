@@ -51,7 +51,6 @@ Yii Framework 2 authclient extension Change Log
 - Enh #58: Added support for user attribute request params setup for Twitter (umanamente, klimov-paul)
 - Enh #111: `yii\authclient\clients\GitHub` now retrieves user email even if it is set as 'private' at GitHub account (klimov-paul)
 
-
 2.0.5 September 23, 2015
 ------------------------
 

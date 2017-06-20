@@ -103,6 +103,9 @@ class Facebook extends OAuth2
         parent::applyAccessTokenToRequest($request, $accessToken);
 
         $data = $request->getData();
+        if (($machineId = $accessToken->getParam('machine_id')) !== null) {
+            $data['machine_id'] = $machineId;
+        }
         $data['appsecret_proof'] = hash_hmac('sha256', $accessToken->getToken(), $this->clientSecret);
         $request->setData($data);
     }

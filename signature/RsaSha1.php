@@ -16,9 +16,6 @@ namespace yii\authclient\signature;
  *
  * @see RsaSha
  *
- * @property string $privateCertificate Private key certificate content.
- * @property string $publicCertificate Public key certificate content.
- *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */

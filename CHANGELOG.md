@@ -1,8 +1,8 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.1.3 under development
------------------------
+2.1.3 June 23, 2017
+-------------------
 
 - Bug #152: Fixed `\yii\authclient\OAuth1::fetchRequestToken()` skips formatting for `yii\httpclient\Request` (klimov-paul)
 - Bug #160: Fixed `\yii\authclient\OAuth1::composeSignatureBaseString()` does not take URL query string into account (klimov-paul)

@@ -54,9 +54,11 @@ use yii\web\HttpException;
  * @see http://openid.net/connect/
  * @see OAuth2
  *
- * @property Cache|array|string|null $cache the cache component, see [[setCache()]] for details.
- * @property bool $validateAuthNonce whether to use and validate auth 'nonce' parameter in authentication flow.
- * @property array $configParams OpenID provider configuration parameters.
+ * @property Cache|null $cache The cache object, `null` - if not enabled. Note that the type of this property
+ * differs in getter and setter. See [[getCache()]] and [[setCache()]] for details.
+ * @property array $configParams OpenID provider configuration parameters. This property is read-only.
+ * @property bool $validateAuthNonce Whether to use and validate auth 'nonce' parameter in authentication
+ * flow.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.1.3

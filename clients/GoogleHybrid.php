@@ -52,7 +52,7 @@ namespace yii\authclient\clients;
  * @see https://developers.google.com/+/web/signin
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
- * @since 2.0
+ * @since 2.0.4
  */
 class GoogleHybrid extends Google
 {

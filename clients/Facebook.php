@@ -29,7 +29,7 @@ use yii\authclient\OAuthToken;
  *             ],
  *         ],
  *     ]
- *     ...
+ *     // ...
  * ]
  * ```
  *

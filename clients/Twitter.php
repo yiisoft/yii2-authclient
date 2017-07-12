@@ -31,7 +31,7 @@ use yii\authclient\OAuth1;
  *             ],
  *         ],
  *     ]
- *     ...
+ *     // ...
  * ]
  * ```
  *

@@ -28,7 +28,7 @@ use yii\authclient\OAuth2;
  *             ],
  *         ],
  *     ]
- *     ...
+ *     // ...
  * ]
  * ```
  *

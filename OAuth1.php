@@ -25,7 +25,7 @@ use yii\web\HttpException;
  * $url = $oauthClient->buildAuthUrl($requestToken); // Get authorization URL
  * return Yii::$app->getResponse()->redirect($url); // Redirect to authorization URL
  * // After user returns at our site:
- * $accessToken = $oauthClient->fetchAccessToken($requestToken); // Upgrade to access token
+ * $accessToken = $oauthClient->fetchAccessToken(null,$requestToken); // Upgrade to access token
  * ```
  *
  * @see https://oauth.net/1/

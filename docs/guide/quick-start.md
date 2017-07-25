@@ -67,7 +67,7 @@ class AuthHandler
         /* @var Auth $auth */
         $auth = Auth::find()->where([
             'source' => $this->client->getId(),
-            'source_id' => $id,
+            'source_id' => (string)$id,
         ])->one();
 
         if (Yii::$app->user->isGuest) {

@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://github.com/yii2tech" target="_blank">
+    <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
     </a>
     <h1 align="center">AuthClient Extension for Yii 2</h1>

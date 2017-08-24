@@ -35,7 +35,12 @@ use yii\authclient\OAuth1;
  * ]
  * ```
  *
+ * > Note: some auth workflows provided by Twitter, such as [application-only authentication](https://dev.twitter.com/oauth/application-only),
+ *   uses OAuth 2 protocol and thus are impossible to be used with this class. You should use [[TwitterOAuth2]] for these.
+ *
+ * @see TwitterOAuth2
  * @see https://apps.twitter.com/
+ * @see https://dev.twitter.com/
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

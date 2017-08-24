@@ -64,4 +64,12 @@ class TwitterOAuth2 extends OAuth2
     {
         return 'Twitter';
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function applyAccessTokenToRequest($request, $accessToken)
+    {
+        $request->getHeaders()->set('Authorization', 'Bearer '. $accessToken->getToken());
+    }
 }

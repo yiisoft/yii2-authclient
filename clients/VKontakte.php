@@ -70,6 +70,11 @@ class VKontakte extends OAuth2
         'photo'
     ];
 
+    /**
+     * @var string API version
+     * @see https://vk.com/dev/versions
+     */
+    public $apiVersion = '3.0';
 
     /**
      * @inheritdoc
@@ -98,6 +103,7 @@ class VKontakte extends OAuth2
     public function applyAccessTokenToRequest($request, $accessToken)
     {
         $data = $request->getData();
+        $data['v'] = $this->apiVersion;
         $data['uids'] = $accessToken->getParam('user_id');
         $data['access_token'] = $accessToken->getToken();
         $request->setData($data);

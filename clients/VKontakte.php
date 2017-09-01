@@ -69,12 +69,13 @@ class VKontakte extends OAuth2
         'timezone',
         'photo'
     ];
-
     /**
-     * @var string API version
+     * @var string the API version to send in the API request.
      * @see https://vk.com/dev/versions
+     * @since 2.1.4
      */
     public $apiVersion = '3.0';
+
 
     /**
      * @inheritdoc

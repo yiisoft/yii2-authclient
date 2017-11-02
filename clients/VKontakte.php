@@ -7,7 +7,9 @@
 
 namespace yii\authclient\clients;
 
+use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
+use yii\helpers\Json;
 
 /**
  * VKontakte allows authentication via VKontakte OAuth.
@@ -85,6 +87,11 @@ class VKontakte extends OAuth2
         $response = $this->api('users.get.json', 'GET', [
             'fields' => implode(',', $this->attributeNames),
         ]);
+
+        if (empty($response['response'])) {
+            throw new \RuntimeException('Unable to init user attributes due to unexpected response: ' . Json::encode($response));
+        }
+
         $attributes = array_shift($response['response']);
 
         $accessToken = $this->getAccessToken();

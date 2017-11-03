@@ -50,6 +50,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             'id' => 'testapp',
             'basePath' => __DIR__,
             'vendorPath' => dirname(__DIR__) . '/vendor',
+            'components' => [
+                'session' => [
+                    'class' => 'yiiunit\extensions\authclient\data\Session',
+                ],
+            ]
         ], $config));
     }
 
@@ -60,6 +65,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             'basePath' => __DIR__,
             'vendorPath' => dirname(__DIR__) . '/vendor',
             'components' => [
+                'session' => [
+                    'class' => 'yiiunit\extensions\authclient\data\Session',
+                ],
                 'request' => [
                     'cookieValidationKey' => 'wefJDF8sfdsfSDefwqdxj9oq',
                     'scriptFile' => __DIR__ .'/index.php',

@@ -7,7 +7,7 @@
 
 namespace yii\authclient\signature;
 
-use yii\base\Object;
+use yii\base\BaseObject;
 
 /**
  * BaseMethod is a base class for the OAuth signature methods.
@@ -15,7 +15,7 @@ use yii\base\Object;
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-abstract class BaseMethod extends Object
+abstract class BaseMethod extends BaseObject
 {
     /**
      * Return the canonical name of the Signature Method.

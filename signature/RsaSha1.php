@@ -22,13 +22,13 @@ namespace yii\authclient\signature;
 class RsaSha1 extends RsaSha
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $algorithm = OPENSSL_ALGO_SHA1;
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {

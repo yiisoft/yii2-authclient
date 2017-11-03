@@ -36,7 +36,7 @@ class SessionStateStorage extends Component implements StateStorageInterface
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -52,7 +52,7 @@ class SessionStateStorage extends Component implements StateStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function set($key, $value)
     {
@@ -62,7 +62,7 @@ class SessionStateStorage extends Component implements StateStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($key)
     {
@@ -73,7 +73,7 @@ class SessionStateStorage extends Component implements StateStorageInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function remove($key)
     {

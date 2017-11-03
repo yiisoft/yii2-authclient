@@ -51,7 +51,7 @@ class OAuthToken extends BaseObject
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {

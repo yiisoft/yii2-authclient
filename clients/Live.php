@@ -41,21 +41,21 @@ use yii\authclient\OAuth2;
 class Live extends OAuth2
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $authUrl = 'https://login.live.com/oauth20_authorize.srf';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $tokenUrl = 'https://login.live.com/oauth20_token.srf';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://apis.live.net/v5.0';
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -69,7 +69,7 @@ class Live extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initUserAttributes()
     {
@@ -77,7 +77,7 @@ class Live extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultName()
     {
@@ -85,7 +85,7 @@ class Live extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultTitle()
     {

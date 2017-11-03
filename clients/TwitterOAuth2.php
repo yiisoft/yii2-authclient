@@ -28,21 +28,21 @@ use yii\authclient\OAuth2;
 class TwitterOAuth2 extends OAuth2
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $authUrl = 'https://api.twitter.com/oauth2/authenticate';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $tokenUrl = 'https://api.twitter.com/oauth2/token';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://api.twitter.com/1.1';
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initUserAttributes()
     {
@@ -50,7 +50,7 @@ class TwitterOAuth2 extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultName()
     {
@@ -58,7 +58,7 @@ class TwitterOAuth2 extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultTitle()
     {
@@ -66,7 +66,7 @@ class TwitterOAuth2 extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {

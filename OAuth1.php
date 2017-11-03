@@ -192,7 +192,7 @@ abstract class OAuth1 extends BaseOAuth
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createRequest()
     {
@@ -202,7 +202,7 @@ abstract class OAuth1 extends BaseOAuth
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createApiRequest()
     {
@@ -227,7 +227,7 @@ abstract class OAuth1 extends BaseOAuth
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {

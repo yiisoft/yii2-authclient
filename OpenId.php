@@ -118,7 +118,7 @@ class OpenId extends BaseClient
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -271,7 +271,7 @@ class OpenId extends BaseClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultRequestOptions()
     {
@@ -837,7 +837,7 @@ class OpenId extends BaseClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initUserAttributes()
     {

@@ -138,7 +138,7 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setHttpClient($httpClient)
     {
@@ -150,7 +150,7 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function createHttpClient($reference)
     {
@@ -169,7 +169,7 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultRequestOptions()
     {

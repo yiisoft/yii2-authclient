@@ -60,13 +60,13 @@ namespace yii\authclient\clients;
 class GoogleHybrid extends Google
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $validateAuthState = false;
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultReturnUrl()
     {
@@ -74,7 +74,7 @@ class GoogleHybrid extends Google
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultViewOptions()
     {

@@ -27,7 +27,7 @@ class HmacSha extends BaseMethod
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -37,7 +37,7 @@ class HmacSha extends BaseMethod
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -45,7 +45,7 @@ class HmacSha extends BaseMethod
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function generateSignature($baseString, $key)
     {

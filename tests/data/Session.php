@@ -8,7 +8,7 @@ namespace yiiunit\extensions\authclient\data;
 class Session extends \yii\web\Session
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {

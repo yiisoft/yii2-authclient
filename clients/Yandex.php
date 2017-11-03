@@ -41,21 +41,21 @@ use yii\authclient\OAuth2;
 class Yandex extends OAuth2
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $authUrl = 'https://oauth.yandex.ru/authorize';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $tokenUrl = 'https://oauth.yandex.ru/token';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://login.yandex.ru';
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initUserAttributes()
     {
@@ -63,7 +63,7 @@ class Yandex extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
@@ -76,7 +76,7 @@ class Yandex extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultName()
     {
@@ -84,7 +84,7 @@ class Yandex extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultTitle()
     {

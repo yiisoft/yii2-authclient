@@ -10,7 +10,7 @@ use yii\authclient\BaseClient;
 class TestClient extends BaseClient
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initUserAttributes()
     {

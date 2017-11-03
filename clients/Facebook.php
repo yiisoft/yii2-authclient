@@ -42,19 +42,19 @@ use yii\authclient\OAuthToken;
 class Facebook extends OAuth2
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $authUrl = 'https://www.facebook.com/dialog/oauth';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $tokenUrl = 'https://graph.facebook.com/oauth/access_token';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://graph.facebook.com';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $scope = 'email';
     /**
@@ -66,7 +66,7 @@ class Facebook extends OAuth2
         'email',
     ];
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $autoRefreshAccessToken = false; // Facebook does not provide access token refreshment
     /**
@@ -86,7 +86,7 @@ class Facebook extends OAuth2
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initUserAttributes()
     {
@@ -96,7 +96,7 @@ class Facebook extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
@@ -111,7 +111,7 @@ class Facebook extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultName()
     {
@@ -119,7 +119,7 @@ class Facebook extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultTitle()
     {
@@ -127,7 +127,7 @@ class Facebook extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultViewOptions()
     {
@@ -138,7 +138,7 @@ class Facebook extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function fetchAccessToken($authCode, array $params = [])
     {

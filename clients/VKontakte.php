@@ -43,15 +43,15 @@ use yii\helpers\Json;
 class VKontakte extends OAuth2
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $authUrl = 'https://oauth.vk.com/authorize';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $tokenUrl = 'https://oauth.vk.com/access_token';
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://api.vk.com/method';
     /**
@@ -80,7 +80,7 @@ class VKontakte extends OAuth2
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initUserAttributes()
     {
@@ -106,7 +106,7 @@ class VKontakte extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
@@ -118,7 +118,7 @@ class VKontakte extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultName()
     {
@@ -126,7 +126,7 @@ class VKontakte extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultTitle()
     {
@@ -134,7 +134,7 @@ class VKontakte extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultNormalizeUserAttributeMap()
     {

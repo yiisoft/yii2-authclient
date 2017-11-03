@@ -129,7 +129,7 @@ abstract class OAuth2 extends BaseOAuth
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {

@@ -16,7 +16,7 @@ namespace yii\authclient\signature;
 class PlainText extends BaseMethod
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -24,7 +24,7 @@ class PlainText extends BaseMethod
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function generateSignature($baseString, $key)
     {

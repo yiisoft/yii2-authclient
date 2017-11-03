@@ -50,7 +50,7 @@ class RsaSha extends BaseMethod
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -100,7 +100,7 @@ class RsaSha extends BaseMethod
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -162,7 +162,7 @@ class RsaSha extends BaseMethod
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function generateSignature($baseString, $key)
     {
@@ -178,7 +178,7 @@ class RsaSha extends BaseMethod
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function verify($signature, $baseString, $key)
     {

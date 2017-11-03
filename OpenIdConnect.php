@@ -66,7 +66,7 @@ use yii\web\HttpException;
 class OpenIdConnect extends OAuth2
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $scope = 'openid';
     /**
@@ -214,7 +214,7 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildAuthUrl(array $params = [])
     {
@@ -225,7 +225,7 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function fetchAccessToken($authCode, array $params = [])
     {
@@ -243,7 +243,7 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function refreshAccessToken(OAuthToken $token)
     {
@@ -254,7 +254,7 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initUserAttributes()
     {
@@ -262,7 +262,7 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function applyClientCredentialsToRequest($request)
     {
@@ -306,7 +306,7 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultReturnUrl()
     {
@@ -325,7 +325,7 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function createToken(array $tokenConfig = [])
     {

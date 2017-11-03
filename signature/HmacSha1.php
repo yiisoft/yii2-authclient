@@ -22,7 +22,7 @@ namespace yii\authclient\signature;
 class HmacSha1 extends HmacSha
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $algorithm = 'sha1';
 }

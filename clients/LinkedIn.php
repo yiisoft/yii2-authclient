@@ -46,11 +46,11 @@ class LinkedIn extends OAuth2
     /**
      * {@inheritdoc}
      */
-    public $authUrl = 'https://www.linkedin.com/uas/oauth2/authorization';
+    public $authUrl = 'https://www.linkedin.com/oauth/v2/authorization';
     /**
      * {@inheritdoc}
      */
-    public $tokenUrl = 'https://www.linkedin.com/uas/oauth2/accessToken';
+    public $tokenUrl = 'https://www.linkedin.com/oauth/v2/accessToken';
     /**
      * {@inheritdoc}
      */

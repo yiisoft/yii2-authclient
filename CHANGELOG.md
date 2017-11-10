@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.1.5 under development
 -----------------------
 
-- no changes in this release.
+- Enh #187: URL endpoints for `authUrl` and `tokenUrl` for `yii\authclient\clients\LinkedIn` updated (Felli)
 
 
 2.1.4 November 03, 2017

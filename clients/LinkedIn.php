@@ -34,9 +34,9 @@ use Yii;
  * ]
  * ```
  *
- * @see http://developer.linkedin.com/documents/authentication
+ * @see https://developer.linkedin.com/docs/oauth2
  * @see https://www.linkedin.com/secure/developer
- * @see http://developer.linkedin.com/apis
+ * @see https://developer.linkedin.com/docs/rest-api
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -46,11 +46,11 @@ class LinkedIn extends OAuth2
     /**
      * {@inheritdoc}
      */
-    public $authUrl = 'https://www.linkedin.com/uas/oauth2/authorization';
+    public $authUrl = 'https://www.linkedin.com/oauth/v2/authorization';
     /**
      * {@inheritdoc}
      */
-    public $tokenUrl = 'https://www.linkedin.com/uas/oauth2/accessToken';
+    public $tokenUrl = 'https://www.linkedin.com/oauth/v2/accessToken';
     /**
      * {@inheritdoc}
      */

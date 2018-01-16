@@ -35,3 +35,10 @@ or add
 ```
 
 to the `require` section of your composer.json.
+
+## Additional clients
+
+There are more implementations for various clients:
+
+- [Instagram](https://github.com/kotchuprik/yii2-instagram-authclient)
+

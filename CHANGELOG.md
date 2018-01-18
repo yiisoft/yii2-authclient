@@ -5,6 +5,7 @@ Yii Framework 2 authclient extension Change Log
 -----------------------
 
 - Enh #187: URL endpoints for `authUrl` and `tokenUrl` for `yii\authclient\clients\LinkedIn` updated (Felli)
+- Enh #195: `yii\authclient\AuthAction` refactored to use `yii\web\Application::$request` for request data access (klimov-paul)
 
 
 2.1.4 November 03, 2017

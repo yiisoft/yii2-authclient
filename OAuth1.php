@@ -142,10 +142,10 @@ abstract class OAuth1 extends BaseOAuth
      */
     public function fetchAccessToken($oauthToken = null, OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
     {
+        $incomingRequest = Yii::$app->getRequest();
+
         if ($oauthToken === null) {
-            if (isset($_REQUEST['oauth_token'])) {
-                $oauthToken = $_REQUEST['oauth_token'];
-            }
+            $oauthToken = $incomingRequest->get('oauth_token', $incomingRequest->post('oauth_token', $oauthToken));
         }
 
         if (!is_object($requestToken)) {
@@ -166,9 +166,7 @@ abstract class OAuth1 extends BaseOAuth
             'oauth_token' => $requestToken->getToken()
         ];
         if ($oauthVerifier === null) {
-            if (isset($_REQUEST['oauth_verifier'])) {
-                $oauthVerifier = $_REQUEST['oauth_verifier'];
-            }
+            $oauthVerifier = $incomingRequest->get('oauth_verifier', $incomingRequest->post('oauth_verifier'));
         }
         if (!empty($oauthVerifier)) {
             $defaultParams['oauth_verifier'] = $oauthVerifier;

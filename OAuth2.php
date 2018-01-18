@@ -24,7 +24,7 @@ use yii\web\HttpException;
  * $url = $oauthClient->buildAuthUrl(); // Build authorization URL
  * Yii::$app->getResponse()->redirect($url); // Redirect to authorization URL.
  * // After user returns at our site:
- * $code = $_GET['code'];
+ * $code = Yii::$app->getRequest()->get('code');
  * $accessToken = $oauthClient->fetchAccessToken($code); // Get access token
  * ```
  *
@@ -91,7 +91,7 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * Fetches access token from authorization code.
-     * @param string $authCode authorization code, usually comes at $_GET['code'].
+     * @param string $authCode authorization code, usually comes at GET parameter 'code'.
      * @param array $params additional request params.
      * @return OAuthToken access token.
      * @throws HttpException on invalid auth state in case [[enableStateValidation]] is enabled.
@@ -100,11 +100,12 @@ abstract class OAuth2 extends BaseOAuth
     {
         if ($this->validateAuthState) {
             $authState = $this->getState('authState');
-            if (!isset($_REQUEST['state']) || empty($authState) || strcmp($_REQUEST['state'], $authState) !== 0) {
+            $incomingRequest = Yii::$app->getRequest();
+            $incomingState = $incomingRequest->get('state', $incomingRequest->post('state'));
+            if (!isset($incomingState) || empty($authState) || strcmp($incomingState, $authState) !== 0) {
                 throw new HttpException(400, 'Invalid auth state parameter.');
-            } else {
-                $this->removeState('authState');
             }
+            $this->removeState('authState');
         }
 
         $defaultParams = [

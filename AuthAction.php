@@ -74,7 +74,7 @@ class AuthAction extends Action
      * For example:
      *
      * ```php
-     * public function onAuthSuccess($client)
+     * public function onAuthSuccess(ClientInterface $client)
      * {
      *     $attributes = $client->getUserAttributes();
      *     // user login or signup comes here
@@ -83,9 +83,26 @@ class AuthAction extends Action
      *
      * If this callback returns [[Response]] instance, it will be used as action response,
      * otherwise redirection to [[successUrl]] will be performed.
-     *
      */
     public $successCallback;
+    /**
+     * @var callable PHP callback, which should be triggered in case of authentication cancelation.
+     *  This callback should accept [[ClientInterface]] instance as an argument.
+     * For example:
+     *
+     * ```php
+     * public function onAuthCancel(ClientInterface $client)
+     * {
+     *     // set flash, logging, etc.
+     * }
+     * ```
+     *
+     * If this callback returns [[Response]] instance, it will be used as action response,
+     * otherwise redirection to [[cancelUrl]] will be performed.
+     *
+     * @since 2.1.5
+     */
+    public $cancelCallback;
     /**
      * @var string name or alias of the view file, which should be rendered in order to perform redirection.
      * If not set - default one will be used.
@@ -220,6 +237,24 @@ class AuthAction extends Action
     }
 
     /**
+     * This method is invoked in case of authentication cancelation.
+     * @param ClientInterface $client auth client instance.
+     * @return Response response instance.
+     * @since 2.1.5
+     */
+    protected function authCancel($client)
+    {
+        if ($this->cancelCallback !== null) {
+            $response = call_user_func($this->cancelCallback, $client);
+            if ($response instanceof Response) {
+                return $response;
+            }
+        }
+
+        return $this->redirectCancel();
+    }
+
+    /**
      * Redirect to the given URL or simply close the popup window.
      * @param mixed $url URL to redirect, could be a string or array config to generate a valid URL.
      * @param bool $enforceRedirect indicates if redirect should be performed even in case of popup window.
@@ -295,7 +330,7 @@ class AuthAction extends Action
                 }
                 throw new HttpException(400, 'Unable to complete the authentication because the required data was not received.');
             case 'cancel':
-                return $this->redirectCancel();
+                return $this->authCancel($client);
             default:
                 throw new HttpException(400);
         }
@@ -312,7 +347,7 @@ class AuthAction extends Action
 
         // user denied error
         if ($request->get('denied') !== null) {
-            return $this->redirectCancel();
+            return $this->authCancel($client);
         }
 
         if (($oauthToken = $request->get('oauth_token', $request->post('oauth_token'))) !== null) {
@@ -342,7 +377,7 @@ class AuthAction extends Action
         if (($error = $request->get('error')) !== null) {
             if ($error === 'access_denied') {
                 // user denied error
-                return $this->redirectCancel();
+                return $this->authCancel($client);
             }
             // request error
             $errorMessage = $request->get('error_description', $request->get('error_message'));
@@ -358,7 +393,7 @@ class AuthAction extends Action
             if (!empty($token)) {
                 return $this->authSuccess($client);
             }
-            return $this->redirectCancel();
+            return $this->authCancel($client);
         }
 
         $url = $client->buildAuthUrl();

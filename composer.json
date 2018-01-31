@@ -30,7 +30,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "yii\\authclient\\": "" }
+        "psr-4": { "yii\\authclient\\": "src" }
     },
     "extra": {
         "branch-alias": {

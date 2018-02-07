@@ -209,7 +209,7 @@ Defining list of attributes, which external auth provider should return, depends
   providers use different formats for the scope.
 
 > Tip: If you are using several different clients, you can unify the structure of the attributes, which they return,
-  using [[yii\authclient\BaseClient::normalizeUserAttributeMap]].
+  using [[yii\authclient\BaseClient::$normalizeUserAttributeMap]].
 
 
 ## Adding widget to login view

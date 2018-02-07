@@ -87,7 +87,7 @@ class AuthAction extends Action
     public $successCallback;
     /**
      * @var callable PHP callback, which should be triggered in case of authentication cancelation.
-     *  This callback should accept [[ClientInterface]] instance as an argument.
+     * This callback should accept [[ClientInterface]] instance as an argument.
      * For example:
      *
      * ```php

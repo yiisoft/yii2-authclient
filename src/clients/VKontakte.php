@@ -76,7 +76,7 @@ class VKontakte extends OAuth2
      * @see https://vk.com/dev/versions
      * @since 2.1.4
      */
-    public $apiVersion = '3.0';
+    public $apiVersion = '5.0';
 
 
     /**
@@ -84,7 +84,7 @@ class VKontakte extends OAuth2
      */
     protected function initUserAttributes()
     {
-        $response = $this->api('users.get.json', 'GET', [
+        $response = $this->api('users.get', 'GET', [
             'fields' => implode(',', $this->attributeNames),
         ]);
 
@@ -112,7 +112,7 @@ class VKontakte extends OAuth2
     {
         $data = $request->getData();
         $data['v'] = $this->apiVersion;
-        $data['uids'] = $accessToken->getParam('user_id');
+        $data['user_ids'] = $accessToken->getParam('user_id');
         $data['access_token'] = $accessToken->getToken();
         $request->setData($data);
     }

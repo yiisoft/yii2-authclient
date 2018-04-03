@@ -9,7 +9,7 @@
  - OAuth 1/1.0a のためには [[yii\authclient\OAuth1]] を使います。
  - OpenID のためには [[yii\authclient\OpenId]] を使います。
 
-この段階で、対応するメソッドを宣言することによって、認証クライアントのデフォルトの名前、タイトル、および、ビューオプションを決定することが出来ます。
+この段階で、対応するメソッドを宣言することによって、認証クライアントのデフォルトの名前、タイトル、および、ビュー・オプションを決定することが出来ます。
 
 ```php
 use yii\authclient\OAuth2;
@@ -67,7 +67,7 @@ class MyAuthClient extends OpenId
 以下のものを指定する必要があります。
 
 - 認証 URL - [[yii\authclient\OAuth2::authUrl|authUrl]] フィールド。
-- トークンリクエスト URL - [[yii\authclient\OAuth2::tokenUrl|tokenUrl]] フィールド。
+- トークン・リクエスト URL - [[yii\authclient\OAuth2::tokenUrl|tokenUrl]] フィールド。
 - API のベース URL - [[yii\authclient\OAuth2::apiBaseUrl|apiBaseUrl]] フィールド。
 - ユーザ属性取得ストラテジー - [[yii\authclient\OAuth2::initUserAttributes()|initUserAttributes()]] メソッド。
 
@@ -101,8 +101,8 @@ class MyAuthClient extends OAuth2
 以下のものを指定する必要があります。
 
 - 認証 URL - [[yii\authclient\OAuth1::authUrl|authUrl]] フィールド。
-- リクエストトークン URL - [[yii\authclient\OAuth1::requestTokenUrl|requestTokenUrl]] フィールド。
-- アクセストークン URL - [[yii\authclient\OAuth1::accessTokenUrl|accessTokenUrl]] フィールド。
+- リクエスト・トークン URL - [[yii\authclient\OAuth1::requestTokenUrl|requestTokenUrl]] フィールド。
+- アクセス・トークン URL - [[yii\authclient\OAuth1::accessTokenUrl|accessTokenUrl]] フィールド。
 - API のベース URL - [[yii\authclient\OAuth1::apiBaseUrl|apiBaseUrl]] フィールド。
 - ユーザ属性取得ストラテジー - [[yii\authclient\OAuth1::initUserAttributes()|initUserAttributes()]] メソッド。
 

@@ -58,7 +58,7 @@ echo $response->data['id'];
 
 HTTP リクエストの送信に関する詳細は、[yii2-httpclient](https://github.com/yiisoft/yii2-httpclient) のドキュメントを参照して下さい。
 
-[[\yii\authclient\BaseOAuth::createApiRequest()]] によって生成されたリクエストは、自動的にサインアップされ(OAuth 1.0 を使用する場合)、送信される前にアクセストークンを適用されます。
+[[\yii\authclient\BaseOAuth::createApiRequest()]] によって生成されたリクエストは、自動的にサインアップされ(OAuth 1.0 を使用する場合)、送信される前にアクセス・トークンを適用されます。
 これらのプロセスに対する完全な制御を獲得したい場合は、代りに [[\yii\authclient\BaseClient::createRequest()]] を使わなければなりません。
 [[\yii\authclient\BaseOAuth::applyAccessTokenToRequest()]] および [[yii\authclient\OAuth1::signRequest()]] のメソッドを使って、その API リクエストに必要なアクションを実行することが出来ます。
 例えば、
@@ -71,8 +71,8 @@ $request = $client->createRequest()
     ->setMethod('GET')
     ->setUrl('users');
 
-$client->applyAccessTokenToRequest($request, $myAccessToken); // API のためのカスタムアクセストークンを使う
-$client->signRequest($request, $myAccessToken); // カスタムアクセストークンでリクエストにサインをする
+$client->applyAccessTokenToRequest($request, $myAccessToken); // API のためのカスタム・アクセス・トークンを使う
+$client->signRequest($request, $myAccessToken); // カスタム・アクセス・トークンでリクエストにサインをする
 
 $response = $request->send();
 ```

@@ -1,7 +1,7 @@
 OAuth 2.0 直接認証
 ==================
 
-OAuth プロトコル 2.0 版では、追加のワークフローがいくつか利用可能であり、OAuth プロバイダのウェブサイトを訪問する必要のない、直接認証が可能になっています。
+OAuth プロトコル 2.0 版では、追加のワークフローがいくつか利用可能であり、OAuth プロバイダのウェブ・サイトを訪問する必要のない、直接認証が可能になっています。
 
 > Note: この節で説明されている認証ワークフローは、通常は、OAuth プロバイダによってサポートされていません。
   なぜなら、通常の認証ワークフローより安全性が低いからです。
@@ -11,8 +11,8 @@ OAuth プロトコル 2.0 版では、追加のワークフローがいくつか
 ## リソース・オーナー・パスワード・クレデンシャル・グラント
 
 [リソース・オーナー・パスワード・クレデンシャル・グラント](https://tools.ietf.org/html/rfc6749#section-4.3) のワークフローは、
-OAuth プロバイダのウェブサイトにリダイレクトすることなく、ユーザ名/パスワードのペアによる直接のユーザ認証を可能にするものです。
-([4.3.  リソースオーナーパスワードクレデンシャルグラント](http://openid-foundation-japan.github.io/rfc6749.ja.html#grant-password) を参照)
+OAuth プロバイダのウェブ・サイトにリダイレクトすることなく、ユーザ名/パスワードのペアによる直接のユーザ認証を可能にするものです。
+([4.3.  リソース・オーナー・パスワード・クレデンシャル・グラント](http://openid-foundation-japan.github.io/rfc6749.ja.html#grant-password) を参照)
 
 [[\yii\authclient\OAuth2::authenticateUser()]] を使うと、このワークフローによってユーザを認証することが出来ます。
 例えば、
@@ -52,10 +52,10 @@ $accessToken = $client->authenticateClient();
 ```
 
 
-## JSON Web Token (JWT)
+## JSON ウェブ・トークン (JWT)
 
-JSON Web Token (JWT) work flow allows authentication of the particular account using [JSON Web Signature (JWS)](https://tools.ietf.org/html/rfc7515).
-The following example allows authentication of [Google Service Account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount):
+JSON ウェブ・トークン (JWT) のワークフロー によって [JSON ウェブ・シグニチャ (JWS)](https://tools.ietf.org/html/rfc7515) を使った特定のアカウントの認証が可能になります。
+次の例では、[Google サービス・アカウント](https://developers.google.com/identity/protocols/OAuth2ServiceAccount) の認証を可能にしています。
 
 ```php
 use yii\authclient\clients\Google;

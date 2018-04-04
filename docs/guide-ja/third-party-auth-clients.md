@@ -1,7 +1,7 @@
-ƒT[ƒhƒp[ƒeƒB‚Ì”FØƒNƒ‰ƒCƒAƒ“ƒg
+ã‚µãƒ¼ãƒ‰ãƒ‘ãƒ¼ãƒ†ã‚£ã®èªè¨¼ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆ
 ================================
 
-‚¢‚ë‚¢‚ë‚ÈƒNƒ‰ƒCƒAƒ“ƒg‚Ì‚½‚ß‚ÌÀ‘•‚ª‚³‚ç‚É‚¢‚­‚Â‚©‚ ‚è‚Ü‚·B
+ã„ã‚ã„ã‚ãªã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ãŸã‚ã®å®Ÿè£…ãŒã•ã‚‰ã«ã„ãã¤ã‹ã‚ã‚Šã¾ã™ã€‚
 
 - [Instagram](https://github.com/kotchuprik/yii2-instagram-authclient)
 - [Weibo, QQ, Wechat](https://github.com/yujiandong/yii2-authclient)

@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.1.6 under development
 -----------------------
 
-- no changes in this release.
+- Enh #203: Updated VKontakte client to use API version 5.0 (Shketkol)
 
 
 2.1.5 February 08, 2018

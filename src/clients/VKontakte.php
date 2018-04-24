@@ -84,7 +84,7 @@ class VKontakte extends OAuth2
      */
     protected function initUserAttributes()
     {
-        $response = $this->api('users.get', 'GET', [
+        $response = $this->api('users.get.json', 'GET', [
             'fields' => implode(',', $this->attributeNames),
         ]);
 

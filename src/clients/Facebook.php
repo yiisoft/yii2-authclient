@@ -14,6 +14,9 @@ use yii\authclient\OAuthToken;
  * Facebook allows authentication via Facebook OAuth.
  *
  * In order to use Facebook OAuth you must register your application at <https://developers.facebook.com/apps>.
+ * Add an app. In "Settings" -> "Basic" specify "App Domains". There you can obtain ID and Secret values to
+ * put into config. In "Products" press "+" and add "Facebook Login". In its settings make sure you enabled
+ * "Web OAuth Login" and specify "Valid OAuth Redirect URIs" as "https://example.com/auth?authclient=facebook".
  *
  * Example application configuration:
  *

@@ -1,7 +1,8 @@
 Yii 2 認証クライアント・エクステンション
 ========================================
 
-このエクステンションは [OpenID](http://openid.net/)、 [OAuth](http://oauth.net/) および [OAuth2](http://oauth.net/2/) のコンシューマを Yii フレームワーク 2.0 に追加します。
+このエクステンションは [OpenID](http://openid.net/)、 [OAuth](http://oauth.net/) および [OAuth2](http://oauth.net/2/) のコンシューマを
+Yii フレームワーク 2.0 に追加します。
 
 
 始めよう

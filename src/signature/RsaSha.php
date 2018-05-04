@@ -168,7 +168,7 @@ class RsaSha extends BaseMethod
     {
         $privateCertificateContent = $this->getPrivateCertificate();
         // Pull the private key ID from the certificate
-        $privateKeyId = openssl_pkey_get_private($privateCertificateContent);
+        $privateKeyId = openssl_pkey_get_private($privateCertificateContent, $key);
         // Sign using the key
         openssl_sign($baseString, $signature, $privateKeyId, $this->algorithm);
         // Release the key resource

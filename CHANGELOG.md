@@ -5,6 +5,7 @@ Yii Framework 2 authclient extension Change Log
 -----------------------
 
 - Enh #203: Updated VKontakte client to use API version 5.0 (Shketkol)
+- Bug #211: `RsaSha` was not passing `$key` to `openssl_pkey_get_private()` in `generateSignature()` (cfhodges)
 
 
 2.1.5 February 08, 2018

@@ -118,6 +118,11 @@ class AuthAction extends Action
      */
     private $_cancelUrl;
 
+    /**
+     * @var instance of \yii\web\User 
+     * user component, which might be set in different module
+     */
+    public $user;
 
     /**
      * @param string $url successful URL.
@@ -165,7 +170,7 @@ class AuthAction extends Action
      */
     protected function defaultSuccessUrl()
     {
-        return Yii::$app->getUser()->getReturnUrl();
+        return $this->user->getReturnUrl();
     }
 
     /**
@@ -174,7 +179,7 @@ class AuthAction extends Action
      */
     protected function defaultCancelUrl()
     {
-        return Url::to(Yii::$app->getUser()->loginUrl);
+        return Url::to($this->user->loginUrl);
     }
 
     /**
@@ -190,6 +195,13 @@ class AuthAction extends Action
                 throw new NotFoundHttpException("Unknown auth client '{$clientId}'");
             }
             $client = $collection->getClient($clientId);
+
+            if (empty($this->user)) {
+                $this->user = Yii::$app->getUser();
+            }
+            if (!($this->user instanceof \yii\web\User)) {
+                throw new InvalidConfigException('"' . get_class($this) . '::$user" should be a instance of \yii\web\User.');
+            }
 
             return $this->auth($client);
         }

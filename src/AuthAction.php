@@ -119,10 +119,18 @@ class AuthAction extends Action
     private $_cancelUrl;
 
     /**
-     * @var instance of \yii\web\User 
-     * user component, which might be set in different module
+     * @var string the ID of user component
+     * user component ID, which might be set in different module
      */
-    public $user;
+    public $userComponentID;
+    
+    /**
+     * @var instance of \yii\web\User 
+     * user component, which is build via userComponentID property
+     * if userComponentID propety not set, then default app user (Yii::$app->getUser()) component will be used
+     */
+    private $_user;
+
 
     /**
      * @param string $url successful URL.
@@ -170,7 +178,7 @@ class AuthAction extends Action
      */
     protected function defaultSuccessUrl()
     {
-        return $this->user->getReturnUrl();
+        return $this->_user->getReturnUrl();
     }
 
     /**
@@ -179,7 +187,7 @@ class AuthAction extends Action
      */
     protected function defaultCancelUrl()
     {
-        return Url::to($this->user->loginUrl);
+        return Url::to($this->_user->loginUrl);
     }
 
     /**
@@ -196,10 +204,9 @@ class AuthAction extends Action
             }
             $client = $collection->getClient($clientId);
 
-            if (empty($this->user)) {
-                $this->user = Yii::$app->getUser();
-            }
-            if (!($this->user instanceof \yii\web\User)) {
+            $this->_user = (!empty($this->userComponentID) && is_string($this->userComponentID)) ? Yii::createObject(["class" => $this->userComponentID]) : Yii::$app->getUser() ;
+
+            if (!($this->_user instanceof \yii\web\User)) {
                 throw new InvalidConfigException('"' . get_class($this) . '::$user" should be a instance of \yii\web\User.');
             }
 

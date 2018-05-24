@@ -126,8 +126,8 @@ class AuthAction extends Action
     
     /**
      * @var instance of \yii\web\User 
-     * user component, which is build via userComponentID property
-     * if userComponentID propety not set, then default app user (Yii::$app->getUser()) component will be used
+     * user component, which is build via [[userComponentID]] property
+     * if [[userComponentID]] propety not set, then default app user (Yii::$app->getUser()) component will be used
      */
     private $_user;
 

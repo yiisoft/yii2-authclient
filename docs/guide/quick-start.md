@@ -4,7 +4,7 @@ Quick Start
 ## Adding action to controller
 
 Next step is to add [[yii\authclient\AuthAction]] to a web controller and provide a `successCallback` implementation,
-which is suitable for your needs. Typically final controller code may look like following:
+which is suitable for your needs. Typically, the final controller code will look like the following:
 
 ```php
 use app\components\AuthHandler;
@@ -28,9 +28,25 @@ class SiteController extends Controller
 }
 ```
 
-Note that it's important for `auth` action to be public accessible, so make sure it's not denied by access control filter.
+> Note that it's important for the `auth` action to be publically accessible, so make sure it's not denied by access control filter.
 
-Where AuthHandler implementation could be like this:
+The following code shows an example AuthHandler, which will need modifying for your app.
+
+Notes
+* The namespaces for Auth and User reflect the basic app template. Put e.g. `use common\models\Auth;` for the advanced template.
+* The attribute names `email`, `sub` and `nickname` at the start of `function handle()` are defined by OpenIdConnect. 
+If your provider is OAuth, these names might be different.
+* You might need to set a specific `scope` value in your provider config to get back the required attributes. For OpenIdConnect, 
+you will need a scope of `openid email profile` to get the claims below returned. If not using nickname, you can use `openid email`. 
+Other providers will have unique scope to claim mappings.
+* This code demonstrates a custom field `github` in the User which is both set and updated by `function updateUserInfo(User $user)` 
+when the user is created and every time they login to ensure it stays up to date. The example migration does not include this 
+custom field, if you don't need it, remove it.
+* Different Auth clients may require different approaches while handling authentication success. For example: Twitter
+does not return the user email, so you have to deal with this somehow.
+* This code does not handle a new user having a username (nickname) that matches an existing user account (where the emails 
+are different) and the database insert will fail. You can code it to generate a unique id in this case or otherwise redirect the 
+user to a page to allow them to set a username.
 
 ```php
 <?php
@@ -61,8 +77,8 @@ class AuthHandler
     {
         $attributes = $this->client->getUserAttributes();
         $email = ArrayHelper::getValue($attributes, 'email');
-        $id = ArrayHelper::getValue($attributes, 'id');
-        $nickname = ArrayHelper::getValue($attributes, 'login');
+        $id = ArrayHelper::getValue($attributes, 'sub');
+        $nickname = ArrayHelper::getValue($attributes, 'nickname');
 
         /* @var Auth $auth */
         $auth = Auth::find()->where([
@@ -176,9 +192,6 @@ we can retrieve information received. In our case we'd like to:
 - If user is guest and record found in auth then log this user in.
 - If user is guest and record not found in auth then create new user and make a record in auth table. Then log in.
 - If user is logged in and record not found in auth then try connecting additional account (save its data into auth table).
-
-> Note: different Auth clients may require different approaches while handling authentication success. For example: Twitter
-  does not allow returning of the user email, so you have to deal with this somehow.
 
 ### Auth client basic structure
 

@@ -260,6 +260,15 @@ class OpenIdConnect extends OAuth2
     {
         return $this->api($this->getConfigParam('userinfo_endpoint'), 'GET');
     }
+	
+    /**
+     * {@inheritdoc}
+     */
+    public function applyAccessTokenToRequest($request, $accessToken)
+    {
+        // OpenID Connect requires bearer token auth for the user info endpoint
+        $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
+    }
 
     /**
      * {@inheritdoc}

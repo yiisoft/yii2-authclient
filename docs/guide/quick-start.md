@@ -28,24 +28,24 @@ class SiteController extends Controller
 }
 ```
 
-> Note that it's important for the `auth` action to be publically accessible, so make sure it's not denied by access control filter.
+> Note that it is important for the `auth` action to be publically accessible, so make sure it is not denied by access control filter.
 
-The following code shows an example AuthHandler, which will need modifying for your app.
+The following code shows an example `AuthHandler`, which will need modifying for your app.
 
-Notes
-* The namespaces for models `Auth` and `User` reflect the basic app template. Put e.g. `use common\models\Auth;` for the advanced template.
-* You need to generate the `Auth` model from the table mentioned [here](installation.md)
-* The attribute names `email`, `sub` and `nickname` at the start of `function handle()` are defined by OpenIdConnect. 
+Notes:
+
+- The namespaces for models `Auth` and `User` reflect the basic project template. For the advanced template you need to adjust namespace to `common\models\Auth;`.
+- You need to generate the `Auth` model from the table mentioned [here](installation.md).
+- The attribute names `email`, `sub` and `nickname` at the start of `function handle()` are defined by OpenIdConnect. 
 If your provider is OAuth, these names might be different.
-* You might need to set a specific `scope` value in your provider config to get back the required attributes. For OpenIdConnect, 
+- You might need to set a specific `scope` value in your provider config to get back the required attributes. For OpenIdConnect, 
 you will need a scope of `openid email profile` to get the claims below returned. If not using nickname, you can use `openid email`. 
 Other providers will have unique scope to claim mappings.
-* This code demonstrates a custom field `github` in `User` which is both set and updated by `function updateUserInfo(User $user)` 
+- This code demonstrates a custom field `github` in `User` which is both set and updated by `function updateUserInfo(User $user)` 
 when the user is created and every time they login to ensure it stays up to date. The example migration does not include this 
 custom field, if you don't need it, remove the code below.
-* Different Auth clients may require different approaches while handling authentication success. For example: Twitter
-does not return the user email, so you have to deal with this somehow.
-* This code does not handle a new user having a username (nickname) that matches an existing username (where the emails 
+- Different Auth clients may require different approaches while handling authentication success.
+- This code does not handle a new user having a username (nickname) that matches an existing username (where the emails 
 are different) and the database insert will fail. You can code it to generate a unique id in this case (see below for example) or 
 otherwise redirect the user to a page to allow them to set a username.
 

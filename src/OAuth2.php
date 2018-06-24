@@ -391,7 +391,7 @@ abstract class OAuth2 extends BaseOAuth
      * @return bool|string
      */
     public function getOauthState() {
-        if (!empty($this->oauthState)) {
+        if (empty($this->oauthState)) {
             return false;
         }
 

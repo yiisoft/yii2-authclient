@@ -107,17 +107,15 @@ abstract class OAuth2 extends BaseOAuth
      */
     public function fetchAccessToken($authCode, array $params = [])
     {
+        $incomingRequest = Yii::$app->getRequest();
+        $incomingState = $incomingRequest->get('state', $incomingRequest->post('state'));
+        if (!empty($incomingState)) {
+            $this->setOauthState($incomingState);
+        }
+
         if ($this->validateAuthState) {
             $authState = $this->getState('authState');
-            $incomingRequest = Yii::$app->getRequest();
-            $incomingState = $incomingRequest->get('state', $incomingRequest->post('state'));
-            $incomingAuthState = false;
-            if (!empty($incomingState)) {
-                $jsonState = json_decode($incomingState);
-                $incomingAuthState = $jsonState->authState;
-            }
-
-            if (!$incomingAuthState || empty($authState) || strcmp($incomingAuthState, $authState) !== 0) {
+            if (!isset($this->oauthState['authState']) || empty($authState) || strcmp($this->oauthState['authState'], $authState) !== 0) {
                 throw new HttpException(400, 'Invalid auth state parameter.');
             }
             $this->removeState('authState');
@@ -384,6 +382,13 @@ abstract class OAuth2 extends BaseOAuth
      */
     public function addToOauthState($name, $value) {
         $this->oauthState[$name] = $value;
+    }
+
+    /**
+     * Set oauth state data
+     */
+    public function setOauthState($incomingState) {
+        $this->oauthState = json_decode($incomingState, true);
     }
 
     /**

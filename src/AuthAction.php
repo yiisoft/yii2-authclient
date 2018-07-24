@@ -375,7 +375,7 @@ class AuthAction extends Action
         $request = Yii::$app->getRequest();
 
         if (($error = $request->get('error')) !== null) {
-            if ($error === 'access_denied') {
+            if ($error === 'access_denied' || $error === 'user_cancelled_login') {
                 // user denied error
                 return $this->authCancel($client);
             }

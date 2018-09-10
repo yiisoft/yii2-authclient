@@ -1,12 +1,19 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.1.6 under development
+2.1.7 under development
 -----------------------
 
-- Enh #203: Updated VKontakte client to use API version 5.0 (Shketkol)
+- no changes in this release.
+
+
+2.1.6 September 07, 2018
+------------------------
+
 - Bug #211: `RsaSha` was not passing `$key` to `openssl_pkey_get_private()` in `generateSignature()` (cfhodges)
 - Bug #220: Make `OpenIdConnect` client send token as bearer auth instead of querystring parameter (lukos)
+- Bug #237: Fixed redirect if user cancels login in auth form (msvit1989)
+- Enh #203: Updated VKontakte client to use API version 5.0 (Shketkol)
 
 
 2.1.5 February 08, 2018

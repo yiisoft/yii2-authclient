@@ -1,10 +1,16 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.1.7 under development
+2.1.8 under development
 -----------------------
 
-- Bug #241: Unset parameter `scope` on `defaultReturnUrl` for `OAuth2` class since it was causing bad request response from providers -Google- (okiwan)
+- no changes in this release.
+
+
+2.1.7 September 20, 2018
+------------------------
+
+- Bug #241: Unset parameter `scope` on `defaultReturnUrl` for `OAuth2` class since it was causing bad request response from Google provider (okiwan)
 
 
 2.1.6 September 07, 2018

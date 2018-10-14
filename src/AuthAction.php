@@ -113,7 +113,7 @@ class AuthAction extends Action
 
     /**
      * @var User|array|string the User object or the application component ID of the user component.
-     * @since 2.1.6
+     * @since 2.1.8
      */
     public $user = 'user';
 

@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.1.8 under development
 -----------------------
 
-- no changes in this release.
+- Bug #237: Fix redirect from linkedIn if user  user refused to authorize permissions request (jakim)
 
 
 2.1.7 September 20, 2018

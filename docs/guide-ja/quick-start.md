@@ -79,13 +79,8 @@ class AuthHandler
             } else { // ユーザ登録
                 if ($email !== null && User::find()->where(['email' => $email])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('app', "User with the same email as in {client} account already exists but isn't linked to it. Login using email first to link it.", ['client' => $this->client->getTitle()]),
+                        Yii::t('app', "{client} のアカウントと同じメール・アドレスを持つユーザが既に存在しますが、まだそのアカウントとリンクされていません。リンクするために、まずメール・アドレスを使ってログインしてください。", ['client' => $this->client->getTitle()]),
                     ]);
-                    /*
-                     * "{client} のアカウントと同じメールアドレスを持つユーザが既に存在しますが、
-                     * まだそのアカウントとリンクされていません。
-                     * リンクするために、まずメール・アドレスを使ってログインしてください。"
-                     */
                 } else {
                     $password = Yii::$app->security->generateRandomString(6);
                     $user = new User([
@@ -110,20 +105,18 @@ class AuthHandler
                             Yii::$app->user->login($user, Yii::$app->params['user.rememberMeDuration']);
                         } else {
                             Yii::$app->getSession()->setFlash('error', [
-                                Yii::t('app', 'Unable to save {client} account: {errors}', [
+                                Yii::t('app', '{client} のアカウントを保存することが出来ません: {errors}', [
                                     'client' => $this->client->getTitle(),
                                     'errors' => json_encode($auth->getErrors()),
                                 ]),
-                                /* '{client} のアカウントを保存することが出来ません: {errors}' */
                             ]);
                         }
                     } else {
                         Yii::$app->getSession()->setFlash('error', [
-                            Yii::t('app', 'Unable to save user: {errors}', [
+                            Yii::t('app', 'ユーザを保存することが出来ません: {errors}', [
                                 'client' => $this->client->getTitle(),
                                 'errors' => json_encode($user->getErrors()),
                             ]),
-                            /* 'ユーザを保存することが出来ません: {errors}' */
                         ]);
                     }
                 }
@@ -140,27 +133,24 @@ class AuthHandler
                     $user = $auth->user;
                     $this->updateUserInfo($user);
                     Yii::$app->getSession()->setFlash('success', [
-                        Yii::t('app', 'Linked {client} account.', [
+                        Yii::t('app', '{client} のアカウントをリンクしました。', [
                             'client' => $this->client->getTitle()
                         ]),
                     ]);
-                    /* '{client} のアカウントをリンクしました。' */
                 } else {
                     Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('app', 'Unable to link {client} account: {errors}', [
+                        Yii::t('app', '{client} のアカウントをリンクすることが出来ません: {errors}', [
                             'client' => $this->client->getTitle(),
                             'errors' => json_encode($auth->getErrors()),
                         ]),
                     ]);
-                    /* '{client} のアカウントをリンクすることが出来ません: {errors}' */
                 }
             } else { // 既に使用されている
                 Yii::$app->getSession()->setFlash('error', [
                     Yii::t('app',
-                        'Unable to link {client} account. There is another user using it.',
+                        '{client} のアカウントをリンクすることが出来ません。それを使用している別のユーザがいます。',
                         ['client' => $this->client->getTitle()]),
                 ]);
-　　　　　　　　/* '{client} のアカウントをリンクすることが出来ません。それを使用している別のユーザがいます。' */
             }
         }
     }
@@ -208,7 +198,7 @@ class AuthHandler
 それぞれの認証クライアントは異なる認証フローを持ちますが、すべてのものが `getUserAttributes()` メソッドをサポートしており、
 認証が成功した後にこのメソッドを呼び出すことが出来ます。
 
-このメソッドによって、外部のユーザアカウントの情報、例えば、ID、メール・アドレス、フル・ネーム、
+このメソッドによって、外部のユーザ・アカウントの情報、例えば、ID、メール・アドレス、フル・ネーム、
 優先される言語などを取得することが出来ます。
 ただし、プロバイダごとに利用できるフィールドの有無や名前が異なることに注意してください。
 

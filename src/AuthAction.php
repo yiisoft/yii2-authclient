@@ -11,11 +11,13 @@ use yii\base\Action;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
+use yii\di\Instance;
 use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use Yii;
+use yii\web\User;
 
 /**
  * AuthAction performs authentication via different auth clients.
@@ -110,6 +112,12 @@ class AuthAction extends Action
     public $redirectView;
 
     /**
+     * @var User|array|string the User object or the application component ID of the user component.
+     * @since 2.1.8
+     */
+    public $user = 'user';
+
+    /**
      * @var string the redirect url after successful authorization.
      */
     private $_successUrl;
@@ -118,6 +126,14 @@ class AuthAction extends Action
      */
     private $_cancelUrl;
 
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->user = Instance::ensure($this->user, User::className());
+    }
 
     /**
      * @param string $url successful URL.
@@ -165,7 +181,7 @@ class AuthAction extends Action
      */
     protected function defaultSuccessUrl()
     {
-        return Yii::$app->getUser()->getReturnUrl();
+        return $this->user->getReturnUrl();
     }
 
     /**
@@ -174,7 +190,7 @@ class AuthAction extends Action
      */
     protected function defaultCancelUrl()
     {
-        return Url::to(Yii::$app->getUser()->loginUrl);
+        return Url::to($this->user->loginUrl);
     }
 
     /**

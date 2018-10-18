@@ -4,6 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.1.8 under development
 -----------------------
 
+- Enh #218: Allow configuring user component in `AuthAction` (samdark, lab362)
 - Bug #237: Fix redirect from LinkedIn if user refused to authorize permissions request (jakim)
 
 

@@ -30,7 +30,6 @@ interface StateStorageInterface
 
     /**
      * Returns the state variable value with the variable name.
-     * If the variable does not exist, the `$defaultValue` will be returned.
      * @param string $key the variable name
      * @return mixed the variable value, or `null` if the variable does not exist.
      */

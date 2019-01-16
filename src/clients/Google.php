@@ -13,9 +13,7 @@ use yii\authclient\OAuth2;
  * Google allows authentication via Google OAuth.
  *
  * In order to use Google OAuth you must create a project at <https://console.developers.google.com/project>
- * and setup its credentials at <https://console.developers.google.com/project/[yourProjectId]/apiui/credential>.
- * In order to enable using scopes for retrieving user attributes, you should also enable Google+ API at
- * <https://console.developers.google.com/project/[yourProjectId]/apiui/api/plus>
+ * and setup its credentials at <https://console.developers.google.com/apis/credentials?project=[yourProjectId]>.
  *
  * Example application configuration:
  *
@@ -53,7 +51,7 @@ class Google extends OAuth2
     /**
      * {@inheritdoc}
      */
-    public $apiBaseUrl = 'https://www.googleapis.com/plus/v1';
+    public $apiBaseUrl = 'https://www.googleapis.com/oauth2/v1';
 
 
     /**
@@ -64,8 +62,8 @@ class Google extends OAuth2
         parent::init();
         if ($this->scope === null) {
             $this->scope = implode(' ', [
-                'profile',
-                'email',
+                'https://www.googleapis.com/auth/userinfo.profile',
+                'https://www.googleapis.com/auth/userinfo.email',
             ]);
         }
     }
@@ -75,7 +73,7 @@ class Google extends OAuth2
      */
     protected function initUserAttributes()
     {
-        return $this->api('people/me', 'GET');
+        return $this->api('userinfo', 'GET');
     }
 
     /**

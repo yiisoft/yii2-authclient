@@ -12,6 +12,7 @@ use yii\base\Exception;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
+use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\Response;
 use yii\web\HttpException;
@@ -198,7 +199,7 @@ class AuthAction extends Action
      */
     public function run()
     {
-        $clientId = Yii::$app->getRequest()->getQueryParam($this->clientIdGetParamName);
+        $clientId = Html::encode(Yii::$app->getRequest()->getQueryParam($this->clientIdGetParamName));
         if (!empty($clientId)) {
             /* @var $collection \yii\authclient\Collection */
             $collection = Yii::$app->get($this->clientCollection);

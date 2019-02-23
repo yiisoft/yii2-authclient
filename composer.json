@@ -20,6 +20,9 @@
     "require": {
         "yiisoft/yii2-httpclient": "~2.0.5"
     },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.27|~5.7.21|^6.2"
+    },
     "suggest": {
         "spomky-labs/jose": "required for JWS,JWT or JWK related flows like OpenIDConnect"
     },

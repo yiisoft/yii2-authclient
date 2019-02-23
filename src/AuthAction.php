@@ -110,7 +110,6 @@ class AuthAction extends Action
      * If not set - default one will be used.
      */
     public $redirectView;
-
     /**
      * @var User|array|string the User object or the application component ID of the user component.
      * @since 2.1.8
@@ -125,6 +124,7 @@ class AuthAction extends Action
      * @var string the redirect url after unsuccessful authorization (e.g. user canceled).
      */
     private $_cancelUrl;
+
 
     /**
      * @inheritdoc

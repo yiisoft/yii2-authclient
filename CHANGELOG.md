@@ -1,10 +1,10 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.1.9 under development
+2.2.0 under development
 -----------------------
 
-- no changes in this release.
+- Bug #267: Upgrade LinkedIn client to v2 (machour)
 
 
 2.1.8 January 28, 2019

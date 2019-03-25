@@ -4,6 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.0 under development
 -----------------------
 
+- Bug #266: Updated Google client image (nurielmeni)
 - Bug #267: Upgrade LinkedIn client to v2 (machour)
 
 

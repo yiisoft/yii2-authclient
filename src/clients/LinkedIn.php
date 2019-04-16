@@ -65,6 +65,7 @@ class LinkedIn extends OAuth2
         'lastName',
     ];
 
+
     /**
      * {@inheritdoc}
      */

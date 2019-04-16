@@ -110,7 +110,6 @@ class AuthAction extends Action
      * If not set - default one will be used.
      */
     public $redirectView;
-
     /**
      * @var User|array|string the User object or the application component ID of the user component.
      * @since 2.1.8
@@ -125,6 +124,7 @@ class AuthAction extends Action
      * @var string the redirect url after unsuccessful authorization (e.g. user canceled).
      */
     private $_cancelUrl;
+
 
     /**
      * @inheritdoc
@@ -216,15 +216,16 @@ class AuthAction extends Action
     /**
      * Perform authentication for the given client.
      * @param mixed $client auth client instance.
+     * @param array $authUrlParams additional auth GET params.
      * @return Response response instance.
      * @throws \yii\base\NotSupportedException on invalid client.
      */
-    protected function auth($client)
+    protected function auth($client, $authUrlParams = [])
     {
         if ($client instanceof OAuth2) {
-            return $this->authOAuth2($client);
+            return $this->authOAuth2($client, $authUrlParams);
         } elseif ($client instanceof OAuth1) {
-            return $this->authOAuth1($client);
+            return $this->authOAuth1($client, $authUrlParams);
         } elseif ($client instanceof OpenId) {
             return $this->authOpenId($client);
         }
@@ -355,9 +356,10 @@ class AuthAction extends Action
     /**
      * Performs OAuth1 auth flow.
      * @param OAuth1 $client auth client instance.
+     * @param array $authUrlParams additional auth GET params.
      * @return Response action response.
      */
-    protected function authOAuth1($client)
+    protected function authOAuth1($client, $authUrlParams = [])
     {
         $request = Yii::$app->getRequest();
 
@@ -375,7 +377,7 @@ class AuthAction extends Action
         // Get request token.
         $requestToken = $client->fetchRequestToken();
         // Get authorization URL.
-        $url = $client->buildAuthUrl($requestToken);
+        $url = $client->buildAuthUrl($requestToken, $authUrlParams);
         // Redirect to authorization URL.
         return Yii::$app->getResponse()->redirect($url);
     }
@@ -383,10 +385,11 @@ class AuthAction extends Action
     /**
      * Performs OAuth2 auth flow.
      * @param OAuth2 $client auth client instance.
+     * @param array $authUrlParams additional auth GET params.
      * @return Response action response.
      * @throws \yii\base\Exception on failure.
      */
-    protected function authOAuth2($client)
+    protected function authOAuth2($client, $authUrlParams = [])
     {
         $request = Yii::$app->getRequest();
 
@@ -416,7 +419,7 @@ class AuthAction extends Action
             return $this->authCancel($client);
         }
 
-        $url = $client->buildAuthUrl();
+        $url = $client->buildAuthUrl($authUrlParams);
         return Yii::$app->getResponse()->redirect($url);
     }
 }

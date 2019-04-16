@@ -1,11 +1,20 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.1.8 under development
+2.2.0 under development
 -----------------------
 
-- Enh #218: Allow configuring user component in `AuthAction` (samdark, lab362)
+- Bug #266: Updated Google client image (nurielmeni)
+- Bug #267: Upgrade LinkedIn client to v2 (machour)
+
+
+2.1.8 January 28, 2019
+----------------------
+
 - Bug #237: Fix redirect from LinkedIn if user refused to authorize permissions request (jakim)
+- Enh #218: Allow configuring user component in `AuthAction` (samdark, lab362)
+- Enh #258: Use Google Sign-in API instead of Google Plus in `yii\authclient\clients\Google` as Google Plus is deprecated (alexeevdv)
+- Enh #259: Allow to pass buildAuthUrl params to OAuth flows in `AuthAction` (albertborsos)
 
 
 2.1.7 September 20, 2018

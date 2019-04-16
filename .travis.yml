@@ -7,23 +7,7 @@ php:
   - 7.0
   - 7.1
   - 7.2
-
-# run build against hhvm but allow them to fail
-# http://docs.travis-ci.com/user/build-configuration/#Rows-That-are-Allowed-To-Fail
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: hhvm
-  include:
-    # test against the latest HHVM version by using a newer image
-    - php: hhvm
-      sudo: true
-      dist: trusty
-      group: edge # Use edge image until the next travis CI image update
-      before_install:
-        - composer require --prefer-dist --no-interaction 'phpunit/phpunit:<6.0'
-      script:
-        - vendor/bin/phpunit --verbose $PHPUNIT_FLAGS --exclude-group google
+  - 7.3
 
 # faster builds on new travis setup not using sudo
 sudo: false

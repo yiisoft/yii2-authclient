@@ -1,10 +1,15 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.0 under development
+2.2.1 under development
 -----------------------
 
 - Bug #252: Fix bug when `OAuthToken` is incorrectly instantiated if configuration array has incorrect order (rob006)
+
+
+2.2.0 April 16, 2019
+--------------------
+
 - Bug #266: Updated Google client image (nurielmeni)
 - Bug #267: Upgrade LinkedIn client to v2 (machour)
 

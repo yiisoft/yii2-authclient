@@ -99,7 +99,7 @@ class TokenTest extends TestCase
     }
 
     /**
-     * @depends      testSetupParamsShortcuts
+     * @depends testSetupParamsShortcuts
      * @dataProvider autoFetchExpireDurationDataProvider
      *
      * @param array $params

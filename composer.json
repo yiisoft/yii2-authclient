@@ -18,6 +18,7 @@
         }
     ],
     "require": {
+        "yiisoft/yii2": "~2.0.13",
         "yiisoft/yii2-httpclient": "~2.0.5"
     },
     "require-dev": {
@@ -34,6 +35,9 @@
     ],
     "autoload": {
         "psr-4": { "yii\\authclient\\": "src" }
+    },
+    "autoload-dev": {
+        "psr-4": { "yiiunit\\extensions\\authclient\\": "tests" }
     },
     "extra": {
         "branch-alias": {

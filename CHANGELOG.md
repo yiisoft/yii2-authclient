@@ -1,8 +1,8 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.2 under development
------------------------
+2.2.2 May 14, 2019
+------------------
 
 - Bug #270: Updated Facebook icon to match brand guidelines (ServerDotBiz)
 

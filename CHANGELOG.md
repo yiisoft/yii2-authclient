@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.3 under development
 -----------------------
 
-- no changes in this release.
+- Chg #273: `OpenIdConnect::validateClaims()` is now protected (samdark)
 
 
 2.2.2 May 14, 2019

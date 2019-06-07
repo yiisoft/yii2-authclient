@@ -74,9 +74,9 @@ class VKontakte extends OAuth2
     /**
      * @var string the API version to send in the API request.
      * @see https://vk.com/dev/versions
-     * @since 2.1.4
+     * @since 2.2.4
      */
-    public $apiVersion = '5.0';
+    public $apiVersion = '5.95';
 
 
     /**

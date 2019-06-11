@@ -378,8 +378,9 @@ class OpenIdConnect extends OAuth2
      * Validates the claims data received from OpenID provider.
      * @param array $claims claims data.
      * @throws HttpException on invalid claims.
+     * @since 2.2.3
      */
-    private function validateClaims(array $claims)
+    protected function validateClaims(array $claims)
     {
         if (!isset($claims['iss']) || (strcmp(rtrim($claims['iss'], '/'), rtrim($this->issuerUrl, '/')) !== 0)) {
             throw new HttpException(400, 'Invalid "iss"');

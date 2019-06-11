@@ -202,6 +202,7 @@ abstract class OAuth2 extends BaseOAuth
         $params = Yii::$app->getRequest()->getQueryParams();
         unset($params['code']);
         unset($params['state']);
+        unset($params['scope']);
         $params[0] = Yii::$app->controller->getRoute();
 
         return Yii::$app->getUrlManager()->createAbsoluteUrl($params);

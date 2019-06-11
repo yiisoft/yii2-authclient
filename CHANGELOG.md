@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.4 under development
 -----------------------
 
-- Enh #276: Bumped VK API version, according VK developers recommendation (EvgeniyRRU)
+- Enh #276: Bumped VK API version to 5.95, according to developers recommendation (EvgeniyRRU)
 
 
 2.2.3 June 04, 2019

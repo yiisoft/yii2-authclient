@@ -260,7 +260,7 @@ class OpenIdConnect extends OAuth2
     {
         return $this->api($this->getConfigParam('userinfo_endpoint'), 'GET');
     }
-	
+
     /**
      * {@inheritdoc}
      */
@@ -312,25 +312,6 @@ class OpenIdConnect extends OAuth2
         } else {
             throw new InvalidConfigException('Unable to authenticate request: none of following auth methods is suported: ' . implode(', ', $supportedAuthMethods));
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function defaultReturnUrl()
-    {
-        $params = Yii::$app->getRequest()->getQueryParams();
-        // OAuth2 specifics :
-        unset($params['code']);
-        unset($params['state']);
-        // OpenIdConnect specifics :
-        unset($params['nonce']);
-        unset($params['authuser']);
-        unset($params['session_state']);
-        unset($params['prompt']);
-        $params[0] = Yii::$app->controller->getRoute();
-
-        return Yii::$app->getUrlManager()->createAbsoluteUrl($params);
     }
 
     /**

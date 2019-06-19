@@ -51,6 +51,12 @@ abstract class BaseOAuth extends BaseClient
      * @since 2.0.6
      */
     public $autoRefreshAccessToken = true;
+    /**
+     * @var array List of the parameters to keep in default return url.
+     */
+    public $parametersToKeepInReturnUrl = [
+        'authclient',
+    ];
 
     /**
      * @var string URL, which user will be redirected after authentication at the OAuth provider web site.
@@ -165,7 +171,15 @@ abstract class BaseOAuth extends BaseClient
      */
     protected function defaultReturnUrl()
     {
-        return Yii::$app->getRequest()->getAbsoluteUrl();
+        $params = Yii::$app->getRequest()->getQueryParams();
+
+        $params = array_filter($params, function ($value, $key) {
+            return in_array($key, $this->parametersToKeepInReturnUrl);
+        }, ARRAY_FILTER_USE_BOTH);
+
+        $params[0] = Yii::$app->controller->getRoute();
+
+        return Yii::$app->getUrlManager()->createAbsoluteUrl($params);
     }
 
     /**

@@ -62,6 +62,12 @@ abstract class OAuth2 extends BaseOAuth
      */
     public $validateAuthState = true;
 
+    /**
+     * @var array List of the parameters to keep in default return url.
+     */
+    public $parametersToKeepInReturnUrl = [
+        'authclient',
+    ];
 
     /**
      * Composes user authorization URL.
@@ -187,9 +193,11 @@ abstract class OAuth2 extends BaseOAuth
     protected function defaultReturnUrl()
     {
         $params = Yii::$app->getRequest()->getQueryParams();
-        unset($params['code']);
-        unset($params['state']);
-        unset($params['scope']);
+
+        $params = array_filter($params, function ($value, $key) {
+            return in_array($key, $this->parametersToKeepInReturnUrl);
+        }, ARRAY_FILTER_USE_BOTH);
+
         $params[0] = Yii::$app->controller->getRoute();
 
         return Yii::$app->getUrlManager()->createAbsoluteUrl($params);

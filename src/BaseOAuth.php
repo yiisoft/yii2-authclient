@@ -53,11 +53,11 @@ abstract class BaseOAuth extends BaseClient
     public $autoRefreshAccessToken = true;
     /**
      * @var array List of the parameters to keep in default return url.
+     * @since 2.2.4
      */
     public $parametersToKeepInReturnUrl = [
         'authclient',
     ];
-
     /**
      * @var string URL, which user will be redirected after authentication at the OAuth provider web site.
      * Note: this should be absolute URL (with http:// or https:// leading).

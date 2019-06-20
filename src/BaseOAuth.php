@@ -172,10 +172,7 @@ abstract class BaseOAuth extends BaseClient
     protected function defaultReturnUrl()
     {
         $params = Yii::$app->getRequest()->getQueryParams();
-
-        $params = array_filter($params, function ($value, $key) {
-            return in_array($key, $this->parametersToKeepInReturnUrl);
-        }, ARRAY_FILTER_USE_BOTH);
+        $params = array_intersect_key($params, array_flip($this->parametersToKeepInReturnUrl));
 
         $params[0] = Yii::$app->controller->getRoute();
 

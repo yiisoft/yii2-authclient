@@ -6,9 +6,12 @@ use yii\authclient\signature\PlainText;
 use yii\authclient\OAuthToken;
 use yii\authclient\BaseOAuth;
 use yii\httpclient\Client;
+use yiiunit\extensions\authclient\traits\OAuthDefaultReturnUrlTestTrait;
 
 class BaseOAuthTest extends TestCase
 {
+    use OAuthDefaultReturnUrlTestTrait;
+
     protected function setUp()
     {
         parent::setUp();
@@ -206,5 +209,18 @@ class BaseOAuthTest extends TestCase
             ->setUrl($apiSubUrl);
 
         $this->assertEquals($expectedApiFullUrl, $request->getFullUrl());
+    }
+
+    /**
+     * Data provider for [[testDefaultReturnUrl]].
+     * @return array test data.
+     */
+    public function defaultReturnUrlDataProvider()
+    {
+        return [
+            'default'                => [['authclient' => 'base'], null, '/?authclient=base'],
+            'remove extra parameter' => [['authclient' => 'base', 'extra' => 'userid'], null, '/?authclient=base'],
+            'keep extra parameter'   => [['authclient' => 'base', 'extra' => 'userid'], ['authclient', 'extra'], '/?authclient=base&extra=userid'],
+        ];
     }
 }

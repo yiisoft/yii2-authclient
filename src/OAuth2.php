@@ -62,7 +62,6 @@ abstract class OAuth2 extends BaseOAuth
      */
     public $validateAuthState = true;
 
-
     /**
      * Composes user authorization URL.
      * @param array $params additional auth GET params.
@@ -178,21 +177,6 @@ abstract class OAuth2 extends BaseOAuth
         $this->setAccessToken($token);
 
         return $token;
-    }
-
-    /**
-     * Composes default [[returnUrl]] value.
-     * @return string return URL.
-     */
-    protected function defaultReturnUrl()
-    {
-        $params = Yii::$app->getRequest()->getQueryParams();
-        unset($params['code']);
-        unset($params['state']);
-        unset($params['scope']);
-        $params[0] = Yii::$app->controller->getRoute();
-
-        return Yii::$app->getUrlManager()->createAbsoluteUrl($params);
     }
 
     /**

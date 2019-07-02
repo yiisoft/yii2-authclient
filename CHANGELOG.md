@@ -5,7 +5,7 @@ Yii Framework 2 authclient extension Change Log
 -----------------------
 
 - Enh #276: Bumped VK API version to 5.95, according to developers recommendation (EvgeniyRRU)
-- Enh #278: keep only selected parameters in default return urls of OAuth services (albertborsos)
+- Enh #278: Keep only selected parameters in default return URLs of OAuth services (albertborsos)
 
 
 2.2.3 June 04, 2019

@@ -1,8 +1,8 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.4 under development
------------------------
+2.2.4 July 02, 2019
+-------------------
 
 - Enh #276: Bumped VK API version to 5.95, according to developers recommendation (EvgeniyRRU)
 - Enh #278: Keep only selected parameters in default return URLs of OAuth services (albertborsos)

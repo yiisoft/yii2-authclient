@@ -62,6 +62,7 @@ abstract class OAuth2 extends BaseOAuth
      */
     public $validateAuthState = true;
 
+
     /**
      * Composes user authorization URL.
      * @param array $params additional auth GET params.

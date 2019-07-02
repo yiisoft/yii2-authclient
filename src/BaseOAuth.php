@@ -58,6 +58,7 @@ abstract class BaseOAuth extends BaseClient
     public $parametersToKeepInReturnUrl = [
         'authclient',
     ];
+
     /**
      * @var string URL, which user will be redirected after authentication at the OAuth provider web site.
      * Note: this should be absolute URL (with http:// or https:// leading).

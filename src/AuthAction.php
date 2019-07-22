@@ -71,6 +71,21 @@ class AuthAction extends Action
      */
     public $clientIdGetParamName = 'authclient';
     /**
+     * @var string default clientId which can be used for providers that do not allow queries in their
+     * redirect-url (i.e.  https://<MY_HOST>/site/auth?q=azure ).
+     * It can be used in function actions() of the controller that sets up 'auth' like :
+     * ```php
+     * ...
+     * 'auth' => [
+     *           'class' => 'yii\authclient\AuthAction',
+     *           'successCallback' => [$this, 'onAuthSuccess'],
+	 *	          ‘defaultClientId’ => ‘azure’
+     *       ],
+     *       ...
+     * ```
+     */
+    public $defaultClientId = '';
+    /**
      * @var callable PHP callback, which should be triggered in case of successful authentication.
      * This callback should accept [[ClientInterface]] instance as an argument.
      * For example:
@@ -198,7 +213,7 @@ class AuthAction extends Action
      */
     public function run()
     {
-        $clientId = Yii::$app->getRequest()->getQueryParam($this->clientIdGetParamName);
+        $clientId = $this->defaultClientId != '' ? $this->defaultClientId : Yii::$app->getRequest()->getQueryParam($this->clientIdGetParamName);
         if (!empty($clientId)) {
             /* @var $collection \yii\authclient\Collection */
             $collection = Yii::$app->get($this->clientCollection);

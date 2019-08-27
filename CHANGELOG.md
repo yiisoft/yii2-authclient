@@ -1,10 +1,23 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.3 under development
+2.2.5 under development
 -----------------------
 
 - no changes in this release.
+
+
+2.2.4 July 02, 2019
+-------------------
+
+- Enh #276: Bumped VK API version to 5.95, according to developers recommendation (EvgeniyRRU)
+- Enh #278: Keep only selected parameters in default return URLs of OAuth services (albertborsos)
+
+
+2.2.3 June 04, 2019
+-------------------
+
+- Chg #273: `OpenIdConnect::validateClaims()` is now protected (samdark)
 
 
 2.2.2 May 14, 2019

@@ -6,12 +6,15 @@ use yii\authclient\clients\Google;
 use yii\authclient\OAuthToken;
 use yii\authclient\signature\RsaSha;
 use yiiunit\extensions\authclient\TestCase;
+use yiiunit\extensions\authclient\traits\OAuthDefaultReturnUrlTestTrait;
 
 /**
  * @group google
  */
 class GoogleTest extends TestCase
 {
+    use OAuthDefaultReturnUrlTestTrait;
+
     protected function setUp()
     {
         $config = [
@@ -40,5 +43,23 @@ class GoogleTest extends TestCase
         ]);
         $this->assertTrue($token instanceof OAuthToken);
         $this->assertNotEmpty($token->getToken());
+    }
+
+    protected function createClient()
+    {
+        return new Google();
+    }
+
+    /**
+     * Data provider for [[testDefaultReturnUrl]].
+     * @return array test data.
+     */
+    public function defaultReturnUrlDataProvider()
+    {
+        return [
+            'default'                => [['authclient' => 'google'], null, '/?authclient=google'],
+            'remove extra parameter' => [['authclient' => 'google', 'extra' => 'userid'], null, '/?authclient=google'],
+            'keep extra parameter'   => [['authclient' => 'google', 'extra' => 'userid'], ['authclient', 'extra'], '/?authclient=google&extra=userid'],
+        ];
     }
 }

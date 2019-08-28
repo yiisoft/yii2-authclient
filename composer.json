@@ -18,7 +18,11 @@
         }
     ],
     "require": {
+        "yiisoft/yii2": "~2.0.13",
         "yiisoft/yii2-httpclient": "~2.0.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.27|~5.7.21|^6.2"
     },
     "suggest": {
         "spomky-labs/jose": "required for JWS,JWT or JWK related flows like OpenIDConnect"
@@ -31,6 +35,9 @@
     ],
     "autoload": {
         "psr-4": { "yii\\authclient\\": "src" }
+    },
+    "autoload-dev": {
+        "psr-4": { "yiiunit\\extensions\\authclient\\": "tests" }
     },
     "extra": {
         "branch-alias": {

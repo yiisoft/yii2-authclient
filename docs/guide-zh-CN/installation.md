@@ -54,6 +54,7 @@ return [
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
 - [[yii\authclient\clients\Yandex|Yandex]].
+- [[yii\authclient\clients\LemonLdapNG|LemonLdapNG]].
 
 配置每个客户端稍有不同。对于 OAuth 客户端需要从服务端获取客户端 ID 和密钥。而对于 OpenID 客户端，大多数情况下不需要调整。
 

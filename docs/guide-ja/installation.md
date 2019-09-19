@@ -56,6 +56,7 @@ return [
 - [[yii\authclient\clients\Twitter|Twitter]]
 - [[yii\authclient\clients\VKontakte|VKontakte]]
 - [[yii\authclient\clients\Yandex|Yandex]]
+- [[yii\authclient\clients\LemonLdapNG|LemonLdapNG]]
 
 それぞれのクライアントの構成は少しずつ異なります。
 OAuth では、使おうとしているサービスからクライアント ID と秘密キーを取得することが必要です。OpenID では、たいていの場合、何も設定しなくても動作します。

@@ -56,6 +56,7 @@ return [
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
 - [[yii\authclient\clients\Yandex|Yandex]].
+- [[yii\authclient\clients\LemonLdapNG|LemonLdapNG]].
 
 Конфигурация для каждого клиента несколько отличается. Для OAuth, это обязательное получение ID клиента и секретного
 ключа сервиса, который Вы собираетесь использовать. Для OpenID, в большинстве случаев, это работает из коробки.

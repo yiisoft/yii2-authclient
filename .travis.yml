@@ -1,16 +1,24 @@
 language: php
 
-php:
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
+env:
+  global:
+    - DEFAULT_COMPOSER_FLAGS="--prefer-dist --no-interaction --no-progress --optimize-autoloader"
+    - TASK_TESTS_COVERAGE=0
 
-# faster builds on new travis setup not using sudo
-sudo: false
+matrix:
+  fast_finish: true
+  include:
+    - php: "7.3"
+    - php: "7.2"
+    env:
+      - TASK_TESTS_COVERAGE=1
+    - php: "7.1"
+    - php: "7.0"
+    - php: "5.6"
+    - php: "5.5"
+      dist: trusty
+    - php: "5.4"
+      dist: trusty
 
 # cache vendor dirs
 cache:
@@ -18,15 +26,27 @@ cache:
     - $HOME/.composer/cache
 
 install:
+ - |
+    if [[ $TASK_TESTS_COVERAGE != 1]]; then
+      # disable xdebug for performance reasons when code coverage is not needed
+      phpenv config-rm xdebug.ini || echo "xdebug is not installed"
+    fi
   - travis_retry composer self-update && composer --version
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - travis_retry composer install --prefer-dist --no-interaction
+  - travis_retry composer install $DEFAULT_COMPOSER_FLAGS
 
 before_script:
-  - |
-    if [ $TRAVIS_PHP_VERSION = '5.6' ]; then
+- |
+    if [ $TASK_TESTS_COVERAGE == 1 ]; then
       PHPUNIT_FLAGS="--coverage-clover=coverage.clover"
     fi
 
 script:
   - vendor/bin/phpunit --verbose $PHPUNIT_FLAGS --exclude-group google
+
+after_script:
+  - |
+    if [ $TASK_TESTS_COVERAGE == 1 ]; then
+      travis_retry wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    fi

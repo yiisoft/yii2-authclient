@@ -7,8 +7,15 @@
 
 namespace yii\authclient;
 
-use Jose\Factory\JWKFactory;
-use Jose\Loader;
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Checker\AlgorithmChecker;
+use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Signature\JWSLoader;
+use Jose\Component\Signature\JWSTokenSupport;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Yii;
 use yii\authclient\signature\HmacSha;
 use yii\base\InvalidConfigException;
@@ -118,7 +125,36 @@ class OpenIdConnect extends OAuth2
      * When this is not set, it means caching is not enabled.
      */
     private $_cache = 'cache';
+    /**
+     * @var AlgorithmManager JSON Web Algorithms manager
+     */
+    private $_jwsLoader = null;
+    private $_jwkSet = null;
 
+    public function init()
+    {
+        if ($this->validateJws && $this->_jwsLoader === null) {
+            $algorithms = [];
+            foreach ($this->allowedJwsAlgorithms as $algorithm)
+            {
+                $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
+                if (!class_exists($class))
+                {
+                    throw new InvalidConfigException("Class $class doesn't exist");
+                }
+                $algorithms[] = new $class();
+            }
+            $this->_jwsLoader = new JWSLoader(
+                JWSSerializerManager::create([ new CompactSerializer() ]),
+                new JWSVerifier(new AlgorithmManager($algorithms)),
+                HeaderCheckerManager::create(
+                    [ new AlgorithmChecker($this->allowedJwsAlgorithms) ],
+                    [ new JWSTokenSupport() ]
+                )
+            );
+        }
+        parent::init();
+    }
 
     /**
      * @return bool whether to use and validate auth 'nonce' parameter in authentication flow.
@@ -337,6 +373,28 @@ class OpenIdConnect extends OAuth2
         return parent::createToken($tokenConfig);
     }
 
+    protected function getJwkSet()
+    {
+        if ($this->_jwkSet === null) {
+            $cache = $this->getCache();
+            $cacheKey = $this->configParamsCacheKeyPrefix . '_jwkSet';
+            if ($cache === null || ($configParams = $cache->get($cacheKey)) === false) {
+                $request = $this->createRequest()
+                    ->setMethod('GET')
+                    ->setUrl($this->getConfigParam('jwks_uri'));
+                $response = $this->sendRequest($request);
+                $jwkSet = JWKFactory::createFromValues($response);
+            }
+
+            $this->_jwkSet = $jwkSet;
+
+            if ($cache !== null) {
+                $cache->set($cacheKey, $jwkSet);
+            }
+        }
+        return $this->_jwkSet;
+    }
+
     /**
      * Decrypts/validates JWS, returning related data.
      * @param string $jws raw JWS input.
@@ -346,9 +404,8 @@ class OpenIdConnect extends OAuth2
     protected function loadJws($jws)
     {
         try {
-            $jwkSet = JWKFactory::createFromJKU($this->getConfigParam('jwks_uri'));
-            $loader = new Loader();
-            return $loader->loadAndVerifySignatureUsingKeySet($jws, $jwkSet, $this->allowedJwsAlgorithms)->getPayload();
+            $jwsVerified = $this->_jwsLoader->loadAndVerifyWithKeySet($jws, $this->getJwkSet(), $signature);
+            return Json::decode($jwsVerified->getPayload());
         } catch (\Exception $e) {
             $message = YII_DEBUG ? 'Unable to verify JWS: ' . $e->getMessage() : 'Invalid JWS';
             throw new HttpException(400, $message, $e->getCode(), $e);

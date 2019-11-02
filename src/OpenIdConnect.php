@@ -126,9 +126,12 @@ class OpenIdConnect extends OAuth2
      */
     private $_cache = 'cache';
     /**
-     * @var AlgorithmManager JSON Web Algorithms manager
+     * @var JWSLoader  JSON Web Signature
      */
     private $_jwsLoader = null;
+    /**
+     * @var JWKSet Key Set
+     */
     private $_jwkSet = null;
 
     public function init()
@@ -373,6 +376,11 @@ class OpenIdConnect extends OAuth2
         return parent::createToken($tokenConfig);
     }
 
+    /**
+     * Return JwkSet, returning related data.
+     * @return JWKSet object represents a key set.
+     * @throws InvalidResponseException on failure.
+     */
     protected function getJwkSet()
     {
         if ($this->_jwkSet === null) {

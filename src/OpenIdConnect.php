@@ -49,14 +49,18 @@ use yii\web\HttpException;
  * ]
  * ```
  *
- * This class requires `spomky-labs/jose` library to be installed for JWS verification. This can be done via composer:
+ * This class requires `web-token/jwt-checker`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`,
+ * `web-token/jwt-signature-algorithm-ecdsa` and `web-token/jwt-signature-algorithm-rsa` library to be installed for
+ * JWS verification. This can be done via composer:
  *
  * ```
- * composer require --prefer-dist "spomky-labs/jose:~5.0.6"
+ * composer require --prefer-dist "web-token/jwt-checker:~1.0" "web-token/jwt-signature:~1.0" 
+ * "web-token/jwt-signature-algorithm-hmac:~1.0" "web-token/jwt-signature-algorithm-ecdsa:~1.0"
+ * "web-token/jwt-signature-algorithm-rsa:~1.0"
  * ```
  *
  * Note: if you are using well-trusted OpenIdConnect provider, you may disable [[validateJws]], making installation of
- * `spomky-labs/jose` library redundant, however it is not recommended as it violates the protocol specification.
+ * `web-token` library redundant, however it is not recommended as it violates the protocol specification.
  *
  * @see http://openid.net/connect/
  * @see OAuth2
@@ -82,15 +86,16 @@ class OpenIdConnect extends OAuth2
     public $issuerUrl;
     /**
      * @var bool whether to validate/decrypt JWS received with Auth token.
-     * Note: this functionality requires `spomky-labs/jose` composer package to be installed.
+     * Note: this functionality requires `web-token/jwt-checker`, `web-token/jwt-signature` composer package to be installed.
      * You can disable this option in case of usage of trusted OpenIDConnect provider, however this violates
      * the protocol rules, so you are doing it on your own risk.
      */
     public $validateJws = true;
     /**
      * @var array JWS algorithms, which are allowed to be used.
-     * These are used by `spomky-labs/jose` library for JWS validation/decryption.
-     * Make sure `spomky-labs/jose` supports the particular algorithm before adding it here.
+     * These are used by `web-token` library for JWS validation/decryption.
+     * Make sure to install the proper package `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa`
+     * and `web-token/jwt-signature-algorithm-rsa` that supports the particular algorithm before adding it here.
      */
     public $allowedJwsAlgorithms = [
         'HS256', 'HS384', 'HS512',

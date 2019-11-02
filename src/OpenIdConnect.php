@@ -148,7 +148,8 @@ class OpenIdConnect extends OAuth2
                 $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
                 if (!class_exists($class))
                 {
-                    throw new InvalidConfigException("Class $class doesn't exist");
+                    Yii::error("Invalid configuration alogrithm class $class doesn't exist");
+                    continue;
                 }
                 $algorithms[] = new $class();
             }

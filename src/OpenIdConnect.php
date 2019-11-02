@@ -139,32 +139,6 @@ class OpenIdConnect extends OAuth2
      */
     private $_jwkSet = null;
 
-    public function init()
-    {
-        if ($this->validateJws && $this->_jwsLoader === null) {
-            $algorithms = [];
-            foreach ($this->allowedJwsAlgorithms as $algorithm)
-            {
-                $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
-                if (!class_exists($class))
-                {
-                    Yii::error("Invalid configuration alogrithm class $class doesn't exist");
-                    continue;
-                }
-                $algorithms[] = new $class();
-            }
-            $this->_jwsLoader = new JWSLoader(
-                JWSSerializerManager::create([ new CompactSerializer() ]),
-                new JWSVerifier(new AlgorithmManager($algorithms)),
-                HeaderCheckerManager::create(
-                    [ new AlgorithmChecker($this->allowedJwsAlgorithms) ],
-                    [ new JWSTokenSupport() ]
-                )
-            );
-        }
-        parent::init();
-    }
-
     /**
      * @return bool whether to use and validate auth 'nonce' parameter in authentication flow.
      */
@@ -410,6 +384,36 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
+     * Return JWSLoader that validate the JWS token.
+     * @return JWSLoader to do token validation.
+     * @throws InvalidConfigException on invalid algorithm provide in configuration.
+     */
+    protected function getJwsLoader()
+    {
+        if ($this->_jwsLoader === null) {
+            $algorithms = [];
+            foreach ($this->allowedJwsAlgorithms as $algorithm)
+            {
+                $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
+                if (!class_exists($class))
+                {
+                    throw new InvalidConfigException("Alogrithm class $class doesn't exist");
+                }
+                $algorithms[] = new $class();
+            }
+            $this->_jwsLoader = new JWSLoader(
+                JWSSerializerManager::create([ new CompactSerializer() ]),
+                new JWSVerifier(new AlgorithmManager($algorithms)),
+                HeaderCheckerManager::create(
+                    [ new AlgorithmChecker($this->allowedJwsAlgorithms) ],
+                    [ new JWSTokenSupport() ]
+                )
+            );
+        }
+        return $this->_jwsLoader;
+    }
+
+    /**
      * Decrypts/validates JWS, returning related data.
      * @param string $jws raw JWS input.
      * @return array JWS underlying data.
@@ -418,7 +422,8 @@ class OpenIdConnect extends OAuth2
     protected function loadJws($jws)
     {
         try {
-            $jwsVerified = $this->_jwsLoader->loadAndVerifyWithKeySet($jws, $this->getJwkSet(), $signature);
+            $jwsLoader = $this->getJwsLoader();
+            $jwsVerified = $jwsLoader->loadAndVerifyWithKeySet($jws, $this->getJwkSet(), $signature);
             return Json::decode($jwsVerified->getPayload());
         } catch (\Exception $e) {
             $message = YII_DEBUG ? 'Unable to verify JWS: ' . $e->getMessage() : 'Invalid JWS';

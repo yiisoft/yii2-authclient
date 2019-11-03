@@ -373,7 +373,7 @@ class OpenIdConnect extends OAuth2
                 $response = $this->sendRequest($request);
                 $jwkSet = JWKFactory::createFromValues($response);
             }
-            
+
             $this->_jwkSet = $jwkSet;
 
             if ($cache !== null) {
@@ -402,9 +402,9 @@ class OpenIdConnect extends OAuth2
                 $algorithms[] = new $class();
             }
             $this->_jwsLoader = new JWSLoader(
-                JWSSerializerManager::create([ new CompactSerializer() ]),
+                new JWSSerializerManager([ new CompactSerializer() ]),
                 new JWSVerifier(new AlgorithmManager($algorithms)),
-                HeaderCheckerManager::create(
+                new HeaderCheckerManager(
                     [ new AlgorithmChecker($this->allowedJwsAlgorithms) ],
                     [ new JWSTokenSupport() ]
                 )

@@ -366,14 +366,14 @@ class OpenIdConnect extends OAuth2
         if ($this->_jwkSet === null) {
             $cache = $this->getCache();
             $cacheKey = $this->configParamsCacheKeyPrefix . '_jwkSet';
-            if ($cache === null || ($configParams = $cache->get($cacheKey)) === false) {
+            if ($cache === null || ($jwkSet = $cache->get($cacheKey)) == false) {
                 $request = $this->createRequest()
                     ->setMethod('GET')
                     ->setUrl($this->getConfigParam('jwks_uri'));
                 $response = $this->sendRequest($request);
                 $jwkSet = JWKFactory::createFromValues($response);
             }
-
+            
             $this->_jwkSet = $jwkSet;
 
             if ($cache !== null) {

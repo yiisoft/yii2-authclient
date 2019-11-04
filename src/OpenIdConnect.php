@@ -19,7 +19,6 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Yii;
 use yii\authclient\signature\HmacSha;
 use yii\base\InvalidConfigException;
-use yii\base\InvalidParamException;
 use yii\caching\Cache;
 use yii\di\Instance;
 use yii\helpers\Json;
@@ -50,11 +49,11 @@ use yii\web\HttpException;
  * ```
  *
  * This class requires `web-token/jwt-checker`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`,
- * `web-token/jwt-signature-algorithm-ecdsa` and `web-token/jwt-signature-algorithm-rsa` library to be installed for
+ * `web-token/jwt-signature-algorithm-ecdsa` and `web-token/jwt-signature-algorithm-rsa` libraries to be installed for
  * JWS verification. This can be done via composer:
  *
  * ```
- * composer require --prefer-dist "web-token/jwt-checker:~1.0" "web-token/jwt-signature:~1.0" 
+ * composer require --prefer-dist "web-token/jwt-checker:~1.0" "web-token/jwt-signature:~1.0"
  * "web-token/jwt-signature-algorithm-hmac:~1.0" "web-token/jwt-signature-algorithm-ecdsa:~1.0"
  * "web-token/jwt-signature-algorithm-rsa:~1.0"
  * ```
@@ -94,8 +93,8 @@ class OpenIdConnect extends OAuth2
     /**
      * @var array JWS algorithms, which are allowed to be used.
      * These are used by `web-token` library for JWS validation/decryption.
-     * Make sure to install the proper package `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa`
-     * and `web-token/jwt-signature-algorithm-rsa` that supports the particular algorithm before adding it here.
+     * Make sure to install `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa`
+     * and `web-token/jwt-signature-algorithm-rsa` packages that support the particular algorithm before adding it here.
      */
     public $allowedJwsAlgorithms = [
         'HS256', 'HS384', 'HS512',
@@ -131,13 +130,13 @@ class OpenIdConnect extends OAuth2
      */
     private $_cache = 'cache';
     /**
-     * @var JWSLoader  JSON Web Signature
+     * @var JWSLoader JSON Web Signature
      */
-    private $_jwsLoader = null;
+    private $_jwsLoader;
     /**
      * @var JWKSet Key Set
      */
-    private $_jwkSet = null;
+    private $_jwkSet;
 
     /**
      * @return bool whether to use and validate auth 'nonce' parameter in authentication flow.
@@ -366,7 +365,7 @@ class OpenIdConnect extends OAuth2
         if ($this->_jwkSet === null) {
             $cache = $this->getCache();
             $cacheKey = $this->configParamsCacheKeyPrefix . '_jwkSet';
-            if ($cache === null || ($jwkSet = $cache->get($cacheKey)) == false) {
+            if ($cache === null || ($jwkSet = $cache->get($cacheKey)) === false) {
                 $request = $this->createRequest()
                     ->setMethod('GET')
                     ->setUrl($this->getConfigParam('jwks_uri'));

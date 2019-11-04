@@ -28,8 +28,7 @@ Application configuration example:
 Authentication workflow is exactly the same as for OAuth2.
 
 **Heads up!** 'OpenID Connect' protocol uses [JWS](http://tools.ietf.org/html/draft-ietf-jose-json-web-signature) verification
-for the authentication process securing. You will need to install `web-token/jwt-checker`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa` and `web-token/jwt-signature-algorithm-rsa` library, which is not required by this
-extension by default, in order to use such verification. This can be done via composer:
+for the authentication process securing. You will need to install `web-token/jwt-checker`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa` and `web-token/jwt-signature-algorithm-rsa` libraries in order to use such verification. These libraries are not required by this extension by default. It can be done via composer:
 
 ```
 composer require --prefer-dist "web-token/jwt-checker:~1.0" "web-token/jwt-signature:~1.0" "web-token/jwt-signature-algorithm-hmac:~1.0" "web-token/jwt-signature-algorithm-ecdsa:~1.0" "web-token/jwt-signature-algorithm-rsa:~1.0"

@@ -260,7 +260,7 @@ class OpenId extends BaseClient
 
         $response = $request->send();
 
-        if ($method == 'HEAD') {
+        if ($method === 'HEAD') {
             $headers = [];
             foreach ($response->getHeaders()->toArray() as $name => $values) {
                 $headers[strtolower($name)] = array_pop($values);
@@ -375,7 +375,7 @@ class OpenId extends BaseClient
         $yadis = true;
 
         // We'll jump a maximum of 5 times, to avoid endless redirections.
-        for ($i = 0; $i < 5; $i ++) {
+        for ($i = 0; $i < 5; $i++) {
             if ($yadis) {
                 $headers = $this->sendRequest($url, 'HEAD');
 
@@ -401,9 +401,9 @@ class OpenId extends BaseClient
                         $content = ' ' . $content; // The space is added, so that strpos doesn't return 0.
 
                         // OpenID 2
-                        $ns = preg_quote('http://specs.openid.net/auth/2.0/');
-                        if (preg_match('#<Type>\s*'.$ns.'(server|signon)\s*</Type>#s', $content, $type)) {
-                            if ($type[1] == 'server') {
+                        $ns = preg_quote('http://specs.openid.net/auth/2.0/', '#');
+                        if (preg_match('#<Type>\s*' . $ns . '(server|signon)\s*</Type>#s', $content, $type)) {
+                            if ($type[1] === 'server') {
                                 $result['identifier_select'] = true;
                             }
 
@@ -428,8 +428,8 @@ class OpenId extends BaseClient
                         }
 
                         // OpenID 1.1
-                        $ns = preg_quote('http://openid.net/signon/1.1');
-                        if (preg_match('#<Type>\s*'.$ns.'\s*</Type>#s', $content)) {
+                        $ns = preg_quote('http://openid.net/signon/1.1', '#');
+                        if (preg_match('#<Type>\s*' . $ns . '\s*</Type>#s', $content)) {
                             preg_match('#<URI.*?>(.*)</URI>#', $content, $server);
                             preg_match('#<.*?Delegate>(.*)</.*?Delegate>#', $content, $delegate);
                             if (empty($server)) {
@@ -642,7 +642,7 @@ class OpenId extends BaseClient
         if ($serverInfo['identifier_select']) {
             $url = 'http://specs.openid.net/auth/2.0/identifier_select';
             $params['openid.identity'] = $url;
-            $params['openid.claimed_id']= $url;
+            $params['openid.claimed_id'] = $url;
         } else {
             $params['openid.identity'] = $serverInfo['identity'];
             $params['openid.claimed_id'] = $this->getClaimedId();
@@ -723,12 +723,12 @@ class OpenId extends BaseClient
         if (preg_match('/is_valid\s*:\s*true/i', $response)) {
             if ($validateRequiredAttributes) {
                 return $this->validateRequiredAttributes();
-            } else {
-                return true;
             }
-        } else {
-            return false;
+
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -756,13 +756,13 @@ class OpenId extends BaseClient
     protected function fetchAxAttributes()
     {
         $alias = null;
-        if (isset($this->data['openid_ns_ax']) && $this->data['openid_ns_ax'] != 'http://openid.net/srv/ax/1.0') {
+        if (isset($this->data['openid_ns_ax']) && $this->data['openid_ns_ax'] !== 'http://openid.net/srv/ax/1.0') {
             // It's the most likely case, so we'll check it before
             $alias = 'ax';
         } else {
             // 'ax' prefix is either undefined, or points to another extension, so we search for another prefix
             foreach ($this->data as $key => $value) {
-                if (strncmp($key, 'openid_ns_', 10) === 0  && $value == 'http://openid.net/srv/ax/1.0') {
+                if (strncmp($key, 'openid_ns_', 10) === 0 && $value === 'http://openid.net/srv/ax/1.0') {
                     $alias = substr($key, strlen('openid_ns_'));
                     break;
                 }
@@ -828,7 +828,7 @@ class OpenId extends BaseClient
      */
     public function fetchAttributes()
     {
-        if (isset($this->data['openid_ns']) && $this->data['openid_ns'] == 'http://specs.openid.net/auth/2.0') {
+        if (isset($this->data['openid_ns']) && $this->data['openid_ns'] === 'http://specs.openid.net/auth/2.0') {
             // OpenID 2.0
             // We search for both AX and SREG attributes, with AX taking precedence.
             return array_merge($this->fetchSregAttributes(), $this->fetchAxAttributes());
@@ -856,7 +856,7 @@ class OpenId extends BaseClient
         $expectedUrlInfo = parse_url($expectedUrl);
         $actualUrlInfo = parse_url($actualUrl);
         foreach ($expectedUrlInfo as $name => $expectedValue) {
-            if ($name == 'query') {
+            if ($name === 'query') {
                 parse_str($expectedValue, $expectedUrlParams);
                 parse_str($actualUrlInfo[$name], $actualUrlParams);
                 $paramsDiff = array_diff_assoc($expectedUrlParams, $actualUrlParams);

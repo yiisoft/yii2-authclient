@@ -138,6 +138,7 @@ class OpenIdConnect extends OAuth2
      */
     private $_jwkSet;
 
+
     /**
      * @return bool whether to use and validate auth 'nonce' parameter in authentication flow.
      */

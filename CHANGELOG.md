@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.5 under development
 -----------------------
 
-- no changes in this release.
+- Enh #217: Replace spomky-labs/jose by JWT Framework (marty-macfly, smcyr)
 
 
 2.2.4 July 02, 2019

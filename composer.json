@@ -25,7 +25,11 @@
         "phpunit/phpunit": "4.8.27|~5.7.21|^6.2"
     },
     "suggest": {
-        "spomky-labs/jose": "required for JWS,JWT or JWK related flows like OpenIDConnect"
+        "web-token/jwt-checker": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+        "web-token/jwt-signature": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+        "web-token/jwt-signature-algorithm-hmac": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+        "web-token/jwt-signature-algorithm-ecdsa": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+        "web-token/jwt-signature-algorithm-rsa": "required for JWS, JWT or JWK related flows like OpenIDConnect"
     },
     "repositories": [
         {

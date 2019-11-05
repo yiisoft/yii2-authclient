@@ -423,6 +423,7 @@ class OpenIdConnect extends OAuth2
     {
         try {
             $jwsLoader = $this->getJwsLoader();
+            $signature = -1;
             $jwsVerified = $jwsLoader->loadAndVerifyWithKeySet($jws, $this->getJwkSet(), $signature);
             return Json::decode($jwsVerified->getPayload());
         } catch (\Exception $e) {

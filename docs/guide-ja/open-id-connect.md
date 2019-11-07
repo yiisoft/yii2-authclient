@@ -29,20 +29,21 @@ OpenID 接続
 
 **注意!** 'OpenID 接続' プロトコルは、認証のプロセスをセキュアにするために、 [JWS](http://tools.ietf.org/html/draft-ietf-jose-json-web-signature) 検証を使います。
 そのような検証を使うためには。このエクステンションがデフォルトでは要求していない
-`web-token/jwt-checker`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa`, `web-token/jwt-signature-algorithm-rsa` ライブラリをインストールする必要があります。
+`web-token/jwt-checker`, `web-token/jwt-key-mgmt`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa`, `web-token/jwt-signature-algorithm-rsa` ライブラリをインストールする必要があります。
 
 ```
-composer require --prefer-dist "web-token/jwt-checker:~1.0" "web-token/jwt-signature:~1.0" "web-token/jwt-signature-algorithm-hmac:~1.0" "web-token/jwt-signature-algorithm-ecdsa:~1.0" "web-token/jwt-signature-algorithm-rsa:~1.0"
+composer require --prefer-dist "web-token/jwt-checker:>=1.0 <3.0" "web-token/jwt-signature:>=1.0 <3.0" "web-token/jwt-signature-algorithm-hmac:>=1.0 <3.0" "web-token/jwt-signature-algorithm-ecdsa:>=1.0 <3.0" "web-token/jwt-signature-algorithm-rsa:>=1.0 <3.0"
 ```
 
 または、
 
 ```json
-"web-token/jwt-checker": "~1.0",
-"web-token/jwt-signature": "~1.0",
-"web-token/jwt-signature-algorithm-hmac": "~1.0",
-"web-token/jwt-signature-algorithm-ecdsa": "~1.0",
-"web-token/jwt-signature-algorithm-rsa": "~1.0"
+"web-token/jwt-checker": ">=1.0 <3.0",
+"web-token/jwt-key-mgmt": ">=1.0  <3.0",
+"web-token/jwt-signature": "~1.0 <3.0",
+"web-token/jwt-signature-algorithm-hmac": "~1.0  <3.0",
+"web-token/jwt-signature-algorithm-ecdsa": "~1.0  <3.0",
+"web-token/jwt-signature-algorithm-rsa": "~1.0  <3.0"
 ```
 
 をあなたの composer.joson の`require` セクションに追加します。

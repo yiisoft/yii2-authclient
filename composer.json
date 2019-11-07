@@ -26,6 +26,7 @@
     },
     "suggest": {
         "web-token/jwt-checker": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+        "web-token/jwt-key-mgmt": "required for JWS, JWT or JWK related flows like OpenIDConnect",
         "web-token/jwt-signature": "required for JWS, JWT or JWK related flows like OpenIDConnect",
         "web-token/jwt-signature-algorithm-hmac": "required for JWS, JWT or JWK related flows like OpenIDConnect",
         "web-token/jwt-signature-algorithm-ecdsa": "required for JWS, JWT or JWK related flows like OpenIDConnect",

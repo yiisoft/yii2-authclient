@@ -48,14 +48,14 @@ use yii\web\HttpException;
  * ]
  * ```
  *
- * This class requires `web-token/jwt-checker`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`,
+ * This class requires `web-token/jwt-checker`,`web-token/jwt-key-mgmt`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`,
  * `web-token/jwt-signature-algorithm-ecdsa` and `web-token/jwt-signature-algorithm-rsa` libraries to be installed for
  * JWS verification. This can be done via composer:
  *
  * ```
- * composer require --prefer-dist "web-token/jwt-checker:~1.0" "web-token/jwt-signature:~1.0"
- * "web-token/jwt-signature-algorithm-hmac:~1.0" "web-token/jwt-signature-algorithm-ecdsa:~1.0"
- * "web-token/jwt-signature-algorithm-rsa:~1.0"
+ * composer require --prefer-dist "web-token/jwt-checker:>=1.0 <3.0" "web-token/jwt-signature:>=1.0 <3.0"
+ * "web-token/jwt-signature:>=1.0 <3.0" "web-token/jwt-signature-algorithm-hmac:>=1.0 <3.0"
+ * "web-token/jwt-signature-algorithm-ecdsa:>=1.0 <3.0" "web-token/jwt-signature-algorithm-rsa:>=1.0 <3.0"
  * ```
  *
  * Note: if you are using well-trusted OpenIdConnect provider, you may disable [[validateJws]], making installation of
@@ -85,9 +85,9 @@ class OpenIdConnect extends OAuth2
     public $issuerUrl;
     /**
      * @var bool whether to validate/decrypt JWS received with Auth token.
-     * Note: this functionality requires `web-token/jwt-checker`, `web-token/jwt-signature` composer package to be installed.
-     * You can disable this option in case of usage of trusted OpenIDConnect provider, however this violates
-     * the protocol rules, so you are doing it on your own risk.
+     * Note: this functionality requires `web-token/jwt-checker`, `web-token/jwt-key-mgmt`, `web-token/jwt-signature`
+     * composer package to be installed. You can disable this option in case of usage of trusted OpenIDConnect provider,
+     * however this violates the protocol rules, so you are doing it on your own risk.
      */
     public $validateJws = true;
     /**

@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.6 under development
 -----------------------
 
-- no changes in this release.
+- Enh #205: Add alternative storage system based on cache component (marty-macfly, tunecino)
 
 
 2.2.5 November 05, 2019

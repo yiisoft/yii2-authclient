@@ -76,7 +76,7 @@ class CacheStateStorage extends Component implements StateStorageInterface
     public function remove($key)
     {
         if ($this->cache !== null) {
-            $this->cache->delete($this->prefix . $key);
+            return $this->cache->delete($this->prefix . $key);
         }
         return true;
     }

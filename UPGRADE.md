@@ -8,6 +8,35 @@ if you want to upgrade from version A to version C and there is
 version B between A and C, you need to following the instructions
 for both A and B.
 
+Upgrade from yii2-authclient 2.2.5
+----------------------------------
+
+* Default request option for turning off SSL peer verification was removed.
+  If you need to skip peer verification you can configure individual client request options:
+  
+  ```php
+  return [
+      'components' => [
+          'authClientCollection' => [
+              'class' => 'yii\authclient\Collection',
+              'clients' => [
+                  'google' => [
+                      'class' => 'yii\authclient\clients\Google',
+                      'clientId' => 'google_client_id',
+                      'clientSecret' => 'google_client_secret',
+                      'requestOptions' => [
+                          'sslVerifyPeer' => false, // <-- here
+                      ],
+                  ],
+                  // etc.
+              ],
+          ]
+          // ...
+      ],
+      // ...
+  ];
+  ```
+  
 Upgrade from yii2-authclient 2.1.0
 ----------------------------------
 

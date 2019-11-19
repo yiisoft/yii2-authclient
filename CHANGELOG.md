@@ -1,11 +1,11 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.6 under development
+2.2.6 November 19, 2019
 -----------------------
 
+- Bug #288: Default request option for turning off SSL peer verification was removed (Rutger, samdark)
 - Enh #205: Add alternative storage system based on cache component (marty-macfly, tunecino)
-- Bug #288: Default request option for turning off SSL peer verification was removed (Rutger, samdark) 
 
 
 2.2.5 November 05, 2019

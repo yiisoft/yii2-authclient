@@ -33,6 +33,7 @@ class CacheStateStorage extends Component implements StateStorageInterface
     public $cache;
     public $prefix = 'cacheStorage';
 
+
     /**
      * {@inheritdoc}
      */

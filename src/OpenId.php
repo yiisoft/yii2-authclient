@@ -280,7 +280,6 @@ class OpenId extends BaseClient
             'userAgent' => Yii::$app->name . ' OpenID Client',
             'timeout' => 30,
             'followLocation' => true,
-            'sslVerifyPeer' => false,
         ];
     }
 

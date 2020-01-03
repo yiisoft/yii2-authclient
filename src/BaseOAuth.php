@@ -188,7 +188,6 @@ abstract class BaseOAuth extends BaseClient
         return [
             'userAgent' => Yii::$app->name . ' OAuth ' . $this->version . ' Client',
             'timeout' => 30,
-            'sslVerifyPeer' => false,
         ];
     }
 

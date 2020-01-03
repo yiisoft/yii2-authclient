@@ -7,12 +7,18 @@
 
 namespace yii\authclient;
 
-use Jose\Factory\JWKFactory;
-use Jose\Loader;
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Checker\AlgorithmChecker;
+use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Signature\JWSLoader;
+use Jose\Component\Signature\JWSTokenSupport;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Yii;
 use yii\authclient\signature\HmacSha;
 use yii\base\InvalidConfigException;
-use yii\base\InvalidParamException;
 use yii\caching\Cache;
 use yii\di\Instance;
 use yii\helpers\Json;
@@ -42,14 +48,18 @@ use yii\web\HttpException;
  * ]
  * ```
  *
- * This class requires `spomky-labs/jose` library to be installed for JWS verification. This can be done via composer:
+ * This class requires `web-token/jwt-checker`,`web-token/jwt-key-mgmt`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`,
+ * `web-token/jwt-signature-algorithm-ecdsa` and `web-token/jwt-signature-algorithm-rsa` libraries to be installed for
+ * JWS verification. This can be done via composer:
  *
  * ```
- * composer require --prefer-dist "spomky-labs/jose:~5.0.6"
+ * composer require --prefer-dist "web-token/jwt-checker:>=1.0 <3.0" "web-token/jwt-signature:>=1.0 <3.0"
+ * "web-token/jwt-signature:>=1.0 <3.0" "web-token/jwt-signature-algorithm-hmac:>=1.0 <3.0"
+ * "web-token/jwt-signature-algorithm-ecdsa:>=1.0 <3.0" "web-token/jwt-signature-algorithm-rsa:>=1.0 <3.0"
  * ```
  *
  * Note: if you are using well-trusted OpenIdConnect provider, you may disable [[validateJws]], making installation of
- * `spomky-labs/jose` library redundant, however it is not recommended as it violates the protocol specification.
+ * `web-token` library redundant, however it is not recommended as it violates the protocol specification.
  *
  * @see http://openid.net/connect/
  * @see OAuth2
@@ -75,15 +85,16 @@ class OpenIdConnect extends OAuth2
     public $issuerUrl;
     /**
      * @var bool whether to validate/decrypt JWS received with Auth token.
-     * Note: this functionality requires `spomky-labs/jose` composer package to be installed.
-     * You can disable this option in case of usage of trusted OpenIDConnect provider, however this violates
-     * the protocol rules, so you are doing it on your own risk.
+     * Note: this functionality requires `web-token/jwt-checker`, `web-token/jwt-key-mgmt`, `web-token/jwt-signature`
+     * composer package to be installed. You can disable this option in case of usage of trusted OpenIDConnect provider,
+     * however this violates the protocol rules, so you are doing it on your own risk.
      */
     public $validateJws = true;
     /**
      * @var array JWS algorithms, which are allowed to be used.
-     * These are used by `spomky-labs/jose` library for JWS validation/decryption.
-     * Make sure `spomky-labs/jose` supports the particular algorithm before adding it here.
+     * These are used by `web-token` library for JWS validation/decryption.
+     * Make sure to install `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa`
+     * and `web-token/jwt-signature-algorithm-rsa` packages that support the particular algorithm before adding it here.
      */
     public $allowedJwsAlgorithms = [
         'HS256', 'HS384', 'HS512',
@@ -118,6 +129,14 @@ class OpenIdConnect extends OAuth2
      * When this is not set, it means caching is not enabled.
      */
     private $_cache = 'cache';
+    /**
+     * @var JWSLoader JSON Web Signature
+     */
+    private $_jwsLoader;
+    /**
+     * @var JWKSet Key Set
+     */
+    private $_jwkSet;
 
 
     /**
@@ -338,6 +357,63 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
+     * Return JwkSet, returning related data.
+     * @return JWKSet object represents a key set.
+     * @throws InvalidResponseException on failure.
+     */
+    protected function getJwkSet()
+    {
+        if ($this->_jwkSet === null) {
+            $cache = $this->getCache();
+            $cacheKey = $this->configParamsCacheKeyPrefix . '_jwkSet';
+            if ($cache === null || ($jwkSet = $cache->get($cacheKey)) === false) {
+                $request = $this->createRequest()
+                    ->setMethod('GET')
+                    ->setUrl($this->getConfigParam('jwks_uri'));
+                $response = $this->sendRequest($request);
+                $jwkSet = JWKFactory::createFromValues($response);
+            }
+
+            $this->_jwkSet = $jwkSet;
+
+            if ($cache !== null) {
+                $cache->set($cacheKey, $jwkSet);
+            }
+        }
+        return $this->_jwkSet;
+    }
+
+    /**
+     * Return JWSLoader that validate the JWS token.
+     * @return JWSLoader to do token validation.
+     * @throws InvalidConfigException on invalid algorithm provide in configuration.
+     */
+    protected function getJwsLoader()
+    {
+        if ($this->_jwsLoader === null) {
+            $algorithms = [];
+            foreach ($this->allowedJwsAlgorithms as $algorithm)
+            {
+                $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
+                if (!class_exists($class))
+                {
+                    throw new InvalidConfigException("Alogrithm class $class doesn't exist");
+                }
+                $algorithms[] = new $class();
+            }
+            $this->_jwsLoader = new JWSLoader(
+                new JWSSerializerManager([ new CompactSerializer() ]),
+                new JWSVerifier(new AlgorithmManager($algorithms)),
+                new HeaderCheckerManager(
+                    [ new AlgorithmChecker($this->allowedJwsAlgorithms) ],
+                    [ new JWSTokenSupport() ]
+                )
+            );
+        }
+        return $this->_jwsLoader;
+    }
+
+    /**
      * Decrypts/validates JWS, returning related data.
      * @param string $jws raw JWS input.
      * @return array JWS underlying data.
@@ -346,9 +422,10 @@ class OpenIdConnect extends OAuth2
     protected function loadJws($jws)
     {
         try {
-            $jwkSet = JWKFactory::createFromJKU($this->getConfigParam('jwks_uri'));
-            $loader = new Loader();
-            return $loader->loadAndVerifySignatureUsingKeySet($jws, $jwkSet, $this->allowedJwsAlgorithms)->getPayload();
+            $jwsLoader = $this->getJwsLoader();
+            $signature = null;
+            $jwsVerified = $jwsLoader->loadAndVerifyWithKeySet($jws, $this->getJwkSet(), $signature);
+            return Json::decode($jwsVerified->getPayload());
         } catch (\Exception $e) {
             $message = YII_DEBUG ? 'Unable to verify JWS: ' . $e->getMessage() : 'Invalid JWS';
             throw new HttpException(400, $message, $e->getCode(), $e);

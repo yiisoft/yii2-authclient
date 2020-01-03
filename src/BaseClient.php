@@ -394,7 +394,6 @@ abstract class BaseClient extends Component implements ClientInterface
     {
         return [
             'timeout' => 30,
-            'sslVerifyPeer' => false,
         ];
     }
 

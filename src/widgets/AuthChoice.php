@@ -25,7 +25,8 @@ use yii\authclient\ClientInterface;
  *
  * ```php
  * <?= yii\authclient\widgets\AuthChoice::widget([
- *     'baseAuthUrl' => ['site/auth']
+ *     'baseAuthUrl' => ['site/auth'],
+ *     'baseAuthUrlScheme' => 'https'
  * ]); ?>
  * ```
  *
@@ -93,11 +94,16 @@ class AuthChoice extends Widget
      * Note: this value automatically set to 'false' at the first call of [[createClientUrl()]]
      */
     public $autoRender = true;
+    /**
+     * @var string configuration for the external clients based authentication URL Scheme.
+     */
+    public $baseAuthUrlScheme = false;
 
     /**
      * @var array configuration for the external clients base authentication URL.
      */
     private $_baseAuthUrl;
+    
     /**
      * @var ClientInterface[] auth providers list.
      */
@@ -232,8 +238,9 @@ class AuthChoice extends Widget
         $this->autoRender = false;
         $url = $this->getBaseAuthUrl();
         $url[$this->clientIdGetParamName] = $client->getId();
+        $scheme = $this->baseAuthUrlScheme;
 
-        return Url::to($url);
+        return Url::to($url, $scheme);
     }
 
     /**

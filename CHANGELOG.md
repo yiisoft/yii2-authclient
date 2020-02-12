@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.7 under development
 -----------------------
 
-- no changes in this release.
+- Bug #292: Updated GitHub token transfer method according to https://developer.github.com/changes/2019-11-05-deprecated-passwords-and-authorizations-api/#authenticating-using-query-parameters (raidkon)
 
 
 2.2.6 November 19, 2019

@@ -106,4 +106,12 @@ class GitHub extends OAuth2
     {
         return 'GitHub';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function applyAccessTokenToRequest($request, $accessToken)
+    {
+        $request->getHeaders()->add('Authorization', 'token ' . $accessToken->getToken());
+    }
 }

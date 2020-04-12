@@ -31,7 +31,7 @@ composer require --prefer-dist yiisoft/yii2-authclient
 or add
 
 ```json
-"yiisoft/yii2-authclient": "~2.1.0"
+"yiisoft/yii2-authclient": "~2.2.0"
 ```
 
 to the `require` section of your composer.json.

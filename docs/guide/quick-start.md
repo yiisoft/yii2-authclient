@@ -127,9 +127,6 @@ class AuthHandler
                     'source_id' => (string)$attributes['id'],
                 ]);
                 if ($auth->save()) {
-                    /** @var User $user */
-                    $user = $auth->user;
-                    $this->updateUserInfo($user);
                     Yii::$app->getSession()->setFlash('success', [
                         Yii::t('app', 'Linked {client} account.', [
                             'client' => $this->client->getTitle()

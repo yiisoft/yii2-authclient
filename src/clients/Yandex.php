@@ -65,6 +65,24 @@ class Yandex extends OAuth2
     /**
      * {@inheritdoc}
      */
+    public function getUserAttributes()
+    {
+        $result = parent::getUserAttributes();
+        
+        if (is_array($result) && !isset($result['email'])) {
+            if (isset($result['default_email'])) {
+                $result['email'] = $result['default_email'];
+            } elseif (isset($result['emails']) && is_array($result['emails']) && count($result['emails']) > 0) {
+                $result['email'] = current($result['emails']);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
         $data = $request->getData();

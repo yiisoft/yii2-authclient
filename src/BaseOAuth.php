@@ -8,7 +8,7 @@
 namespace yii\authclient;
 
 use yii\base\Exception;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 use Yii;
 use yii\httpclient\Request;
 
@@ -123,12 +123,12 @@ abstract class BaseOAuth extends BaseClient
     /**
      * Set signature method to be used.
      * @param array|signature\BaseMethod $signatureMethod signature method instance or its array configuration.
-     * @throws InvalidParamException on wrong argument.
+     * @throws InvalidArgumentException on wrong argument.
      */
     public function setSignatureMethod($signatureMethod)
     {
         if (!is_object($signatureMethod) && !is_array($signatureMethod)) {
-            throw new InvalidParamException('"' . get_class($this) . '::signatureMethod" should be instance of "\yii\autclient\signature\BaseMethod" or its array configuration. "' . gettype($signatureMethod) . '" has been given.');
+            throw new InvalidArgumentException('"' . get_class($this) . '::signatureMethod" should be instance of "\yii\autclient\signature\BaseMethod" or its array configuration. "' . gettype($signatureMethod) . '" has been given.');
         }
         $this->_signatureMethod = $signatureMethod;
     }

@@ -96,7 +96,7 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Sets access token to be used.
-     * @param array|OAuthToken $token access token or its configuration.
+     * @param array|OAuthToken|null $token access token or its configuration.
      */
     public function setAccessToken($token)
     {

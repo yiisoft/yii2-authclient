@@ -66,7 +66,8 @@ abstract class BaseOAuth extends BaseClient
      */
     private $_returnUrl;
     /**
-     * @var OAuthToken|array access token instance or its array configuration.
+     * @var OAuthToken|array|null access token instance, its array configuration or null that means that token would be
+     * restored from token store.
      */
     private $_accessToken;
     /**
@@ -96,7 +97,7 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Sets access token to be used.
-     * @param array|OAuthToken $token access token or its configuration.
+     * @param array|OAuthToken|null $token access token or its configuration. Set to null to restore token from token store.
      */
     public function setAccessToken($token)
     {

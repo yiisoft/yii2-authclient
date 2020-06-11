@@ -15,7 +15,7 @@ Documentation is at [docs/guide/README.md](https://github.com/yiisoft/yii2-authc
 
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-authclient/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-authclient)
 [![Total Downloads](https://poser.pugx.org/yiisoft/yii2-authclient/downloads.png)](https://packagist.org/packages/yiisoft/yii2-authclient)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-authclient.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-authclient)
+[![Build Status](https://travis-ci.com/yiisoft/yii2-authclient.svg?branch=master)](https://travis-ci.com/yiisoft/yii2-authclient)
 
 Installation
 ------------
@@ -31,7 +31,7 @@ composer require --prefer-dist yiisoft/yii2-authclient
 or add
 
 ```json
-"yiisoft/yii2-authclient": "~2.1.0"
+"yiisoft/yii2-authclient": "~2.2.0"
 ```
 
 to the `require` section of your composer.json.

@@ -135,7 +135,7 @@ abstract class OAuth2 extends BaseOAuth
     public function applyAccessTokenToRequest($request, $accessToken)
     {
         $data = $request->getData();
-        $data['access_token'] = $accessToken->getToken();
+        $data[$accessToken->tokenParamKey] = $accessToken->getToken();
         $request->setData($data);
     }
 

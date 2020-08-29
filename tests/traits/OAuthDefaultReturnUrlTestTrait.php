@@ -30,7 +30,6 @@ trait OAuthDefaultReturnUrlTestTrait
         $request = \Yii::createObject([
             'class' => \yii\web\Request::className(),
             'queryParams' => $requestQueryParams,
-            'hostInfo' => 'http://testdomain.com',
             'scriptUrl' => '/index.php',
         ]);
         $response = \Yii::createObject([

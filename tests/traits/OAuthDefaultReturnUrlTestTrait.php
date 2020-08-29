@@ -29,12 +29,18 @@ trait OAuthDefaultReturnUrlTestTrait
         $module = \Yii::createObject(\yii\base\Module::className(), ['module']);
         $request = \Yii::createObject([
             'class' => \yii\web\Request::className(),
-            'queryParams' => $requestQueryParams
+            'queryParams' => $requestQueryParams,
+            'hostInfo' => 'http://testdomain.com',
+            'scriptUrl' => '/index.php',
+        ]);
+        $response = \Yii::createObject([
+            'class' => \yii\web\Response::className(),
+            'charset' => 'UTF-8',
         ]);
         $controller = \Yii::createObject([
             'class' => \yii\web\Controller::className(),
             'request' => $request,
-            'response' => \yii\web\Response::className(),
+            'response' => $response,
         ], ['default', $module]);
         $app = $this->mockWebApplication([
             'components' => [

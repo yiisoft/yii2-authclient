@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.8 under development
 -----------------------
 
-- Bug #309: `BaseOAuth->beforeApiRequestSend()` try to refresh token if `BaseOAuth->autoRefreshAccessToken = true` instead of throwing directly 'Invalid access token.' exception (marty-macfly)
+- Bug #309: Try to refresh token in `BaseOAuth->beforeApiRequestSend()` if `BaseOAuth->autoRefreshAccessToken = true` instead of throwing "Invalid access token" exception (marty-macfly)
 
 
 2.2.7 February 12, 2020

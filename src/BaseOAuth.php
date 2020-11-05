@@ -306,8 +306,10 @@ abstract class BaseOAuth extends BaseClient
     public function beforeApiRequestSend($event)
     {
         $accessToken = $this->getAccessToken();
-        if (!is_object($accessToken) || !$accessToken->getIsValid()) {
+        if (!is_object($accessToken) || (!$accessToken->getIsValid() && !$this->autoRefreshAccessToken)) {
             throw new Exception('Invalid access token.');
+        } else {
+            $accessToken = $this->refreshAccessToken($accessToken);
         }
 
         $this->applyAccessTokenToRequest($event->request, $accessToken);

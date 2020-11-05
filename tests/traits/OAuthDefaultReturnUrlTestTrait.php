@@ -27,12 +27,23 @@ trait OAuthDefaultReturnUrlTestTrait
     public function testDefaultReturnUrl($requestQueryParams, $parametersToKeepInReturnUrl, $expectedReturnUrl)
     {
         $module = \Yii::createObject(\yii\base\Module::className(), ['module']);
-        $controller = \Yii::createObject(\yii\web\Controller::className(), ['default', $module]);
+        $request = \Yii::createObject([
+            'class' => \yii\web\Request::className(),
+            'queryParams' => $requestQueryParams,
+            'scriptUrl' => '/index.php',
+        ]);
+        $response = \Yii::createObject([
+            'class' => \yii\web\Response::className(),
+            'charset' => 'UTF-8',
+        ]);
+        $controller = \Yii::createObject([
+            'class' => \yii\web\Controller::className(),
+            'request' => $request,
+            'response' => $response,
+        ], ['default', $module]);
         $app = $this->mockWebApplication([
             'components' => [
-                'request' => [
-                    'queryParams' => $requestQueryParams,
-                ],
+                'request' => $request,
                 'urlManager' => [
                     'enablePrettyUrl' => true,
                     'showScriptName' => false,

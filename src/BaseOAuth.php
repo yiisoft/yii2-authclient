@@ -308,7 +308,7 @@ abstract class BaseOAuth extends BaseClient
         $accessToken = $this->getAccessToken();
         if (!is_object($accessToken) || (!$accessToken->getIsValid() && !$this->autoRefreshAccessToken)) {
             throw new Exception('Invalid access token.');
-        } else {
+        } elseif ($accessToken->getIsExpired() && $this->autoRefreshAccessToken) {
             $accessToken = $this->refreshAccessToken($accessToken);
         }
 

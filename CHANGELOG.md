@@ -1,7 +1,7 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.9 under development
+2.2.9 November 13, 2020
 -----------------------
 
 - Bug #312: do not refresh access token if it is not expired (albertborsos)

@@ -61,6 +61,10 @@ abstract class OAuth2 extends BaseOAuth
      * @since 2.1
      */
     public $validateAuthState = true;
+    /**
+     * @var array state data
+     */
+    public $oauthState = [];
 
 
     /**
@@ -83,7 +87,12 @@ abstract class OAuth2 extends BaseOAuth
         if ($this->validateAuthState) {
             $authState = $this->generateAuthState();
             $this->setState('authState', $authState);
-            $defaultParams['state'] = $authState;
+            $this->addToOauthState('authState', $authState);
+        }
+
+        $state = $this->getOauthState();
+        if ($state) {
+            $defaultParams['state'] = $state;
         }
 
         return $this->composeUrl($this->authUrl, array_merge($defaultParams, $params));
@@ -98,11 +107,15 @@ abstract class OAuth2 extends BaseOAuth
      */
     public function fetchAccessToken($authCode, array $params = [])
     {
+        $incomingRequest = Yii::$app->getRequest();
+        $incomingState = $incomingRequest->get('state', $incomingRequest->post('state'));
+        if (!empty($incomingState)) {
+            $this->setOauthState($incomingState);
+        }
+
         if ($this->validateAuthState) {
             $authState = $this->getState('authState');
-            $incomingRequest = Yii::$app->getRequest();
-            $incomingState = $incomingRequest->get('state', $incomingRequest->post('state'));
-            if (!isset($incomingState) || empty($authState) || strcmp($incomingState, $authState) !== 0) {
+            if (!isset($this->oauthState['authState']) || empty($authState) || strcmp($this->oauthState['authState'], $authState) !== 0) {
                 throw new HttpException(400, 'Invalid auth state parameter.');
             }
             $this->removeState('authState');
@@ -346,5 +359,33 @@ abstract class OAuth2 extends BaseOAuth
         $this->setAccessToken($token);
 
         return $token;
+    }
+
+    /**
+     * Save data in oauth state
+     * @param string $name name of data conteiner in json
+     * @param mixed $value data to serialize
+     */
+    public function addToOauthState($name, $value) {
+        $this->oauthState[$name] = $value;
+    }
+
+    /**
+     * Set oauth state data
+     */
+    public function setOauthState($incomingState) {
+        $this->oauthState = json_decode($incomingState, true);
+    }
+
+    /**
+     * Generate oauth state data
+     * @return bool|string
+     */
+    public function getOauthState() {
+        if (empty($this->oauthState)) {
+            return false;
+        }
+
+        return json_encode($this->oauthState);
     }
 }

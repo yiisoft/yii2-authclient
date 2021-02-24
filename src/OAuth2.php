@@ -63,12 +63,11 @@ abstract class OAuth2 extends BaseOAuth
      */
     public $validateAuthState = true;
     /**
-     * If to enable proof key for code exchange (PKCE) support and add
-     * a `code_challenge` and `code_verifier` to the auth request
+     * @var bool Whether to enable proof key for code exchange (PKCE) support and add
+     * a `code_challenge` and `code_verifier` to the auth request.
+     * @since 2.2.10
      *
      * @see https://oauth.net/2/pkce/
-     *
-     * @var bool
      */
     public $enablePkce = false;
 

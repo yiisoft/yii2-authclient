@@ -49,4 +49,19 @@ class OAuth2Test extends TestCase
         $this->assertContains($clientId, $builtAuthUrl, 'No client id present!');
         $this->assertContains(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
+
+    public function testPkceCodeChallengeIsPresentInAuthUrl()
+    {
+        $oauthClient = $this->createClient();
+        $oauthClient->enablePkce = true;
+
+        $oauthClient->authUrl = 'http://test.auth.url';
+        $oauthClient->clientId = 'test_client_id';
+        $oauthClient->returnUrl = 'http://test.return.url';
+
+        $builtAuthUrl = $oauthClient->buildAuthUrl();
+
+        $this->assertContains('code_challenge=', $builtAuthUrl, 'No code challenge Present!');
+        $this->assertContains('code_challenge_method=S256', $builtAuthUrl, 'No code challenge method Present!');
+    }
 }

@@ -31,6 +31,9 @@
 .auth-icon.live {
     background-position: 0 -272px;
 }
+.auth-icon.azure {
+    background-position: 0 -272px;
+}
 
 .auth-clients {
     display: block;

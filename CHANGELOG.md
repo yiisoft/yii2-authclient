@@ -1,8 +1,8 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.10 under development
-------------------------
+2.2.10 May 05, 2021
+-------------------
 
 - Chg #315: Add proof key for code exchange PKCE support to oauth2 (AdeAttwood)
 

@@ -230,10 +230,11 @@ abstract class BaseOAuth extends BaseClient
         $response = $request->send();
 
         if (!$response->getIsOk()) {
+            $statusCode = $response->getStatusCode();
             throw new InvalidResponseException(
                 $response,
-                'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent(),
-                intval($response->statusCode)
+                'Request failed with code: ' . $statusCode . ', message: ' . $response->getContent(),
+                (int) $statusCode
             );
         }
 

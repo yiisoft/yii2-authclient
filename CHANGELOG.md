@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.11 under development
 ------------------------
 
-- no changes in this release.
+- Enh #318: Add `statusCode` from response to init `InvalidResponseException` in `sendRequest` method of `yii\authclient\BaseOAuth` class
 
 
 2.2.10 May 05, 2021

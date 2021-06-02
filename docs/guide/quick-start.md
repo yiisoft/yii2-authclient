@@ -88,7 +88,7 @@ class AuthHandler
                         'github' => $nickname,
                         'email' => $email,
                         'password' => $password,
-                        'status' => User::STATUS_ACTIVE
+                        // 'status' => User::STATUS_ACTIVE // make sure you set status properly
                     ]);
                     $user->generateAuthKey();
                     $user->generatePasswordResetToken();

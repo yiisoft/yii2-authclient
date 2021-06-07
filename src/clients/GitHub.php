@@ -12,7 +12,7 @@ use yii\authclient\OAuth2;
 /**
  * GitHub allows authentication via GitHub OAuth.
  *
- * In order to use GitHub OAuth you must register your application at <https://github.com/settings/applications/new>.
+ * In order to use GitHub OAuth you must register your application at <https://github.com/settings/developers>.
  *
  * Example application configuration:
  *
@@ -33,7 +33,7 @@ use yii\authclient\OAuth2;
  * ```
  *
  * @see http://developer.github.com/v3/oauth/
- * @see https://github.com/settings/applications/new
+ * @see https://github.com/settings/developers
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

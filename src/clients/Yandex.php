@@ -25,6 +25,14 @@ use yii\authclient\OAuth2;
  *                 'class' => 'yii\authclient\clients\Yandex',
  *                 'clientId' => 'yandex_client_id',
  *                 'clientSecret' => 'yandex_client_secret',
+ *                 'normalizeUserAttributeMap' => [
+ *                      'email' => function ($attributes) {
+ *                          return $attributes['email']
+ *                              ?? $attributes['default_email']
+ *                              ?? current($attributes['emails'] ?? [])
+ *                              ?: null;
+ *                      }
+ *                  ]
  *             ],
  *         ],
  *     ]
@@ -60,24 +68,6 @@ class Yandex extends OAuth2
     protected function initUserAttributes()
     {
         return $this->api('info', 'GET');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUserAttributes()
-    {
-        $result = parent::getUserAttributes();
-        
-        if (is_array($result) && !isset($result['email'])) {
-            if (isset($result['default_email'])) {
-                $result['email'] = $result['default_email'];
-            } elseif (isset($result['emails']) && is_array($result['emails']) && count($result['emails']) > 0) {
-                $result['email'] = current($result['emails']);
-            }
-        }
-
-        return $result;
     }
 
     /**

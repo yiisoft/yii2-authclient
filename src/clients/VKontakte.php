@@ -27,6 +27,7 @@ use yii\helpers\Json;
  *                 'class' => 'yii\authclient\clients\VKontakte',
  *                 'clientId' => 'vkontakte_client_id',
  *                 'clientSecret' => 'vkontakte_client_secret',
+ *                 'scope' => 'email'
  *             ],
  *         ],
  *     ]
@@ -35,7 +36,7 @@ use yii\helpers\Json;
  * ```
  *
  * @see http://vk.com/editapp?act=create
- * @see http://vk.com/developers.php?oid=-1&p=users.get
+ * @see https://vk.com/dev/users.get
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

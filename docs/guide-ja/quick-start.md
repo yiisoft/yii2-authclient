@@ -88,6 +88,7 @@ class AuthHandler
                         'github' => $nickname,
                         'email' => $email,
                         'password' => $password,
+                        // 'status' => User::STATUS_ACTIVE // 状態を正しくセットすること
                     ]);
                     $user->generateAuthKey();
                     $user->generatePasswordResetToken();
@@ -223,3 +224,8 @@ class AuthHandler
 ]) ?>
 ```
 
+## GitHub クライアントに関する注意
+
+最近 GitHub のコールバック処理に変更があったらしく、そのために、GitHub がユーザを我々のアプリにリダイレクトして返す時の 404 エラーを避けるためには、権限コールバックURL のクエリ・パラメータに `authclient=github` を含める必要があるようになりました。
+
+例: アプリは `https://example.com` にあるとしましょう。「GitHub でログイン」機能をアプリに実装するために、`example.com` のための 新しい 0auth アプリを https://github.com/settings/applications/new で作成します。「権限コールバックURL (Authorization callback URL)」の入力フィールドに `https://example.com/site/auth` を入力すると、[`run()`](https://github.com/yiisoft/yii2-authclient/blob/master/src/AuthAction.php#L213) メソッドが 404 エラーを返すことになります。この問題を解決するために上記のクエリ・パラメータが必要になります。つまり、「権限コールバックURL」の値を `https://example.com/site/auth?authclient=github` とすることが必要になります。

@@ -1,7 +1,25 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.8 under development
+2.2.11 under development
+------------------------
+
+- Enh #318: Add `statusCode` from response to init `InvalidResponseException` in `sendRequest` method of `yii\authclient\BaseOAuth` class
+
+
+2.2.10 May 05, 2021
+-------------------
+
+- Chg #315: Add proof key for code exchange PKCE support to oauth2 (AdeAttwood)
+
+
+2.2.9 November 13, 2020
+-----------------------
+
+- Bug #312: do not refresh access token if it is not expired (albertborsos)
+
+
+2.2.8 November 10, 2020
 -----------------------
 
 - Bug #309: Try to refresh token in `BaseOAuth->beforeApiRequestSend()` if `BaseOAuth->autoRefreshAccessToken = true` instead of throwing "Invalid access token" exception (marty-macfly)

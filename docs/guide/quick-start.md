@@ -88,6 +88,7 @@ class AuthHandler
                         'github' => $nickname,
                         'email' => $email,
                         'password' => $password,
+                        // 'status' => User::STATUS_ACTIVE // make sure you set status properly
                     ]);
                     $user->generateAuthKey();
                     $user->generatePasswordResetToken();
@@ -223,3 +224,8 @@ There's ready to use [[yii\authclient\widgets\AuthChoice]] widget to use in view
 ]) ?>
 ```
 
+## Note regarding GitHub client
+
+Recently due to potential changes in GitHub callback handling, ensure that `authclient=github` is present in URL query param in Authorization Callback URL to avoid 404 error thrown when GitHub redirects user back to our app.
+
+Example: Let's say my app is at `https://example.com`. In order to implement "Login with GitHub" feature into my app, I will create a new Oauth app for my `example.com` at https://github.com/settings/applications/new. In input field "Authorization callback URL" if I put `https://example.com/site/auth`, then I will get 404 error thrown by [`run()`](https://github.com/yiisoft/yii2-authclient/blob/master/src/AuthAction.php#L213) method. In order to fix this issue, above query param is required. So putting the "Authorization callback URL" value to `https://example.com/site/auth?authclient=github` is required.

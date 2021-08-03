@@ -37,7 +37,7 @@ use Yii;
  * ]
  * ```
  *
- * @property ClientInterface[] $clients List of auth clients. This property is read-only.
+ * @property-read ClientInterface[] $clients List of auth clients. This property is read-only.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

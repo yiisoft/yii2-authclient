@@ -230,7 +230,12 @@ abstract class BaseOAuth extends BaseClient
         $response = $request->send();
 
         if (!$response->getIsOk()) {
-            throw new InvalidResponseException($response, 'Request failed with code: ' . $response->getStatusCode() . ', message: ' . $response->getContent());
+            $statusCode = $response->getStatusCode();
+            throw new InvalidResponseException(
+                $response,
+                'Request failed with code: ' . $statusCode . ', message: ' . $response->getContent(),
+                (int) $statusCode
+            );
         }
 
         return $response->getData();
@@ -308,7 +313,7 @@ abstract class BaseOAuth extends BaseClient
         $accessToken = $this->getAccessToken();
         if (!is_object($accessToken) || (!$accessToken->getIsValid() && !$this->autoRefreshAccessToken)) {
             throw new Exception('Invalid access token.');
-        } else {
+        } elseif ($accessToken->getIsExpired() && $this->autoRefreshAccessToken) {
             $accessToken = $this->refreshAccessToken($accessToken);
         }
 

@@ -66,7 +66,7 @@ use yii\web\HttpException;
  *
  * @property Cache|null $cache The cache object, `null` - if not enabled. Note that the type of this property
  * differs in getter and setter. See [[getCache()]] and [[setCache()]] for details.
- * @property array $configParams OpenID provider configuration parameters. This property is read-only.
+ * @property-read array $configParams OpenID provider configuration parameters. This property is read-only.
  * @property bool $validateAuthNonce Whether to use and validate auth 'nonce' parameter in authentication
  * flow.
  *

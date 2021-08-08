@@ -67,7 +67,7 @@ class TokenTest extends TestCase
         $oauthToken->setTokenSecret($tokenSecret);
         $this->assertEquals($tokenSecret, $oauthToken->getTokenSecret(), 'Unable to setup token secret!');
 
-        $tokenExpireDuration = rand(1000, 2000);
+        $tokenExpireDuration = random_int(1000, 2000);
         $oauthToken->setExpireDuration($tokenExpireDuration);
         $this->assertEquals($tokenExpireDuration, $oauthToken->getExpireDuration(), 'Unable to setup expire duration!');
     }

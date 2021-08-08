@@ -252,7 +252,7 @@ abstract class OAuth1 extends BaseOAuth
      */
     protected function generateNonce()
     {
-        return md5(microtime() . mt_rand());
+        return md5(microtime() . random_int(0, PHP_INT_MAX));
     }
 
     /**

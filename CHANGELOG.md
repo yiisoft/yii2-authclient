@@ -5,7 +5,7 @@ Yii Framework 2 authclient extension Change Log
 ------------------------
 
 - Enh #318: Add `statusCode` from response to init `InvalidResponseException` in `sendRequest` method of `yii\authclient\BaseOAuth` class
-
+- Enh #327: Use `random_int()` when generating OAuth1 nonce (samdark)
 
 2.2.10 May 05, 2021
 -------------------

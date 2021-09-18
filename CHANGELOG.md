@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.12 under development
 ------------------------
 
-- no changes in this release.
+- Bug #330: OpenID Connect client now defaults to `'client_secret_basic'` in case `token_endpoint_auth_methods_supported` isn't specified.
 
 
 2.2.11 August 09, 2021

@@ -32,6 +32,9 @@ class OpenIdConnectTest extends TestCase
         $this->assertTrue(isset($configParams['token_endpoint']));
 
         $this->assertEquals($configParams['token_endpoint'], $authClient->getConfigParam('token_endpoint'));
+
+        // Test default value for non existing
+        $this->assertEquals('default', $authClient->getConfigParam('non-existing', 'default'));
     }
 
     /**

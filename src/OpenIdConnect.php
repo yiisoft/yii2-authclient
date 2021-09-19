@@ -209,12 +209,13 @@ class OpenIdConnect extends OAuth2
     /**
      * Returns particular configuration parameter value.
      * @param string $name configuration parameter name.
+     * @param mixed $default value to be returned if the configuration parameter isn't set.
      * @return mixed configuration parameter value.
      */
-    public function getConfigParam($name)
+    public function getConfigParam($name, $default = null)
     {
         $params = $this->getConfigParams();
-        return $params[$name];
+        return array_key_exists($name, $params) ? $params[$name] : $default;
     }
 
     /**
@@ -294,7 +295,7 @@ class OpenIdConnect extends OAuth2
      */
     protected function applyClientCredentialsToRequest($request)
     {
-        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported');
+        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported', 'client_secret_basic');
 
         if (in_array('client_secret_basic', $supportedAuthMethods)) {
             $request->addHeaders([

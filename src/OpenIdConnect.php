@@ -241,6 +241,13 @@ class OpenIdConnect extends OAuth2
         if ($this->authUrl === null) {
             $this->authUrl = $this->getConfigParam('authorization_endpoint');
         }
+
+        if (!isset($params['nonce']) && $this->getValidateAuthNonce()) {
+            $nonce = $this->generateAuthNonce();
+            $this->setState('authNonce', $nonce);
+            $params['nonce'] = $nonce;
+        }
+
         return parent::buildAuthUrl($params);
     }
 
@@ -254,9 +261,7 @@ class OpenIdConnect extends OAuth2
         }
 
         if (!isset($params['nonce']) && $this->getValidateAuthNonce()) {
-            $nonce = $this->generateAuthNonce();
-            $this->setState('authNonce', $nonce);
-            $params['nonce'] = $nonce;
+            $params['nonce'] = $this->getState('authNonce');
         }
 
         return parent::fetchAccessToken($authCode, $params);

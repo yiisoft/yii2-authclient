@@ -4,7 +4,7 @@ Quick Start
 ## Adding action to controller
 
 Next step is to add [[yii\authclient\AuthAction]] to a web controller and provide a `successCallback` implementation,
-which is suitable for your needs. Typically final controller code may look like following:
+which is suitable for your needs. Typically, the final controller code will look like the following:
 
 ```php
 use app\components\AuthHandler;
@@ -28,9 +28,26 @@ class SiteController extends Controller
 }
 ```
 
-Note that it's important for `auth` action to be public accessible, so make sure it's not denied by access control filter.
+> Note that it is important for the `auth` action to be publically accessible, so make sure it is not denied by access control filter.
 
-Where AuthHandler implementation could be like this:
+The following code shows an example `AuthHandler`, which will need modifying for your app.
+
+Notes:
+
+- The namespaces for models `Auth` and `User` reflect the basic project template. For the advanced template you need to adjust namespace to `common\models\Auth;`.
+- You need to generate the `Auth` model from the table mentioned [here](installation.md).
+- The attribute names `email`, `sub` and `nickname` at the start of `function handle()` are defined by OpenIdConnect. 
+If your provider is OAuth, these names might be different.
+- You might need to set a specific `scope` value in your provider config to get back the required attributes. For OpenIdConnect, 
+you will need a scope of `openid email profile` to get the claims below returned. If not using nickname, you can use `openid email`. 
+Other providers will have unique scope to claim mappings.
+- This code demonstrates a custom field `github` in `User` which is both set and updated by `function updateUserInfo(User $user)` 
+when the user is created and every time they login to ensure it stays up to date. The example migration does not include this 
+custom field, if you don't need it, remove the code below.
+- Different Auth clients may require different approaches while handling authentication success.
+- This code does not handle a new user having a username (nickname) that matches an existing username (where the emails 
+are different) and the database insert will fail. You can code it to generate a unique id in this case (see below for example) or 
+otherwise redirect the user to a page to allow them to set a username.
 
 ```php
 <?php
@@ -61,8 +78,8 @@ class AuthHandler
     {
         $attributes = $this->client->getUserAttributes();
         $email = ArrayHelper::getValue($attributes, 'email');
-        $id = ArrayHelper::getValue($attributes, 'id');
-        $nickname = ArrayHelper::getValue($attributes, 'login');
+        $id = ArrayHelper::getValue($attributes, 'sub');
+        $nickname = ArrayHelper::getValue($attributes, 'nickname');
 
         /* @var Auth $auth */
         $auth = Auth::find()->where([
@@ -178,8 +195,29 @@ we can retrieve information received. In our case we'd like to:
 - If user is guest and record not found in auth then create new user and make a record in auth table. Then log in.
 - If user is logged in and record not found in auth then try connecting additional account (save its data into auth table).
 
-> Note: different Auth clients may require different approaches while handling authentication success. For example: Twitter
-  does not allow returning of the user email, so you have to deal with this somehow.
+### Generate unique username in AuthHandler
+
+If you do not want the user to interact with your system when their external nickname matches an existing username in the database,
+you can use the following code snippet to add a number onto the end until a unique username is found. This code is just before
+`$user = new User`.
+
+```php
+if ( !isset($nickname) )
+{
+    // Provider might not return a suitable nickname
+    // so start by taking the part before the @ sign as a nickname
+    $nickname = substr($email,0,strpos($email,'@'));
+}
+// If this username already exists, create another one with a number on the end
+if ( User::find()->where(['username'=>$nickname])->exists() )
+{
+    $index = 1;
+    // Check username is not already taken
+    while ( User::find()->where(['username'=>$nickname.$index])->exists()) { ++$index; }
+    $nickname = $nickname.$index;
+}
+$user = new User([
+```
 
 ### Auth client basic structure
 

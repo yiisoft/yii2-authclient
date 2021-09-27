@@ -444,7 +444,11 @@ class OpenIdConnect extends OAuth2
         if (!isset($claims['iss']) || (strcmp(rtrim($claims['iss'], '/'), rtrim($this->issuerUrl, '/')) !== 0)) {
             throw new HttpException(400, 'Invalid "iss"');
         }
-        if (!isset($claims['aud']) || (strcmp($claims['aud'], $this->clientId) !== 0)) {
+        if (!isset($claims['aud'])
+            || (!is_string($claims['aud']) && !is_array($claims['aud']))
+            || (is_string($claims['aud']) && strcmp($claims['aud'], $this->clientId) !== 0)
+            || (is_array($claims['aud']) && !in_array($this->clientId, $claims['aud']))
+        ) {
             throw new HttpException(400, 'Invalid "aud"');
         }
     }

@@ -87,4 +87,27 @@ class OpenIdConnectTest extends TestCase
         $this->assertContains($clientId, $builtAuthUrl, 'No client id present!');
         $this->assertContains(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
+
+    public function testNonce()
+    {
+        $authClient = new OpenIdConnect([
+            'issuerUrl' => 'https://accounts.google.com',
+            'cache' => null,
+        ]);
+        $clientId = 'test_client_id';
+        $authClient->clientId = $clientId;
+        $returnUrl = 'http://test.return.url';
+        $nonce = 'test_nonce';
+        $code = 'test_code';
+        $authClient->setReturnUrl($returnUrl);
+
+        $builtAuthUrl = $authClient->buildAuthUrl([
+            'nonce' => $nonce,
+        ]);
+
+
+        $query = parse_url($builtAuthUrl)['query'];
+        parse_str($query, $query_vars);
+        $this->assertEquals($query_vars['nonce'], $nonce);
+    }
 }

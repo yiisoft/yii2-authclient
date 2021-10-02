@@ -1,18 +1,18 @@
 OAuth 2.0 Direct Authentication
 ===============================
 
-OAuth protocol of 2.0 version allows several additional work flows, which allows direct
-authentication without visiting OAuth provider web site.
+OAuth's protocol of 2.0 version allows several additional work flows, which allows direct
+authentication without visiting OAuth provider website.
 
 > Note: the authentication work flows, described in this section, usually are not supported by OAuth provider,
-  because they are less secure then regular one. Make sure your provider does support particular work flow
+  because they are less secure than regular one. Make sure your provider does support particular work flow
   before attempt to use it.
 
 
 ## Resource Owner Password Credentials Grant
 
 [Resource Owner Password Credentials Grant](https://tools.ietf.org/html/rfc6749#section-4.3) work flow allows direct
-user authentication by username/password pair without redirect to OAuth provider web site.
+user authentication by username/password pair without redirect to OAuth provider website.
 
 You may authenticate user via this work flow using [[\yii\authclient\OAuth2::authenticateUser()]].
 For example:

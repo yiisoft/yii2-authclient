@@ -7,6 +7,8 @@ Yii Framework 2 authclient extension Change Log
 - Bug #330: OpenID Connect client now defaults to `'client_secret_basic'` in case `token_endpoint_auth_methods_supported` isn't specified (rhertogh)
 - Bug #331: OpenID Connect `aud` claim can either be a string or a list of strings (azmeuk)
 - Bug #332: OpenID Connect `aud` nonce is passed from the authentication request to the token request (azmeuk)
+- Bug #340: OpenID Connect client stores the access token `nonce` in the state upon refreshing it when `getValidateAuthNonce` is `true` (rhertogh)
+
 
 2.2.11 August 09, 2021
 ----------------------

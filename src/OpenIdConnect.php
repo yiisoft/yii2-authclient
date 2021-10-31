@@ -22,6 +22,7 @@ use yii\base\InvalidConfigException;
 use yii\caching\Cache;
 use yii\di\Instance;
 use yii\helpers\Json;
+use yii\helpers\StringHelper;
 use yii\web\HttpException;
 
 /**
@@ -75,6 +76,24 @@ use yii\web\HttpException;
  */
 class OpenIdConnect extends OAuth2
 {
+    /**
+     * @var array Predefined OpenID Connect Claims
+     * @see https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2
+     * @since 2.2.12
+     */
+    public $defaultIdTokenClaims = [
+        'iss', // Issuer Identifier for the Issuer of the response.
+        'sub', // Subject Identifier.
+        'aud', // Audience(s) that this ID Token is intended for.
+        'exp', // Expiration time on or after which the ID Token MUST NOT be accepted for processing.
+        'iat', // Time at which the JWT was issued.
+        'auth_time', // Time when the End-User authentication occurred.
+        'nonce', // String value used to associate a Client session with an ID Token, and to mitigate replay attacks.
+        'acr', // Authentication Context Class Reference.
+        'amr', // Authentication Methods References.
+        'azp', // Authorized party - the party to which the ID Token was issued.
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -234,6 +253,17 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
+     * Set the OpenID provider configuration manually, this will bypass the automatic discovery via
+     * the /.well-known/openid-configuration endpoint.
+     * @param array $configParams OpenID provider configuration parameters.
+     * @since 2.2.12
+     */
+    public function setConfigParams($configParams)
+    {
+        $this->_configParams = $configParams;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function buildAuthUrl(array $params = [])
@@ -290,7 +320,29 @@ class OpenIdConnect extends OAuth2
      */
     protected function initUserAttributes()
     {
-        return $this->api($this->getConfigParam('userinfo_endpoint'), 'GET');
+        // Use 'userinfo_endpoint' config if available,
+        // try to extract user claims from access token's 'id_token' claim otherwise.
+
+        $userinfoEndpoint = $this->getConfigParam('userinfo_endpoint');
+        if (!empty($userinfoEndpoint)) {
+            return $this->api($userinfoEndpoint, 'GET');
+        }
+
+        $token = $this->accessToken;
+        $idToken = $token->getParam('id_token');
+        $idTokenData = [];
+        if (!empty($idToken)) {
+            if ($this->validateJws) {
+                $idTokenClaims = $this->loadJws($idToken);
+            } else {
+                $idTokenClaims = Json::decode(StringHelper::base64UrlDecode(explode('.', $idToken)[1]));
+            }
+            $metaDataFields = array_flip($this->defaultIdTokenClaims);
+            unset($metaDataFields['sub']); // "Subject Identifier" is not meta data
+            $idTokenData = array_diff_key($idTokenClaims, $metaDataFields);
+        }
+
+        return $idTokenData;
     }
 
     /**

@@ -21,7 +21,6 @@ use yii\authclient\signature\HmacSha;
 use yii\base\InvalidConfigException;
 use yii\caching\Cache;
 use yii\di\Instance;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\StringHelper;
 use yii\web\HttpException;

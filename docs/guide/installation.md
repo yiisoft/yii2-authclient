@@ -64,7 +64,7 @@ the service you're going to use. For OpenID it works out of the box in most case
 
 In order to recognize the user authenticated via external service we need to store ID provided on first authentication
 and then check against it on subsequent authentications. It's not a good idea to limit login options to external
-services only since these may fail and there won't be a way for the user to log in. Instead it's better to provide
+services only since these may fail and there won't be a way for the user to log in. Instead, it's better to provide
 both external authentication and good old login and password.
 
 If we're storing user information in a database the corresponding migration code could be the following:

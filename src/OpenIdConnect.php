@@ -209,12 +209,13 @@ class OpenIdConnect extends OAuth2
     /**
      * Returns particular configuration parameter value.
      * @param string $name configuration parameter name.
+     * @param mixed $default value to be returned if the configuration parameter isn't set.
      * @return mixed configuration parameter value.
      */
-    public function getConfigParam($name)
+    public function getConfigParam($name, $default = null)
     {
         $params = $this->getConfigParams();
-        return $params[$name];
+        return array_key_exists($name, $params) ? $params[$name] : $default;
     }
 
     /**
@@ -240,6 +241,13 @@ class OpenIdConnect extends OAuth2
         if ($this->authUrl === null) {
             $this->authUrl = $this->getConfigParam('authorization_endpoint');
         }
+
+        if (!isset($params['nonce']) && $this->getValidateAuthNonce()) {
+            $nonce = $this->generateAuthNonce();
+            $this->setState('authNonce', $nonce);
+            $params['nonce'] = $nonce;
+        }
+
         return parent::buildAuthUrl($params);
     }
 
@@ -253,9 +261,7 @@ class OpenIdConnect extends OAuth2
         }
 
         if (!isset($params['nonce']) && $this->getValidateAuthNonce()) {
-            $nonce = $this->generateAuthNonce();
-            $this->setState('authNonce', $nonce);
-            $params['nonce'] = $nonce;
+            $params['nonce'] = $this->getState('authNonce');
         }
 
         return parent::fetchAccessToken($authCode, $params);
@@ -301,7 +307,7 @@ class OpenIdConnect extends OAuth2
      */
     protected function applyClientCredentialsToRequest($request)
     {
-        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported');
+        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported', 'client_secret_basic');
 
         if (in_array('client_secret_basic', $supportedAuthMethods)) {
             $request->addHeaders([
@@ -450,7 +456,11 @@ class OpenIdConnect extends OAuth2
         if (!isset($claims['iss']) || (strcmp(rtrim($claims['iss'], '/'), rtrim($this->issuerUrl, '/')) !== 0)) {
             throw new HttpException(400, 'Invalid "iss"');
         }
-        if (!isset($claims['aud']) || (strcmp($claims['aud'], $this->clientId) !== 0)) {
+        if (!isset($claims['aud'])
+            || (!is_string($claims['aud']) && !is_array($claims['aud']))
+            || (is_string($claims['aud']) && strcmp($claims['aud'], $this->clientId) !== 0)
+            || (is_array($claims['aud']) && !in_array($this->clientId, $claims['aud']))
+        ) {
             throw new HttpException(400, 'Invalid "aud"');
         }
     }

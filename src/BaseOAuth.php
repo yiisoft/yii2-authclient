@@ -238,7 +238,11 @@ abstract class BaseOAuth extends BaseClient
             );
         }
 
-        return $response->getData();
+        if (stripos($response->headers->get('content-type'), 'application/jwt') !== false) {
+            return $response->getContent();
+        } else {
+            return $response->getData();
+        }
     }
 
     /**

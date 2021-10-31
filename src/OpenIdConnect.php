@@ -77,7 +77,7 @@ use yii\web\HttpException;
 class OpenIdConnect extends OAuth2
 {
     // https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2
-    const ID_TOKEN_CLAIMS = [
+    public $defaultIdTokenClaims = [
         'iss', // Issuer Identifier for the Issuer of the response.
         'sub', // Subject Identifier.
         'aud', // Audience(s) that this ID Token is intended for.
@@ -325,7 +325,7 @@ class OpenIdConnect extends OAuth2
             } else {
                 $idTokenClaims = Json::decode(StringHelper::base64UrlDecode(explode('.', $idToken)[1]));
             }
-            $metaDataFields = array_flip(self::ID_TOKEN_CLAIMS);
+            $metaDataFields = array_flip($this->defaultIdTokenClaims);
             unset($metaDataFields['sub']); // "Subject Identifier" is not meta data
             $idTokenData = array_diff_key($idTokenClaims, $metaDataFields);
         }

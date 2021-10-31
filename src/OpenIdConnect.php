@@ -76,7 +76,11 @@ use yii\web\HttpException;
  */
 class OpenIdConnect extends OAuth2
 {
-    // https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2
+    /**
+     * @var array Predefined OpenID Connect Claims
+     * @see https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2
+     * @since 2.2.12
+     */
     public $defaultIdTokenClaims = [
         'iss', // Issuer Identifier for the Issuer of the response.
         'sub', // Subject Identifier.
@@ -252,6 +256,7 @@ class OpenIdConnect extends OAuth2
      * Set the OpenID provider configuration manually, this will bypass the automatic discovery via
      * the /.well-known/openid-configuration endpoint.
      * @param array $configParams OpenID provider configuration parameters.
+     * @since 2.2.12
      */
     public function setConfigParams($configParams)
     {

@@ -131,4 +131,26 @@ class OpenIdConnectTest extends TestCase
 
         $this->assertEquals(['sub' => '123'], $userAttributes);
     }
+
+    public function testUserInfoFromUserInfoTokenResponse()
+    {
+        /** @var OpenIdConnect $oidcClient */
+        $oidcClient = $this->getMockBuilder(OpenIdConnect::className())
+            ->setMethods(['api'])
+            ->getMock();
+
+        $oidcClient->expects($this->once())
+            ->method('api')
+            ->willReturn(
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJ0ZXN0LWNsaWVudC10eXBlLWF1dGgtY29kZS1vcGVuLWlkLWNvbm5lY3QiLCJpc3MiOiJodHRwczovL2xvY2FsaG9zdCIsImlhdCI6MTYzNTY5NDUzNi40MjkyMzcsImV4cCI6NDc5MTM2ODEzNiwic3ViIjoiMTIzIiwiYXV0aF90aW1lIjoxNjM1NjkwOTM1LCJub25jZSI6InNWbEVmS2xNMTdhYlJfY2Q5cXhvcU5fZHN3a0VRWXUxIn0.LgV-jFoopYnEhgygtt4bDL4HV1Rnw_cuKgopQ_I8f2YxDUlXKO2M0ANjA1iWIsBTCAKnI5JF7wYWBlK7eFJkU16U8yNVYHyUNaMGzXG1Q3khLmPfa9tmU2Kj2loA2hGGkZTjHCAuDgYSSFucLlFnqcR4-vhhwUyZdvFvwRRi0FF1r10m2oNmzfVLAcQxo2C5C_inSmuGnzfWqvrsDjdnT8N2XE2e3hVRxlIEv4GkupUejjdyWlSBjsUjnfXMlmi6VBn7HfElcVjJqp3L7GHVV1zfSA82e3oo7_wvQbb090M4nwFOmasvGnvZddELQdxL9KW0s_AIdkUM5lFxFFnl8Q'
+            );
+
+        $oidcClient->cache = null;
+        $oidcClient->configParams = ['userinfo_endpoint' => 'http://localhost'];
+        $oidcClient->validateJws = false;
+
+        $userAttributes = $oidcClient->getUserAttributes();
+
+        $this->assertEquals(['sub' => '123'], $userAttributes);
+    }
 }

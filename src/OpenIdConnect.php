@@ -276,8 +276,9 @@ class OpenIdConnect extends OAuth2
             $this->tokenUrl = $this->getConfigParam('token_endpoint');
         }
 
-        if ($this->getValidateAuthNonce() && !empty($token->getParam('nonce'))) {
-            $this->setState('authNonce', $token->getParam('nonce'));
+        $nonce = $token->getParam('nonce');
+        if ($this->getValidateAuthNonce() && !empty($nonce)) {
+            $this->setState('authNonce', $nonce);
         }
 
         return parent::refreshAccessToken($token);

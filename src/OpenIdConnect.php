@@ -67,7 +67,7 @@ use yii\web\HttpException;
  *
  * @property Cache|null $cache The cache object, `null` - if not enabled. Note that the type of this property
  * differs in getter and setter. See [[getCache()]] and [[setCache()]] for details.
- * @property-read array $configParams OpenID provider configuration parameters. This property is read-only.
+ * @property array $configParams OpenID provider configuration parameters.
  * @property bool $validateAuthNonce Whether to use and validate auth 'nonce' parameter in authentication
  * flow.
  *
@@ -325,11 +325,19 @@ class OpenIdConnect extends OAuth2
 
         $userinfoEndpoint = $this->getConfigParam('userinfo_endpoint');
         if (!empty($userinfoEndpoint)) {
-            return $this->api($userinfoEndpoint, 'GET');
+            $userInfo = $this->api($userinfoEndpoint, 'GET');
+            // The userinfo endpoint can return a JSON object (which will be converted to an array) or a JWT.
+            if (is_array($userInfo)) {
+                return $userInfo;
+            } else {
+                // Use the userInfo endpoint as id_token and parse it as JWT below
+                $idToken = $userInfo;
+            }
+        } else {
+            $accessToken = $this->accessToken;
+            $idToken = $accessToken->getParam('id_token');
         }
 
-        $token = $this->accessToken;
-        $idToken = $token->getParam('id_token');
         $idTokenData = [];
         if (!empty($idToken)) {
             if ($this->validateJws) {

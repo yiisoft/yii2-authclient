@@ -9,7 +9,7 @@ Yii Framework 2 authclient extension Change Log
 - Bug #339: OpenID Connect client now regenerates a new `nonce` when refreshing the access token (rhertogh)
 - Enh #341: OpenID Connect client now uses access token `'id_token'` claim for `getUserAttributes()` if `userinfo_endpoint` is not available (rhertogh)
 - Enh #342: OpenID Connect client support for JWT in `userinfo_endpoint` response (rhertogh)
-- BUG #344: Fix Facebook OAuth 400 error when latin characters are used in App name (pawelkania)
+- Bug #344: Fix Facebook OAuth 400 error when latin characters are used in App name (pawelkania)
 
 
 2.2.11 August 09, 2021

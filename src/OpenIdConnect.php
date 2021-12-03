@@ -22,6 +22,7 @@ use yii\base\InvalidConfigException;
 use yii\caching\Cache;
 use yii\di\Instance;
 use yii\helpers\Json;
+use yii\helpers\StringHelper;
 use yii\web\HttpException;
 
 /**
@@ -66,7 +67,7 @@ use yii\web\HttpException;
  *
  * @property Cache|null $cache The cache object, `null` - if not enabled. Note that the type of this property
  * differs in getter and setter. See [[getCache()]] and [[setCache()]] for details.
- * @property-read array $configParams OpenID provider configuration parameters. This property is read-only.
+ * @property array $configParams OpenID provider configuration parameters.
  * @property bool $validateAuthNonce Whether to use and validate auth 'nonce' parameter in authentication
  * flow.
  *
@@ -75,6 +76,24 @@ use yii\web\HttpException;
  */
 class OpenIdConnect extends OAuth2
 {
+    /**
+     * @var array Predefined OpenID Connect Claims
+     * @see https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2
+     * @since 2.2.12
+     */
+    public $defaultIdTokenClaims = [
+        'iss', // Issuer Identifier for the Issuer of the response.
+        'sub', // Subject Identifier.
+        'aud', // Audience(s) that this ID Token is intended for.
+        'exp', // Expiration time on or after which the ID Token MUST NOT be accepted for processing.
+        'iat', // Time at which the JWT was issued.
+        'auth_time', // Time when the End-User authentication occurred.
+        'nonce', // String value used to associate a Client session with an ID Token, and to mitigate replay attacks.
+        'acr', // Authentication Context Class Reference.
+        'amr', // Authentication Methods References.
+        'azp', // Authorized party - the party to which the ID Token was issued.
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -209,12 +228,13 @@ class OpenIdConnect extends OAuth2
     /**
      * Returns particular configuration parameter value.
      * @param string $name configuration parameter name.
+     * @param mixed $default value to be returned if the configuration parameter isn't set.
      * @return mixed configuration parameter value.
      */
-    public function getConfigParam($name)
+    public function getConfigParam($name, $default = null)
     {
         $params = $this->getConfigParams();
-        return $params[$name];
+        return array_key_exists($name, $params) ? $params[$name] : $default;
     }
 
     /**
@@ -233,6 +253,17 @@ class OpenIdConnect extends OAuth2
     }
 
     /**
+     * Set the OpenID provider configuration manually, this will bypass the automatic discovery via
+     * the /.well-known/openid-configuration endpoint.
+     * @param array $configParams OpenID provider configuration parameters.
+     * @since 2.2.12
+     */
+    public function setConfigParams($configParams)
+    {
+        $this->_configParams = $configParams;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function buildAuthUrl(array $params = [])
@@ -240,6 +271,13 @@ class OpenIdConnect extends OAuth2
         if ($this->authUrl === null) {
             $this->authUrl = $this->getConfigParam('authorization_endpoint');
         }
+
+        if (!isset($params['nonce']) && $this->getValidateAuthNonce()) {
+            $nonce = $this->generateAuthNonce();
+            $this->setState('authNonce', $nonce);
+            $params['nonce'] = $nonce;
+        }
+
         return parent::buildAuthUrl($params);
     }
 
@@ -253,9 +291,7 @@ class OpenIdConnect extends OAuth2
         }
 
         if (!isset($params['nonce']) && $this->getValidateAuthNonce()) {
-            $nonce = $this->generateAuthNonce();
-            $this->setState('authNonce', $nonce);
-            $params['nonce'] = $nonce;
+            $params['nonce'] = $this->getState('authNonce');
         }
 
         return parent::fetchAccessToken($authCode, $params);
@@ -269,6 +305,13 @@ class OpenIdConnect extends OAuth2
         if ($this->tokenUrl === null) {
             $this->tokenUrl = $this->getConfigParam('token_endpoint');
         }
+
+        if ($this->getValidateAuthNonce()) {
+            $nonce = $this->generateAuthNonce();
+            $this->setState('authNonce', $nonce);
+            $token->setParam('nonce', $nonce);
+        }
+
         return parent::refreshAccessToken($token);
     }
 
@@ -277,7 +320,37 @@ class OpenIdConnect extends OAuth2
      */
     protected function initUserAttributes()
     {
-        return $this->api($this->getConfigParam('userinfo_endpoint'), 'GET');
+        // Use 'userinfo_endpoint' config if available,
+        // try to extract user claims from access token's 'id_token' claim otherwise.
+
+        $userinfoEndpoint = $this->getConfigParam('userinfo_endpoint');
+        if (!empty($userinfoEndpoint)) {
+            $userInfo = $this->api($userinfoEndpoint, 'GET');
+            // The userinfo endpoint can return a JSON object (which will be converted to an array) or a JWT.
+            if (is_array($userInfo)) {
+                return $userInfo;
+            } else {
+                // Use the userInfo endpoint as id_token and parse it as JWT below
+                $idToken = $userInfo;
+            }
+        } else {
+            $accessToken = $this->accessToken;
+            $idToken = $accessToken->getParam('id_token');
+        }
+
+        $idTokenData = [];
+        if (!empty($idToken)) {
+            if ($this->validateJws) {
+                $idTokenClaims = $this->loadJws($idToken);
+            } else {
+                $idTokenClaims = Json::decode(StringHelper::base64UrlDecode(explode('.', $idToken)[1]));
+            }
+            $metaDataFields = array_flip($this->defaultIdTokenClaims);
+            unset($metaDataFields['sub']); // "Subject Identifier" is not meta data
+            $idTokenData = array_diff_key($idTokenClaims, $metaDataFields);
+        }
+
+        return $idTokenData;
     }
 
     /**
@@ -294,7 +367,7 @@ class OpenIdConnect extends OAuth2
      */
     protected function applyClientCredentialsToRequest($request)
     {
-        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported');
+        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported', 'client_secret_basic');
 
         if (in_array('client_secret_basic', $supportedAuthMethods)) {
             $request->addHeaders([
@@ -443,7 +516,11 @@ class OpenIdConnect extends OAuth2
         if (!isset($claims['iss']) || (strcmp(rtrim($claims['iss'], '/'), rtrim($this->issuerUrl, '/')) !== 0)) {
             throw new HttpException(400, 'Invalid "iss"');
         }
-        if (!isset($claims['aud']) || (strcmp($claims['aud'], $this->clientId) !== 0)) {
+        if (!isset($claims['aud'])
+            || (!is_string($claims['aud']) && !is_array($claims['aud']))
+            || (is_string($claims['aud']) && strcmp($claims['aud'], $this->clientId) !== 0)
+            || (is_array($claims['aud']) && !in_array($this->clientId, $claims['aud']))
+        ) {
             throw new HttpException(400, 'Invalid "aud"');
         }
     }

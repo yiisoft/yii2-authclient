@@ -4,7 +4,7 @@ Quick Start
 ## Adding action to controller
 
 Next step is to add [[yii\authclient\AuthAction]] to a web controller and provide a `successCallback` implementation,
-which is suitable for your needs. Typically final controller code may look like following:
+which is suitable for your needs. Typically, final controller code may look like following:
 
 ```php
 use app\components\AuthHandler;
@@ -183,7 +183,7 @@ we can retrieve information received. In our case we'd like to:
 
 ### Auth client basic structure
 
-Although, all clients are different they shares same basic interface [[yii\authclient\ClientInterface]],
+Although, all clients are different they share same basic interface [[yii\authclient\ClientInterface]],
 which governs common API.
 
 Each client has some descriptive data, which can be used for different purposes:
@@ -191,9 +191,9 @@ Each client has some descriptive data, which can be used for different purposes:
 - `id` - unique client id, which separates it from other clients, it could be used in URLs, logs etc.
 - `name` - external auth provider name, which this client is match too. Different auth clients
   can share the same name, if they refer to the same external auth provider.
-  For example: clients for Google and Google Hybrid have same name "google".
+  For example: clients for Google and Google Hybrid have same named "google".
   This attribute can be used inside the database, CSS styles and so on.
-- `title` - user friendly name for the external auth provider, it is used to present auth client
+- `title` - user-friendly name for the external auth provider, it is used to present auth client
   at the view layer.
 
 Each auth client has different auth flow, but all of them supports `getUserAttributes()` method,
@@ -209,7 +209,7 @@ Defining list of attributes, which external auth provider should return, depends
 - [[yii\authclient\OAuth1]] and [[yii\authclient\OAuth2]]: field `scope`, note that different
   providers use different formats for the scope.
 
-> Tip: If you are using several different clients, you can unify the structure of the attributes, which they return,
+> Tip: If you are using several clients, you can unify the structure of the attributes, which they return,
   using [[yii\authclient\BaseClient::$normalizeUserAttributeMap]].
 
 

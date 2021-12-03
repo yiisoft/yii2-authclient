@@ -1,11 +1,23 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.11 under development
+2.2.12 under development
 ------------------------
+- Bug #330: OpenID Connect client now defaults to `'client_secret_basic'` in case `token_endpoint_auth_methods_supported` isn't specified (rhertogh)
+- Bug #331: OpenID Connect `aud` claim can either be a string or a list of strings (azmeuk)
+- Bug #332: OpenID Connect `aud` nonce is passed from the authentication request to the token request (azmeuk)
+- Bug #339: OpenID Connect client now regenerates a new `nonce` when refreshing the access token (rhertogh)
+- Enh #341: OpenID Connect client now uses access token `'id_token'` claim for `getUserAttributes()` if `userinfo_endpoint` is not available (rhertogh)
+- Enh #342: OpenID Connect client support for JWT in `userinfo_endpoint` response (rhertogh)
+- Bug #344: Fix Facebook OAuth 400 error when latin characters are used in App name (pawelkania)
 
-- Enh #318: Add `statusCode` from response to init `InvalidResponseException` in `sendRequest` method of `yii\authclient\BaseOAuth` class
+
+2.2.11 August 09, 2021
+----------------------
+
+- Enh #318: Add `statusCode` from response to init `InvalidResponseException` in `sendRequest` method of `yii\authclient\BaseOAuth` class (vleedev)
 - Enh #327: Use `random_int()` when generating OAuth1 nonce (samdark)
+
 
 2.2.10 May 05, 2021
 -------------------

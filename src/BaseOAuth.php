@@ -10,6 +10,7 @@ namespace yii\authclient;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
 use Yii;
+use yii\helpers\Inflector;
 use yii\httpclient\Request;
 
 /**
@@ -187,7 +188,7 @@ abstract class BaseOAuth extends BaseClient
     protected function defaultRequestOptions()
     {
         return [
-            'userAgent' => Yii::$app->name . ' OAuth ' . $this->version . ' Client',
+            'userAgent' => Inflector::slug(Yii::$app->name) . ' OAuth ' . $this->version . ' Client',
             'timeout' => 30,
         ];
     }
@@ -238,7 +239,11 @@ abstract class BaseOAuth extends BaseClient
             );
         }
 
-        return $response->getData();
+        if (stripos($response->headers->get('content-type'), 'application/jwt') !== false) {
+            return $response->getContent();
+        } else {
+            return $response->getData();
+        }
     }
 
     /**
@@ -324,7 +329,7 @@ abstract class BaseOAuth extends BaseClient
      * Performs request to the OAuth API returning response data.
      * You may use [[createApiRequest()]] method instead, gaining more control over request execution.
      * @see createApiRequest()
-     * @param string $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
+     * @param string|array $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
      * @param string $method request method.
      * @param array|string $data request data or content.
      * @param array $headers additional request headers.

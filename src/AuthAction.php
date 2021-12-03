@@ -431,7 +431,7 @@ class AuthAction extends Action
 
     /**
      * @return string client ID
-     * @since 2.1.12
+     * @since 2.2.12
      */
     public function getClientId()
     {

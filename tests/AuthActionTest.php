@@ -3,6 +3,7 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\AuthAction;
+use yii\authclient\Collection;
 
 class AuthActionTest extends TestCase
 {
@@ -65,5 +66,22 @@ class AuthActionTest extends TestCase
         $response = $action->redirect($url, true);
 
         $this->assertContains($url, $response->content);
+    }
+
+    public function testGetClientId()
+    {
+        $clientId = 'clientId';
+        $defaultClientId = 'defaultClientId';
+
+        $action = new AuthAction(null, null);
+
+        $this->assertEmpty($action->getClientId());
+
+        $action->defaultClientId = $defaultClientId;
+
+        $this->assertEquals($defaultClientId, $action->getClientId(), 'Unable to get default client ID!');
+
+        $_GET['authclient'] = $clientId;
+        $this->assertEquals($clientId, $action->getClientId(), 'Unable to get default client ID!');
     }
 }

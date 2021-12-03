@@ -115,6 +115,11 @@ class AuthAction extends Action
      * @since 2.1.8
      */
     public $user = 'user';
+    /**
+     * @var string the default client ID
+     * @since 2.2.12
+     */
+    public $defaultClientId = '';
 
     /**
      * @var string the redirect url after successful authorization.
@@ -198,7 +203,7 @@ class AuthAction extends Action
      */
     public function run()
     {
-        $clientId = Yii::$app->getRequest()->getQueryParam($this->clientIdGetParamName);
+        $clientId = $this->getClientId();
         if (!empty($clientId)) {
             /* @var $collection \yii\authclient\Collection */
             $collection = Yii::$app->get($this->clientCollection);
@@ -421,5 +426,20 @@ class AuthAction extends Action
 
         $url = $client->buildAuthUrl($authUrlParams);
         return Yii::$app->getResponse()->redirect($url);
+    }
+
+    /**
+     * @return string client ID
+     * @since 2.1.12
+     */
+    public function getClientId()
+    {
+        $clientId = Yii::$app->getRequest()->getQueryParam($this->clientIdGetParamName);
+
+        if (!empty($clientId)) {
+            return $clientId;
+        }
+
+        return $this->defaultClientId;
     }
 }

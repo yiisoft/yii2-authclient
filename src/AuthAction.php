@@ -53,6 +53,7 @@ use yii\web\User;
  * @see \yii\authclient\widgets\AuthChoice
  *
  * @property string $cancelUrl Cancel URL.
+ * @property-read string $clientId Client ID.
  * @property string $successUrl Successful URL.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>

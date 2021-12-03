@@ -93,7 +93,6 @@ class OpenIdConnect extends OAuth2
         'amr', // Authentication Methods References.
         'azp', // Authorized party - the party to which the ID Token was issued.
     ];
-
     /**
      * {@inheritdoc}
      */

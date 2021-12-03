@@ -57,8 +57,8 @@ use yii\authclient\ClientInterface;
  *
  * @see \yii\authclient\AuthAction
  *
- * @property-read array $baseAuthUrl Base auth URL configuration. This property is read-only.
- * @property-read ClientInterface[] $clients Auth providers. This property is read-only.
+ * @property-read array $baseAuthUrl Base auth URL configuration.
+ * @property-read ClientInterface[] $clients Auth providers.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

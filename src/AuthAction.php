@@ -117,6 +117,7 @@ class AuthAction extends Action
     public $user = 'user';
     /**
      * @var string the default client ID
+     * @since 2.2.12
      */
     public $defaultClientId = '';
 
@@ -429,6 +430,7 @@ class AuthAction extends Action
 
     /**
      * @return string client ID
+     * @since 2.1.12
      */
     public function getClientId()
     {

@@ -199,7 +199,7 @@ abstract class OAuth2 extends BaseOAuth
 
         $response = $this->sendRequest($request);
 
-        $token = $this->createToken(['params' => $response]);
+        $token = $this->createToken(['params' => array_merge($token->getParams(), $response)]);
         $this->setAccessToken($token);
 
         return $token;

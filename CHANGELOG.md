@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.13 under development
 ------------------------
 
-- no changes in this release.
+- Bug #354: Fix PHP 8.1 deprecated message in BaseOAuth `stripos(): Passing null to parameter #1 ($haystack) of type string is deprecated` (marty-macfly)
 
 
 2.2.12 December 03, 2021

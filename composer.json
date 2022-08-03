@@ -62,7 +62,8 @@
     },
     "config": {
         "allow-plugins": {
-            "cweagans/composer-patches": true
+            "cweagans/composer-patches": true,
+            "yiisoft/yii2-composer": true
         }
     }
 }

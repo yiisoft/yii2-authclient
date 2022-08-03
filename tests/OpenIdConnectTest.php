@@ -64,7 +64,7 @@ class OpenIdConnectTest extends TestCase
             'id' => 'foo',
             'cache' => $cache,
         ]);
-        $this->expectException('yii\httpclient\Exception');
+        $this->expectException('yii\httpclient\InvalidResponseException');
         $authClient->getConfigParams();
     }
 

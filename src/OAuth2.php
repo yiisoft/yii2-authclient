@@ -226,7 +226,9 @@ abstract class OAuth2 extends BaseOAuth
      */
     protected function createToken(array $tokenConfig = [])
     {
-        $tokenConfig['tokenParamKey'] = 'access_token';
+        if(!isset($tokenConfig['tokenParamKey']) || empty($tokenConfig['tokenParamKey'])){
+            $tokenConfig['tokenParamKey'] = 'access_token';
+        }
 
         return parent::createToken($tokenConfig);
     }

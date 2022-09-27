@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.14 under development
 ------------------------
 
-- no changes in this release.
+- Bug #351: Unable to set TokenParamKey in OAuth2 config, gets hard overwritten in OAuth2::createToken()
 
 
 2.2.13 September 04, 2022

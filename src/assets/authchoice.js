@@ -9,7 +9,7 @@
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
-jQuery(function($) {
+(function ($) {
     $.fn.authchoice = function(options) {
         options = $.extend({
             triggerSelector: 'a.auth-link',
@@ -68,4 +68,4 @@ jQuery(function($) {
             });
         });
     };
-});
+})(window.jQuery);

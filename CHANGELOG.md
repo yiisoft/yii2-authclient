@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.15 under development
 ------------------------
 
-- no changes in this release.
+- Enh: #367: Throw more specific `ClientErrorResponseException` when the response code in `BaseOAuth::sendRequest()` is a 4xx (rhertogh)  
 
 
 2.2.14 November 18, 2022

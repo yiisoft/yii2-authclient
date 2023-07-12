@@ -7,7 +7,6 @@
 
 namespace yii\authclient\clients;
 
-use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
 use yii\helpers\Json;
 

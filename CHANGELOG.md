@@ -1,10 +1,10 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.15 under development
+2.2.15 July 13, 2023
 ------------------------
 
-- no changes in this release.
+- Bug #364: Use issuer claim from OpenID Configuration
 
 
 2.2.14 November 18, 2022

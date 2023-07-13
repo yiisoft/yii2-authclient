@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.15 under development
 ------------------------
 
-- Bug #364: Use issuer claim from OpenID Configuration
+- Bug #364: Use issuer claim from OpenID Configuration (radwouters)
 
 
 2.2.14 November 18, 2022

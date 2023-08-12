@@ -1,7 +1,7 @@
 Расширение AuthClient для Yii 2
 ===============================
 
-Данное расширение добавляет [OpenID](http://openid.net/), [OAuth](http://oauth.net/) и [OAuth2](http://oauth.net/2/)
+Данное расширение добавляет [OpenID](https://openid.net/), [OAuth](https://oauth.net/) и [OAuth2](https://oauth.net/2/)
 требующиеся для Yii framework 2.0.
 
 

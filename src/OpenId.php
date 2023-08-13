@@ -33,7 +33,7 @@ use Yii;
  * AX and SREG extensions are supported.
  * To use them, specify [[requiredAttributes]] and/or [[optionalAttributes]].
  *
- * @see http://openid.net/
+ * @see https://openid.net/
  *
  * @property string $claimedId Claimed identifier (identity).
  * @property string $returnUrl Authentication return URL.
@@ -823,7 +823,7 @@ class OpenId extends BaseClient
      * In other words. OP may provide whatever information it wants to.
      * SREG names will be mapped to AX names.
      * @return array array of attributes with keys being the AX schema names, e.g. 'contact/email'
-     * @see http://www.axschema.org/types/
+     * @see https://www.axschema.org/types/
      */
     public function fetchAttributes()
     {

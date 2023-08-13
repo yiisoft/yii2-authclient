@@ -16,7 +16,7 @@ use yii\httpclient\Request;
 /**
  * BaseOAuth is a base class for the OAuth clients.
  *
- * @see http://oauth.net/
+ * @see https://oauth.net/
  *
  * @property OAuthToken $accessToken Auth token instance. Note that the type of this property differs in
  * getter and setter. See [[getAccessToken()]] and [[setAccessToken()]] for details.

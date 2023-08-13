@@ -13,7 +13,7 @@ use yii\helpers\Json;
 /**
  * VKontakte allows authentication via VKontakte OAuth.
  *
- * In order to use VKontakte OAuth you must register your application at <http://vk.com/editapp?act=create>.
+ * In order to use VKontakte OAuth you must register your application at <https://vk.com/editapp?act=create>.
  *
  * Example application configuration:
  *
@@ -34,7 +34,7 @@ use yii\helpers\Json;
  * ]
  * ```
  *
- * @see http://vk.com/editapp?act=create
+ * @see https://vk.com/editapp?act=create
  * @see https://vk.com/dev/users.get
  *
  * @author Paul Klimov <klimov.paul@gmail.com>

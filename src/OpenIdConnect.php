@@ -62,7 +62,7 @@ use yii\web\HttpException;
  * Note: if you are using well-trusted OpenIdConnect provider, you may disable [[validateJws]], making installation of
  * `web-token` library redundant, however it is not recommended as it violates the protocol specification.
  *
- * @see http://openid.net/connect/
+ * @see https://openid.net/connect/
  * @see OAuth2
  *
  * @property Cache|null $cache The cache object, `null` - if not enabled. Note that the type of this property

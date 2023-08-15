@@ -3,9 +3,9 @@
  *
  * This is the JavaScript widget used by the yii\authclient\widgets\AuthChoice widget.
  *
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */

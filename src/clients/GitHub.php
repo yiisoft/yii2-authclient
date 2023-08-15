@@ -32,7 +32,7 @@ use yii\authclient\OAuth2;
  * ]
  * ```
  *
- * @see http://developer.github.com/v3/oauth/
+ * @see https://developer.github.com/v3/oauth/
  * @see https://github.com/settings/developers
  *
  * @author Paul Klimov <klimov.paul@gmail.com>

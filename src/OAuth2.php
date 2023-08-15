@@ -29,7 +29,7 @@ use yii\web\HttpException;
  * $accessToken = $oauthClient->fetchAccessToken($code); // Get access token
  * ```
  *
- * @see http://oauth.net/2/
+ * @see https://oauth.net/2/
  * @see https://tools.ietf.org/html/rfc6749
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
@@ -235,7 +235,7 @@ abstract class OAuth2 extends BaseOAuth
     /**
      * Authenticate OAuth client directly at the provider without third party (user) involved,
      * using 'client_credentials' grant type.
-     * @see http://tools.ietf.org/html/rfc6749#section-4.4
+     * @see https://tools.ietf.org/html/rfc6749#section-4.4
      * @param array $params additional request params.
      * @return OAuthToken access token.
      * @since 2.1.0

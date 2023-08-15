@@ -41,7 +41,7 @@ use yii\authclient\OAuth2;
  * ```
  *
  * @see https://oauth.yandex.ru/client/new
- * @see http://api.yandex.ru/login/doc/dg/reference/response.xml
+ * @see https://api.yandex.ru/login/doc/dg/reference/response.xml
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

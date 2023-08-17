@@ -6,8 +6,8 @@
     <br>
 </p>
 
-This extension adds [OpenID](http://openid.net/), [OAuth](http://oauth.net/), [OAuth2](http://oauth.net/2/) and [OpenId Connect](http://openid.net/connect/)
-consumers for the [Yii framework 2.0](http://www.yiiframework.com).
+This extension adds [OpenID](https://openid.net/), [OAuth](https://oauth.net/), [OAuth2](https://oauth.net/2/) and [OpenId Connect](https://openid.net/connect/)
+consumers for the [Yii framework 2.0](https://www.yiiframework.com).
 
 For license information check the [LICENSE](https://github.com/yiisoft/yii2-authclient/blob/master/LICENSE.md)-file.
 
@@ -20,7 +20,7 @@ Documentation is at [docs/guide/README.md](https://github.com/yiisoft/yii2-authc
 Installation
 ------------
 
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+The preferred way to install this extension is through [composer](https://getcomposer.org/download/).
 
 Either run
 

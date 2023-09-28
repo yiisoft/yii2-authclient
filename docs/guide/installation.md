@@ -53,6 +53,7 @@ Out of the box the following clients are provided:
 - Google (via [[yii\authclient\clients\Google|OAuth]] and [[yii\authclient\clients\GoogleHybrid|OAuth Hybrid]]).
 - [[yii\authclient\clients\LinkedIn|LinkedIn]].
 - [[yii\authclient\clients\Live|Microsoft Live]].
+- [[yii\authclient\clients\Microsoft365]].
 - [[yii\authclient\clients\Twitter|Twitter]].
 - [[yii\authclient\clients\VKontakte|VKontakte]].
 - [[yii\authclient\clients\Yandex|Yandex]].

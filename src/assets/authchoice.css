@@ -31,6 +31,9 @@
 .auth-icon.live {
     background-position: 0 -272px;
 }
+.auth-icon.microsoft365 {
+    background-position: 0 -306px;
+}
 
 .auth-clients {
     display: block;

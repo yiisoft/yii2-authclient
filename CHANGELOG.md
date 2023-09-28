@@ -6,7 +6,7 @@ Yii Framework 2 authclient extension Change Log
 
 - Bug #364: Use issuer claim from OpenID Configuration (radwouters)
 - Enh: #367: Throw more specific `ClientErrorResponseException` when the response code in `BaseOAuth::sendRequest()` is a 4xx (rhertogh)  
-
+- Enh: #357: Added Microsoft365 (aka Office365 or Azure AD, login.microsoftonline.com) OAuth2 client.
 
 2.2.14 November 18, 2022
 ------------------------

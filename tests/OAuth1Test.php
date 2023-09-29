@@ -8,7 +8,7 @@ use yii\authclient\OAuthToken;
 
 class OAuth1Test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -178,7 +178,7 @@ class OAuth1Test extends TestCase
 
         $builtAuthUrl = $oauthClient->buildAuthUrl($requestToken);
 
-        $this->assertContains($authUrl, $builtAuthUrl, 'No auth URL present!');
-        $this->assertContains($requestTokenToken, $builtAuthUrl, 'No token present!');
+        $this->assertStringContainsString($authUrl, $builtAuthUrl, 'No auth URL present!');
+        $this->assertStringContainsString($requestTokenToken, $builtAuthUrl, 'No token present!');
     }
 }

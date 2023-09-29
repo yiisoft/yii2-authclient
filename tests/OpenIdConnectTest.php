@@ -8,7 +8,7 @@ use yii\caching\ArrayCache;
 
 class OpenIdConnectTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -85,8 +85,8 @@ class OpenIdConnectTest extends TestCase
         $builtAuthUrl = $authClient->buildAuthUrl();
 
         $this->assertNotEmpty($authClient->authUrl);
-        $this->assertContains($clientId, $builtAuthUrl, 'No client id present!');
-        $this->assertContains(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
+        $this->assertStringContainsString($clientId, $builtAuthUrl, 'No client id present!');
+        $this->assertStringContainsString(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
 
     public function testNonce()

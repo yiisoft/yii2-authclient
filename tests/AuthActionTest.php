@@ -7,7 +7,7 @@ use yii\authclient\Collection;
 
 class AuthActionTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -65,7 +65,7 @@ class AuthActionTest extends TestCase
         $url = 'http://test.url';
         $response = $action->redirect($url, true);
 
-        $this->assertContains($url, $response->content);
+        $this->assertStringContainsString($url, $response->content);
     }
 
     public function testGetClientId()

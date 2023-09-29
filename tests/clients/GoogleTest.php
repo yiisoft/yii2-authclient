@@ -15,7 +15,7 @@ class GoogleTest extends TestCase
 {
     use OAuthDefaultReturnUrlTestTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [

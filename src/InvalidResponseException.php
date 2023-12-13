@@ -1,8 +1,8 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 namespace yii\authclient;
@@ -10,10 +10,11 @@ namespace yii\authclient;
 use yii\base\Exception;
 
 /**
- * InvalidResponseException represents an exception caused by invalid remote server response.
+ * InvalidResponseException represents an exception caused by a non-successful server response status code.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
+ * @see \yii\httpclient\Response::getIsOk()
  */
 class InvalidResponseException extends Exception
 {

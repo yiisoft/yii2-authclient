@@ -1,10 +1,23 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.13 under development
+2.2.15 under development
 ------------------------
 
-- no changes in this release.
+- Bug #364: Use issuer claim from OpenID Configuration (radwouters)
+- Enh: #367: Throw more specific `ClientErrorResponseException` when the response code in `BaseOAuth::sendRequest()` is a 4xx (rhertogh)  
+
+
+2.2.14 November 18, 2022
+------------------------
+
+- Bug #351: Unable to set TokenParamKey in OAuth2 config, gets hard overwritten in OAuth2::createToken() (DSTester)
+
+
+2.2.13 September 04, 2022
+-------------------------
+
+- Bug #354: Fix PHP 8.1 deprecated message in BaseOAuth `stripos(): Passing null to parameter #1 ($haystack) of type string is deprecated` (marty-macfly)
 
 
 2.2.12 December 03, 2021
@@ -144,7 +157,7 @@ Yii Framework 2 authclient extension Change Log
 
 - Bug #152: Fixed `\yii\authclient\OAuth1::fetchRequestToken()` skips formatting for `yii\httpclient\Request` (klimov-paul)
 - Bug #160: Fixed `\yii\authclient\OAuth1::composeSignatureBaseString()` does not take URL query string into account (klimov-paul)
-- Enh #155: Added `\yii\authclient\OpenIdConnect` supporting [OpenID Connect](http://openid.net/connect/) protocol (klimov-paul)
+- Enh #155: Added `\yii\authclient\OpenIdConnect` supporting [OpenID Connect](https://openid.net/connect/) protocol (klimov-paul)
 - Enh #156: Added `\yii\authclient\signature\RsaSha` and `\yii\authclient\signature\HmacSha` supporting general 'SHAwithRSA' and 'HMAC SHA' signature methods (klimov-paul)
 - Enh #157: Added `\yii\authclient\OAuth2::authenticateUserJwt()` supporting authentication via JSON Web Token (JWT) (klimov-paul)
 - Enh #163: Added support for exchanging access token at `yii\authclient\clients\Facebook` (klimov-paul)

@@ -2,7 +2,7 @@ OpenID 接続
 ===========
 
 このエクステンションは、[[\yii\authclient\OpenIdConnect]] クラスを通じて、
-[OpenId 接続](http://openid.net/connect/) 認証プロトコルのサポートを提供します。
+[OpenId 接続](https://openid.net/connect/) 認証プロトコルのサポートを提供します。
 
 アプリケーション設定の例:
 
@@ -27,7 +27,7 @@ OpenID 接続
 
 認証のワークフローは、OAuth2 の場合と全く同じです。
 
-**注意!** 'OpenID 接続' プロトコルは、認証のプロセスをセキュアにするために、 [JWS](http://tools.ietf.org/html/draft-ietf-jose-json-web-signature) 検証を使います。
+**注意!** 'OpenID 接続' プロトコルは、認証のプロセスをセキュアにするために、 [JWS](https://tools.ietf.org/html/draft-ietf-jose-json-web-signature) 検証を使います。
 そのような検証を使うためには。このエクステンションがデフォルトでは要求していない
 `web-token/jwt-checker`, `web-token/jwt-key-mgmt`, `web-token/jwt-signature`, `web-token/jwt-signature-algorithm-hmac`, `web-token/jwt-signature-algorithm-ecdsa`, `web-token/jwt-signature-algorithm-rsa` ライブラリをインストールする必要があります。
 

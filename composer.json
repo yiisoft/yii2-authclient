@@ -6,9 +6,9 @@
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/yiisoft/yii2-authclient/issues",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
+        "forum": "https://www.yiiframework.com/forum/",
+        "wiki": "https://www.yiiframework.com/wiki/",
+        "irc": "ircs://irc.libera.chat:6697/yii",
         "source": "https://github.com/yiisoft/yii2-authclient"
     },
     "authors": [
@@ -58,6 +58,12 @@
                 "Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
                 "Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch"
             }
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "cweagans/composer-patches": true,
+            "yiisoft/yii2-composer": true
         }
     }
 }

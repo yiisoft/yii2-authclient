@@ -1,8 +1,8 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 namespace yii\authclient\clients;
@@ -33,7 +33,7 @@ use yii\authclient\OAuth2;
  * ```
  *
  * @see https://account.live.com/developers/applications
- * @see http://msdn.microsoft.com/en-us/library/live/hh243647.aspx
+ * @see https://msdn.microsoft.com/en-us/library/live/hh243647.aspx
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

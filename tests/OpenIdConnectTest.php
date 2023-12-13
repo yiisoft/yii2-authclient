@@ -60,11 +60,11 @@ class OpenIdConnectTest extends TestCase
         $this->assertEquals($cachedConfigParams, $authClient->getConfigParams());
 
         $authClient = new OpenIdConnect([
-            'issuerUrl' => 'https://invalid-url.com',
+            'issuerUrl' => 'https://yiiframework.com', // Should be a domain that returns an error for the /.well-known/openid-configuration endpoint
             'id' => 'foo',
             'cache' => $cache,
         ]);
-        $this->expectException('yii\httpclient\Exception');
+        $this->expectException('yii\authclient\InvalidResponseException');
         $authClient->getConfigParams();
     }
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 namespace yii\authclient\clients;
@@ -37,7 +37,7 @@ use yii\authclient\OAuthToken;
  * ```
  *
  * @see https://developers.facebook.com/apps
- * @see http://developers.facebook.com/docs/reference/api
+ * @see https://developers.facebook.com/docs/reference/api
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

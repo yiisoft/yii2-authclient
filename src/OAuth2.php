@@ -1,8 +1,8 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 namespace yii\authclient;
@@ -29,7 +29,7 @@ use yii\web\HttpException;
  * $accessToken = $oauthClient->fetchAccessToken($code); // Get access token
  * ```
  *
- * @see http://oauth.net/2/
+ * @see https://oauth.net/2/
  * @see https://tools.ietf.org/html/rfc6749
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
@@ -226,7 +226,8 @@ abstract class OAuth2 extends BaseOAuth
      */
     protected function createToken(array $tokenConfig = [])
     {
-        $tokenConfig['tokenParamKey'] = 'access_token';
+        $defaultTokenConfig = ['tokenParamKey' => 'access_token'];
+        $tokenConfig = array_merge($defaultTokenConfig, $tokenConfig);
 
         return parent::createToken($tokenConfig);
     }
@@ -234,7 +235,7 @@ abstract class OAuth2 extends BaseOAuth
     /**
      * Authenticate OAuth client directly at the provider without third party (user) involved,
      * using 'client_credentials' grant type.
-     * @see http://tools.ietf.org/html/rfc6749#section-4.4
+     * @see https://tools.ietf.org/html/rfc6749#section-4.4
      * @param array $params additional request params.
      * @return OAuthToken access token.
      * @since 2.1.0

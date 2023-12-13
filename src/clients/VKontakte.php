@@ -1,20 +1,19 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 namespace yii\authclient\clients;
 
-use yii\authclient\InvalidResponseException;
 use yii\authclient\OAuth2;
 use yii\helpers\Json;
 
 /**
  * VKontakte allows authentication via VKontakte OAuth.
  *
- * In order to use VKontakte OAuth you must register your application at <http://vk.com/editapp?act=create>.
+ * In order to use VKontakte OAuth you must register your application at <https://vk.com/editapp?act=create>.
  *
  * Example application configuration:
  *
@@ -35,7 +34,7 @@ use yii\helpers\Json;
  * ]
  * ```
  *
- * @see http://vk.com/editapp?act=create
+ * @see https://vk.com/editapp?act=create
  * @see https://vk.com/dev/users.get
  *
  * @author Paul Klimov <klimov.paul@gmail.com>

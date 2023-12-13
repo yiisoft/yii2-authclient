@@ -6,6 +6,8 @@ use yii\authclient\signature\PlainText;
 use yii\authclient\OAuthToken;
 use yii\authclient\BaseOAuth;
 use yii\httpclient\Client;
+use yii\httpclient\Request;
+use yii\httpclient\Response;
 use yiiunit\extensions\authclient\traits\OAuthDefaultReturnUrlTestTrait;
 
 class BaseOAuthTest extends TestCase
@@ -222,5 +224,49 @@ class BaseOAuthTest extends TestCase
             'remove extra parameter' => [['authclient' => 'base', 'extra' => 'userid'], null, '/?authclient=base'],
             'keep extra parameter'   => [['authclient' => 'base', 'extra' => 'userid'], ['authclient', 'extra'], '/?authclient=base&extra=userid'],
         ];
+    }
+
+    /**
+     * @dataProvider sendRequestDataProvider
+     *
+     * @param $responseStatusCode
+     * @param $expectedException
+     * @return void
+     */
+    public function testSendRequest($responseStatusCode, $expectedException)
+    {
+        $oauthClient = $this->createClient();
+
+        $response = new Response();
+        $response->addHeaders(['http-code' => $responseStatusCode]);
+        $response->setData('success');
+
+        $request = $this->getMock(Request::className());
+        $request
+            ->expects($this->any())
+            ->method('send')
+            ->willReturn($response);
+
+        if ($expectedException) {
+            $this->expectException($expectedException);
+        }
+        $result = $this->invoke($oauthClient, 'sendRequest', [$request]);
+        $this->assertEquals('success', $result);
+    }
+
+    /**
+     * Data provider for [[testSendRequestException]].
+     * @return array test data.
+     */
+    public function sendRequestDataProvider()
+    {
+        return [
+            'Informational' => [100, 'yii\\authclient\\InvalidResponseException'],
+            'Successful' => [200, null],
+            'Redirection' => [300, 'yii\\authclient\\InvalidResponseException'],
+            'Client error' => [400, 'yii\\authclient\\ClientErrorResponseException'],
+            'Server error' => [500, 'yii\\authclient\\InvalidResponseException'],
+        ];
+
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 namespace yii\authclient;
@@ -62,7 +62,7 @@ use yii\web\HttpException;
  * Note: if you are using well-trusted OpenIdConnect provider, you may disable [[validateJws]], making installation of
  * `web-token` library redundant, however it is not recommended as it violates the protocol specification.
  *
- * @see http://openid.net/connect/
+ * @see https://openid.net/connect/
  * @see OAuth2
  *
  * @property Cache|null $cache The cache object, `null` - if not enabled. Note that the type of this property
@@ -512,7 +512,8 @@ class OpenIdConnect extends OAuth2
      */
     protected function validateClaims(array $claims)
     {
-        if (!isset($claims['iss']) || (strcmp(rtrim($claims['iss'], '/'), rtrim($this->issuerUrl, '/')) !== 0)) {
+        $expectedIssuer = $this->getConfigParam('issuer', $this->issuerUrl);
+        if (!isset($claims['iss']) || (strcmp(rtrim($claims['iss'], '/'), rtrim($expectedIssuer, '/')) !== 0)) {
             throw new HttpException(400, 'Invalid "iss"');
         }
         if (!isset($claims['aud'])

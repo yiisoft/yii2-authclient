@@ -1,8 +1,8 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 namespace yii\authclient;
@@ -16,7 +16,7 @@ use yii\httpclient\Request;
 /**
  * BaseOAuth is a base class for the OAuth clients.
  *
- * @see http://oauth.net/
+ * @see https://oauth.net/
  *
  * @property OAuthToken $accessToken Auth token instance. Note that the type of this property differs in
  * getter and setter. See [[getAccessToken()]] and [[setAccessToken()]] for details.
@@ -222,8 +222,10 @@ abstract class BaseOAuth extends BaseClient
     /**
      * Sends the given HTTP request, returning response data.
      * @param \yii\httpclient\Request $request HTTP request to be sent.
-     * @return array response data.
-     * @throws InvalidResponseException on invalid remote response.
+     * @return array|string|null response data.
+     * @throws ClientErrorResponseException on client error response codes.
+     * @throws InvalidResponseException on non-successful (other than client error) response codes.
+     * @throws \yii\httpclient\Exception
      * @since 2.1
      */
     protected function sendRequest($request)
@@ -231,15 +233,20 @@ abstract class BaseOAuth extends BaseClient
         $response = $request->send();
 
         if (!$response->getIsOk()) {
-            $statusCode = $response->getStatusCode();
-            throw new InvalidResponseException(
+            $statusCode = (int)$response->getStatusCode();
+            if ($statusCode >= 400 && $statusCode < 500) {
+                $exceptionClass = 'yii\\authclient\\ClientErrorResponseException';
+            } else {
+                $exceptionClass = 'yii\\authclient\\InvalidResponseException';
+            }
+            throw new $exceptionClass(
                 $response,
                 'Request failed with code: ' . $statusCode . ', message: ' . $response->getContent(),
-                (int) $statusCode
+                $statusCode
             );
         }
 
-        if (stripos($response->headers->get('content-type'), 'application/jwt') !== false) {
+        if (stripos($response->headers->get('content-type', ''), 'application/jwt') !== false) {
             return $response->getContent();
         } else {
             return $response->getData();

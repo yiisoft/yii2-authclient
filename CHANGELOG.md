@@ -5,7 +5,8 @@ Yii Framework 2 authclient extension Change Log
 ------------------------
 
 - Bug #364: Use issuer claim from OpenID Configuration (radwouters)
-- Enh: #367: Throw more specific `ClientErrorResponseException` when the response code in `BaseOAuth::sendRequest()` is a 4xx (rhertogh)  
+- Enh #367: Throw more specific `ClientErrorResponseException` when the response code in `BaseOAuth::sendRequest()` is a 4xx (rhertogh)
+- Enh GHSA-rw54-6826-c8j5: Improved security for OAuth2 client by requiring an `authCodeVerifier` if PKCE is enabled and clearing it after usage (rhertogh)
 
 
 2.2.14 November 18, 2022

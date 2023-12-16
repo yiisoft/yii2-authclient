@@ -131,7 +131,14 @@ abstract class OAuth2 extends BaseOAuth
         ];
 
         if ($this->enablePkce) {
-            $defaultParams['code_verifier'] = $this->getState('authCodeVerifier');
+            $authCodeVerifier = $this->getState('authCodeVerifier');
+            if (empty($authCodeVerifier)) {
+                // Prevent PKCE Downgrade Attack
+                // https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics#name-pkce-downgrade-attack
+                throw new HttpException(409, 'Invalid auth code verifier.');
+            }
+            $defaultParams['code_verifier'] = $authCodeVerifier;
+            $this->removeState('authCodeVerifier');
         }
 
         $request = $this->createRequest()

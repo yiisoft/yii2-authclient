@@ -155,7 +155,7 @@ abstract class OAuth1 extends BaseOAuth
             }
         }
 
-        if (strcmp($requestToken->getToken(), $oauthToken) !== 0) {
+        if (!Yii::$app->getSecurity()->compareString($requestToken->getToken(), $oauthToken)) {
             throw new HttpException(400, 'Invalid auth state parameter.');
         }
 

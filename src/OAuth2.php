@@ -118,7 +118,11 @@ abstract class OAuth2 extends BaseOAuth
             $authState = $this->getState('authState');
             $incomingRequest = Yii::$app->getRequest();
             $incomingState = $incomingRequest->get('state', $incomingRequest->post('state'));
-            if (!isset($incomingState) || empty($authState) || strcmp($incomingState, $authState) !== 0) {
+            if (
+                !isset($incomingState)
+                || empty($authState)
+                || !Yii::$app->getSecurity()->compareString($incomingState, $authState)
+            ) {
                 throw new HttpException(400, 'Invalid auth state parameter.');
             }
             $this->removeState('authState');

@@ -335,6 +335,7 @@ abstract class OAuth1 extends BaseOAuth
      */
     protected function composeSignatureBaseString($method, $url, array $params)
     {
+        $url = $url ?? '';
         if (strpos($url, '?') !== false) {
             list($url, $queryString) = explode('?', $url, 2);
             parse_str($queryString, $urlParams);
@@ -343,9 +344,9 @@ abstract class OAuth1 extends BaseOAuth
         unset($params['oauth_signature']);
         uksort($params, 'strcmp'); // Parameters are sorted by name, using lexicographical byte value ordering. Ref: Spec: 9.1.1
         $parts = [
-            strtoupper($method),
-            $url,
-            http_build_query($params, '', '&', PHP_QUERY_RFC3986)
+            strtoupper($method)??'',
+            $url??'',
+            http_build_query($params, '', '&', PHP_QUERY_RFC3986)??''
         ];
         $parts = array_map('rawurlencode', $parts);
 
@@ -360,14 +361,14 @@ abstract class OAuth1 extends BaseOAuth
     protected function composeSignatureKey($token = null)
     {
         $signatureKeyParts = [
-            $this->consumerSecret
+            $this->consumerSecret??''
         ];
 
         if ($token === null) {
             $token = $this->getAccessToken();
         }
         if (is_object($token)) {
-            $signatureKeyParts[] = $token->getTokenSecret();
+            $signatureKeyParts[] = $token->getTokenSecret()??'';
         } else {
             $signatureKeyParts[] = '';
         }

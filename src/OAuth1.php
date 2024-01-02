@@ -335,7 +335,7 @@ abstract class OAuth1 extends BaseOAuth
      */
     protected function composeSignatureBaseString($method, $url, array $params)
     {
-        $url    = isset($url) ? $url : '';
+        $url = isset($url) ? $url : '';
 
         if (strpos($url, '?') !== false) {
             list($url, $queryString) = explode('?', $url, 2);

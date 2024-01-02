@@ -336,7 +336,6 @@ abstract class OAuth1 extends BaseOAuth
     protected function composeSignatureBaseString($method, $url, array $params)
     {
         $url    = isset($url) ? $url : '';
-        $method = isset($method) ? $method : '';
 
         if (strpos($url, '?') !== false) {
             list($url, $queryString) = explode('?', $url, 2);
@@ -345,6 +344,8 @@ abstract class OAuth1 extends BaseOAuth
         }
         unset($params['oauth_signature']);
         uksort($params, 'strcmp'); // Parameters are sorted by name, using lexicographical byte value ordering. Ref: Spec: 9.1.1
+
+        $method = isset($method) ? $method : '';
 
         $parts = [
             strtoupper($method),

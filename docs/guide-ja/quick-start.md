@@ -4,7 +4,7 @@
 ## コントローラにアクションを追加する
 
 次のステップは、ウェブのコントローラに [[yii\authclient\AuthAction]] を追加して、あなたの必要に応じた `successCallback` の実装を提供することです。
-典型的な場合、コントローラのコードは、最終的には次のようなものになります。
+典型的な場合、最終的なコントローラのコードは次のようなものになります。
 
 ```php
 use app\components\AuthHandler;
@@ -66,8 +66,8 @@ class AuthHandler
 
         /* @var $auth Auth */
         $auth = Auth::find()->where([
-            'source' => $client->getId(),
-            'source_id' => $attributes['id'],
+            'source' => $this->client->getId(),
+            'source_id' => $id,
         ])->one();
 
         if (Yii::$app->user->isGuest) {
@@ -79,7 +79,7 @@ class AuthHandler
             } else { // ユーザ登録
                 if ($email !== null && User::find()->where(['email' => $email])->exists()) {
                     Yii::$app->getSession()->setFlash('error', [
-                        Yii::t('app', "{client} のアカウントと同じメール・アドレスを持つユーザが既に存在しますが、まだそのアカウントとリンクされていません。リンクするために、まずメール・アドレスを使ってログインしてください。", ['client' => $this->client->getTitle()]),
+                        Yii::t('app', "{client} のアカウントと同じメール・アドレスを持つユーザが既に存在しますが、まだリンクされていません。通常の方法でログインして、{client} のアカウントとリンクさせてて下さい。", ['client' => $this->client->getTitle()]),
                     ]);
                 } else {
                     $password = Yii::$app->security->generateRandomString(6);

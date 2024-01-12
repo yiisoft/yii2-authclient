@@ -18,13 +18,12 @@
         }
     ],
     "require": {
+        "php": ">=7.3",
         "yiisoft/yii2": "~2.0.13",
-        "yiisoft/yii2-httpclient": "~2.0.5",
-        "paragonie/random_compat": ">=1"
+        "yiisoft/yii2-httpclient": "~2.0.5"
     },
     "require-dev": {
-        "cweagans/composer-patches": "^1.7",
-        "phpunit/phpunit": "4.8.34"
+        "phpunit/phpunit": "^9.6"
     },
     "suggest": {
         "web-token/jwt-checker": "required for JWS, JWT or JWK related flows like OpenIDConnect",
@@ -49,20 +48,10 @@
     "extra": {
         "branch-alias": {
             "dev-master": "2.0.x-dev"
-        },
-        "patches": {
-            "phpunit/phpunit-mock-objects": {
-                "Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
-            },
-            "phpunit/phpunit": {
-                "Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
-                "Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch"
-            }
         }
     },
     "config": {
         "allow-plugins": {
-            "cweagans/composer-patches": true,
             "yiisoft/yii2-composer": true
         }
     }

@@ -7,7 +7,7 @@ use yii\authclient\SessionStateStorage;
 
 class BaseClientTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mockApplication();
     }

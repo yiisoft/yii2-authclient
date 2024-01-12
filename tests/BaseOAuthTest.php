@@ -14,7 +14,7 @@ class BaseOAuthTest extends TestCase
 {
     use OAuthDefaultReturnUrlTestTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -241,7 +241,7 @@ class BaseOAuthTest extends TestCase
         $response->addHeaders(['http-code' => $responseStatusCode]);
         $response->setData('success');
 
-        $request = $this->getMock(Request::className());
+        $request = $this->createMock(Request::className());
         $request
             ->expects($this->any())
             ->method('send')

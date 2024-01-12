@@ -6,7 +6,7 @@ use yii\authclient\OpenId;
 
 class OpenIdTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [

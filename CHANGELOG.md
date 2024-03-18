@@ -1,11 +1,19 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.15 under development
+2.2.16 under development
 ------------------------
 
+- no changes in this release.
+
+
+2.2.15 December 16, 2023
+------------------------
+
+- Enh GHSA-w8vh-p74j-x9xp: Improved security for OAuth1, OAuth2 and OpenID Connect clients by using timing attack safe string comparsion (rhertogh)
+- Enh GHSA-rw54-6826-c8j5: Improved security for OAuth2 client by requiring an `authCodeVerifier` if PKCE is enabled and clearing it after usage (rhertogh)
 - Bug #364: Use issuer claim from OpenID Configuration (radwouters)
-- Enh: #367: Throw more specific `ClientErrorResponseException` when the response code in `BaseOAuth::sendRequest()` is a 4xx (rhertogh)  
+- Enh #367: Throw more specific `ClientErrorResponseException` when the response code in `BaseOAuth::sendRequest()` is a 4xx (rhertogh)
 
 
 2.2.14 November 18, 2022

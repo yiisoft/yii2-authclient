@@ -118,7 +118,11 @@ abstract class OAuth2 extends BaseOAuth
             $authState = $this->getState('authState');
             $incomingRequest = Yii::$app->getRequest();
             $incomingState = $incomingRequest->get('state', $incomingRequest->post('state'));
-            if (!isset($incomingState) || empty($authState) || strcmp($incomingState, $authState) !== 0) {
+            if (
+                !isset($incomingState)
+                || empty($authState)
+                || !Yii::$app->getSecurity()->compareString($incomingState, $authState)
+            ) {
                 throw new HttpException(400, 'Invalid auth state parameter.');
             }
             $this->removeState('authState');
@@ -131,7 +135,14 @@ abstract class OAuth2 extends BaseOAuth
         ];
 
         if ($this->enablePkce) {
-            $defaultParams['code_verifier'] = $this->getState('authCodeVerifier');
+            $authCodeVerifier = $this->getState('authCodeVerifier');
+            if (empty($authCodeVerifier)) {
+                // Prevent PKCE Downgrade Attack
+                // https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics#name-pkce-downgrade-attack
+                throw new HttpException(409, 'Invalid auth code verifier.');
+            }
+            $defaultParams['code_verifier'] = $authCodeVerifier;
+            $this->removeState('authCodeVerifier');
         }
 
         $request = $this->createRequest()

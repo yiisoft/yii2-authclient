@@ -417,7 +417,11 @@ class OpenIdConnect extends OAuth2
 
             if ($this->getValidateAuthNonce()) {
                 $authNonce = $this->getState('authNonce');
-                if (!isset($jwsData['nonce']) || empty($authNonce) || strcmp($jwsData['nonce'], $authNonce) !== 0) {
+                if (
+                    !isset($jwsData['nonce'])
+                    || empty($authNonce)
+                    || !Yii::$app->getSecurity()->compareString($jwsData['nonce'], $authNonce)
+                ) {
                     throw new HttpException(400, 'Invalid auth nonce');
                 } else {
                     $this->removeState('authNonce');

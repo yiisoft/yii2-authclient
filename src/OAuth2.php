@@ -8,6 +8,7 @@
 namespace yii\authclient;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\HttpException;
@@ -37,6 +38,18 @@ use yii\web\HttpException;
  */
 abstract class OAuth2 extends BaseOAuth
 {
+    /**
+     * Apply the access token to the request header
+     * @since 2.2.16
+     */
+    const ACCESS_TOKEN_LOCATION_HEADER = 'header';
+
+    /**
+     * Apply the access token to the request body
+     * @since 2.2.16
+     */
+    const ACCESS_TOKEN_LOCATION_BODY = 'body';
+
     /**
      * @var string protocol version.
      */
@@ -71,6 +84,15 @@ abstract class OAuth2 extends BaseOAuth
      */
     public $enablePkce = false;
 
+    /**
+     * @var string The location of the access token when it is applied to the request.
+     * NOTE: According to the OAuth2 specification this should be de `header` by default,
+     *       however, for Backwards compatibility the default value used here is `body`.
+     * @since 2.2.16
+     *
+     * @see https://datatracker.ietf.org/doc/html/rfc6749#section-7
+     */
+    public $accessTokenLocation = self::ACCESS_TOKEN_LOCATION_BODY;
 
     /**
      * Composes user authorization URL.
@@ -167,12 +189,19 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * {@inheritdoc}
+     * @throws InvalidConfigException
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
-        $data = $request->getData();
-        $data['access_token'] = $accessToken->getToken();
-        $request->setData($data);
+        if ($this->accessTokenLocation === self::ACCESS_TOKEN_LOCATION_BODY) {
+            $data = $request->getData();
+            $data['access_token'] = $accessToken->getToken();
+            $request->setData($data);
+        } elseif ($this->accessTokenLocation === self::ACCESS_TOKEN_LOCATION_HEADER) {
+            $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
+        } else {
+            throw new InvalidConfigException('Unknown access token location: ' . $this->accessTokenLocation);
+        }
     }
 
     /**

@@ -30,6 +30,11 @@ class TwitterOAuth2 extends OAuth2
     /**
      * {@inheritdoc}
      */
+    public $accessTokenLocation = OAuth2::ACCESS_TOKEN_LOCATION_HEADER;
+
+    /**
+     * {@inheritdoc}
+     */
     public $authUrl = 'https://api.twitter.com/oauth2/authenticate';
     /**
      * {@inheritdoc}
@@ -63,13 +68,5 @@ class TwitterOAuth2 extends OAuth2
     protected function defaultTitle()
     {
         return 'Twitter';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function applyAccessTokenToRequest($request, $accessToken)
-    {
-        $request->getHeaders()->set('Authorization', 'Bearer '. $accessToken->getToken());
     }
 }

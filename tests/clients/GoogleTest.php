@@ -3,29 +3,27 @@
 namespace yiiunit\extensions\authclient\clients;
 
 use yii\authclient\clients\Google;
+use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
 use yii\authclient\signature\RsaSha;
-use yiiunit\extensions\authclient\TestCase;
+use yiiunit\extensions\authclient\clients\base\BaseOauth2ClientTestCase;
 use yiiunit\extensions\authclient\traits\OAuthDefaultReturnUrlTestTrait;
 
 /**
  * @group google
  */
-class GoogleTest extends TestCase
+class GoogleTest extends BaseOauth2ClientTestCase
 {
     use OAuthDefaultReturnUrlTestTrait;
 
-    protected function setUp()
+    protected function createClient()
     {
-        $config = [
-            'components' => [
-                'request' => [
-                    'hostInfo' => 'http://testdomain.com',
-                    'scriptUrl' => '/index.php',
-                ],
-            ]
-        ];
-        $this->mockApplication($config, '\yii\web\Application');
+        return new Google();
+    }
+
+    protected function getExpectedTokenLocation()
+    {
+        return OAuth2::ACCESS_TOKEN_LOCATION_BODY;
     }
 
     public function testAuthenticateUserJwt()
@@ -43,11 +41,6 @@ class GoogleTest extends TestCase
         ]);
         $this->assertTrue($token instanceof OAuthToken);
         $this->assertNotEmpty($token->getToken());
-    }
-
-    protected function createClient()
-    {
-        return new Google();
     }
 
     /**

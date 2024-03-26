@@ -7,9 +7,9 @@
 
 namespace yii\authclient;
 
-use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Checker\AlgorithmChecker;
 use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSTokenSupport;
@@ -76,6 +76,11 @@ use yii\web\HttpException;
  */
 class OpenIdConnect extends OAuth2
 {
+    /**
+     * {@inheritdoc}
+     */
+    public $accessTokenLocation = OAuth2::ACCESS_TOKEN_LOCATION_HEADER;
+
     /**
      * @var array Predefined OpenID Connect Claims
      * @see https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2
@@ -350,15 +355,6 @@ class OpenIdConnect extends OAuth2
         }
 
         return $idTokenData;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function applyAccessTokenToRequest($request, $accessToken)
-    {
-        // OpenID Connect requires bearer token auth for the user info endpoint
-        $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
     }
 
     /**

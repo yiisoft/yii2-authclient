@@ -43,6 +43,11 @@ class GitHub extends OAuth2
     /**
      * {@inheritdoc}
      */
+    public $accessTokenLocation = OAuth2::ACCESS_TOKEN_LOCATION_HEADER;
+
+    /**
+     * {@inheritdoc}
+     */
     public $authUrl = 'https://github.com/login/oauth/authorize';
     /**
      * {@inheritdoc}

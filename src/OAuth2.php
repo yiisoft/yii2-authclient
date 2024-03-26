@@ -86,8 +86,8 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * @var string The location of the access token when it is applied to the request.
-     * NOTE: According to the OAuth2 specification this should be de `header` by default,
-     *       however, for Backwards compatibility the default value used here is `body`.
+     * NOTE: According to the OAuth2 specification this should be `header` by default,
+     *       however, for backwards compatibility the default value used here is `body`.
      * @since 2.2.16
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-7
@@ -193,14 +193,17 @@ abstract class OAuth2 extends BaseOAuth
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
-        if ($this->accessTokenLocation === self::ACCESS_TOKEN_LOCATION_BODY) {
-            $data = $request->getData();
-            $data['access_token'] = $accessToken->getToken();
-            $request->setData($data);
-        } elseif ($this->accessTokenLocation === self::ACCESS_TOKEN_LOCATION_HEADER) {
-            $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
-        } else {
-            throw new InvalidConfigException('Unknown access token location: ' . $this->accessTokenLocation);
+        switch($this->accessTokenLocation) {
+            case self::ACCESS_TOKEN_LOCATION_BODY:
+                $data = $request->getData();
+                $data['access_token'] = $accessToken->getToken();
+                $request->setData($data);
+                break;
+            case self::ACCESS_TOKEN_LOCATION_HEADER:
+                $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
+                break;
+            default:
+                throw new InvalidConfigException('Unknown access token location: ' . $this->accessTokenLocation);
         }
     }
 

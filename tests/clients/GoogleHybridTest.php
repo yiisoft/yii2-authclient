@@ -3,16 +3,22 @@
 namespace yiiunit\extensions\authclient\clients;
 
 use yii\authclient\clients\GoogleHybrid;
-use yiiunit\extensions\authclient\TestCase;
+use yii\authclient\OAuth2;
+use yiiunit\extensions\authclient\clients\base\BaseOauth2ClientTestCase;
 use yiiunit\extensions\authclient\traits\OAuthDefaultReturnUrlTestTrait;
 
-class GoogleHybridTest extends TestCase
+class GoogleHybridTest extends BaseOauth2ClientTestCase
 {
     use OAuthDefaultReturnUrlTestTrait;
 
     protected function createClient()
     {
         return new GoogleHybrid();
+    }
+
+    protected function getExpectedTokenLocation()
+    {
+        return OAuth2::ACCESS_TOKEN_LOCATION_BODY;
     }
 
     /**

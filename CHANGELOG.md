@@ -6,6 +6,7 @@ Yii Framework 2 authclient extension Change Log
 
 - Enh #387: Use appropriate exception if client does not exist (eluhr)
 - Enh #388: Added support to configure the OAuth2 access token location in requests and added a generic OAuth2 client (rhertogh)
+- Enh #x: Added ability to configure OpenIdConnect cache duration. Default is 
 
 
 2.2.15 December 16, 2023
@@ -276,6 +277,3 @@ Yii Framework 2 authclient extension Change Log
 -------------------------
 
 - Initial release.
-
-
-

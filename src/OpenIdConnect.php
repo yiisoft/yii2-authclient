@@ -160,6 +160,10 @@ class OpenIdConnect extends OAuth2
      * @var JWKSet Key Set
      */
     private $_jwkSet;
+    /**
+     * @var int cache duration in seconds, default: 1 week
+     */
+    private $cacheDuration = 604800;
 
 
     /**
@@ -218,13 +222,13 @@ class OpenIdConnect extends OAuth2
             $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId();
             if ($cache === null || ($configParams = $cache->get($cacheKey)) === false) {
                 $configParams = $this->discoverConfig();
+
+                if ($cache !== null) {
+                    $cache->set($cacheKey, $configParams, $this->cacheDuration);
+                }
             }
 
             $this->_configParams = $configParams;
-
-            if ($cache !== null) {
-                $cache->set($cacheKey, $configParams);
-            }
         }
         return $this->_configParams;
     }
@@ -444,13 +448,13 @@ class OpenIdConnect extends OAuth2
                     ->setUrl($this->getConfigParam('jwks_uri'));
                 $response = $this->sendRequest($request);
                 $jwkSet = JWKFactory::createFromValues($response);
+
+                if ($cache !== null) {
+                    $cache->set($cacheKey, $jwkSet, $this->cacheDuration);
+                }
             }
 
             $this->_jwkSet = $jwkSet;
-
-            if ($cache !== null) {
-                $cache->set($cacheKey, $jwkSet);
-            }
         }
         return $this->_jwkSet;
     }

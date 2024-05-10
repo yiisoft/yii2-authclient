@@ -80,7 +80,6 @@ class OpenIdConnect extends OAuth2
      * {@inheritdoc}
      */
     public $accessTokenLocation = OAuth2::ACCESS_TOKEN_LOCATION_HEADER;
-
     /**
      * @var array Predefined OpenID Connect Claims
      * @see https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2

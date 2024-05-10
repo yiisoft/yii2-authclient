@@ -39,11 +39,11 @@ use yii\authclient\OAuth2;
  */
 class Oauth2Client extends OAuth2
 {
-
     /**
      * {@inheritdoc}
      */
     public $accessTokenLocation = self::ACCESS_TOKEN_LOCATION_HEADER;
+
 
     /**
      * {@inheritdoc}

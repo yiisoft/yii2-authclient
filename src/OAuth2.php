@@ -43,7 +43,6 @@ abstract class OAuth2 extends BaseOAuth
      * @since 2.2.16
      */
     const ACCESS_TOKEN_LOCATION_HEADER = 'header';
-
     /**
      * Apply the access token to the request body
      * @since 2.2.16
@@ -83,16 +82,16 @@ abstract class OAuth2 extends BaseOAuth
      * @see https://oauth.net/2/pkce/
      */
     public $enablePkce = false;
-
     /**
      * @var string The location of the access token when it is applied to the request.
      * NOTE: According to the OAuth2 specification this should be `header` by default,
-     *       however, for backwards compatibility the default value used here is `body`.
+     * however, for backwards compatibility the default value used here is `body`.
      * @since 2.2.16
      *
      * @see https://datatracker.ietf.org/doc/html/rfc6749#section-7
      */
     public $accessTokenLocation = self::ACCESS_TOKEN_LOCATION_BODY;
+
 
     /**
      * Composes user authorization URL.

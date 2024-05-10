@@ -1,8 +1,8 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.16 under development
-------------------------
+2.2.16 May 10, 2024
+-------------------
 
 - Enh #387: Use appropriate exception if client does not exist (eluhr)
 - Enh #388: Added support to configure the OAuth2 access token location in requests and added a generic OAuth2 client (rhertogh)

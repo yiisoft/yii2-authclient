@@ -31,7 +31,6 @@ class TwitterOAuth2 extends OAuth2
      * {@inheritdoc}
      */
     public $accessTokenLocation = OAuth2::ACCESS_TOKEN_LOCATION_HEADER;
-
     /**
      * {@inheritdoc}
      */

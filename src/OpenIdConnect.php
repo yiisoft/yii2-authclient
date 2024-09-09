@@ -365,7 +365,7 @@ class OpenIdConnect extends OAuth2
      */
     protected function applyClientCredentialsToRequest($request)
     {
-        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported', 'client_secret_basic');
+        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported', ['client_secret_basic']);
 
         if (in_array('client_secret_basic', $supportedAuthMethods)) {
             $request->addHeaders([
@@ -400,7 +400,7 @@ class OpenIdConnect extends OAuth2
                 'assertion' => $assertion,
             ]);
         } else {
-            throw new InvalidConfigException('Unable to authenticate request: none of following auth methods is suported: ' . implode(', ', $supportedAuthMethods));
+            throw new InvalidConfigException('Unable to authenticate request: none of following auth methods is supported: ' . implode(', ', $supportedAuthMethods));
         }
     }
 

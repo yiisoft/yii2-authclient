@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.17 under development
 ------------------------
 
-- no changes in this release.
+- Bug #392: Now using array as default value for `token_endpoint_auth_methods_supported` in `OpenIdConnect::applyClientCredentialsToRequest()` (strtob, rhertogh)
 
 
 2.2.16 May 10, 2024

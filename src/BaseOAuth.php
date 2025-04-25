@@ -18,7 +18,7 @@ use yii\httpclient\Request;
  *
  * @see https://oauth.net/
  *
- * @property OAuthToken $accessToken Auth token instance. Note that the type of this property differs in
+ * @property OAuthToken|null $accessToken Auth token instance. Note that the type of this property differs in
  * getter and setter. See [[getAccessToken()]] and [[setAccessToken()]] for details.
  * @property string $returnUrl Return URL.
  * @property signature\BaseMethod $signatureMethod Signature method instance. Note that the type of this
@@ -110,7 +110,7 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
-     * @return OAuthToken auth token instance.
+     * @return OAuthToken|null auth token instance.
      */
     public function getAccessToken()
     {
@@ -284,13 +284,13 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Restores access token.
-     * @return OAuthToken auth token.
+     * @return OAuthToken|null auth token.
      */
     protected function restoreAccessToken()
     {
         $token = $this->getState('token');
         if (is_object($token)) {
-            /* @var $token OAuthToken */
+            /** @var OAuthToken $token */
             if ($token->getIsExpired() && $this->autoRefreshAccessToken) {
                 $token = $this->refreshAccessToken($token);
             }

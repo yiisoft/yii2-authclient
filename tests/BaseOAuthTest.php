@@ -14,7 +14,7 @@ class BaseOAuthTest extends TestCase
 {
     use OAuthDefaultReturnUrlTestTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -28,7 +28,8 @@ class BaseOAuthTest extends TestCase
     protected function createClient()
     {
         $oauthClient = $this->getMockBuilder(BaseOAuth::className())
-            ->setMethods(['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes'])
+            ->addMethods(['composeRequestCurlOptions'])
+            ->onlyMethods(['refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes'])
             ->getMock();
         return $oauthClient;
     }
@@ -241,7 +242,7 @@ class BaseOAuthTest extends TestCase
         $response->addHeaders(['http-code' => $responseStatusCode]);
         $response->setData('success');
 
-        $request = $this->getMock(Request::className());
+        $request = $this->createMock(Request::className());
         $request
             ->expects($this->any())
             ->method('send')

@@ -17,6 +17,11 @@ Documentation is at [docs/guide/README.md](https://github.com/yiisoft/yii2-authc
 [![Total Downloads](https://poser.pugx.org/yiisoft/yii2-authclient/downloads.png)](https://packagist.org/packages/yiisoft/yii2-authclient)
 [![Build Status](https://github.com/yiisoft/yii2-authclient/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-authclient/actions)
 
+Requirements
+------------
+
+- PHP 8.1 or higher.
+
 Installation
 ------------
 
@@ -25,13 +30,13 @@ The preferred way to install this extension is through [composer](https://getcom
 Either run
 
 ```
-composer require --prefer-dist yiisoft/yii2-authclient
+composer require --prefer-dist yiisoft/yii2-authclient:^22.x-dev
 ```
 
 or add
 
 ```json
-"yiisoft/yii2-authclient": "~2.2.0"
+"yiisoft/yii2-authclient": "^22.x-dev"
 ```
 
 to the `require` section of your composer.json.

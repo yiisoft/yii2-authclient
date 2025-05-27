@@ -8,7 +8,7 @@ use yii\authclient\OAuthToken;
 
 class OAuth1Test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -28,7 +28,7 @@ class OAuth1Test extends TestCase
     protected function createClient()
     {
         $oauthClient = $this->getMockBuilder(OAuth1::className())
-            ->setMethods(['initUserAttributes'])
+            ->onlyMethods(['initUserAttributes'])
             ->getMock();
         return $oauthClient;
     }
@@ -47,7 +47,7 @@ class OAuth1Test extends TestCase
 
         /* @var $oauthSignatureMethod BaseMethod|\PHPUnit_Framework_MockObject_MockObject */
         $oauthSignatureMethod = $this->getMockBuilder(BaseMethod::className())
-            ->setMethods(['getName', 'generateSignature'])
+            ->onlyMethods(['getName', 'generateSignature'])
             ->getMock();
         $oauthSignatureMethod->expects($this->any())
             ->method('getName')
@@ -90,29 +90,34 @@ class OAuth1Test extends TestCase
         $oauthClient = $this->createClient();
 
         $request = $oauthClient->createRequest();
+        $request->setUrl('http://example.com');
         $request->setMethod('POST');
         $oauthClient->signRequest($request);
         $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
 
         $request = $oauthClient->createRequest();
+        $request->setUrl('http://example.com');
         $request->setMethod('GET');
         $oauthClient->signRequest($request);
         $this->assertEmpty($request->getHeaders()->get('Authorization'));
 
         $oauthClient->authorizationHeaderMethods = ['GET'];
         $request = $oauthClient->createRequest();
+        $request->setUrl('http://example.com');
         $request->setMethod('GET');
         $oauthClient->signRequest($request);
         $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
 
         $oauthClient->authorizationHeaderMethods = null;
         $request = $oauthClient->createRequest();
+        $request->setUrl('http://example.com');
         $request->setMethod('GET');
         $oauthClient->signRequest($request);
         $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
 
         $oauthClient->authorizationHeaderMethods = [];
         $request = $oauthClient->createRequest();
+        $request->setUrl('http://example.com');
         $request->setMethod('POST');
         $oauthClient->signRequest($request);
         $this->assertEmpty($request->getHeaders()->get('Authorization'));
@@ -178,7 +183,7 @@ class OAuth1Test extends TestCase
 
         $builtAuthUrl = $oauthClient->buildAuthUrl($requestToken);
 
-        $this->assertContains($authUrl, $builtAuthUrl, 'No auth URL present!');
-        $this->assertContains($requestTokenToken, $builtAuthUrl, 'No token present!');
+        $this->assertStringContainsString($authUrl, $builtAuthUrl, 'No auth URL present!');
+        $this->assertStringContainsString($requestTokenToken, $builtAuthUrl, 'No token present!');
     }
 }

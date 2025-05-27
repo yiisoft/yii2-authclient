@@ -33,7 +33,7 @@ abstract class BaseOauth2ClientTestCase extends TestCase
         return 'access_token';
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -50,6 +50,7 @@ abstract class BaseOauth2ClientTestCase extends TestCase
     {
         $tokenLocation = $this->getExpectedTokenLocation();
         $client = $this->createClient();
+        $client->clientSecret = 'test-secret';
         $testToken = 'test-token';
         $client->setAccessToken(new OAuthToken(['token' => $testToken]));
         $request = $client->createApiRequest();

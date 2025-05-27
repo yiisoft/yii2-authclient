@@ -28,11 +28,11 @@ class InvalidResponseException extends Exception
     /**
      * Constructor.
      * @param \yii\httpclient\Response $response response body
-     * @param string $message error message
+     * @param string|null $message error message
      * @param int $code error code
-     * @param \Exception $previous The previous exception used for the exception chaining.
+     * @param \Exception|null $previous The previous exception used for the exception chaining.
      */
-    public function __construct($response, $message = null, $code = 0, \Exception $previous = null)
+    public function __construct($response, $message = null, $code = 0, \Exception|null $previous = null)
     {
         $this->response = $response;
         parent::__construct($message, $code, $previous);

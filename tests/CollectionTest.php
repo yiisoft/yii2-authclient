@@ -95,7 +95,7 @@ class CollectionTest extends TestCase
         ];
         $collection->setClients($clients);
 
-        /* @var $provider TestClient */
+        /** @var TestClient $provider */
         $provider = $collection->getClient($clientId);
 
         $this->assertSame($collection->httpClient, $provider->getHttpClient());

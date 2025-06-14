@@ -24,7 +24,7 @@ $userInfo = $client->api('userinfo', 'GET');
 Например:
 
 ```php
-/* @var $client \yii\authclient\OAuth2 */
+/** @var \yii\authclient\OAuth2 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
 // находим пользователя для добавлениея во внешний сервис:
@@ -68,7 +68,7 @@ echo $response->data['id'];
 Например:
 
 ```php
-/* @var $client \yii\authclient\OAuth1 */
+/** @var \yii\authclient\OAuth1 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth1');
 
 $request = $client->createRequest()

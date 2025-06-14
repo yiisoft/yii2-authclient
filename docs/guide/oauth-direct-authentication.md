@@ -21,7 +21,7 @@ For example:
 $loginForm = new LoginForm();
 
 if ($loginForm->load(Yii::$app->request->post()) && $loginForm->validate()) {
-    /* @var $client \yii\authclient\OAuth2 */
+    /** @var \yii\authclient\OAuth2 $client */
     $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
     try {
@@ -45,7 +45,7 @@ You may authenticate client only via this work flow using [[\yii\authclient\OAut
 For example:
 
 ```php
-/* @var $client \yii\authclient\OAuth2 */
+/** @var \yii\authclient\OAuth2 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
 // direct authentication of client only:

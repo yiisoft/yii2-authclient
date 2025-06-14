@@ -1,9 +1,8 @@
 <?php
 use yii\helpers\Json;
-use yii\base\View;
 
 /**
- * @var View $this
+ * @var \yii\base\View $this
  * @var string $url
  * @var bool $enforceRedirect
  */

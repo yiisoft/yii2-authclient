@@ -64,7 +64,7 @@ class AuthHandler
         $id = ArrayHelper::getValue($attributes, 'id');
         $nickname = ArrayHelper::getValue($attributes, 'login');
 
-        /* @var $auth Auth */
+        /** @var Auth $auth */
         $auth = Auth::find()->where([
             'source' => $this->client->getId(),
             'source_id' => $id,
@@ -72,7 +72,7 @@ class AuthHandler
 
         if (Yii::$app->user->isGuest) {
             if ($auth) { // ログイン
-                /* @var User $user */
+                /** @var User $user */
                 $user = $auth->user;
                 $this->updateUserInfo($user);
                 Yii::$app->user->login($user, Yii::$app->params['user.rememberMeDuration']);
@@ -130,7 +130,7 @@ class AuthHandler
                     'source_id' => (string)$attributes['id'],
                 ]);
                 if ($auth->save()) {
-                    /* @var User $user */
+                    /** @var User $user */
                     $user = $auth->user;
                     $this->updateUserInfo($user);
                     Yii::$app->getSession()->setFlash('success', [

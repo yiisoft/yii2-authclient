@@ -206,7 +206,7 @@ class AuthAction extends Action
     {
         $clientId = $this->getClientId();
         if (!empty($clientId)) {
-            /* @var $collection \yii\authclient\Collection */
+            /** @var \yii\authclient\Collection $collection */
             $collection = Yii::$app->get($this->clientCollection);
             if (!$collection->hasClient($clientId)) {
                 throw new NotFoundHttpException("Unknown auth client '{$clientId}'");

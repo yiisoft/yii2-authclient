@@ -45,7 +45,7 @@ class OAuth1Test extends TestCase
             'a' => 'another',
         ]);
 
-        /* @var $oauthSignatureMethod BaseMethod|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var BaseMethod|\PHPUnit_Framework_MockObject_MockObject $oauthSignatureMethod */
         $oauthSignatureMethod = $this->getMockBuilder(BaseMethod::className())
             ->setMethods(['getName', 'generateSignature'])
             ->getMock();

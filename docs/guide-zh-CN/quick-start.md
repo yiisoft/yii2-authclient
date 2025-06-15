@@ -23,7 +23,7 @@ class SiteController extends Controller
     {
         $attributes = $client->getUserAttributes();
 
-        /* @var $auth Auth */
+        /** @var Auth $auth */
         $auth = Auth::find()->where([
             'source' => $client->getId(),
             'source_id' => $attributes['id'],

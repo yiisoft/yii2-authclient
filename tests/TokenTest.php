@@ -2,6 +2,7 @@
 
 namespace yiiunit\extensions\authclient;
 
+use Yii;
 use yii\authclient\OAuthToken;
 
 class TokenTest extends TestCase
@@ -11,6 +12,7 @@ class TokenTest extends TestCase
         $config = [
             'tokenParamKey' => 'test_token_param_key',
             'tokenSecretParamKey' => 'test_token_secret_param_key',
+            'refreshTokenParamKey' => 'test_refresh_token_param_key',
         ];
         $oauthToken = new OAuthToken($config);
         $this->assertTrue(is_object($oauthToken), 'Unable to create access token!');
@@ -27,6 +29,7 @@ class TokenTest extends TestCase
             'tokenSecret' => 'tokenSecret',
             'tokenParamKey' => 'test_token_param_key',
             'tokenSecretParamKey' => 'test_token_secret_param_key',
+            'refreshTokenParamKey' => 'test_refresh_token_param_key',
         ];
         $oauthToken = new OAuthToken($config);
         $this->assertInternalType('object', $oauthToken, 'Unable to create access token!');
@@ -143,5 +146,16 @@ class TokenTest extends TestCase
 
         $oauthToken->createTimestamp = $oauthToken->createTimestamp - ($expireDuration + 1);
         $this->assertFalse($oauthToken->getIsValid(), 'Expired token is valid!');
+    }
+
+    public function testHasRefreshToken()
+    {
+        $oauthToken = new OAuthToken([
+            'params' => [
+                'refresh_token' => 'test_refresh_token',
+            ],
+        ]);
+
+        $this->assertTrue($oauthToken->getHasRefreshToken());
     }
 }

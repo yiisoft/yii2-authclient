@@ -36,6 +36,10 @@ class OAuthToken extends BaseObject
      */
     public $tokenSecretParamKey = 'oauth_token_secret';
     /**
+     * @var string key in [[params]] array, which stores refresh token key.
+     */
+    public $refreshTokenParamKey = 'refresh_token';
+    /**
      * @var int object creation timestamp.
      */
     public $createTimestamp;
@@ -58,6 +62,9 @@ class OAuthToken extends BaseObject
         }
         if (array_key_exists('tokenSecretParamKey', $config)) {
             $this->tokenSecretParamKey = ArrayHelper::remove($config, 'tokenSecretParamKey');
+        }
+        if (array_key_exists('refreshTokenParamKey', $config)) {
+            $this->refreshTokenParamKey = ArrayHelper::remove($config, 'refreshTokenParamKey');
         }
         parent::__construct($config);
     }
@@ -223,5 +230,24 @@ class OAuthToken extends BaseObject
         $token = $this->getToken();
 
         return (!empty($token) && !$this->getIsExpired());
+    }
+
+    public function getRefreshToken()
+    {
+        return $this->getParam($this->refreshTokenParamKey);
+    }
+
+    /**
+     * Sets refresh token.
+     * @param string $refreshToken
+     */
+    public function setRefreshToken($refreshToken)
+    {
+        $this->setParam($this->refreshTokenParamKey, $refreshToken);
+    }
+
+    public function getHasRefreshToken()
+    {
+        return !!$this->getRefreshToken();
     }
 }

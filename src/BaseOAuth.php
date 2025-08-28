@@ -7,9 +7,9 @@
 
 namespace yii\authclient;
 
+use Yii;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
-use Yii;
 use yii\helpers\Inflector;
 use yii\httpclient\Request;
 
@@ -291,7 +291,7 @@ abstract class BaseOAuth extends BaseClient
         $token = $this->getState('token');
         if (is_object($token)) {
             /** @var OAuthToken $token */
-            if ($token->getIsExpired() && $this->autoRefreshAccessToken) {
+            if ($token->getIsExpired() && $this->autoRefreshAccessToken && $token->getHasRefreshToken()) {
                 $token = $this->refreshAccessToken($token);
             }
         }

@@ -27,7 +27,7 @@ class OAuth1Test extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(OAuth1::class)
+        $oauthClient = $this->getMockBuilder(OAuth1::className())
             ->setMethods(['initUserAttributes'])
             ->getMock();
         $oauthClient->apiBaseUrl = 'https://www.google.com';

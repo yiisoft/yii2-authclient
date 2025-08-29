@@ -274,7 +274,7 @@ class BaseOAuthTest extends TestCase
         /**
          * @var BaseOAuth|\PHPUnit_Framework_MockObject_MockObject
          */
-        $oauthClient = $this->getMockBuilder(BaseOAuth::class)
+        $oauthClient = $this->getMockBuilder(BaseOAuth::className())
             ->setMethods(['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes', 'getState'])
             ->getMock();
 
@@ -296,7 +296,7 @@ class BaseOAuthTest extends TestCase
         /**
          * @var BaseOAuth|\PHPUnit_Framework_MockObject_MockObject
          */
-        $oauthClient = $this->getMockBuilder(BaseOAuth::class)
+        $oauthClient = $this->getMockBuilder(BaseOAuth::className())
             ->setMethods(['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes', 'getState'])
             ->getMock();
 

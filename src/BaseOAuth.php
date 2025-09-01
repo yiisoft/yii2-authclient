@@ -291,7 +291,7 @@ abstract class BaseOAuth extends BaseClient
         $token = $this->getState('token');
         if (is_object($token)) {
             /** @var OAuthToken $token */
-            if ($token->getIsExpired() && $this->autoRefreshAccessToken && $token->getHasRefreshToken()) {
+            if ($token->getIsExpired() && $this->autoRefreshAccessToken && $token->hasRefreshToken()) {
                 $token = $this->refreshAccessToken($token);
             }
         }

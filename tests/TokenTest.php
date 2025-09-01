@@ -156,6 +156,6 @@ class TokenTest extends TestCase
             ],
         ]);
 
-        $this->assertTrue($oauthToken->getHasRefreshToken());
+        $this->assertTrue($oauthToken->hasRefreshToken());
     }
 }

@@ -246,7 +246,7 @@ class OAuthToken extends BaseObject
         $this->setParam($this->refreshTokenParamKey, $refreshToken);
     }
 
-    public function getHasRefreshToken()
+    public function hasRefreshToken()
     {
         return !!$this->getRefreshToken();
     }

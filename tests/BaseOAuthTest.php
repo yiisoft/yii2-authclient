@@ -2,9 +2,9 @@
 
 namespace yiiunit\extensions\authclient;
 
-use yii\authclient\signature\PlainText;
-use yii\authclient\OAuthToken;
 use yii\authclient\BaseOAuth;
+use yii\authclient\OAuthToken;
+use yii\authclient\signature\PlainText;
 use yii\httpclient\Client;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
@@ -267,6 +267,54 @@ class BaseOAuthTest extends TestCase
             'Client error' => [400, 'yii\\authclient\\ClientErrorResponseException'],
             'Server error' => [500, 'yii\\authclient\\InvalidResponseException'],
         ];
+    }
 
+    public function testDoNotRestoreAccessTokenWithNoRefreshToken()
+    {
+        /**
+         * @var BaseOAuth|\PHPUnit_Framework_MockObject_MockObject
+         */
+        $oauthClient = $this->getMockBuilder(BaseOAuth::className())
+            ->setMethods(['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes', 'getState'])
+            ->getMock();
+
+        $oauthClient->expects($this->never())
+            ->method('refreshAccessToken');
+
+        $accessToken = new OAuthToken();
+        $accessToken->setExpireDuration(-100);
+
+        $oauthClient->expects($this->once())
+            ->method('getState')
+            ->willReturn($accessToken);
+
+        $this->assertSame($accessToken, $oauthClient->getAccessToken());
+    }
+
+    public function testRestoreAccessTokenWithRefreshToken()
+    {
+        /**
+         * @var BaseOAuth|\PHPUnit_Framework_MockObject_MockObject
+         */
+        $oauthClient = $this->getMockBuilder(BaseOAuth::className())
+            ->setMethods(['composeRequestCurlOptions', 'refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes', 'getState'])
+            ->getMock();
+
+        $oauthClient->expects($this->once())
+            ->method('refreshAccessToken')
+            ->willReturn(new OAuthToken());
+
+        $accessToken = new OAuthToken([
+            'params' => [
+                'refresh_token' => 'test_refresh_token',
+            ],
+        ]);
+        $accessToken->setExpireDuration(-100);
+
+        $oauthClient->expects($this->once())
+            ->method('getState')
+            ->willReturn($accessToken);
+
+        $this->assertNotSame($accessToken, $oauthClient->getAccessToken());
     }
 }

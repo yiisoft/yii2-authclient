@@ -3,8 +3,8 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth1;
-use yii\authclient\signature\BaseMethod;
 use yii\authclient\OAuthToken;
+use yii\authclient\signature\BaseMethod;
 
 class OAuth1Test extends TestCase
 {
@@ -30,6 +30,8 @@ class OAuth1Test extends TestCase
         $oauthClient = $this->getMockBuilder(OAuth1::className())
             ->setMethods(['initUserAttributes'])
             ->getMock();
+        $oauthClient->apiBaseUrl = 'https://www.google.com';
+
         return $oauthClient;
     }
 

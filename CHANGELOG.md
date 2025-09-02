@@ -4,7 +4,8 @@ Yii Framework 2 authclient extension Change Log
 2.2.18 under development
 ------------------------
 
-- Bug #393: Fix type for `BaseOAuth` property - `accessToken` (max-s-lab)
+- Bug #396: Fix `BaseOAuth::refreshAccessToken()` when no refresh token exists (kalmer)
+- Bug #393: Fix type for `BaseOAuth::$accessToken` (max-s-lab)
 
 
 2.2.17 February 13, 2025

@@ -13,7 +13,7 @@ use yii\helpers\Json;
 /**
  * VKontakte allows authentication via VKontakte OAuth.
  *
- * In order to use VKontakte OAuth you must register your application at <https://vk.com/editapp?act=create>.
+ * In order to use VKontakte OAuth you must register your application at <https://vk.ru/editapp?act=create>.
  *
  * Example application configuration:
  *
@@ -34,8 +34,8 @@ use yii\helpers\Json;
  * ]
  * ```
  *
- * @see https://vk.com/editapp?act=create
- * @see https://vk.com/dev/users.get
+ * @see https://vk.ru/editapp?act=create
+ * @see https://vk.ru/dev/users.get
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -45,15 +45,15 @@ class VKontakte extends OAuth2
     /**
      * {@inheritdoc}
      */
-    public $authUrl = 'https://oauth.vk.com/authorize';
+    public $authUrl = 'https://oauth.vk.ru/authorize';
     /**
      * {@inheritdoc}
      */
-    public $tokenUrl = 'https://oauth.vk.com/access_token';
+    public $tokenUrl = 'https://oauth.vk.ru/access_token';
     /**
      * {@inheritdoc}
      */
-    public $apiBaseUrl = 'https://api.vk.com/method';
+    public $apiBaseUrl = 'https://api.vk.ru/method';
     /**
      * @var array list of attribute names, which should be requested from API to initialize user attributes.
      * @since 2.0.4
@@ -73,7 +73,7 @@ class VKontakte extends OAuth2
     ];
     /**
      * @var string the API version to send in the API request.
-     * @see https://vk.com/dev/versions
+     * @see https://vk.ru/dev/versions
      * @since 2.1.4
      */
     public $apiVersion = '5.95';

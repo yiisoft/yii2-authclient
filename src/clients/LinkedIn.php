@@ -8,7 +8,6 @@
 namespace yii\authclient\clients;
 
 use yii\authclient\OAuth2;
-use Yii;
 
 /**
  * LinkedIn allows authentication via LinkedIn OAuth.

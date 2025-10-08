@@ -3,7 +3,6 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\AuthAction;
-use yii\authclient\Collection;
 
 class AuthActionTest extends TestCase
 {

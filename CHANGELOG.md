@@ -6,7 +6,7 @@ Yii Framework 2 authclient extension Change Log
 
 - Enh #398: Updated VKontakte client to use `vk.ru` domains instead of `vk.com` (DMITRII1548)
 - Bug #396: Fix `BaseOAuth::refreshAccessToken()` when no refresh token exists (kalmer)
-- Bug #393: Fix type for `BaseOAuth::$accessToken` (max-s-lab)
+- Bug #393: Fix type for `BaseOAuth::$accessToken` (mspirkov)
 
 2.2.17 February 13, 2025
 ------------------------

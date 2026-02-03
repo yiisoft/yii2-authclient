@@ -7,9 +7,9 @@ Yii Framework 2 authclient extension Change Log
 - Enh #398: Updated VKontakte client to use `vk.ru` domains instead of `vk.com` (DMITRII1548)
 - Bug #396: Fix `BaseOAuth::refreshAccessToken()` when no refresh token exists (kalmer)
 - Bug #393: Fix type for `BaseOAuth::$accessToken` (mspirkov)
-- Enh #: Applying Yii2 coding standards (@s1lver)
-- Enh #: Raise min version to PHP 7.4 (@s1lver)
-- Enh #401: Explicit null in InvalidResponseException constructor (@cyansoftdev)
+- Enh #403: Applying Yii2 coding standards (@s1lver)
+- Enh #403: Raise min version to PHP 7.4 (@s1lver)
+- Enh #401: Explicit null in `InvalidResponseException` constructor (@cyansoftdev)
 
 2.2.17 February 13, 2025
 ------------------------

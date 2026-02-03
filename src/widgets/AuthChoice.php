@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -213,8 +214,8 @@ class AuthChoice extends Widget
         }
         /** @var Widget $widgetClass */
         $widgetClass = $widgetConfig['class'];
-        if (!(is_subclass_of($widgetClass, AuthChoiceItem::className()))) {
-            throw new InvalidConfigException('Item widget class must be subclass of "' . AuthChoiceItem::className() . '"');
+        if (!(is_subclass_of($widgetClass, AuthChoiceItem::class))) {
+            throw new InvalidConfigException('Item widget class must be subclass of "' . AuthChoiceItem::class . '"');
         }
         unset($widgetConfig['class']);
         $widgetConfig['client'] = $client;

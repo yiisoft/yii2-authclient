@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -106,7 +107,6 @@ class LinkedIn extends OAuth2
             if (isset($emails['elements'][0]['handle~']['emailAddress'])) {
                 $attributes['email'] = $emails['elements'][0]['handle~']['emailAddress'];
             }
-
         }
 
         return $attributes;

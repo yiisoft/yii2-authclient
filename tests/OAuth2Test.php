@@ -6,7 +6,7 @@ use yii\authclient\OAuth2;
 
 class OAuth2Test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -25,15 +25,15 @@ class OAuth2Test extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(OAuth2::className())
-            ->setMethods(['initUserAttributes'])
+        $oauthClient = $this->getMockBuilder(OAuth2::class)
+            ->onlyMethods(['initUserAttributes'])
             ->getMock();
         return $oauthClient;
     }
 
     // Tests :
 
-    public function testBuildAuthUrl()
+    public function testBuildAuthUrl(): void
     {
         $oauthClient = $this->createClient();
         $authUrl = 'http://test.auth.url';
@@ -45,12 +45,12 @@ class OAuth2Test extends TestCase
 
         $builtAuthUrl = $oauthClient->buildAuthUrl();
 
-        $this->assertContains($authUrl, $builtAuthUrl, 'No auth URL present!');
-        $this->assertContains($clientId, $builtAuthUrl, 'No client id present!');
-        $this->assertContains(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
+        $this->assertStringContainsString($authUrl, $builtAuthUrl, 'No auth URL present!');
+        $this->assertStringContainsString($clientId, $builtAuthUrl, 'No client id present!');
+        $this->assertStringContainsString(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
 
-    public function testPkceCodeChallengeIsPresentInAuthUrl()
+    public function testPkceCodeChallengeIsPresentInAuthUrl(): void
     {
         $oauthClient = $this->createClient();
         $oauthClient->enablePkce = true;
@@ -61,7 +61,7 @@ class OAuth2Test extends TestCase
 
         $builtAuthUrl = $oauthClient->buildAuthUrl();
 
-        $this->assertContains('code_challenge=', $builtAuthUrl, 'No code challenge Present!');
-        $this->assertContains('code_challenge_method=S256', $builtAuthUrl, 'No code challenge method Present!');
+        $this->assertStringContainsString('code_challenge=', $builtAuthUrl, 'No code challenge Present!');
+        $this->assertStringContainsString('code_challenge_method=S256', $builtAuthUrl, 'No code challenge method Present!');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -138,7 +139,7 @@ class AuthAction extends Action
     public function init()
     {
         parent::init();
-        $this->user = Instance::ensure($this->user, User::className());
+        $this->user = Instance::ensure($this->user, User::class);
     }
 
     /**

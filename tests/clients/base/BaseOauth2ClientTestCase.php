@@ -33,7 +33,7 @@ abstract class BaseOauth2ClientTestCase extends TestCase
         return 'access_token';
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -46,7 +46,7 @@ abstract class BaseOauth2ClientTestCase extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
-    public function testTokenLocation()
+    public function testTokenLocation(): void
     {
         $tokenLocation = $this->getExpectedTokenLocation();
         $client = $this->createClient();

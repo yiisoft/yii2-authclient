@@ -7,7 +7,7 @@ use yiiunit\extensions\authclient\TestCase;
 
 class HmacShaTest extends TestCase
 {
-    public function testGenerateSignature()
+    public function testGenerateSignature(): void
     {
         $signatureMethod = new HmacSha(['algorithm' => 'sha256']);
 

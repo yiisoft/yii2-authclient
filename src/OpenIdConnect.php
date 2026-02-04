@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -190,7 +191,7 @@ class OpenIdConnect extends OAuth2
     public function getCache()
     {
         if ($this->_cache !== null && !is_object($this->_cache)) {
-            $this->_cache = Instance::ensure($this->_cache, Cache::className());
+            $this->_cache = Instance::ensure($this->_cache, Cache::class);
         }
         return $this->_cache;
     }
@@ -469,11 +470,9 @@ class OpenIdConnect extends OAuth2
     {
         if ($this->_jwsLoader === null) {
             $algorithms = [];
-            foreach ($this->allowedJwsAlgorithms as $algorithm)
-            {
+            foreach ($this->allowedJwsAlgorithms as $algorithm) {
                 $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
-                if (!class_exists($class))
-                {
+                if (!class_exists($class)) {
                     throw new InvalidConfigException("Alogrithm class $class doesn't exist");
                 }
                 $algorithms[] = new $class();
@@ -521,7 +520,8 @@ class OpenIdConnect extends OAuth2
         if (!isset($claims['iss']) || (strcmp(rtrim($claims['iss'], '/'), rtrim($expectedIssuer, '/')) !== 0)) {
             throw new HttpException(400, 'Invalid "iss"');
         }
-        if (!isset($claims['aud'])
+        if (
+            !isset($claims['aud'])
             || (!is_string($claims['aud']) && !is_array($claims['aud']))
             || (is_string($claims['aud']) && strcmp($claims['aud'], $this->clientId) !== 0)
             || (is_array($claims['aud']) && !in_array($this->clientId, $claims['aud']))

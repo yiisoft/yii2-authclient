@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -70,7 +71,7 @@ class GooglePlusButton extends AuthChoiceItem
     public function init()
     {
         if (!($this->client instanceof GoogleHybrid)) {
-            throw new InvalidConfigException('"' . $this->className() . '::client" must be instance of "' . GoogleHybrid::className() . '"');
+            throw new InvalidConfigException('"' . self::class . '::client" must be instance of "' . GoogleHybrid::class . '"');
         }
     }
 

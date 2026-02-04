@@ -8,7 +8,7 @@ use yii\caching\ArrayCache;
 
 class OpenIdConnectTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -21,7 +21,7 @@ class OpenIdConnectTest extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
-    public function testDiscoverConfig()
+    public function testDiscoverConfig(): void
     {
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
@@ -41,7 +41,7 @@ class OpenIdConnectTest extends TestCase
     /**
      * @depends testDiscoverConfig
      */
-    public function testDiscoverConfigCache()
+    public function testDiscoverConfigCache(): void
     {
         $cache = new ArrayCache();
 
@@ -71,7 +71,7 @@ class OpenIdConnectTest extends TestCase
     /**
      * @depends testDiscoverConfig
      */
-    public function testBuildAuthUrl()
+    public function testBuildAuthUrl(): void
     {
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
@@ -85,11 +85,11 @@ class OpenIdConnectTest extends TestCase
         $builtAuthUrl = $authClient->buildAuthUrl();
 
         $this->assertNotEmpty($authClient->authUrl);
-        $this->assertContains($clientId, $builtAuthUrl, 'No client id present!');
-        $this->assertContains(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
+        $this->assertStringContainsString($clientId, $builtAuthUrl, 'No client id present!');
+        $this->assertStringContainsString(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
 
-    public function testNonce()
+    public function testNonce(): void
     {
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
@@ -112,7 +112,7 @@ class OpenIdConnectTest extends TestCase
         $this->assertEquals($query_vars['nonce'], $nonce);
     }
 
-    public function testUserInfoFromToken()
+    public function testUserInfoFromToken(): void
     {
         $accessToken = new OAuthToken([
             'params' => [
@@ -132,10 +132,10 @@ class OpenIdConnectTest extends TestCase
         $this->assertEquals(['sub' => '123'], $userAttributes);
     }
 
-    public function testUserInfoFromUserInfoTokenResponse()
+    public function testUserInfoFromUserInfoTokenResponse(): void
     {
         /** @var OpenIdConnect $oidcClient */
-        $oidcClient = $this->getMockBuilder(OpenIdConnect::className())
+        $oidcClient = $this->getMockBuilder(OpenIdConnect::class)
             ->setMethods(['api'])
             ->getMock();
 

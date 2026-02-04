@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -329,7 +330,7 @@ abstract class BaseClient extends Component implements ClientInterface
      */
     protected function createHttpClient($reference)
     {
-        return Instance::ensure($reference, Client::className());
+        return Instance::ensure($reference, Client::class);
     }
 
     /**

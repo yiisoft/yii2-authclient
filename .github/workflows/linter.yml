@@ -1,0 +1,28 @@
+name: linter
+
+permissions:
+  contents: read
+
+on:
+  pull_request: &ignore-paths
+    paths-ignore:
+      - 'docs/**'
+      - '.github/CONTRIBUTING.md'
+      - '.github/FUNDING.yml'
+      - '.github/SECURITY.md'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'LICENSE.md'
+      - '.gitignore'
+      - '.gitattributes'
+      - '.editorconfig'
+      - 'docker-compose.yml'
+      - 'Makefile'
+
+  push: *ignore-paths
+
+jobs:
+  phpcs:
+    uses: yiisoft/yii2-actions/.github/workflows/linter.yml@master
+    with:
+      directories: src/ tests/

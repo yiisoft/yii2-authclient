@@ -7,7 +7,7 @@ use yiiunit\extensions\authclient\TestCase;
 
 class PlainTextTest extends TestCase
 {
-    public function testGenerateSignature()
+    public function testGenerateSignature(): void
     {
         $signatureMethod = new PlainText();
 

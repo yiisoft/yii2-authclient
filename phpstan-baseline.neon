@@ -1,0 +1,2365 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property yii\\console\\Response\|yii\\web\\Response\:\:\$content\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 8
+			path: src/AuthAction.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:getQueryParam\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:post\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/AuthAction.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Response\|yii\\web\\Response\:\:redirect\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/AuthAction.php
+
+		-
+			message: '#^Call to function is_callable\(\) with callable\(\)\: mixed will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Cannot access property \$loginUrl on array\|string\|yii\\web\\User\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Cannot call method getReturnUrl\(\) on array\|string\|yii\\web\\User\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Class yii\\authclient\\AuthAction extends generic class yii\\base\\Action but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Method yii\\authclient\\AuthAction\:\:auth\(\) has parameter \$authUrlParams with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Method yii\\authclient\\AuthAction\:\:authOAuth1\(\) has parameter \$authUrlParams with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Method yii\\authclient\\AuthAction\:\:authOAuth2\(\) has parameter \$authUrlParams with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Method yii\\authclient\\AuthAction\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Method yii\\authclient\\AuthAction\:\:redirect\(\) should return yii\\web\\Response but returns yii\\console\\Response\|yii\\web\\Response\.$#'
+			identifier: return.type
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Method yii\\authclient\\AuthAction\:\:run\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Method yii\\authclient\\AuthAction\:\:setCancelUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Method yii\\authclient\\AuthAction\:\:setSuccessUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Parameter \#1 \$url of static method yii\\helpers\\BaseUrl\:\:to\(\) expects array\|string, array\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Property yii\\authclient\\AuthAction\:\:\$user type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Property yii\\authclient\\AuthAction\:\:\$user with generic class yii\\web\\User does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between string and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Variable \$token in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property for property \$normalizeUserAttributeMap with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property for property \$userAttributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property for property \$viewOptions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property\-read for property \$requestOptions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:createHttpClient\(\) has parameter \$reference with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:defaultNormalizeUserAttributeMap\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:defaultRequestOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:defaultViewOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:getNormalizeUserAttributeMap\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:getRequestOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:getUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:getViewOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:normalizeUserAttributes\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:normalizeUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setHttpClient\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setHttpClient\(\) has parameter \$httpClient with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setNormalizeUserAttributeMap\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setNormalizeUserAttributeMap\(\) has parameter \$normalizeUserAttributeMap with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setRequestOptions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setRequestOptions\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setStateStorage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setStateStorage\(\) has parameter \$stateStorage with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setTitle\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setUserAttributes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setUserAttributes\(\) has parameter \$userAttributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setViewOptions\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseClient\:\:setViewOptions\(\) has parameter \$viewOptions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Parameter \#1 \$key of function array_key_exists expects int\|string, bool\|float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Parameter \#1 \$type of static method yii\\BaseYii\<yii\\web\\IdentityInterface\>\:\:createObject\(\) expects array\{class\?\: class\-string\<mixed\>, __class\?\: class\-string\<mixed\>\}\|\(callable\(\)\: mixed\)\|class\-string\<mixed\>, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseClient\:\:\$_httpClient type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseClient\:\:\$_normalizeUserAttributeMap type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseClient\:\:\$_requestOptions type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseClient\:\:\$_stateStorage type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseClient\:\:\$_userAttributes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseClient\:\:\$_viewOptions type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to static method yii\\BaseYii\<yii\\web\\IdentityInterface\>\:\:createObject\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:getQueryParams\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Cannot call method getRoute\(\) on yii\\console\\Controller\<yii\\base\\Module\>\|yii\\web\\Controller\<yii\\base\\Module\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:api\(\) has parameter \$apiSubUrl with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:api\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:api\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:api\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:api\(\) should return array but returns array\|string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:beforeApiRequestSend\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:composeUrl\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:createHttpClient\(\) has parameter \$reference with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:createSignatureMethod\(\) has parameter \$signatureMethodConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:createToken\(\) has parameter \$tokenConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:defaultRequestOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:sendRequest\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:setAccessToken\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:setAccessToken\(\) has parameter \$token with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:setHttpClient\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:setHttpClient\(\) has parameter \$httpClient with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:setReturnUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:setSignatureMethod\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Method yii\\authclient\\BaseOAuth\:\:setSignatureMethod\(\) has parameter \$signatureMethod with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function stripos expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseOAuth\:\:\$_accessToken \(array\|yii\\authclient\\OAuthToken\|null\) is never assigned array so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseOAuth\:\:\$_accessToken type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseOAuth\:\:\$_signatureMethod type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Property yii\\authclient\\BaseOAuth\:\:\$parametersToKeepInReturnUrl type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to static method yii\\BaseYii\<yii\\web\\IdentityInterface\>\:\:createObject\(\)$#'
+			identifier: argument.templateType
+			count: 2
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Cannot call method delete\(\) on array\|string\|yii\\caching\\Cache\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Cannot call method get\(\) on array\|string\|yii\\caching\\Cache\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Cannot call method set\(\) on array\|string\|yii\\caching\\Cache\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Method yii\\authclient\\CacheStateStorage\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Method yii\\authclient\\CacheStateStorage\:\:set\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Property yii\\authclient\\CacheStateStorage\:\:\$cache \(array\|string\|yii\\caching\\Cache\) does not accept object\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Property yii\\authclient\\CacheStateStorage\:\:\$cache type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Property yii\\authclient\\CacheStateStorage\:\:\$prefix has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Method yii\\authclient\\ClientInterface\:\:getUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ClientInterface.php
+
+		-
+			message: '#^Method yii\\authclient\\ClientInterface\:\:getViewOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ClientInterface.php
+
+		-
+			message: '#^Method yii\\authclient\\ClientInterface\:\:setId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/ClientInterface.php
+
+		-
+			message: '#^Method yii\\authclient\\ClientInterface\:\:setName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/ClientInterface.php
+
+		-
+			message: '#^Method yii\\authclient\\ClientInterface\:\:setTitle\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/ClientInterface.php
+
+		-
+			message: '#^Method yii\\authclient\\Collection\:\:createClient\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Collection.php
+
+		-
+			message: '#^Method yii\\authclient\\Collection\:\:getClient\(\) should return yii\\authclient\\ClientInterface but returns object\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Collection.php
+
+		-
+			message: '#^Method yii\\authclient\\Collection\:\:setClients\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Collection.php
+
+		-
+			message: '#^Method yii\\authclient\\Collection\:\:setClients\(\) has parameter \$clients with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Collection.php
+
+		-
+			message: '#^Property yii\\authclient\\Collection\:\:\$_clients type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Collection.php
+
+		-
+			message: '#^Property yii\\authclient\\Collection\:\:\$httpClient type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Collection.php
+
+		-
+			message: '#^Unable to resolve the template type T in call to static method yii\\BaseYii\<yii\\web\\IdentityInterface\>\:\:createObject\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Collection.php
+
+		-
+			message: '#^Parameter \#1 \$message of method Exception\:\:__construct\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/InvalidResponseException.php
+
+		-
+			message: '#^Call to an undefined method object\:\:getToken\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: src/OAuth1.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/OAuth1.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:post\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:beforeRequestSend\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:buildAuthUrl\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:composeAuthorizationHeader\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:composeAuthorizationHeader\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:composeSignatureBaseString\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:fetchAccessToken\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:fetchRequestToken\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:generateCommonRequestParams\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:refreshAccessToken\(\) should return yii\\authclient\\OAuthToken but returns null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth1\:\:signRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Parameter \#2 \$token of method yii\\authclient\\OAuth1\:\:signRequest\(\) expects yii\\authclient\\OAuthToken\|null, object given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Property yii\\authclient\\OAuth1\:\:\$authorizationHeaderMethods type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Access to an undefined property yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\:\:\$session\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:post\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:applyClientCredentialsToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:authenticateClient\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:authenticateUser\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:authenticateUserJwt\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:authenticateUserJwt\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:authenticateUserJwt\(\) has parameter \$signature with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:buildAuthUrl\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:createToken\(\) has parameter \$tokenConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuth2\:\:fetchAccessToken\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Class yii\\authclient\\OAuthToken has PHPDoc tag @property\-read for property \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:getParams\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:getRefreshToken\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:hasRefreshToken\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:setExpireDuration\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:setExpireDurationParamKey\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:setParam\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:setParams\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:setParams\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:setRefreshToken\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:setToken\(\) should return \$this\(yii\\authclient\\OAuthToken\) but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Method yii\\authclient\\OAuthToken\:\:setTokenSecret\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Property yii\\authclient\\OAuthToken\:\:\$_params type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OAuthToken.php
+
+		-
+			message: '#^Argument of an invalid type array\<string, int\|string\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: src/OpenId.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:getHostInfo\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:post\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Cannot access offset ''fragment''\|''host''\|''pass''\|''path''\|''port''\|''scheme''\|''user'' on array\{scheme\?\: string, host\?\: string, port\?\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Cannot access offset ''query'' on array\{scheme\?\: string, host\?\: string, port\?\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:buildAuthUrlV1\(\) has parameter \$serverInfo with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:buildAuthUrlV2\(\) has parameter \$serverInfo with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:buildAxParams\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:buildSregParams\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:buildUrl\(\) has parameter \$additionalUrl with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:defaultRequestOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:discover\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:fetchAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:fetchAxAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:fetchSregAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:getTrustRoot\(\) should return string but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:sendRequest\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:sendRequest\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:setClaimedId\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:setReturnUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenId\:\:setTrustRoot\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#1 \$arr1 of function array_diff_assoc expects an array of values castable to string, array\<int\|string, array\<mixed\>\|string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#1 \$arr1 of function array_merge expects array, array\<string, int\|string\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#1 \$content of method yii\\authclient\\OpenId\:\:extractHtmlTagValue\(\) expects string, array\|string given\.$#'
+			identifier: argument.type
+			count: 5
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#1 \$encoded_string of function parse_str expects string, int\<0, 65535\>\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#2 \$additionalUrl of method yii\\authclient\\OpenId\:\:buildUrl\(\) expects array\|string, string\|true given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#2 \$arr2 of function array_diff_assoc expects an array of values castable to string, array\<int\|string, array\<mixed\>\|string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#2 \$subject of function preg_match expects string, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#2 \$subject of function preg_match_all expects string, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$args of function array_merge expects array, array\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenId\:\:\$_trustRoot \(string\) does not accept string\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenId\:\:\$axToSregMap type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenId\:\:\$data type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenId\:\:\$optionalAttributes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenId\:\:\$requiredAttributes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Variable \$content in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.variable
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Variable \$optionalAttributes in empty\(\) always exists and is always falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Variable \$requiredAttributes in empty\(\) always exists and is always falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Call to method loadAndVerifyWithKeySet\(\) on an unknown class Jose\\Component\\Signature\\JWSLoader\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Call to static method createFromValues\(\) on an unknown class Jose\\Component\\KeyManagement\\JWKFactory\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Class yii\\authclient\\OpenIdConnect has PHPDoc tag @property for property \$configParams with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Instantiated class Jose\\Component\\Checker\\AlgorithmChecker not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Instantiated class Jose\\Component\\Checker\\HeaderCheckerManager not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Instantiated class Jose\\Component\\Core\\AlgorithmManager not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Instantiated class Jose\\Component\\Signature\\JWSLoader not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Instantiated class Jose\\Component\\Signature\\JWSTokenSupport not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Instantiated class Jose\\Component\\Signature\\JWSVerifier not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Instantiated class Jose\\Component\\Signature\\Serializer\\CompactSerializer not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Instantiated class Jose\\Component\\Signature\\Serializer\\JWSSerializerManager not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:applyClientCredentialsToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:buildAuthUrl\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:createToken\(\) has parameter \$tokenConfig with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:discoverConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:discoverConfig\(\) should return array but returns array\|string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:fetchAccessToken\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:getConfigParams\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:getJwkSet\(\) has invalid return type yii\\authclient\\JWKSet\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:getJwsLoader\(\) has invalid return type Jose\\Component\\Signature\\JWSLoader\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:loadJws\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:setCache\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:setCache\(\) has parameter \$cache with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:setConfigParams\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:setConfigParams\(\) has parameter \$configParams with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:setValidateAuthNonce\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:validateClaims\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Method yii\\authclient\\OpenIdConnect\:\:validateClaims\(\) has parameter \$claims with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenIdConnect\:\:\$_cache \(string\|yii\\caching\\Cache\) does not accept array\|string\|yii\\caching\\Cache\|null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenIdConnect\:\:\$_configParams type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenIdConnect\:\:\$_jwkSet has unknown class yii\\authclient\\JWKSet as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenIdConnect\:\:\$_jwsLoader has unknown class Jose\\Component\\Signature\\JWSLoader as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenIdConnect\:\:\$allowedJwsAlgorithms type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Property yii\\authclient\\OpenIdConnect\:\:\$defaultIdTokenClaims type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Cannot call method get\(\) on array\|string\|yii\\web\\Session\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Cannot call method remove\(\) on array\|string\|yii\\web\\Session\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Cannot call method set\(\) on array\|string\|yii\\web\\Session\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Method yii\\authclient\\SessionStateStorage\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Method yii\\authclient\\SessionStateStorage\:\:set\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Property yii\\authclient\\SessionStateStorage\:\:\$session \(array\|string\|yii\\web\\Session\) does not accept object\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Property yii\\authclient\\SessionStateStorage\:\:\$session type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Method yii\\authclient\\StateStorageInterface\:\:set\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/StateStorageInterface.php
+
+		-
+			message: '#^Cannot call method getToken\(\) on yii\\authclient\\OAuthToken\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Facebook\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Facebook\:\:defaultViewOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Facebook\:\:fetchAccessToken\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Facebook\:\:fetchClientAccessToken\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Facebook\:\:fetchClientAuthCode\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Facebook\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Offset ''code'' might not exist on array\|string\|null\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Property yii\\authclient\\clients\\Facebook\:\:\$attributeNames type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Facebook.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\GitHub\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/GitHub.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\GitHub\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/GitHub.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\GitHub\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/GitHub.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Google\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/Google.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Google\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Google.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\GoogleHybrid\:\:defaultViewOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/GoogleHybrid.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\LinkedIn\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/LinkedIn.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\LinkedIn\:\:defaultNormalizeUserAttributeMap\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/LinkedIn.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\LinkedIn\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/LinkedIn.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\LinkedIn\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/LinkedIn.php
+
+		-
+			message: '#^Property yii\\authclient\\clients\\LinkedIn\:\:\$attributeNames type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/LinkedIn.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Live\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/Live.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Live\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Live.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Oauth2Client\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Oauth2Client.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Twitter\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Twitter.php
+
+		-
+			message: '#^Property yii\\authclient\\clients\\Twitter\:\:\$attributeParams type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Twitter.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\TwitterOAuth2\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/TwitterOAuth2.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\VKontakte\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/VKontakte.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\VKontakte\:\:defaultNormalizeUserAttributeMap\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/VKontakte.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\VKontakte\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/VKontakte.php
+
+		-
+			message: '#^Property yii\\authclient\\clients\\VKontakte\:\:\$attributeNames type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/VKontakte.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Yandex\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/clients/Yandex.php
+
+		-
+			message: '#^Method yii\\authclient\\clients\\Yandex\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/clients/Yandex.php
+
+		-
+			message: '#^Method yii\\authclient\\signature\\HmacSha\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/signature/HmacSha.php
+
+		-
+			message: '#^Method yii\\authclient\\signature\\RsaSha\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/signature/RsaSha.php
+
+		-
+			message: '#^Method yii\\authclient\\signature\\RsaSha\:\:initPrivateCertificate\(\) should return string but returns string\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/signature/RsaSha.php
+
+		-
+			message: '#^Method yii\\authclient\\signature\\RsaSha\:\:initPublicCertificate\(\) should return string but returns string\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/signature/RsaSha.php
+
+		-
+			message: '#^Method yii\\authclient\\signature\\RsaSha\:\:setPrivateCertificate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/signature/RsaSha.php
+
+		-
+			message: '#^Method yii\\authclient\\signature\\RsaSha\:\:setPublicCertificate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/signature/RsaSha.php
+
+		-
+			message: '#^Parameter \#1 \$key_identifier of function openssl_free_key expects resource, resource\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/signature/RsaSha.php
+
+		-
+			message: '#^Parameter \#3 \$priv_key_id of function openssl_sign expects resource\|string, resource\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/signature/RsaSha.php
+
+		-
+			message: '#^Parameter \#3 \$pub_key_id of function openssl_verify expects resource\|string, resource\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/signature/RsaSha.php
+
+		-
+			message: '#^Call to an undefined method yii\\base\\View\:\:registerJs\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:getQueryParams\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Cannot call method getRoute\(\) on yii\\console\\Controller\<yii\\base\\Module\>\|yii\\web\\Controller\<yii\\base\\Module\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Class yii\\authclient\\widgets\\AuthChoice has PHPDoc tag @property\-read for property \$baseAuthUrl with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\AuthChoice\:\:clientLink\(\) has parameter \$htmlOptions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\AuthChoice\:\:defaultBaseAuthUrl\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\AuthChoice\:\:getBaseAuthUrl\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\AuthChoice\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\AuthChoice\:\:setBaseAuthUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\AuthChoice\:\:setBaseAuthUrl\(\) has parameter \$baseAuthUrl with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\AuthChoice\:\:setClients\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Parameter \#1 \$view of static method yii\\web\\AssetBundle\:\:register\(\) expects yii\\web\\View, yii\\base\\View given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Property yii\\authclient\\widgets\\AuthChoice\:\:\$_baseAuthUrl type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Property yii\\authclient\\widgets\\AuthChoice\:\:\$clientOptions type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Property yii\\authclient\\widgets\\AuthChoice\:\:\$options type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Access to an undefined property yii\\authclient\\ClientInterface\:\:\$clientId\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Access to an undefined property yii\\authclient\\ClientInterface\:\:\$scope\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\GooglePlusButton\:\:generateCallback\(\) has parameter \$url with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\GooglePlusButton\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\GooglePlusButton\:\:registerClientScript\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\GooglePlusButton\:\:setCallback\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Method yii\\authclient\\widgets\\GooglePlusButton\:\:setCallback\(\) has parameter \$callback with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Parameter \#1 \$str of function md5 expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Property yii\\authclient\\widgets\\GooglePlusButton\:\:\$_callback type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Property yii\\authclient\\widgets\\GooglePlusButton\:\:\$buttonHtmlOptions type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Parameter \#1 \$id of class yii\\authclient\\AuthAction constructor expects string, null given\.$#'
+			identifier: argument.type
+			count: 5
+			path: tests/AuthActionTest.php
+
+		-
+			message: '#^Parameter \#2 \$controller of class yii\\authclient\\AuthAction constructor expects yii\\base\\Controller, null given\.$#'
+			identifier: argument.type
+			count: 5
+			path: tests/AuthActionTest.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of method PHPUnit\\Framework\\Assert\:\:assertStringContainsString\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/AuthActionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertNotNull\(\) with array and ''Unable to get…'' will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 2
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true and ''Unable to get…'' will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true and ''Unable to setup…'' will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Instanceof between yii\\httpclient\\Client and yii\\httpclient\\Client will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 2
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Instanceof between yii\\httpclient\\Request and yii\\httpclient\\Request will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseClientTest\:\:dataProviderNormalizeUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseClientTest\:\:testNormalizeUserAttributes\(\) has parameter \$expectedNormalizedUserAttributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseClientTest\:\:testNormalizeUserAttributes\(\) has parameter \$normalizeUserAttributeMap with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseClientTest\:\:testNormalizeUserAttributes\(\) has parameter \$rawUserAttributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseClientTest\:\:testSetGet\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/BaseClientTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Call to method expects\(\) on an unknown class PHPUnit_Framework_MockObject_MockObject\.$#'
+			identifier: class.notFound
+			count: 4
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Call to method getAccessToken\(\) on an unknown class PHPUnit_Framework_MockObject_MockObject\.$#'
+			identifier: class.notFound
+			count: 2
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Cannot call method getToken\(\) on yii\\authclient\\OAuthToken\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Instanceof between yii\\authclient\\OAuthToken and yii\\authclient\\OAuthToken will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:apiUrlDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:composeUrlDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:defaultReturnUrlDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:sendRequestDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testApiUrl\(\) has parameter \$apiBaseUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testApiUrl\(\) has parameter \$apiSubUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testApiUrl\(\) has parameter \$expectedApiFullUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testComposeUrl\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testDefaultReturnUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testDefaultReturnUrl\(\) has parameter \$expectedReturnUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testDefaultReturnUrl\(\) has parameter \$parametersToKeepInReturnUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testDefaultReturnUrl\(\) has parameter \$requestQueryParams with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testSendRequest\(\) has parameter \$expectedException with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\BaseOAuthTest\:\:testSendRequest\(\) has parameter \$responseStatusCode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^PHPDoc tag @var contains unknown class PHPUnit_Framework_MockObject_MockObject\.$#'
+			identifier: class.notFound
+			count: 2
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^PHPDoc tag @var with type PHPUnit_Framework_MockObject_MockObject&yii\\authclient\\BaseOAuth is not subtype of native type PHPUnit\\Framework\\MockObject\\MockObject\.$#'
+			identifier: varTag.nativeType
+			count: 2
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Parameter \#1 \$expireDuration of method yii\\authclient\\OAuthToken\:\:setExpireDuration\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 3
+			path: tests/BaseOAuthTest.php
+
+		-
+			message: '#^Call to function is_object\(\) with yii\\authclient\\ClientInterface will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: tests/CollectionTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true and ''Unable to create…'' will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/CollectionTest.php
+
+		-
+			message: '#^Call to method expects\(\) on an unknown class PHPUnit_Framework_MockObject_MockObject\.$#'
+			identifier: class.notFound
+			count: 2
+			path: tests/OAuth1Test.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\OAuth1Test\:\:composeAuthorizationHeaderDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/OAuth1Test.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\OAuth1Test\:\:testComposeAuthorizationHeader\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/OAuth1Test.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$oauthSignatureMethod contains unknown class PHPUnit_Framework_MockObject_MockObject\.$#'
+			identifier: class.notFound
+			count: 1
+			path: tests/OAuth1Test.php
+
+		-
+			message: '#^PHPDoc tag @var with type PHPUnit_Framework_MockObject_MockObject&yii\\authclient\\signature\\BaseMethod is not subtype of native type PHPUnit\\Framework\\MockObject\\MockObject\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: tests/OAuth1Test.php
+
+		-
+			message: '#^Call to an undefined method yii\\authclient\\OpenIdConnect\:\:expects\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: tests/OpenIdConnectTest.php
+
+		-
+			message: '#^Cannot access offset ''query'' on array\{scheme\?\: string, host\?\: string, port\?\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/OpenIdConnectTest.php
+
+		-
+			message: '#^PHPDoc tag @var with type yii\\authclient\\OpenIdConnect is not subtype of native type PHPUnit\\Framework\\MockObject\\MockObject\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: tests/OpenIdConnectTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\OpenIdTest\:\:dataProviderCompareUrl\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/OpenIdTest.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: tests/OpenIdTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TestCase\:\:invoke\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TestCase\:\:mockApplication\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TestCase\:\:mockApplication\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TestCase\:\:mockWebApplication\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TestCase\:\:mockWebApplication\(\) has parameter \$appClass with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TestCase\:\:mockWebApplication\(\) has parameter \$config with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: '#^Property yiiunit\\extensions\\authclient\\TestCase\:\:\$params has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: '#^Static property yii\\BaseYii\<yii\\web\\IdentityInterface\>\:\:\$app \(yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\) does not accept null\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: tests/TestCase.php
+
+		-
+			message: '#^Call to function is_object\(\) with yii\\authclient\\OAuthToken will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: tests/TokenTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertIsObject\(\) with yii\\authclient\\OAuthToken and ''Unable to create…'' will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/TokenTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true and ''Unable to create…'' will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/TokenTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TokenTest\:\:autoFetchExpireDurationDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/TokenTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TokenTest\:\:testAutoFetchExpireDuration\(\) has parameter \$expectedExpireDuration with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/TokenTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\TokenTest\:\:testAutoFetchExpireDuration\(\) has parameter \$params with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/TokenTest.php
+
+		-
+			message: '#^Parameter \#1 \$expireDuration of method yii\\authclient\\OAuthToken\:\:setExpireDuration\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: tests/TokenTest.php
+
+		-
+			message: '#^Parameter \#1 \$expireDuration of method yii\\authclient\\OAuthToken\:\:setExpireDuration\(\) expects string, int\<1000, 2000\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/TokenTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleHybridTest\:\:defaultReturnUrlDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/clients/GoogleHybridTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleHybridTest\:\:testDefaultReturnUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/clients/GoogleHybridTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleHybridTest\:\:testDefaultReturnUrl\(\) has parameter \$expectedReturnUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/clients/GoogleHybridTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleHybridTest\:\:testDefaultReturnUrl\(\) has parameter \$parametersToKeepInReturnUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/clients/GoogleHybridTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleHybridTest\:\:testDefaultReturnUrl\(\) has parameter \$requestQueryParams with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/clients/GoogleHybridTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/clients/GoogleTest.php
+
+		-
+			message: '#^Instanceof between yii\\authclient\\OAuthToken and yii\\authclient\\OAuthToken will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: tests/clients/GoogleTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleTest\:\:defaultReturnUrlDataProvider\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/clients/GoogleTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleTest\:\:testDefaultReturnUrl\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/clients/GoogleTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleTest\:\:testDefaultReturnUrl\(\) has parameter \$expectedReturnUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/clients/GoogleTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleTest\:\:testDefaultReturnUrl\(\) has parameter \$parametersToKeepInReturnUrl with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/clients/GoogleTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\GoogleTest\:\:testDefaultReturnUrl\(\) has parameter \$requestQueryParams with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/clients/GoogleTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\LinkedInTest\:\:getAccessTokenBodyParamName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/clients/LinkedInTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\YandexTest\:\:getAccessTokenBodyParamName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/clients/YandexTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\clients\\base\\BaseOauth2ClientTestCase\:\:getAccessTokenBodyParamName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/clients/base/BaseOauth2ClientTestCase.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\data\\Session\:\:init\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/data/Session.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\data\\Session\:\:open\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: tests/data/Session.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\data\\TestClient\:\:initUserAttributes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/data/TestClient.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\signature\\RsaShaTest\:\:dataProviderGetName\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: tests/signature/RsaShaTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\signature\\RsaShaTest\:\:testGetName\(\) has parameter \$algorithm with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/signature/RsaShaTest.php
+
+		-
+			message: '#^Method yiiunit\\extensions\\authclient\\signature\\RsaShaTest\:\:testGetName\(\) has parameter \$expectedName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: tests/signature/RsaShaTest.php

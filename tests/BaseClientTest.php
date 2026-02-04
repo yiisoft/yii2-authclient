@@ -7,7 +7,7 @@ use yii\authclient\SessionStateStorage;
 
 class BaseClientTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->mockApplication();
     }
@@ -18,8 +18,8 @@ class BaseClientTest extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(BaseClient::className())
-            ->setMethods(['initUserAttributes'])
+        $oauthClient = $this->getMockBuilder(BaseClient::class)
+            ->onlyMethods(['initUserAttributes'])
             ->getMock();
         return $oauthClient;
     }
@@ -71,7 +71,7 @@ class BaseClientTest extends TestCase
         $this->assertEquals($requestOptions, $client->getRequestOptions(), 'Unable to setup request options!');
     }
 
-    public function testGetDefaults()
+    public function testGetDefaults(): void
     {
         $client = $this->createClient();
 
@@ -85,7 +85,7 @@ class BaseClientTest extends TestCase
      * Data provider for [[testNormalizeUserAttributes()]]
      * @return array test data
      */
-    public function dataProviderNormalizeUserAttributes()
+    public function dataProviderNormalizeUserAttributes(): array
     {
         return [
             [
@@ -106,7 +106,7 @@ class BaseClientTest extends TestCase
                 [
                     'name' => function ($attributes) {
                             return $attributes['firstName'] . ' ' . $attributes['lastName'];
-                        },
+                    },
                 ],
                 [
                     'firstName' => 'John',
@@ -166,7 +166,7 @@ class BaseClientTest extends TestCase
      * @param array $rawUserAttributes
      * @param array $expectedNormalizedUserAttributes
      */
-    public function testNormalizeUserAttributes($normalizeUserAttributeMap, $rawUserAttributes, $expectedNormalizedUserAttributes)
+    public function testNormalizeUserAttributes($normalizeUserAttributeMap, $rawUserAttributes, $expectedNormalizedUserAttributes): void
     {
         $client = $this->createClient();
         $client->setNormalizeUserAttributeMap($normalizeUserAttributeMap);
@@ -177,7 +177,7 @@ class BaseClientTest extends TestCase
         $this->assertEquals(array_merge($rawUserAttributes, $expectedNormalizedUserAttributes), $normalizedUserAttributes);
     }
 
-    public function testSetupHttpClient()
+    public function testSetupHttpClient(): void
     {
         $client = $this->createClient();
 
@@ -198,7 +198,7 @@ class BaseClientTest extends TestCase
      * @depends testSetGet
      * @depends testSetupHttpClient
      */
-    public function testCreateRequest()
+    public function testCreateRequest(): void
     {
         $client = $this->createClient();
 
@@ -214,7 +214,7 @@ class BaseClientTest extends TestCase
         $this->assertEquals($expectedOptions, $request->getOptions());
     }
 
-    public function testSetupStateStorage()
+    public function testSetupStateStorage(): void
     {
         $client = $this->createClient();
 

@@ -443,7 +443,7 @@ class OpenIdConnect extends OAuth2
     {
         if ($this->_jwkSet === null) {
             $cache = $this->getCache();
-            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId() . '_' . $this->issuerUrl .  '_jwkSet';
+            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId() . '_' . $this->issuerUrl . '_jwkSet';
             if ($cache === null || ($jwkSet = $cache->get($cacheKey)) === false) {
                 $request = $this->createRequest()
                     ->setMethod('GET')

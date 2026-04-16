@@ -127,7 +127,7 @@ class OpenIdConnect extends OAuth2
     ];
     /**
      * @var string the prefix for the key used to store [[configParams]] data in cache.
-     * Actual cache key will be formed addition [[id]] value to it.
+     * Actual cache key will be formed with the [[id]] and [[issuerUrl]] values appended to it.
      * @see cache
      */
     public $configParamsCacheKeyPrefix = 'config-params-';
@@ -219,7 +219,7 @@ class OpenIdConnect extends OAuth2
     {
         if ($this->_configParams === null) {
             $cache = $this->getCache();
-            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId();
+            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId() . '_' . $this->issuerUrl;
             if ($cache === null || ($configParams = $cache->get($cacheKey)) === false) {
                 $configParams = $this->discoverConfig();
 
@@ -443,7 +443,7 @@ class OpenIdConnect extends OAuth2
     {
         if ($this->_jwkSet === null) {
             $cache = $this->getCache();
-            $cacheKey = $this->configParamsCacheKeyPrefix . '_jwkSet';
+            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId() . '_' . $this->issuerUrl .  '_jwkSet';
             if ($cache === null || ($jwkSet = $cache->get($cacheKey)) === false) {
                 $request = $this->createRequest()
                     ->setMethod('GET')

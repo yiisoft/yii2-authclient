@@ -54,7 +54,7 @@ class OpenIdConnectTest extends TestCase
         $cachedConfigParams = $authClient->getConfigParams();
 
         $authClient = new OpenIdConnect([
-            'issuerUrl' => 'https://login.microsoftonline.com/common/.well-known/openid-configuration',
+            'issuerUrl' => 'https://login.microsoftonline.com/common/',
             'id' => 'test',
             'cache' => $cache,
         ]);

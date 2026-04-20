@@ -47,14 +47,22 @@ class OpenIdConnectTest extends TestCase
 
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
-            'id' => 'google',
+            'id' => 'test',
             'cache' => $cache,
         ]);
+        $this->assertEquals('https://accounts.google.com', $authClient->getConfigParam('issuer'));
         $cachedConfigParams = $authClient->getConfigParams();
 
         $authClient = new OpenIdConnect([
-            'issuerUrl' => 'https://invalid-url.com',
-            'id' => 'google',
+            'issuerUrl' => 'https://login.microsoftonline.com/common/',
+            'id' => 'test',
+            'cache' => $cache,
+        ]);
+        $this->assertEquals('https://sts.windows.net/{tenantid}/', $authClient->getConfigParam('issuer'));
+
+        $authClient = new OpenIdConnect([
+            'issuerUrl' => 'https://accounts.google.com',
+            'id' => 'test',
             'cache' => $cache,
         ]);
         $this->assertEquals($cachedConfigParams, $authClient->getConfigParams());

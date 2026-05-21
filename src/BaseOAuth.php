@@ -180,7 +180,8 @@ abstract class BaseOAuth extends BaseClient
 
         $params[0] = Yii::$app->controller->getRoute();
 
-        return Yii::$app->getUrlManager()->createAbsoluteUrl($params);
+        // Force https scheme for return URL in case running server in docker container, which is via http scheme from outside of container.
+        return Yii::$app->getUrlManager()->createAbsoluteUrl($params, 'https');
     }
 
     /**

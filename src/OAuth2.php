@@ -105,7 +105,6 @@ abstract class OAuth2 extends BaseOAuth
             'client_id' => $this->clientId,
             'response_type' => 'code',
             'redirect_uri' => $this->getReturnUrl(),
-            'xoauth_displayname' => Yii::$app->name,
         ];
         if (!empty($this->scope)) {
             $defaultParams['scope'] = $this->scope;

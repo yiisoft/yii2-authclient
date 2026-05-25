@@ -113,12 +113,12 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Composes user authorization URL.
-     * @param OAuthToken $requestToken OAuth request token.
+     * @param OAuthToken|null $requestToken OAuth request token.
      * @param array $params additional request params.
      * @return string authorize URL
      * @throws InvalidParamException on failure.
      */
-    public function buildAuthUrl(OAuthToken $requestToken = null, array $params = [])
+    public function buildAuthUrl(?OAuthToken $requestToken = null, array $params = [])
     {
         if (!is_object($requestToken)) {
             $requestToken = $this->getState('requestToken');
@@ -134,14 +134,14 @@ abstract class OAuth1 extends BaseOAuth
     /**
      * Fetches OAuth access token.
      * @param string $oauthToken OAuth token returned with redirection back to client.
-     * @param OAuthToken $requestToken OAuth request token.
+     * @param OAuthToken|null $requestToken OAuth request token.
      * @param string $oauthVerifier OAuth verifier.
      * @param array $params additional request params.
      * @return OAuthToken OAuth access token.
      * @throws InvalidParamException on failure.
      * @throws HttpException in case oauth token miss-matches request token.
      */
-    public function fetchAccessToken($oauthToken = null, OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
+    public function fetchAccessToken($oauthToken = null, ?OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
     {
         $incomingRequest = Yii::$app->getRequest();
 

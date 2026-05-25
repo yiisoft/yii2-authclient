@@ -195,7 +195,7 @@ class Facebook extends OAuth2
      * @return string client auth code.
      * @since 2.1.3
      */
-    public function fetchClientAuthCode(OAuthToken $token = null, $params = [])
+    public function fetchClientAuthCode(?OAuthToken $token = null, $params = [])
     {
         if ($token === null) {
             $token = $this->getAccessToken();

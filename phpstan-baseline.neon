@@ -43,14 +43,32 @@ parameters:
 			path: src/AuthAction.php
 
 		-
+			message: '#^Cannot call method get\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/AuthAction.php
+
+		-
+			message: '#^Cannot call method getRequest\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: src/AuthAction.php
+
+		-
+			message: '#^Cannot call method getResponse\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: src/AuthAction.php
+
+		-
 			message: '#^Cannot call method getReturnUrl\(\) on array\|string\|yii\\web\\User\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: src/AuthAction.php
 
 		-
-			message: '#^Class yii\\authclient\\AuthAction extends generic class yii\\base\\Action but does not specify its types\: T$#'
-			identifier: missingType.generics
+			message: '#^Cannot call method getView\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/AuthAction.php
 
@@ -111,12 +129,6 @@ parameters:
 		-
 			message: '#^Property yii\\authclient\\AuthAction\:\:\$user type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/AuthAction.php
-
-		-
-			message: '#^Property yii\\authclient\\AuthAction\:\:\$user with generic class yii\\web\\User does not specify its types\: T$#'
-			identifier: missingType.generics
 			count: 1
 			path: src/AuthAction.php
 
@@ -385,7 +397,31 @@ parameters:
 			path: src/BaseOAuth.php
 
 		-
-			message: '#^Cannot call method getRoute\(\) on yii\\console\\Controller\<yii\\base\\Module\>\|yii\\web\\Controller\<yii\\base\\Module\>\|null\.$#'
+			message: '#^Cannot access property \$controller on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Cannot access property \$name on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Cannot call method getRequest\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Cannot call method getRoute\(\) on yii\\console\\Controller\|yii\\web\\Controller\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Cannot call method getUrlManager\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: src/BaseOAuth.php
@@ -565,6 +601,18 @@ parameters:
 			path: src/CacheStateStorage.php
 
 		-
+			message: '#^Cannot call method get\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
+			message: '#^Cannot call method has\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/CacheStateStorage.php
+
+		-
 			message: '#^Cannot call method set\(\) on array\|string\|yii\\caching\\Cache\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -697,6 +745,18 @@ parameters:
 			path: src/OAuth1.php
 
 		-
+			message: '#^Cannot call method getRequest\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/OAuth1.php
+
+		-
+			message: '#^Cannot call method getSecurity\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/OAuth1.php
+
+		-
 			message: '#^Method yii\\authclient\\OAuth1\:\:applyAccessTokenToRequest\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -775,12 +835,6 @@ parameters:
 			path: src/OAuth1.php
 
 		-
-			message: '#^Access to an undefined property yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\:\:\$session\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/OAuth2.php
-
-		-
 			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:get\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -789,6 +843,42 @@ parameters:
 		-
 			message: '#^Call to an undefined method yii\\console\\Request\|yii\\web\\Request\:\:post\(\)\.$#'
 			identifier: method.notFound
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Cannot access property \$name on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Cannot access property \$security on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Cannot access property \$session on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Cannot call method getRequest\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Cannot call method getSecurity\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/OAuth2.php
+
+		-
+			message: '#^Cannot call method has\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/OAuth2.php
 
@@ -973,6 +1063,30 @@ parameters:
 			path: src/OpenId.php
 
 		-
+			message: '#^Cannot access property \$name on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Cannot access property \$requestedRoute on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/OpenId.php
+
+		-
+			message: '#^Cannot call method getRequest\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: src/OpenId.php
+
+		-
+			message: '#^Cannot call method getUrlManager\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/OpenId.php
+
+		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -1141,6 +1255,12 @@ parameters:
 			path: src/OpenId.php
 
 		-
+			message: '#^Parameter \#2 \.\.\.\$args of function array_merge expects array, array\|object given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/OpenId.php
+
+		-
 			message: '#^Property yii\\authclient\\OpenId\:\:\$_trustRoot \(string\) does not accept string\|null\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -1203,6 +1323,18 @@ parameters:
 		-
 			message: '#^Call to static method createFromValues\(\) on an unknown class Jose\\Component\\KeyManagement\\JWKFactory\.$#'
 			identifier: class.notFound
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Cannot access property \$security on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Cannot call method getSecurity\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/OpenIdConnect.php
 
@@ -1406,6 +1538,18 @@ parameters:
 
 		-
 			message: '#^Cannot call method get\(\) on array\|string\|yii\\web\\Session\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Cannot call method get\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/SessionStateStorage.php
+
+		-
+			message: '#^Cannot call method has\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: src/SessionStateStorage.php
@@ -1699,6 +1843,12 @@ parameters:
 			path: src/signature/RsaSha.php
 
 		-
+			message: '#^Cannot access property \$name on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: src/views/redirect.php
+
+		-
 			message: '#^Call to an undefined method yii\\base\\View\:\:registerJs\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -1717,7 +1867,31 @@ parameters:
 			path: src/widgets/AuthChoice.php
 
 		-
-			message: '#^Cannot call method getRoute\(\) on yii\\console\\Controller\<yii\\base\\Module\>\|yii\\web\\Controller\<yii\\base\\Module\>\|null\.$#'
+			message: '#^Cannot access property \$controller on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Cannot call method get\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Cannot call method getRequest\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Cannot call method getRoute\(\) on yii\\console\\Controller\|yii\\web\\Controller\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/widgets/AuthChoice.php
+
+		-
+			message: '#^Cannot call method getView\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: src/widgets/AuthChoice.php
@@ -2181,12 +2355,6 @@ parameters:
 		-
 			message: '#^Property yiiunit\\extensions\\authclient\\TestCase\:\:\$params has no type specified\.$#'
 			identifier: missingType.property
-			count: 1
-			path: tests/TestCase.php
-
-		-
-			message: '#^Static property yii\\BaseYii\<yii\\web\\IdentityInterface\>\:\:\$app \(yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\) does not accept null\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: tests/TestCase.php
 

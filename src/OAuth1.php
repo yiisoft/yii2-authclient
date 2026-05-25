@@ -361,14 +361,14 @@ abstract class OAuth1 extends BaseOAuth
     protected function composeSignatureKey($token = null)
     {
         $signatureKeyParts = [
-            $this->consumerSecret
+            (string) $this->consumerSecret
         ];
 
         if ($token === null) {
             $token = $this->getAccessToken();
         }
         if (is_object($token)) {
-            $signatureKeyParts[] = $token->getTokenSecret();
+            $signatureKeyParts[] = (string) $token->getTokenSecret();
         } else {
             $signatureKeyParts[] = '';
         }

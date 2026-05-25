@@ -110,7 +110,7 @@ class Facebook extends OAuth2
         if (($machineId = $accessToken->getParam('machine_id')) !== null) {
             $data['machine_id'] = $machineId;
         }
-        $data['appsecret_proof'] = hash_hmac('sha256', $accessToken->getToken(), $this->clientSecret);
+        $data['appsecret_proof'] = hash_hmac('sha256', $accessToken->getToken(), (string) $this->clientSecret);
         $request->setData($data);
     }
 

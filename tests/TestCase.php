@@ -97,9 +97,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         $classReflection = new \ReflectionClass(get_class($object));
         $methodReflection = $classReflection->getMethod($method);
-        $methodReflection->setAccessible(true);
-        $result = $methodReflection->invokeArgs($object, $args);
-        $methodReflection->setAccessible(false);
-        return $result;
+
+        // ReflectionMethod::setAccessible() is required on PHP < 8.1 but is a no-op since 8.1 and deprecated since 8.5.
+        if (PHP_VERSION_ID < 80100) {
+            $methodReflection->setAccessible(true);
+        }
+
+        return $methodReflection->invokeArgs($object, $args);
     }
 }

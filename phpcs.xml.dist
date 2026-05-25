@@ -3,7 +3,7 @@
     <rule ref="vendor/yiisoft/yii2-coding-standards/Yii2"></rule>
 
     <!-- generate relative paths -->
-    <arg name="basepath" value="src"/>
+    <arg name="basepath" value="."/>
 
     <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">
         <exclude-pattern>/OpenIdConnect\.php$</exclude-pattern>

@@ -11,6 +11,7 @@ Yii Framework 2 authclient extension Change Log
 - Enh #403: Raise min version to PHP 7.4 (@s1lver)
 - Bug #401: Explicit null in `InvalidResponseException` constructor (@cyansoftdev)
 - Bug #405: Fixed OpenID Connect Client cache key by including the issuerUrl (rhertogh)
+- Bug #406: Add explicit nullable type to `OAuthToken` parameters in `OAuth1` and `Facebook` clients to avoid PHP `8.4` implicit nullable types deprecation (@terabytesoftw)
 
 
 2.2.17 February 13, 2025

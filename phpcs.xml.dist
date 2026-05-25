@@ -8,4 +8,8 @@
     <rule ref="Squiz.NamingConventions.ValidVariableName.PrivateNoUnderscore">
         <exclude-pattern>/OpenIdConnect\.php$</exclude-pattern>
     </rule>
+
+    <!-- directories to check -->
+    <file>src</file>
+    <file>tests</file>
 </ruleset>

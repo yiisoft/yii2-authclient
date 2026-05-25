@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "yiisoft/yii2": "~2.0.54",
+        "yiisoft/yii2": "~2.0.55",
         "yiisoft/yii2-httpclient": "~2.0.5",
         "paragonie/random_compat": ">=1"
     },
@@ -60,5 +60,11 @@
         "allow-plugins": {
             "yiisoft/yii2-composer": true
         }
+    },
+    "scripts": {
+        "cs": "./vendor/bin/phpcs",
+        "cs-fix": "./vendor/bin/phpcbf",
+        "static": "./vendor/bin/phpstan --memory-limit=-1",
+        "tests": "./vendor/bin/phpunit"
     }
 }

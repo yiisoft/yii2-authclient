@@ -18,6 +18,8 @@ on:
 
     push: *ignore-paths
 
+permissions:
+  contents: read
 jobs:
     phpunit:
         uses: yiisoft/yii2-actions/.github/workflows/phpunit.yml@master

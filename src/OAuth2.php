@@ -174,7 +174,7 @@ abstract class OAuth2 extends BaseOAuth
 
          // Azure AD will complain if there is no `Origin` header.
         if ($this->enablePkce) {
-            $request->addHeaders(['Origin' => Url::to('/')]);
+            $request->addHeaders(['Origin' => Url::base(true)]);
         }
 
         $this->applyClientCredentialsToRequest($request);

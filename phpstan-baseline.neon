@@ -337,7 +337,7 @@ parameters:
 			path: src/BaseClient.php
 
 		-
-			message: '#^Parameter \#1 \$type of static method yii\\BaseYii\<yii\\web\\IdentityInterface\>\:\:createObject\(\) expects array\{class\?\: class\-string\<mixed\>, __class\?\: class\-string\<mixed\>\}\|\(callable\(\)\: mixed\)\|class\-string\<mixed\>, array\|string given\.$#'
+			message: '#^Parameter \#1 \$type of static method yii\\BaseYii\<yii\\web\\IdentityInterface\>\:\:createObject\(\) expects array\{class\?\: class\-string\<mixed\>, __class\?\: class\-string\<mixed\>, \.\.\.\}\|\(callable\(\)\: mixed\)\|class\-string\<mixed\>, array\|string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/BaseClient.php

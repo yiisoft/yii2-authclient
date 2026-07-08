@@ -11,7 +11,6 @@ namespace yii\authclient;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\Json;
-use yii\helpers\Url;
 use yii\web\HttpException;
 
 /**
@@ -33,6 +32,8 @@ use yii\web\HttpException;
  *
  * @see https://oauth.net/2/
  * @see https://tools.ietf.org/html/rfc6749
+ *
+ * @property string $origin Origin value.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -93,6 +94,36 @@ abstract class OAuth2 extends BaseOAuth
      */
     public $accessTokenLocation = self::ACCESS_TOKEN_LOCATION_BODY;
 
+    /**
+     * @var string|null value of the `Origin` header sent with the access token request when [[enablePkce]]
+     * is enabled. Note: this should be a valid origin (scheme, host and optional port, e.g. `https://example.com`).
+     * By default the origin is derived from [[returnUrl]].
+     * @since 3.0.0
+     */
+    private $_origin;
+
+
+    /**
+     * @param string $origin origin value.
+     * @return void
+     * @since 3.0.0
+     */
+    public function setOrigin($origin)
+    {
+        $this->_origin = $origin;
+    }
+
+    /**
+     * @return string origin value.
+     * @since 3.0.0
+     */
+    public function getOrigin()
+    {
+        if ($this->_origin === null) {
+            $this->_origin = $this->defaultOrigin();
+        }
+        return $this->_origin;
+    }
 
     /**
      * Composes user authorization URL.
@@ -174,7 +205,7 @@ abstract class OAuth2 extends BaseOAuth
 
          // Azure AD will complain if there is no `Origin` header.
         if ($this->enablePkce) {
-            $request->addHeaders(['Origin' => Url::base(true)]);
+            $request->addHeaders(['Origin' => $this->getOrigin()]);
         }
 
         $this->applyClientCredentialsToRequest($request);
@@ -246,6 +277,26 @@ abstract class OAuth2 extends BaseOAuth
         $this->setAccessToken($token);
 
         return $token;
+    }
+
+    /**
+     * Composes default [[origin]] value, deriving it from [[returnUrl]].
+     * @return string origin value.
+     * @throws InvalidConfigException if the origin can not be derived from [[returnUrl]].
+     * @since 3.0.0
+     */
+    protected function defaultOrigin()
+    {
+        $components = parse_url($this->getReturnUrl());
+        if (!isset($components['scheme'], $components['host'])) {
+            throw new InvalidConfigException('Unable to derive the origin from "returnUrl". Set the "origin" property explicitly.');
+        }
+
+        $origin = $components['scheme'] . '://' . $components['host'];
+        if (isset($components['port'])) {
+            $origin .= ':' . $components['port'];
+        }
+        return $origin;
     }
 
     /**

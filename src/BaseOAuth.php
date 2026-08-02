@@ -19,11 +19,13 @@ use yii\httpclient\Request;
  *
  * @see https://oauth.net/
  *
- * @property OAuthToken|null $accessToken Auth token instance or null. Note that the type of this property differs in
- * getter and setter. See [[getAccessToken()]] and [[setAccessToken()]] for details.
+ * @property-read OAuthToken|null $accessToken Auth token instance.
+ * @property-write array|OAuthToken|null $accessToken Access token or its configuration. Set to null to
+ * restore token from token store.
  * @property string $returnUrl Return URL.
- * @property signature\BaseMethod $signatureMethod Signature method instance. Note that the type of this
- * property differs in getter and setter. See [[getSignatureMethod()]] and [[setSignatureMethod()]] for details.
+ * @property-read signature\BaseMethod $signatureMethod Signature method instance.
+ * @property-write array|signature\BaseMethod $signatureMethod Signature method instance or its array
+ * configuration.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

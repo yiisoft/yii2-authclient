@@ -14,12 +14,13 @@ use yii\helpers\ArrayHelper;
 /**
  * Token represents OAuth token.
  *
- * @property int $expireDuration Token expiration duration. Note that the type of this property differs in
- * getter and setter. See [[getExpireDuration()]] and [[setExpireDuration()]] for details.
+ * @property-read int $expireDuration Token expiration duration.
+ * @property-write string $expireDuration Token expiration duration.
  * @property string $expireDurationParamKey Expire duration param key.
  * @property-read bool $isExpired Is token expired.
  * @property-read bool $isValid Is token valid.
- * @property-read array $params
+ * @property array $params
+ * @property-write string $refreshToken
  * @property string $token Token value.
  * @property string $tokenSecret Token secret value.
  *

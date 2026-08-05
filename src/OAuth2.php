@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -42,12 +43,12 @@ abstract class OAuth2 extends BaseOAuth
      * Apply the access token to the request header
      * @since 2.2.16
      */
-    const ACCESS_TOKEN_LOCATION_HEADER = 'header';
+    public const ACCESS_TOKEN_LOCATION_HEADER = 'header';
     /**
      * Apply the access token to the request body
      * @since 2.2.16
      */
-    const ACCESS_TOKEN_LOCATION_BODY = 'body';
+    public const ACCESS_TOKEN_LOCATION_BODY = 'body';
 
     /**
      * @var string protocol version.
@@ -192,7 +193,7 @@ abstract class OAuth2 extends BaseOAuth
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
-        switch($this->accessTokenLocation) {
+        switch ($this->accessTokenLocation) {
             case self::ACCESS_TOKEN_LOCATION_BODY:
                 $data = $request->getData();
                 $data['access_token'] = $accessToken->getToken();

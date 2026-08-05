@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -32,7 +33,7 @@ class InvalidResponseException extends Exception
      * @param int $code error code
      * @param \Exception|null $previous The previous exception used for the exception chaining.
      */
-    public function __construct($response, $message = null, $code = 0, \Exception|null $previous = null)
+    public function __construct($response, $message = null, $code = 0, ?\Exception $previous = null)
     {
         $this->response = $response;
         parent::__construct($message, $code, $previous);

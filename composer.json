@@ -25,12 +25,15 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
-        "yiisoft/yii2": "22.0.x-dev",
-        "yiisoft/yii2-httpclient": "22.x-dev"
+        "php": ">=8.3",
+        "yiisoft/yii2": "^22.0@dev",
+        "yiisoft/yii2-httpclient": "^22.0@dev"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "yiisoft/yii2-coding-standards": "^3.0"
     },
     "suggest": {
         "web-token/jwt-checker": "required for JWS, JWT or JWK related flows like OpenIDConnect",
@@ -41,7 +44,9 @@
         "web-token/jwt-signature-algorithm-rsa": "required for JWS, JWT or JWK related flows like OpenIDConnect"
     },
     "autoload": {
-        "psr-4": { "yii\\authclient\\": "src" }
+        "psr-4": {
+            "yii\\authclient\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": { "yiiunit\\extensions\\authclient\\": "tests" }
@@ -50,5 +55,11 @@
         "allow-plugins": {
             "yiisoft/yii2-composer": true
         }
+    },
+    "scripts": {
+        "cs": "./vendor/bin/phpcs",
+        "cs-fix": "./vendor/bin/phpcbf",
+        "static": "./vendor/bin/phpstan --memory-limit=-1",
+        "tests": "./vendor/bin/phpunit"
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -109,7 +110,7 @@ class Facebook extends OAuth2
         if (($machineId = $accessToken->getParam('machine_id')) !== null) {
             $data['machine_id'] = $machineId;
         }
-        $data['appsecret_proof'] = hash_hmac('sha256', $accessToken->getToken(), $this->clientSecret);
+        $data['appsecret_proof'] = hash_hmac('sha256', $accessToken->getToken(), (string) $this->clientSecret);
         $request->setData($data);
     }
 
@@ -194,7 +195,7 @@ class Facebook extends OAuth2
      * @return string client auth code.
      * @since 2.1.3
      */
-    public function fetchClientAuthCode(OAuthToken|null $token = null, $params = [])
+    public function fetchClientAuthCode(?OAuthToken $token = null, $params = [])
     {
         if ($token === null) {
             $token = $this->getAccessToken();

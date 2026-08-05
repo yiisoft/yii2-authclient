@@ -21,7 +21,7 @@ class OpenIdConnectTest extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
-    public function testDiscoverConfig()
+    public function testDiscoverConfig(): void
     {
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
@@ -41,20 +41,28 @@ class OpenIdConnectTest extends TestCase
     /**
      * @depends testDiscoverConfig
      */
-    public function testDiscoverConfigCache()
+    public function testDiscoverConfigCache(): void
     {
         $cache = new ArrayCache();
 
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
-            'id' => 'google',
+            'id' => 'test',
             'cache' => $cache,
         ]);
+        $this->assertEquals('https://accounts.google.com', $authClient->getConfigParam('issuer'));
         $cachedConfigParams = $authClient->getConfigParams();
 
         $authClient = new OpenIdConnect([
-            'issuerUrl' => 'https://invalid-url.com',
-            'id' => 'google',
+            'issuerUrl' => 'https://login.microsoftonline.com/common/',
+            'id' => 'test',
+            'cache' => $cache,
+        ]);
+        $this->assertEquals('https://sts.windows.net/{tenantid}/', $authClient->getConfigParam('issuer'));
+
+        $authClient = new OpenIdConnect([
+            'issuerUrl' => 'https://accounts.google.com',
+            'id' => 'test',
             'cache' => $cache,
         ]);
         $this->assertEquals($cachedConfigParams, $authClient->getConfigParams());
@@ -71,7 +79,7 @@ class OpenIdConnectTest extends TestCase
     /**
      * @depends testDiscoverConfig
      */
-    public function testBuildAuthUrl()
+    public function testBuildAuthUrl(): void
     {
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
@@ -89,7 +97,7 @@ class OpenIdConnectTest extends TestCase
         $this->assertStringContainsString(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
 
-    public function testNonce()
+    public function testNonce(): void
     {
         $authClient = new OpenIdConnect([
             'issuerUrl' => 'https://accounts.google.com',
@@ -112,7 +120,7 @@ class OpenIdConnectTest extends TestCase
         $this->assertEquals($query_vars['nonce'], $nonce);
     }
 
-    public function testUserInfoFromToken()
+    public function testUserInfoFromToken(): void
     {
         $accessToken = new OAuthToken([
             'params' => [
@@ -132,10 +140,10 @@ class OpenIdConnectTest extends TestCase
         $this->assertEquals(['sub' => '123'], $userAttributes);
     }
 
-    public function testUserInfoFromUserInfoTokenResponse()
+    public function testUserInfoFromUserInfoTokenResponse(): void
     {
         /** @var OpenIdConnect $oidcClient */
-        $oidcClient = $this->getMockBuilder(OpenIdConnect::className())
+        $oidcClient = $this->getMockBuilder(OpenIdConnect::class)
             ->onlyMethods(['api'])
             ->getMock();
 

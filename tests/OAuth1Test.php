@@ -3,8 +3,8 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth1;
-use yii\authclient\signature\BaseMethod;
 use yii\authclient\OAuthToken;
+use yii\authclient\signature\BaseMethod;
 
 class OAuth1Test extends TestCase
 {
@@ -27,15 +27,17 @@ class OAuth1Test extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(OAuth1::className())
+        $oauthClient = $this->getMockBuilder(OAuth1::class)
             ->onlyMethods(['initUserAttributes'])
             ->getMock();
+        $oauthClient->apiBaseUrl = 'https://www.google.com';
+
         return $oauthClient;
     }
 
     // Tests :
 
-    public function testSignRequest()
+    public function testSignRequest(): void
     {
         $oauthClient = $this->createClient();
 
@@ -45,8 +47,8 @@ class OAuth1Test extends TestCase
             'a' => 'another',
         ]);
 
-        /* @var $oauthSignatureMethod BaseMethod|\PHPUnit_Framework_MockObject_MockObject */
-        $oauthSignatureMethod = $this->getMockBuilder(BaseMethod::className())
+        /** @var BaseMethod|\PHPUnit_Framework_MockObject_MockObject $oauthSignatureMethod */
+        $oauthSignatureMethod = $this->getMockBuilder(BaseMethod::class)
             ->onlyMethods(['getName', 'generateSignature'])
             ->getMock();
         $oauthSignatureMethod->expects($this->any())
@@ -85,7 +87,7 @@ class OAuth1Test extends TestCase
     /**
      * @depends testSignRequest
      */
-    public function testAuthorizationHeaderMethods()
+    public function testAuthorizationHeaderMethods(): void
     {
         $oauthClient = $this->createClient();
 
@@ -127,7 +129,7 @@ class OAuth1Test extends TestCase
      * Data provider for [[testComposeAuthorizationHeader()]].
      * @return array test data.
      */
-    public function composeAuthorizationHeaderDataProvider()
+    public function composeAuthorizationHeaderDataProvider(): array
     {
         return [
             [
@@ -164,14 +166,52 @@ class OAuth1Test extends TestCase
      * @param array  $params                      request params.
      * @param string $expectedAuthorizationHeader expected authorization header.
      */
-    public function testComposeAuthorizationHeader($realm, array $params, $expectedAuthorizationHeader)
+    public function testComposeAuthorizationHeader($realm, array $params, $expectedAuthorizationHeader): void
     {
         $oauthClient = $this->createClient();
         $authorizationHeader = $this->invoke($oauthClient, 'composeAuthorizationHeader', [$params, $realm]);
         $this->assertEquals($expectedAuthorizationHeader, $authorizationHeader);
     }
 
-    public function testBuildAuthUrl()
+    /**
+     * Data provider for [[testComposeSignatureKey()]].
+     * @return array<int, array{0: string, 1: string|null, 2: string}> test data.
+     */
+    public function composeSignatureKeyDataProvider(): array
+    {
+        return [
+            ['test_consumer_secret', null, 'test_consumer_secret&'],
+            ['test_consumer_secret', 'test_token_secret', 'test_consumer_secret&test_token_secret'],
+            ['', 'test_token_secret', '&test_token_secret'],
+            ['', null, '&'],
+        ];
+    }
+
+    /**
+     * @dataProvider composeSignatureKeyDataProvider
+     *
+     * @param string      $consumerSecret consumer secret.
+     * @param string|null $tokenSecret    token secret, `null` when no token is available.
+     * @param string      $expectedKey    expected signature key.
+     */
+    public function testComposeSignatureKey($consumerSecret, $tokenSecret, $expectedKey): void
+    {
+        $oauthClient = $this->createClient();
+        $oauthClient->consumerSecret = $consumerSecret;
+
+        $token = null;
+
+        if ($tokenSecret !== null) {
+            $token = new OAuthToken();
+            $token->setTokenSecret($tokenSecret);
+        }
+
+        $signatureKey = $this->invoke($oauthClient, 'composeSignatureKey', [$token]);
+
+        $this->assertSame($expectedKey, $signatureKey, 'Both parts must survive, separated by a single `&`.');
+    }
+
+    public function testBuildAuthUrl(): void
     {
         $oauthClient = $this->createClient();
         $authUrl = 'http://test.auth.url';

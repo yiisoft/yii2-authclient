@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -115,9 +116,9 @@ abstract class OAuth1 extends BaseOAuth
      * @param OAuthToken|null $requestToken OAuth request token.
      * @param array $params additional request params.
      * @return string authorize URL
-     * @throws InvalidParamException on failure.
+     * @throws InvalidArgumentException on failure.
      */
-    public function buildAuthUrl(OAuthToken|null $requestToken = null, array $params = [])
+    public function buildAuthUrl(?OAuthToken $requestToken = null, array $params = [])
     {
         if (!is_object($requestToken)) {
             $requestToken = $this->getState('requestToken');
@@ -140,7 +141,7 @@ abstract class OAuth1 extends BaseOAuth
      * @throws InvalidArgumentException on failure.
      * @throws HttpException in case oauth token miss-matches request token.
      */
-    public function fetchAccessToken($oauthToken = null, OAuthToken|null $requestToken = null, $oauthVerifier = null, array $params = [])
+    public function fetchAccessToken($oauthToken = null, ?OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
     {
         $incomingRequest = Yii::$app->getRequest();
 
@@ -360,19 +361,19 @@ abstract class OAuth1 extends BaseOAuth
     protected function composeSignatureKey($token = null)
     {
         $signatureKeyParts = [
-            $this->consumerSecret
+            (string) $this->consumerSecret
         ];
 
         if ($token === null) {
             $token = $this->getAccessToken();
         }
         if (is_object($token)) {
-            $signatureKeyParts[] = $token->getTokenSecret();
+            $signatureKeyParts[] = (string) $token->getTokenSecret();
         } else {
             $signatureKeyParts[] = '';
         }
 
-        $signatureKeyParts = array_map('rawurlencode', array_filter($signatureKeyParts));
+        $signatureKeyParts = array_map('rawurlencode', $signatureKeyParts);
 
         return implode('&', $signatureKeyParts);
     }

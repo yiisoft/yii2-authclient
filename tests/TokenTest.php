@@ -6,11 +6,12 @@ use yii\authclient\OAuthToken;
 
 class TokenTest extends TestCase
 {
-    public function testCreate()
+    public function testCreate(): void
     {
         $config = [
             'tokenParamKey' => 'test_token_param_key',
             'tokenSecretParamKey' => 'test_token_secret_param_key',
+            'refreshTokenParamKey' => 'test_refresh_token_param_key',
         ];
         $oauthToken = new OAuthToken($config);
         $this->assertTrue(is_object($oauthToken), 'Unable to create access token!');
@@ -20,13 +21,14 @@ class TokenTest extends TestCase
         $this->assertTrue($oauthToken->createTimestamp > 0, 'Unable to fill create timestamp!');
     }
 
-    public function testCreateWithIncorrectConfigOrder()
+    public function testCreateWithIncorrectConfigOrder(): void
     {
         $config = [
             'token' => 'token',
             'tokenSecret' => 'tokenSecret',
             'tokenParamKey' => 'test_token_param_key',
             'tokenSecretParamKey' => 'test_token_secret_param_key',
+            'refreshTokenParamKey' => 'test_refresh_token_param_key',
         ];
         $oauthToken = new OAuthToken($config);
         $this->assertIsObject($oauthToken, 'Unable to create access token!');
@@ -35,7 +37,7 @@ class TokenTest extends TestCase
         }
     }
 
-    public function testSetupParams()
+    public function testSetupParams(): void
     {
         $oauthToken = new OAuthToken();
 
@@ -55,7 +57,7 @@ class TokenTest extends TestCase
     /**
      * @depends testSetupParams
      */
-    public function testSetupParamsShortcuts()
+    public function testSetupParamsShortcuts(): void
     {
         $oauthToken = new OAuthToken();
 
@@ -76,7 +78,7 @@ class TokenTest extends TestCase
      * Data provider for {@link testAutoFetchExpireDuration}.
      * @return array test data.
      */
-    public function autoFetchExpireDurationDataProvider()
+    public function autoFetchExpireDurationDataProvider(): array
     {
         return [
             [
@@ -105,7 +107,7 @@ class TokenTest extends TestCase
      * @param array $params
      * @param $expectedExpireDuration
      */
-    public function testAutoFetchExpireDuration(array $params, $expectedExpireDuration)
+    public function testAutoFetchExpireDuration(array $params, $expectedExpireDuration): void
     {
         $oauthToken = new OAuthToken();
         $oauthToken->setParams($params);
@@ -115,7 +117,7 @@ class TokenTest extends TestCase
     /**
      * @depends testSetupParamsShortcuts
      */
-    public function testGetIsExpired()
+    public function testGetIsExpired(): void
     {
         $oauthToken = new OAuthToken();
         $expireDuration = 3600;
@@ -130,7 +132,7 @@ class TokenTest extends TestCase
     /**
      * @depends testGetIsExpired
      */
-    public function testGetIsValid()
+    public function testGetIsValid(): void
     {
         $oauthToken = new OAuthToken();
         $expireDuration = 3600;
@@ -143,5 +145,16 @@ class TokenTest extends TestCase
 
         $oauthToken->createTimestamp = $oauthToken->createTimestamp - ($expireDuration + 1);
         $this->assertFalse($oauthToken->getIsValid(), 'Expired token is valid!');
+    }
+
+    public function testHasRefreshToken(): void
+    {
+        $oauthToken = new OAuthToken([
+            'params' => [
+                'refresh_token' => 'test_refresh_token',
+            ],
+        ]);
+
+        $this->assertTrue($oauthToken->hasRefreshToken());
     }
 }

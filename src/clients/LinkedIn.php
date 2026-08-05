@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -8,8 +9,6 @@
 namespace yii\authclient\clients;
 
 use yii\authclient\OAuth2;
-use yii\web\HttpException;
-use Yii;
 
 /**
  * LinkedIn allows authentication via LinkedIn OAuth.
@@ -108,7 +107,6 @@ class LinkedIn extends OAuth2
             if (isset($emails['elements'][0]['handle~']['emailAddress'])) {
                 $attributes['email'] = $emails['elements'][0]['handle~']['emailAddress'];
             }
-
         }
 
         return $attributes;

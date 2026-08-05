@@ -3,7 +3,6 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\AuthAction;
-use yii\authclient\Collection;
 
 class AuthActionTest extends TestCase
 {
@@ -25,7 +24,7 @@ class AuthActionTest extends TestCase
 
     // Tests :
 
-    public function testSetGet()
+    public function testSetGet(): void
     {
         $action = new AuthAction(null, null);
 
@@ -41,7 +40,7 @@ class AuthActionTest extends TestCase
     /**
      * @depends testSetGet
      */
-    public function testGetDefaultSuccessUrl()
+    public function testGetDefaultSuccessUrl(): void
     {
         $action = new AuthAction(null, null);
 
@@ -51,14 +50,14 @@ class AuthActionTest extends TestCase
     /**
      * @depends testSetGet
      */
-    public function testGetDefaultCancelUrl()
+    public function testGetDefaultCancelUrl(): void
     {
         $action = new AuthAction(null, null);
 
         $this->assertNotEmpty($action->getSuccessUrl(), 'Unable to get default cancel URL!');
     }
 
-    public function testRedirect()
+    public function testRedirect(): void
     {
         $action = new AuthAction(null, null);
 
@@ -68,7 +67,7 @@ class AuthActionTest extends TestCase
         $this->assertStringContainsString($url, $response->content);
     }
 
-    public function testGetClientId()
+    public function testGetClientId(): void
     {
         $clientId = 'clientId';
         $defaultClientId = 'defaultClientId';

@@ -70,7 +70,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 ],
                 'request' => [
                     'cookieValidationKey' => 'wefJDF8sfdsfSDefwqdxj9oq',
-                    'scriptFile' => __DIR__ .'/index.php',
+                    'scriptFile' => __DIR__ . '/index.php',
                     'scriptUrl' => '/index.php',
                 ],
             ]
@@ -80,7 +80,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * Destroys application in Yii::$app by setting it to null.
      */
-    protected function destroyApplication()
+    protected function destroyApplication(): void
     {
         Yii::$app = null;
         Yii::$container = new Container();
@@ -97,9 +97,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         $classReflection = new \ReflectionClass(get_class($object));
         $methodReflection = $classReflection->getMethod($method);
-        $methodReflection->setAccessible(true);
-        $result = $methodReflection->invokeArgs($object, $args);
-        $methodReflection->setAccessible(false);
-        return $result;
+
+        return $methodReflection->invokeArgs($object, $args);
     }
 }

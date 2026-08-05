@@ -16,14 +16,14 @@ Documentation is at [docs/guide/README.md](https://github.com/yiisoft/yii2-authc
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-authclient/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-authclient)
 [![Total Downloads](https://poser.pugx.org/yiisoft/yii2-authclient/downloads.png)](https://packagist.org/packages/yiisoft/yii2-authclient)
 [![Build Status](https://github.com/yiisoft/yii2-authclient/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-authclient/actions)
-
-Requirements
-------------
-
-- PHP 8.1 or higher.
+[![codecov](https://codecov.io/gh/yiisoft/yii2-authclient/graph/badge.svg)](https://codecov.io/gh/yiisoft/yii2-authclient)
 
 Installation
 ------------
+
+> [!IMPORTANT]
+> - This branch targets [Yii 2](https://github.com/yiisoft/yii2) `22.0`.
+> - The minimum required [PHP](https://www.php.net/) version is PHP `8.3`.
 
 The preferred way to install this extension is through [composer](https://getcomposer.org/download/).
 
@@ -36,7 +36,7 @@ composer require --prefer-dist yiisoft/yii2-authclient:^22.x-dev
 or add
 
 ```json
-"yiisoft/yii2-authclient": "^22.x-dev"
+"yiisoft/yii2-authclient": "^22.0@dev"
 ```
 
 to the `require` section of your composer.json.

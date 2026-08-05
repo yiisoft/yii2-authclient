@@ -7,7 +7,7 @@ use yiiunit\extensions\authclient\TestCase;
 
 class HmacSha1Test extends TestCase
 {
-    public function testGenerateSignature()
+    public function testGenerateSignature(): void
     {
         $signatureMethod = new HmacSha1();
 

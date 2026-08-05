@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -7,9 +8,9 @@
 
 namespace yii\authclient;
 
+use Yii;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
-use Yii;
 use yii\helpers\Inflector;
 use yii\httpclient\Request;
 
@@ -18,11 +19,13 @@ use yii\httpclient\Request;
  *
  * @see https://oauth.net/
  *
- * @property OAuthToken|null $accessToken Auth token instance or null. Note that the type of this property differs in
- * getter and setter. See [[getAccessToken()]] and [[setAccessToken()]] for details.
+ * @property-read OAuthToken|null $accessToken Auth token instance.
+ * @property-write array|OAuthToken|null $accessToken Access token or its configuration. Set to null to
+ * restore token from token store.
  * @property string $returnUrl Return URL.
- * @property signature\BaseMethod $signatureMethod Signature method instance. Note that the type of this
- * property differs in getter and setter. See [[getSignatureMethod()]] and [[setSignatureMethod()]] for details.
+ * @property-read signature\BaseMethod $signatureMethod Signature method instance.
+ * @property-write array|signature\BaseMethod $signatureMethod Signature method instance or its array
+ * configuration.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -201,7 +204,7 @@ abstract class BaseOAuth extends BaseClient
     protected function createSignatureMethod(array $signatureMethodConfig)
     {
         if (!array_key_exists('class', $signatureMethodConfig)) {
-            $signatureMethodConfig['class'] = signature\HmacSha1::className();
+            $signatureMethodConfig['class'] = signature\HmacSha1::class;
         }
         return Yii::createObject($signatureMethodConfig);
     }
@@ -214,7 +217,7 @@ abstract class BaseOAuth extends BaseClient
     protected function createToken(array $tokenConfig = [])
     {
         if (!array_key_exists('class', $tokenConfig)) {
-            $tokenConfig['class'] = OAuthToken::className();
+            $tokenConfig['class'] = OAuthToken::class;
         }
         return Yii::createObject($tokenConfig);
     }
@@ -291,7 +294,7 @@ abstract class BaseOAuth extends BaseClient
         $token = $this->getState('token');
         if (is_object($token)) {
             /** @var OAuthToken $token */
-            if ($token->getIsExpired() && $this->autoRefreshAccessToken) {
+            if ($token->getIsExpired() && $this->autoRefreshAccessToken && $token->hasRefreshToken()) {
                 $token = $this->refreshAccessToken($token);
             }
         }

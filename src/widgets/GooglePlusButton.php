@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -20,8 +21,8 @@ use yii\web\View;
  * @see GoogleHybrid
  * @see https://developers.google.com/+/web/signin/
  *
- * @property string $callback Callback JavaScript function name. Note that the type of this property differs
- * in getter and setter. See [[getCallback()]] and [[setCallback()]] for details.
+ * @property-read string $callback Callback JavaScript function name.
+ * @property-write string|array $callback Callback JavaScript function name or URL config.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0.4
@@ -70,7 +71,7 @@ class GooglePlusButton extends AuthChoiceItem
     public function init()
     {
         if (!($this->client instanceof GoogleHybrid)) {
-            throw new InvalidConfigException('"' . $this->className() . '::client" must be instance of "' . GoogleHybrid::className() . '"');
+            throw new InvalidConfigException('"' . self::class . '::client" must be instance of "' . GoogleHybrid::class . '"');
         }
     }
 

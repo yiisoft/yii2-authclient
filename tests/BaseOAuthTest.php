@@ -2,9 +2,9 @@
 
 namespace yiiunit\extensions\authclient;
 
-use yii\authclient\signature\PlainText;
-use yii\authclient\OAuthToken;
 use yii\authclient\BaseOAuth;
+use yii\authclient\OAuthToken;
+use yii\authclient\signature\PlainText;
 use yii\httpclient\Client;
 use yii\httpclient\Request;
 use yii\httpclient\Response;
@@ -27,7 +27,7 @@ class BaseOAuthTest extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(BaseOAuth::className())
+        $oauthClient = $this->getMockBuilder(BaseOAuth::class)
             ->addMethods(['composeRequestCurlOptions'])
             ->onlyMethods(['refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes'])
             ->getMock();
@@ -36,7 +36,7 @@ class BaseOAuthTest extends TestCase
 
     // Tests :
 
-    public function testSetGet()
+    public function testSetGet(): void
     {
         $oauthClient = $this->createClient();
 
@@ -45,7 +45,7 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($returnUrl, $oauthClient->getReturnUrl(), 'Unable to setup return URL!');
     }
 
-    public function testSetupHttpClient()
+    public function testSetupHttpClient(): void
     {
         $oauthClient = $this->createClient();
         $oauthClient->apiBaseUrl = 'http://api.test.url';
@@ -64,7 +64,7 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($oauthClient->apiBaseUrl, $oauthClient->getHttpClient()->baseUrl);
     }
 
-    public function testSetupComponents()
+    public function testSetupComponents(): void
     {
         $oauthClient = $this->createClient();
 
@@ -77,7 +77,7 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($oauthSignatureMethod, $oauthClient->getSignatureMethod(), 'Unable to setup signature method!');
     }
 
-    public function testSetupAccessToken()
+    public function testSetupAccessToken(): void
     {
         $oauthClient = $this->createClient();
 
@@ -99,7 +99,7 @@ class BaseOAuthTest extends TestCase
      * @depends testSetupComponents
      * @depends testSetupAccessToken
      */
-    public function testSetupComponentsByConfig()
+    public function testSetupComponentsByConfig(): void
     {
         $oauthClient = $this->createClient();
 
@@ -122,7 +122,7 @@ class BaseOAuthTest extends TestCase
      * Data provider for [[testComposeUrl()]].
      * @return array test data.
      */
-    public function composeUrlDataProvider()
+    public function composeUrlDataProvider(): array
     {
         return [
             [
@@ -156,7 +156,7 @@ class BaseOAuthTest extends TestCase
      * @param array  $params      request params
      * @param string $expectedUrl expected composed URL.
      */
-    public function testComposeUrl($url, array $params, $expectedUrl)
+    public function testComposeUrl($url, array $params, $expectedUrl): void
     {
         $oauthClient = $this->createClient();
         $composedUrl = $this->invoke($oauthClient, 'composeUrl', [$url, $params]);
@@ -167,7 +167,7 @@ class BaseOAuthTest extends TestCase
      * Data provider for [[testApiUrl]].
      * @return array test data.
      */
-    public function apiUrlDataProvider()
+    public function apiUrlDataProvider(): array
     {
         return [
             [
@@ -197,7 +197,7 @@ class BaseOAuthTest extends TestCase
      * @param $apiSubUrl
      * @param $expectedApiFullUrl
      */
-    public function testApiUrl($apiBaseUrl, $apiSubUrl, $expectedApiFullUrl)
+    public function testApiUrl($apiBaseUrl, $apiSubUrl, $expectedApiFullUrl): void
     {
         $oauthClient = $this->createClient();
 
@@ -218,7 +218,7 @@ class BaseOAuthTest extends TestCase
      * Data provider for [[testDefaultReturnUrl]].
      * @return array test data.
      */
-    public function defaultReturnUrlDataProvider()
+    public function defaultReturnUrlDataProvider(): array
     {
         return [
             'default'                => [['authclient' => 'base'], null, '/?authclient=base'],
@@ -234,7 +234,7 @@ class BaseOAuthTest extends TestCase
      * @param $expectedException
      * @return void
      */
-    public function testSendRequest($responseStatusCode, $expectedException)
+    public function testSendRequest($responseStatusCode, $expectedException): void
     {
         $oauthClient = $this->createClient();
 
@@ -242,7 +242,7 @@ class BaseOAuthTest extends TestCase
         $response->addHeaders(['http-code' => $responseStatusCode]);
         $response->setData('success');
 
-        $request = $this->createMock(Request::className());
+        $request = $this->createMock(Request::class);
         $request
             ->expects($this->any())
             ->method('send')
@@ -259,7 +259,7 @@ class BaseOAuthTest extends TestCase
      * Data provider for [[testSendRequestException]].
      * @return array test data.
      */
-    public function sendRequestDataProvider()
+    public function sendRequestDataProvider(): array
     {
         return [
             'Informational' => [100, 'yii\\authclient\\InvalidResponseException'],
@@ -268,6 +268,56 @@ class BaseOAuthTest extends TestCase
             'Client error' => [400, 'yii\\authclient\\ClientErrorResponseException'],
             'Server error' => [500, 'yii\\authclient\\InvalidResponseException'],
         ];
+    }
 
+    public function testDoNotRestoreAccessTokenWithNoRefreshToken(): void
+    {
+        /**
+         * @var BaseOAuth|\PHPUnit_Framework_MockObject_MockObject
+         */
+        $oauthClient = $this->getMockBuilder(BaseOAuth::class)
+            ->addMethods(['composeRequestCurlOptions',])
+            ->onlyMethods(['refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes', 'getState'])
+            ->getMock();
+
+        $oauthClient->expects($this->never())
+            ->method('refreshAccessToken');
+
+        $accessToken = new OAuthToken();
+        $accessToken->setExpireDuration(-100);
+
+        $oauthClient->expects($this->once())
+            ->method('getState')
+            ->willReturn($accessToken);
+
+        $this->assertSame($accessToken, $oauthClient->getAccessToken());
+    }
+
+    public function testRestoreAccessTokenWithRefreshToken(): void
+    {
+        /**
+         * @var BaseOAuth|\PHPUnit_Framework_MockObject_MockObject
+         */
+        $oauthClient = $this->getMockBuilder(BaseOAuth::class)
+            ->addMethods(['composeRequestCurlOptions',])
+            ->onlyMethods(['refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes', 'getState'])
+            ->getMock();
+
+        $oauthClient->expects($this->once())
+            ->method('refreshAccessToken')
+            ->willReturn(new OAuthToken());
+
+        $accessToken = new OAuthToken([
+            'params' => [
+                'refresh_token' => 'test_refresh_token',
+            ],
+        ]);
+        $accessToken->setExpireDuration(-100);
+
+        $oauthClient->expects($this->once())
+            ->method('getState')
+            ->willReturn($accessToken);
+
+        $this->assertNotSame($accessToken, $oauthClient->getAccessToken());
     }
 }

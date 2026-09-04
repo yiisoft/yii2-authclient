@@ -474,7 +474,7 @@ class OpenIdConnect extends OAuth2
             foreach ($this->allowedJwsAlgorithms as $algorithm) {
                 $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
                 if (!class_exists($class)) {
-                    throw new InvalidConfigException("Alogrithm class $class doesn't exist");
+                    throw new InvalidConfigException("Algorithm class $class doesn't exist");
                 }
                 $algorithms[] = new $class();
             }

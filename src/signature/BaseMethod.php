@@ -13,6 +13,8 @@ use yii\base\BaseObject;
 /**
  * BaseMethod is a base class for the OAuth signature methods.
  *
+ * @property-read string $name Method name.
+ *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */

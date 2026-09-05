@@ -21,6 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property-read bool $isValid Is token valid.
  * @property array $params
  * @property-write string $refreshToken
+ * @property-read string $refreshToken
  * @property string $token Token value.
  * @property string $tokenSecret Token secret value.
  *

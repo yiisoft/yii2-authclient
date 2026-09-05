@@ -14,6 +14,7 @@ Yii Framework 2 authclient extension Change Log
 - Bug #406: Add explicit nullable type to `OAuthToken` parameters in `OAuth1` and `Facebook` clients to avoid PHP `8.4` implicit nullable types deprecation (@terabytesoftw)
 - Bug #407: Cast nullable secrets to string before `hash_hmac()` and `rawurlencode()` in `Facebook` and `OAuth1` clients to avoid PHP `8.5` deprecations (@terabytesoftw)
 - Bug #417: Separate the `@property` annotations in case of different types in getters and setters (mspirkov)
+- Enh #420: Add the missing `@property` tags (mspirkov)
 
 
 2.2.17 February 13, 2025

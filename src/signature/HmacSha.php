@@ -15,6 +15,8 @@ use yii\base\NotSupportedException;
  *
  * > **Note:** This class requires PHP "Hash" extension(<https://php.net/manual/en/book.hash.php>).
  *
+ * @property-read string $name Method name.
+ *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.1.3
  */

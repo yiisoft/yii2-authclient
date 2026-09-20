@@ -1,4 +1,4 @@
-name: linter
+name: phpcs
 
 permissions:
   contents: read

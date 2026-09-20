@@ -1,0 +1,29 @@
+name: php-cs-fixer
+
+permissions:
+  contents: read
+
+on:
+  pull_request: &ignore-paths
+    paths-ignore:
+      - 'docs/**'
+      - '.github/CONTRIBUTING.md'
+      - '.github/FUNDING.yml'
+      - '.github/SECURITY.md'
+      - 'README.md'
+      - 'CHANGELOG.md'
+      - 'LICENSE.md'
+      - '.gitignore'
+      - '.gitattributes'
+      - '.editorconfig'
+      - 'docker-compose.yml'
+      - 'Makefile'
+
+  push: *ignore-paths
+
+jobs:
+  php-cs-fixer:
+    uses: yiisoft/yii2-actions/.github/workflows/php-cs-fixer.yml@9bfbe47bd91bc31a6ff9f0ea77ba3724d7816c3d # master
+    with:
+      configuration: .php-cs-fixer.dist.php
+      php-version: '["7.4"]'

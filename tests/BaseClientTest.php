@@ -111,7 +111,7 @@ class BaseClientTest extends TestCase
             [
                 [
                     'name' => function ($attributes) {
-                            return $attributes['firstName'] . ' ' . $attributes['lastName'];
+                        return $attributes['firstName'] . ' ' . $attributes['lastName'];
                     },
                 ],
                 [

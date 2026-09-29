@@ -10,6 +10,8 @@ namespace yiiunit\extensions\authclient;
 
 use yii\authclient\BaseClient;
 use yii\authclient\SessionStateStorage;
+use yii\httpclient\RequestEvent;
+use yii\helpers\Json;
 
 class BaseClientTest extends TestCase
 {
@@ -233,4 +235,42 @@ class BaseClientTest extends TestCase
         $stateStorage = $client->getStateStorage();
         $this->assertTrue($stateStorage instanceof SessionStateStorage, 'Unable to get default http client.');
     }
+
+    /**
+     * @dataProvider customResponseDataProvider
+     * @param array<string, string> $expected
+     */
+    public function testCustomResponseHandler(string $content, string $contentType, array $expected): void
+    {
+        $client = $this->createClient();
+        $client->setHttpClient([
+            'on afterSend' => static function (RequestEvent $event) {
+                $response = $event->response;
+                if ($response === null) {
+                    return;
+                }
+                $content = $response->getContent();
+                if (!empty($content) && preg_match('/\A\s*callback\s*\((.*)\)\s*;?\s*\z/s', $content, $matches)) {
+                    $response->setData(Json::decode($matches[1]));
+                }
+            },
+        ]);
+        $httpClient = $client->getHttpClient();
+        $response = $httpClient->createResponse($content, ['content-type' => $contentType, 'http-code' => 200]);
+        $httpClient->afterSend($httpClient->get('https://example.com/me'), $response);
+
+        $this->assertSame($expected, $response->getData());
+    }
+
+    /**
+     * @return array<string, array{string, string, array<string, string>}>
+     */
+    public function customResponseDataProvider(): array
+    {
+        return [
+            'JSONP' => ['callback( {"openid":"123"} );', 'text/html', ['openid' => '123']],
+            'JSON token response' => ['{"access_token":"token"}', 'application/json', ['access_token' => 'token']],
+        ];
+    }
+
 }

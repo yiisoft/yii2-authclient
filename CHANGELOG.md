@@ -4,7 +4,7 @@ Yii Framework 2 authclient extension Change Log
 2.2.19 under development
 ------------------------
 
-- no changes in this release.
+- Bug #414: Send a valid origin instead of the relative path `/` in the PKCE token request `Origin` header, so providers validating it (e.g. Keycloak) no longer reject the request; the origin is derived from `returnUrl` and can be configured via the new `OAuth2::$origin` property (@luke-)
 
 
 2.2.18 September 29, 2026

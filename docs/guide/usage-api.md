@@ -80,3 +80,5 @@ $client->signRequest($request, $myAccessToken); // sign request with custom acce
 
 $response = $request->send();
 ```
+
+For rejected refresh tokens, see [handling an expired refresh token](authentication.md#handling-an-expired-refresh-token).

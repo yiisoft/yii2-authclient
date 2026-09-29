@@ -98,7 +98,7 @@ abstract class OAuth2 extends BaseOAuth
      * @var string|null value of the `Origin` header sent with the access token request when [[enablePkce]]
      * is enabled. Note: this should be a valid origin (scheme, host and optional port, e.g. `https://example.com`).
      * By default the origin is derived from [[returnUrl]].
-     * @since 3.0.0
+     * @since 2.2.19
      */
     private $_origin;
 
@@ -106,7 +106,7 @@ abstract class OAuth2 extends BaseOAuth
     /**
      * @param string $origin origin value.
      * @return void
-     * @since 3.0.0
+     * @since 2.2.19
      */
     public function setOrigin($origin)
     {
@@ -115,7 +115,7 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * @return string origin value.
-     * @since 3.0.0
+     * @since 2.2.19
      */
     public function getOrigin()
     {
@@ -283,7 +283,7 @@ abstract class OAuth2 extends BaseOAuth
      * Composes default [[origin]] value, deriving it from [[returnUrl]].
      * @return string origin value.
      * @throws InvalidConfigException if the origin can not be derived from [[returnUrl]].
-     * @since 3.0.0
+     * @since 2.2.19
      */
     protected function defaultOrigin()
     {

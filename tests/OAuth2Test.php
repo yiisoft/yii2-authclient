@@ -59,9 +59,10 @@ class OAuth2Test extends TestCase
     }
 
     /**
+     * @param array<string, int|string> $response
      * @dataProvider refreshAccessTokenDataProvider
      */
-    public function testRefreshAccessToken(array $response, $expectedRefreshToken): void
+    public function testRefreshAccessToken(array $response, string $expectedRefreshToken): void
     {
         $oauthClient = $this->getMockBuilder(OAuth2::class)
             ->onlyMethods(['initUserAttributes', 'sendRequest'])
@@ -97,6 +98,9 @@ class OAuth2Test extends TestCase
         }
     }
 
+    /**
+     * @return array<string, array{array<string, int|string>, string}>
+     */
     public function refreshAccessTokenDataProvider(): array
     {
         return [
@@ -109,6 +113,20 @@ class OAuth2Test extends TestCase
                 'rotated-refresh-token',
             ],
         ];
+    }
+
+    public function testRefreshAccessTokenRejectsNonArrayResponse(): void
+    {
+        $oauthClient = $this->getMockBuilder(OAuth2::class)
+            ->onlyMethods(['initUserAttributes', 'sendRequest', 'setAccessToken'])
+            ->getMock();
+        $oauthClient->tokenUrl = 'https://example.com/token';
+        $oauthClient->expects($this->once())->method('sendRequest')->willReturn('invalid response');
+        $oauthClient->expects($this->never())->method('setAccessToken');
+
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('OAuth2 token refresh response must be an array.');
+        $oauthClient->refreshAccessToken(new OAuthToken(['refreshToken' => 'original-refresh-token']));
     }
 
     public function testGetOriginDerivedFromReturnUrl(): void

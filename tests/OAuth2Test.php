@@ -9,6 +9,7 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth2;
+use yii\authclient\OAuthToken;
 use yii\base\InvalidConfigException;
 
 class OAuth2Test extends TestCase
@@ -55,6 +56,59 @@ class OAuth2Test extends TestCase
         $this->assertStringContainsString($authUrl, $builtAuthUrl, 'No auth URL present!');
         $this->assertStringContainsString($clientId, $builtAuthUrl, 'No client id present!');
         $this->assertStringContainsString(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
+    }
+
+    /**
+     * @dataProvider refreshAccessTokenDataProvider
+     */
+    public function testRefreshAccessToken(array $response, $expectedRefreshToken): void
+    {
+        $oauthClient = $this->getMockBuilder(OAuth2::class)
+            ->onlyMethods(['initUserAttributes', 'sendRequest'])
+            ->getMock();
+        $oauthClient->tokenUrl = 'https://example.com/token';
+        $requestCount = 0;
+        $oauthClient->expects($this->exactly(2))
+            ->method('sendRequest')
+            ->willReturnCallback(function ($request) use ($response, $expectedRefreshToken, &$requestCount) {
+                $params = $request->getData();
+                $this->assertSame('refresh_token', $params['grant_type']);
+                $this->assertSame($requestCount++ === 0 ? 'original-refresh-token' : $expectedRefreshToken, $params['refresh_token']);
+                return $response;
+            });
+
+        $token = new OAuthToken([
+            'tokenParamKey' => 'access_token',
+            'createTimestamp' => time() - 7200,
+            'params' => [
+                'access_token' => 'expired-access-token',
+                'refresh_token' => 'original-refresh-token',
+                'expires_in' => 3600,
+            ],
+        ]);
+
+        for ($i = 0; $i < 2; ++$i) {
+            $token = $oauthClient->refreshAccessToken($token);
+            $this->assertSame($expectedRefreshToken, $token->getRefreshToken());
+            $this->assertSame('new-access-token', $token->getToken());
+            $this->assertSame(1800, $token->getExpireDuration());
+            $this->assertFalse($token->getIsExpired());
+            $this->assertSame($token, $oauthClient->getAccessToken());
+        }
+    }
+
+    public function refreshAccessTokenDataProvider(): array
+    {
+        return [
+            'refresh token omitted' => [
+                ['access_token' => 'new-access-token', 'expires_in' => 1800],
+                'original-refresh-token',
+            ],
+            'refresh token rotated' => [
+                ['access_token' => 'new-access-token', 'expires_in' => 1800, 'refresh_token' => 'rotated-refresh-token'],
+                'rotated-refresh-token',
+            ],
+        ];
     }
 
     public function testGetOriginDerivedFromReturnUrl(): void

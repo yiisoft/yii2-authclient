@@ -21,7 +21,7 @@ OAuth プロバイダのウェブ・サイトを訪問する必要のない、�
 $loginForm = new LoginForm();
 
 if ($loginForm->load(Yii::$app->request->post()) && $loginForm->validate()) {
-    /* @var $client \yii\authclient\OAuth2 */
+    /** @var \yii\authclient\OAuth2 $client */
     $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
     try {
@@ -45,7 +45,7 @@ if ($loginForm->load(Yii::$app->request->post()) && $loginForm->validate()) {
 例えば、
 
 ```php
-/* @var $client \yii\authclient\OAuth2 */
+/** @var \yii\authclient\OAuth2 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
 // クライアントだけの直接認証

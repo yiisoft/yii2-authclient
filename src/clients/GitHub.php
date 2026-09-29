@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -40,6 +41,10 @@ use yii\authclient\OAuth2;
  */
 class GitHub extends OAuth2
 {
+    /**
+     * {@inheritdoc}
+     */
+    public $accessTokenLocation = OAuth2::ACCESS_TOKEN_LOCATION_HEADER;
     /**
      * {@inheritdoc}
      */

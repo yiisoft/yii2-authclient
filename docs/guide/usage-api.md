@@ -24,7 +24,7 @@ instance of [[\yii\httpclient\Request]], which allows much more control over HTT
 For example:
 
 ```php
-/* @var $client \yii\authclient\OAuth2 */
+/** @var \yii\authclient\OAuth2 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
 // find user to add to external service:
@@ -68,7 +68,7 @@ to perform missing actions for the API request.
 For example:
 
 ```php
-/* @var $client \yii\authclient\OAuth1 */
+/** @var \yii\authclient\OAuth1 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth1');
 
 $request = $client->createRequest()

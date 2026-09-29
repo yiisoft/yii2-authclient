@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -57,8 +58,8 @@ use yii\authclient\ClientInterface;
  *
  * @see \yii\authclient\AuthAction
  *
- * @property-read array $baseAuthUrl Base auth URL configuration.
- * @property-read ClientInterface[] $clients Auth providers.
+ * @property array $baseAuthUrl Base auth URL configuration.
+ * @property ClientInterface[] $clients Auth providers.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
@@ -150,7 +151,7 @@ class AuthChoice extends Widget
      */
     protected function defaultClients()
     {
-        /* @var $collection \yii\authclient\Collection */
+        /** @var \yii\authclient\Collection $collection */
         $collection = Yii::$app->get($this->clientCollection);
 
         return $collection->getClients();
@@ -211,10 +212,10 @@ class AuthChoice extends Widget
         if (!isset($widgetConfig['class'])) {
             throw new InvalidConfigException('Widget config "class" parameter is missing');
         }
-        /* @var $widgetClass Widget */
+        /** @var Widget $widgetClass */
         $widgetClass = $widgetConfig['class'];
-        if (!(is_subclass_of($widgetClass, AuthChoiceItem::className()))) {
-            throw new InvalidConfigException('Item widget class must be subclass of "' . AuthChoiceItem::className() . '"');
+        if (!(is_subclass_of($widgetClass, AuthChoiceItem::class))) {
+            throw new InvalidConfigException('Item widget class must be subclass of "' . AuthChoiceItem::class . '"');
         }
         unset($widgetConfig['class']);
         $widgetConfig['client'] = $client;

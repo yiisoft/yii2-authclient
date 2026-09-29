@@ -1,0 +1,23 @@
+---
+
+services:
+
+  php:
+    image: "yiisoftware/yii2-php:${PHP_VERSION:-8.1}-apache"
+    networks:
+      - yii2-authclient
+    volumes:
+      - .:/app # Mount source-code for development
+    environment:
+      XDEBUG_MODE: ${XDEBUG_MODE:-coverage} # Setup "debug" to enable debugging
+      XDEBUG_CONFIG: "client_host=host.docker.internal"
+      XDEBUG_TRIGGER: ${XDEBUG_TRIGGER:-yes}
+    command: >
+      bash -c "
+      docker-php-ext-enable xdebug;
+      apache2-foreground"
+
+networks:
+  yii2-authclient:
+    driver: bridge
+    name: yii2-authclient

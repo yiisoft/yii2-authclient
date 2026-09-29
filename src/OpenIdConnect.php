@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -7,9 +8,9 @@
 
 namespace yii\authclient;
 
-use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Checker\AlgorithmChecker;
 use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSTokenSupport;
@@ -65,8 +66,9 @@ use yii\web\HttpException;
  * @see https://openid.net/connect/
  * @see OAuth2
  *
- * @property Cache|null $cache The cache object, `null` - if not enabled. Note that the type of this property
- * differs in getter and setter. See [[getCache()]] and [[setCache()]] for details.
+ * @property-read Cache|null $cache The cache object, `null` - if not enabled.
+ * @property-write Cache|array|string|null $cache The cache object or the ID of the cache application
+ * component.
  * @property array $configParams OpenID provider configuration parameters.
  * @property bool $validateAuthNonce Whether to use and validate auth 'nonce' parameter in authentication
  * flow.
@@ -76,6 +78,10 @@ use yii\web\HttpException;
  */
 class OpenIdConnect extends OAuth2
 {
+    /**
+     * {@inheritdoc}
+     */
+    public $accessTokenLocation = OAuth2::ACCESS_TOKEN_LOCATION_HEADER;
     /**
      * @var array Predefined OpenID Connect Claims
      * @see https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2
@@ -122,7 +128,7 @@ class OpenIdConnect extends OAuth2
     ];
     /**
      * @var string the prefix for the key used to store [[configParams]] data in cache.
-     * Actual cache key will be formed addition [[id]] value to it.
+     * Actual cache key will be formed with the [[id]] and [[issuerUrl]] values appended to it.
      * @see cache
      */
     public $configParamsCacheKeyPrefix = 'config-params-';
@@ -155,6 +161,10 @@ class OpenIdConnect extends OAuth2
      * @var JWKSet Key Set
      */
     private $_jwkSet;
+    /**
+     * @var int cache duration in seconds, default: 1 week
+     */
+    private $cacheDuration = 604800;
 
 
     /**
@@ -182,7 +192,7 @@ class OpenIdConnect extends OAuth2
     public function getCache()
     {
         if ($this->_cache !== null && !is_object($this->_cache)) {
-            $this->_cache = Instance::ensure($this->_cache, Cache::className());
+            $this->_cache = Instance::ensure($this->_cache, Cache::class);
         }
         return $this->_cache;
     }
@@ -210,16 +220,16 @@ class OpenIdConnect extends OAuth2
     {
         if ($this->_configParams === null) {
             $cache = $this->getCache();
-            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId();
+            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId() . '_' . $this->issuerUrl;
             if ($cache === null || ($configParams = $cache->get($cacheKey)) === false) {
                 $configParams = $this->discoverConfig();
+
+                if ($cache !== null) {
+                    $cache->set($cacheKey, $configParams, $this->cacheDuration);
+                }
             }
 
             $this->_configParams = $configParams;
-
-            if ($cache !== null) {
-                $cache->set($cacheKey, $configParams);
-            }
         }
         return $this->_configParams;
     }
@@ -334,7 +344,9 @@ class OpenIdConnect extends OAuth2
             }
         } else {
             $accessToken = $this->accessToken;
-            $idToken = $accessToken->getParam('id_token');
+            if ($accessToken !== null) {
+                $idToken = $accessToken->getParam('id_token');
+            }
         }
 
         $idTokenData = [];
@@ -355,18 +367,9 @@ class OpenIdConnect extends OAuth2
     /**
      * {@inheritdoc}
      */
-    public function applyAccessTokenToRequest($request, $accessToken)
-    {
-        // OpenID Connect requires bearer token auth for the user info endpoint
-        $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function applyClientCredentialsToRequest($request)
     {
-        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported', 'client_secret_basic');
+        $supportedAuthMethods = $this->getConfigParam('token_endpoint_auth_methods_supported', ['client_secret_basic']);
 
         if (in_array('client_secret_basic', $supportedAuthMethods)) {
             $request->addHeaders([
@@ -401,7 +404,7 @@ class OpenIdConnect extends OAuth2
                 'assertion' => $assertion,
             ]);
         } else {
-            throw new InvalidConfigException('Unable to authenticate request: none of following auth methods is suported: ' . implode(', ', $supportedAuthMethods));
+            throw new InvalidConfigException('Unable to authenticate request: none of following auth methods is supported: ' . implode(', ', $supportedAuthMethods));
         }
     }
 
@@ -441,20 +444,20 @@ class OpenIdConnect extends OAuth2
     {
         if ($this->_jwkSet === null) {
             $cache = $this->getCache();
-            $cacheKey = $this->configParamsCacheKeyPrefix . '_jwkSet';
+            $cacheKey = $this->configParamsCacheKeyPrefix . $this->getId() . '_' . $this->issuerUrl . '_jwkSet';
             if ($cache === null || ($jwkSet = $cache->get($cacheKey)) === false) {
                 $request = $this->createRequest()
                     ->setMethod('GET')
                     ->setUrl($this->getConfigParam('jwks_uri'));
                 $response = $this->sendRequest($request);
                 $jwkSet = JWKFactory::createFromValues($response);
+
+                if ($cache !== null) {
+                    $cache->set($cacheKey, $jwkSet, $this->cacheDuration);
+                }
             }
 
             $this->_jwkSet = $jwkSet;
-
-            if ($cache !== null) {
-                $cache->set($cacheKey, $jwkSet);
-            }
         }
         return $this->_jwkSet;
     }
@@ -468,12 +471,10 @@ class OpenIdConnect extends OAuth2
     {
         if ($this->_jwsLoader === null) {
             $algorithms = [];
-            foreach ($this->allowedJwsAlgorithms as $algorithm)
-            {
+            foreach ($this->allowedJwsAlgorithms as $algorithm) {
                 $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
-                if (!class_exists($class))
-                {
-                    throw new InvalidConfigException("Alogrithm class $class doesn't exist");
+                if (!class_exists($class)) {
+                    throw new InvalidConfigException("Algorithm class $class doesn't exist");
                 }
                 $algorithms[] = new $class();
             }
@@ -520,7 +521,8 @@ class OpenIdConnect extends OAuth2
         if (!isset($claims['iss']) || (strcmp(rtrim($claims['iss'], '/'), rtrim($expectedIssuer, '/')) !== 0)) {
             throw new HttpException(400, 'Invalid "iss"');
         }
-        if (!isset($claims['aud'])
+        if (
+            !isset($claims['aud'])
             || (!is_string($claims['aud']) && !is_array($claims['aud']))
             || (is_string($claims['aud']) && strcmp($claims['aud'], $this->clientId) !== 0)
             || (is_array($claims['aud']) && !in_array($this->clientId, $claims['aud']))

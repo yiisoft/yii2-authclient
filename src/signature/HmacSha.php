@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -13,6 +14,8 @@ use yii\base\NotSupportedException;
  * HmacSha1 represents 'HMAC SHA' signature method.
  *
  * > **Note:** This class requires PHP "Hash" extension(<https://php.net/manual/en/book.hash.php>).
+ *
+ * @property-read string $name Method name.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.1.3

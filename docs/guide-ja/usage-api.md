@@ -24,7 +24,7 @@ $userInfo = $client->api('userinfo', 'GET');
 例えば、
 
 ```php
-/* @var $client \yii\authclient\OAuth2 */
+/** @var \yii\authclient\OAuth2 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
 // 外部サービスに追加すべきユーザを探す
@@ -68,7 +68,7 @@ HTTP リクエストの送信に関する詳細は、[yii2-httpclient](https://g
 例えば、
 
 ```php
-/* @var $client \yii\authclient\OAuth1 */
+/** @var \yii\authclient\OAuth1 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth1');
 
 $request = $client->createRequest()

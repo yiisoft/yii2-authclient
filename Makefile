@@ -1,26 +1,25 @@
+help:			## Display help information.
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
-# default versions to test against
-# these can be overridden by setting the environment variables in the shell
-PHP_VERSION=php-5.6.8
-YII_VERSION=dev-master
+start:			## Start services
+	docker compose up -d
 
-# ensure all the configuration variables above are in environment of the shell commands below
-export
+test:			## Run tests. Params: {{ v=8.1 }}.
+	PHP_VERSION=$(filter-out $@,$(v)) docker compose build --pull yii2-authclient-php
+	PHP_VERSION=$(filter-out $@,$(v)) docker compose up -d
+	PHP_VERSION=$(filter-out $@,$(v)) docker compose exec yii2-authclient-php sh -c "php -v && composer update && vendor/bin/phpunit --coverage-clover=coverage.xml"
+	make down
 
-help:
-	@echo "make test    - run phpunit tests using a docker environment"
-#	@echo "make clean   - stop docker and remove container"
+build:			## Build an image from a docker-compose file. Params: {{ v=8.1 }}.
+	PHP_VERSION=$(filter-out $@,$(v)) docker compose up -d --build
 
-test: docker-php
-	composer require "yiisoft/yii2:${YII_VERSION}" --prefer-dist --ignore-platform-reqs
-	composer install --prefer-dist --ignore-platform-reqs
-	docker run --rm=true -v $(shell pwd):/opt/test yiitest/php:${PHP_VERSION} phpunit --verbose --color
+down:			## Stop and remove containers, networks
+	docker compose down
 
-docker-php: dockerfiles
-	cd tests/docker/php && sh build.sh
+sh:			## Enter the container with the application
+	docker exec -it yii2-authclient-php-1 bash
 
-dockerfiles:
-	test -d tests/docker || git clone https://github.com/cebe/jenkins-test-docker tests/docker
-	cd tests/docker && git checkout -- . && git pull
-	mkdir -p tests/dockerids
-
+static-analysis:	## Run code static analyze. Params: {{ v=8.1 }}.
+	make build v=$(filter-out $@,$(v))
+	PHP_VERSION=$(filter-out $@,$(v)) docker compose exec yii2-authclient-php sh -c "php -v && composer update && vendor/bin/phpstan analyse --memory-limit 512M"
+	make down

@@ -26,6 +26,7 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+.phpunit.result.cache
 
 # local tests configuration
 /tests/data/config.local.php
@@ -34,3 +35,6 @@ phpunit.phar
 /tests/docker
 /tests/dockerids
 
+# PHP CS Fixer
+.php-cs-fixer.php
+.php-cs-fixer.cache

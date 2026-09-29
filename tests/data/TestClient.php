@@ -12,7 +12,7 @@ class TestClient extends BaseClient
     /**
      * {@inheritdoc}
      */
-    protected function initUserAttributes()
+    protected function initUserAttributes(): array
     {
         return [];
     }

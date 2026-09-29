@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -8,7 +9,6 @@
 namespace yii\authclient;
 
 use Yii;
-use yii\authclient\StateStorageInterface;
 use yii\caching\Cache;
 use yii\base\Component;
 use yii\di\Instance;

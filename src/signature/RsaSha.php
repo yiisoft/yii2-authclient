@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -17,6 +18,7 @@ use yii\base\NotSupportedException;
  *
  * @property string $privateCertificate Private key certificate content.
  * @property string $publicCertificate Public key certificate content.
+ * @property-read string $name Method name.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.1.3

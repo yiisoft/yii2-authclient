@@ -1,10 +1,40 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.16 under development
+2.2.19 under development
 ------------------------
 
-- no changes in this release.
+- Bug #414: Send a valid origin instead of the relative path `/` in the PKCE token request `Origin` header, so providers validating it (e.g. Keycloak) no longer reject the request; the origin is derived from `returnUrl` and can be configured via the new `OAuth2::$origin` property (@luke-)
+
+
+2.2.18 September 29, 2026
+-------------------------
+
+- Bug #393: Fix type for `BaseOAuth::$accessToken` (mspirkov)
+- Bug #396: Fix `BaseOAuth::refreshAccessToken()` when no refresh token exists (kalmer)
+- Bug #401: Explicit null in `InvalidResponseException` constructor (@cyansoftdev)
+- Bug #405: Fixed OpenID Connect Client cache key by including the issuerUrl (rhertogh)
+- Bug #406: Add explicit nullable type to `OAuthToken` parameters in `OAuth1` and `Facebook` clients to avoid PHP `8.4` implicit nullable types deprecation (@terabytesoftw)
+- Bug #407: Cast nullable secrets to string before `hash_hmac()` and `rawurlencode()` in `Facebook` and `OAuth1` clients to avoid PHP `8.5` deprecations (@terabytesoftw)
+- Bug #417: Separate the `@property` annotations in case of different types in getters and setters (mspirkov)
+- Enh #398: Updated VKontakte client to use `vk.ru` domains instead of `vk.com` (DMITRII1548)
+- Enh #403: Applying Yii2 coding standards (@s1lver)
+- Enh #403: Raise min version to PHP 7.4 (@s1lver)
+- Enh #420: Add the missing `@property` tags (mspirkov)
+
+
+2.2.17 February 13, 2025
+------------------------
+
+- Bug #392: Now using array as default value for `token_endpoint_auth_methods_supported` in `OpenIdConnect::applyClientCredentialsToRequest()` (strtob, rhertogh)
+
+
+2.2.16 May 10, 2024
+-------------------
+
+- Enh #387: Use appropriate exception if client does not exist (eluhr)
+- Enh #388: Added support to configure the OAuth2 access token location in requests and added a generic OAuth2 client (rhertogh)
+- Enh #389: Added ability to configure OpenIdConnect cache duration, default is 1 week (viktorprogger)
 
 
 2.2.15 December 16, 2023
@@ -275,6 +305,3 @@ Yii Framework 2 authclient extension Change Log
 -------------------------
 
 - Initial release.
-
-
-

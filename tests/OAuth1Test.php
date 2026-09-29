@@ -1,14 +1,20 @@
 <?php
 
+/**
+ * @link https://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth1;
-use yii\authclient\signature\BaseMethod;
 use yii\authclient\OAuthToken;
+use yii\authclient\signature\BaseMethod;
 
 class OAuth1Test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -27,15 +33,17 @@ class OAuth1Test extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(OAuth1::className())
-            ->setMethods(['initUserAttributes'])
+        $oauthClient = $this->getMockBuilder(OAuth1::class)
+            ->onlyMethods(['initUserAttributes'])
             ->getMock();
+        $oauthClient->apiBaseUrl = 'https://www.google.com';
+
         return $oauthClient;
     }
 
     // Tests :
 
-    public function testSignRequest()
+    public function testSignRequest(): void
     {
         $oauthClient = $this->createClient();
 
@@ -45,8 +53,8 @@ class OAuth1Test extends TestCase
             'a' => 'another',
         ]);
 
-        /* @var $oauthSignatureMethod BaseMethod|\PHPUnit_Framework_MockObject_MockObject */
-        $oauthSignatureMethod = $this->getMockBuilder(BaseMethod::className())
+        /** @var BaseMethod|\PHPUnit_Framework_MockObject_MockObject $oauthSignatureMethod */
+        $oauthSignatureMethod = $this->getMockBuilder(BaseMethod::class)
             ->setMethods(['getName', 'generateSignature'])
             ->getMock();
         $oauthSignatureMethod->expects($this->any())
@@ -85,7 +93,7 @@ class OAuth1Test extends TestCase
     /**
      * @depends testSignRequest
      */
-    public function testAuthorizationHeaderMethods()
+    public function testAuthorizationHeaderMethods(): void
     {
         $oauthClient = $this->createClient();
 
@@ -122,7 +130,7 @@ class OAuth1Test extends TestCase
      * Data provider for [[testComposeAuthorizationHeader()]].
      * @return array test data.
      */
-    public function composeAuthorizationHeaderDataProvider()
+    public function composeAuthorizationHeaderDataProvider(): array
     {
         return [
             [
@@ -159,14 +167,14 @@ class OAuth1Test extends TestCase
      * @param array  $params                      request params.
      * @param string $expectedAuthorizationHeader expected authorization header.
      */
-    public function testComposeAuthorizationHeader($realm, array $params, $expectedAuthorizationHeader)
+    public function testComposeAuthorizationHeader($realm, array $params, $expectedAuthorizationHeader): void
     {
         $oauthClient = $this->createClient();
         $authorizationHeader = $this->invoke($oauthClient, 'composeAuthorizationHeader', [$params, $realm]);
         $this->assertEquals($expectedAuthorizationHeader, $authorizationHeader);
     }
 
-    public function testBuildAuthUrl()
+    public function testBuildAuthUrl(): void
     {
         $oauthClient = $this->createClient();
         $authUrl = 'http://test.auth.url';
@@ -178,7 +186,7 @@ class OAuth1Test extends TestCase
 
         $builtAuthUrl = $oauthClient->buildAuthUrl($requestToken);
 
-        $this->assertContains($authUrl, $builtAuthUrl, 'No auth URL present!');
-        $this->assertContains($requestTokenToken, $builtAuthUrl, 'No token present!');
+        $this->assertStringContainsString($authUrl, $builtAuthUrl, 'No auth URL present!');
+        $this->assertStringContainsString($requestTokenToken, $builtAuthUrl, 'No token present!');
     }
 }

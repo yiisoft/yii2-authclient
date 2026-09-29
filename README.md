@@ -16,9 +16,14 @@ Documentation is at [docs/guide/README.md](https://github.com/yiisoft/yii2-authc
 [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-authclient/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-authclient)
 [![Total Downloads](https://poser.pugx.org/yiisoft/yii2-authclient/downloads.png)](https://packagist.org/packages/yiisoft/yii2-authclient)
 [![Build Status](https://github.com/yiisoft/yii2-authclient/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-authclient/actions)
+[![codecov](https://codecov.io/gh/yiisoft/yii2-authclient/graph/badge.svg)](https://codecov.io/gh/yiisoft/yii2-authclient)
 
 Installation
 ------------
+
+> [!IMPORTANT]
+> - The minimum required [PHP](https://www.php.net/) version is PHP `7.4`.
+> - It works best with PHP `8`.
 
 The preferred way to install this extension is through [composer](https://getcomposer.org/download/).
 

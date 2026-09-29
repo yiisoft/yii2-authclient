@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -15,6 +16,8 @@ namespace yii\authclient\signature;
  * Since 2.1.3 this class is deprecated, use [[RsaSha]] with `OPENSSL_ALGO_SHA1` algorithm instead.
  *
  * @see RsaSha
+ *
+ * @property-read string $name Method name.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

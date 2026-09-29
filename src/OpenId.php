@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -303,8 +304,8 @@ class OpenId extends BaseClient
         $urlInfo = array_merge($baseUrl, $additionalUrl);
         $url = $urlInfo['scheme'] . '://'
             . (empty($urlInfo['username']) ? ''
-                :(empty($urlInfo['password']) ? "{$urlInfo['username']}@"
-                    :"{$urlInfo['username']}:{$urlInfo['password']}@"))
+                : (empty($urlInfo['password']) ? "{$urlInfo['username']}@"
+                    : "{$urlInfo['username']}:{$urlInfo['password']}@"))
             . $urlInfo['host']
             . (empty($urlInfo['port']) ? '' : ":{$urlInfo['port']}")
             . (empty($urlInfo['path']) ? '' : $urlInfo['path'])
@@ -374,7 +375,7 @@ class OpenId extends BaseClient
         $yadis = true;
 
         // We'll jump a maximum of 5 times, to avoid endless redirections.
-        for ($i = 0; $i < 5; $i ++) {
+        for ($i = 0; $i < 5; $i++) {
             if ($yadis) {
                 $headers = $this->sendRequest($url, 'HEAD');
 
@@ -384,7 +385,8 @@ class OpenId extends BaseClient
                     $next = true;
                 }
 
-                if (isset($headers['content-type'])
+                if (
+                    isset($headers['content-type'])
                     && (strpos($headers['content-type'], 'application/xrds+xml') !== false
                         || strpos($headers['content-type'], 'text/xml') !== false)
                 ) {
@@ -401,7 +403,7 @@ class OpenId extends BaseClient
 
                         // OpenID 2
                         $ns = preg_quote('http://specs.openid.net/auth/2.0/');
-                        if (preg_match('#<Type>\s*'.$ns.'(server|signon)\s*</Type>#s', $content, $type)) {
+                        if (preg_match('#<Type>\s*' . $ns . '(server|signon)\s*</Type>#s', $content, $type)) {
                             if ($type[1] == 'server') {
                                 $result['identifier_select'] = true;
                             }
@@ -428,7 +430,7 @@ class OpenId extends BaseClient
 
                         // OpenID 1.1
                         $ns = preg_quote('http://openid.net/signon/1.1');
-                        if (preg_match('#<Type>\s*'.$ns.'\s*</Type>#s', $content)) {
+                        if (preg_match('#<Type>\s*' . $ns . '\s*</Type>#s', $content)) {
                             preg_match('#<URI.*?>(.*)</URI>#', $content, $server);
                             preg_match('#<.*?Delegate>(.*)</.*?Delegate>#', $content, $delegate);
                             if (empty($server)) {
@@ -641,7 +643,7 @@ class OpenId extends BaseClient
         if ($serverInfo['identifier_select']) {
             $url = 'http://specs.openid.net/auth/2.0/identifier_select';
             $params['openid.identity'] = $url;
-            $params['openid.claimed_id']= $url;
+            $params['openid.claimed_id'] = $url;
         } else {
             $params['openid.identity'] = $serverInfo['identity'];
             $params['openid.claimed_id'] = $this->getClaimedId();

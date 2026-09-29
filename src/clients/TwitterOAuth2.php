@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -27,6 +28,10 @@ use yii\authclient\OAuth2;
  */
 class TwitterOAuth2 extends OAuth2
 {
+    /**
+     * {@inheritdoc}
+     */
+    public $accessTokenLocation = OAuth2::ACCESS_TOKEN_LOCATION_HEADER;
     /**
      * {@inheritdoc}
      */
@@ -63,13 +68,5 @@ class TwitterOAuth2 extends OAuth2
     protected function defaultTitle()
     {
         return 'Twitter';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function applyAccessTokenToRequest($request, $accessToken)
-    {
-        $request->getHeaders()->set('Authorization', 'Bearer '. $accessToken->getToken());
     }
 }

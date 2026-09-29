@@ -1,12 +1,19 @@
 <?php
 
+/**
+ * @link https://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth2;
+use yii\base\InvalidConfigException;
 
 class OAuth2Test extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $config = [
             'components' => [
@@ -25,15 +32,15 @@ class OAuth2Test extends TestCase
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(OAuth2::className())
-            ->setMethods(['initUserAttributes'])
+        $oauthClient = $this->getMockBuilder(OAuth2::class)
+            ->onlyMethods(['initUserAttributes'])
             ->getMock();
         return $oauthClient;
     }
 
     // Tests :
 
-    public function testBuildAuthUrl()
+    public function testBuildAuthUrl(): void
     {
         $oauthClient = $this->createClient();
         $authUrl = 'http://test.auth.url';
@@ -45,12 +52,46 @@ class OAuth2Test extends TestCase
 
         $builtAuthUrl = $oauthClient->buildAuthUrl();
 
-        $this->assertContains($authUrl, $builtAuthUrl, 'No auth URL present!');
-        $this->assertContains($clientId, $builtAuthUrl, 'No client id present!');
-        $this->assertContains(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
+        $this->assertStringContainsString($authUrl, $builtAuthUrl, 'No auth URL present!');
+        $this->assertStringContainsString($clientId, $builtAuthUrl, 'No client id present!');
+        $this->assertStringContainsString(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
 
-    public function testPkceCodeChallengeIsPresentInAuthUrl()
+    public function testGetOriginDerivedFromReturnUrl(): void
+    {
+        $oauthClient = $this->createClient();
+        $oauthClient->returnUrl = 'https://example.com/admin/site/auth?authclient=test';
+
+        $this->assertEquals('https://example.com', $oauthClient->getOrigin());
+    }
+
+    public function testGetOriginKeepsExplicitPort(): void
+    {
+        $oauthClient = $this->createClient();
+        $oauthClient->returnUrl = 'https://example.com:8443/site/auth';
+
+        $this->assertEquals('https://example.com:8443', $oauthClient->getOrigin());
+    }
+
+    public function testGetOriginThrowsOnRelativeReturnUrl(): void
+    {
+        $oauthClient = $this->createClient();
+        $oauthClient->returnUrl = '/site/auth';
+
+        $this->expectException(InvalidConfigException::class);
+        $oauthClient->getOrigin();
+    }
+
+    public function testSetOrigin(): void
+    {
+        $oauthClient = $this->createClient();
+        $oauthClient->returnUrl = 'https://example.com/site/auth';
+        $oauthClient->origin = 'https://origin.example.com';
+
+        $this->assertEquals('https://origin.example.com', $oauthClient->getOrigin());
+    }
+
+    public function testPkceCodeChallengeIsPresentInAuthUrl(): void
     {
         $oauthClient = $this->createClient();
         $oauthClient->enablePkce = true;
@@ -61,7 +102,7 @@ class OAuth2Test extends TestCase
 
         $builtAuthUrl = $oauthClient->buildAuthUrl();
 
-        $this->assertContains('code_challenge=', $builtAuthUrl, 'No code challenge Present!');
-        $this->assertContains('code_challenge_method=S256', $builtAuthUrl, 'No code challenge method Present!');
+        $this->assertStringContainsString('code_challenge=', $builtAuthUrl, 'No code challenge Present!');
+        $this->assertStringContainsString('code_challenge_method=S256', $builtAuthUrl, 'No code challenge method Present!');
     }
 }

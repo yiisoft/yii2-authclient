@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yiiunit\extensions\authclient\signature;
 
 use yii\authclient\signature\PlainText;
@@ -7,7 +13,7 @@ use yiiunit\extensions\authclient\TestCase;
 
 class PlainTextTest extends TestCase
 {
-    public function testGenerateSignature()
+    public function testGenerateSignature(): void
     {
         $signatureMethod = new PlainText();
 

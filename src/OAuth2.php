@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.yiiframework.com/
  * @copyright Copyright (c) 2008 Yii Software LLC
@@ -8,8 +9,8 @@
 namespace yii\authclient;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\helpers\Json;
-use yii\helpers\Url;
 use yii\web\HttpException;
 
 /**
@@ -32,11 +33,24 @@ use yii\web\HttpException;
  * @see https://oauth.net/2/
  * @see https://tools.ietf.org/html/rfc6749
  *
+ * @property string $origin Origin value.
+ *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */
 abstract class OAuth2 extends BaseOAuth
 {
+    /**
+     * Apply the access token to the request header
+     * @since 2.2.16
+     */
+    public const ACCESS_TOKEN_LOCATION_HEADER = 'header';
+    /**
+     * Apply the access token to the request body
+     * @since 2.2.16
+     */
+    public const ACCESS_TOKEN_LOCATION_BODY = 'body';
+
     /**
      * @var string protocol version.
      */
@@ -70,7 +84,46 @@ abstract class OAuth2 extends BaseOAuth
      * @see https://oauth.net/2/pkce/
      */
     public $enablePkce = false;
+    /**
+     * @var string The location of the access token when it is applied to the request.
+     * NOTE: According to the OAuth2 specification this should be `header` by default,
+     * however, for backwards compatibility the default value used here is `body`.
+     * @since 2.2.16
+     *
+     * @see https://datatracker.ietf.org/doc/html/rfc6749#section-7
+     */
+    public $accessTokenLocation = self::ACCESS_TOKEN_LOCATION_BODY;
 
+    /**
+     * @var string|null value of the `Origin` header sent with the access token request when [[enablePkce]]
+     * is enabled. Note: this should be a valid origin (scheme, host and optional port, e.g. `https://example.com`).
+     * By default the origin is derived from [[returnUrl]].
+     * @since 2.2.19
+     */
+    private $_origin;
+
+
+    /**
+     * @param string $origin origin value.
+     * @return void
+     * @since 2.2.19
+     */
+    public function setOrigin($origin)
+    {
+        $this->_origin = $origin;
+    }
+
+    /**
+     * @return string origin value.
+     * @since 2.2.19
+     */
+    public function getOrigin()
+    {
+        if ($this->_origin === null) {
+            $this->_origin = $this->defaultOrigin();
+        }
+        return $this->_origin;
+    }
 
     /**
      * Composes user authorization URL.
@@ -150,9 +203,9 @@ abstract class OAuth2 extends BaseOAuth
             ->setUrl($this->tokenUrl)
             ->setData(array_merge($defaultParams, $params));
 
-         // Azure AD will complain if there is no `Origin` header.
+        // Azure AD will complain if there is no `Origin` header.
         if ($this->enablePkce) {
-            $request->addHeaders(['Origin' => Url::to('/')]);
+            $request->addHeaders(['Origin' => $this->getOrigin()]);
         }
 
         $this->applyClientCredentialsToRequest($request);
@@ -167,12 +220,22 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * {@inheritdoc}
+     * @throws InvalidConfigException
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
-        $data = $request->getData();
-        $data['access_token'] = $accessToken->getToken();
-        $request->setData($data);
+        switch ($this->accessTokenLocation) {
+            case self::ACCESS_TOKEN_LOCATION_BODY:
+                $data = $request->getData();
+                $data['access_token'] = $accessToken->getToken();
+                $request->setData($data);
+                break;
+            case self::ACCESS_TOKEN_LOCATION_HEADER:
+                $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
+                break;
+            default:
+                throw new InvalidConfigException('Unknown access token location: ' . $this->accessTokenLocation);
+        }
     }
 
     /**
@@ -214,6 +277,26 @@ abstract class OAuth2 extends BaseOAuth
         $this->setAccessToken($token);
 
         return $token;
+    }
+
+    /**
+     * Composes default [[origin]] value, deriving it from [[returnUrl]].
+     * @return string origin value.
+     * @throws InvalidConfigException if the origin can not be derived from [[returnUrl]].
+     * @since 2.2.19
+     */
+    protected function defaultOrigin()
+    {
+        $components = parse_url($this->getReturnUrl());
+        if (!isset($components['scheme'], $components['host'])) {
+            throw new InvalidConfigException('Unable to derive the origin from "returnUrl". Set the "origin" property explicitly.');
+        }
+
+        $origin = $components['scheme'] . '://' . $components['host'];
+        if (isset($components['port'])) {
+            $origin .= ':' . $components['port'];
+        }
+        return $origin;
     }
 
     /**

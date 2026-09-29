@@ -21,7 +21,7 @@
 $loginForm = new LoginForm();
 
 if ($loginForm->load(Yii::$app->request->post()) && $loginForm->validate()) {
-    /* @var $client \yii\authclient\OAuth2 */
+    /** @var \yii\authclient\OAuth2 $client */
     $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
     try {
@@ -45,7 +45,7 @@ OAuth клиента (ваше приложение) без задействов
 Например:
 
 ```php
-/* @var $client \yii\authclient\OAuth2 */
+/** @var \yii\authclient\OAuth2 $client */
 $client = Yii::$app->authClientCollection->getClient('someOAuth2');
 
 // аутентификация исключительно клиета напрямую:

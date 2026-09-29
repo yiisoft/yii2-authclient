@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yiiunit\extensions\authclient\signature;
 
 use yii\authclient\signature\RsaSha;
@@ -63,7 +69,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
      * Data provider for [[testGetName()]]
      * @return array test data
      */
-    public function dataProviderGetName()
+    public function dataProviderGetName(): array
     {
         return [
             [OPENSSL_ALGO_SHA1, 'RSA-SHA1'],
@@ -78,7 +84,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
      * @param $algorithm
      * @param $expectedName
      */
-    public function testGetName($algorithm, $expectedName)
+    public function testGetName($algorithm, $expectedName): void
     {
         if (defined('HHVM_VERSION')) {
             $this->markTestSkipped('Constants processing is unavailable at HHVM');
@@ -88,7 +94,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
         $this->assertEquals($expectedName, $signatureMethod->getName());
     }
 
-    public function testGenerateSignature()
+    public function testGenerateSignature(): void
     {
         $signatureMethod = new RsaSha(['algorithm' => OPENSSL_ALGO_SHA1]);
         $signatureMethod->setPrivateCertificate($this->getTestPrivateCertificate());
@@ -104,7 +110,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
     /**
      * @depends testGenerateSignature
      */
-    public function testVerify()
+    public function testVerify(): void
     {
         $signatureMethod = new RsaSha(['algorithm' => OPENSSL_ALGO_SHA1]);
         $signatureMethod->setPrivateCertificate($this->getTestPrivateCertificate());
@@ -119,7 +125,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
         $this->assertTrue($signatureMethod->verify($generatedSignature, $baseString, $key), 'Generated signature is invalid!');
     }
 
-    public function testInitPrivateCertificate()
+    public function testInitPrivateCertificate(): void
     {
         $signatureMethod = new RsaSha(['algorithm' => OPENSSL_ALGO_SHA1]);
 
@@ -128,7 +134,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
         $this->assertEquals(file_get_contents($certificateFileName), $signatureMethod->getPrivateCertificate(), 'Unable to fetch private certificate from file!');
     }
 
-    public function testInitPublicCertificate()
+    public function testInitPublicCertificate(): void
     {
         $signatureMethod = new RsaSha(['algorithm' => OPENSSL_ALGO_SHA1]);
 

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yiiunit\extensions\authclient\signature;
 
 use yiiunit\extensions\authclient\TestCase;
@@ -23,7 +29,7 @@ class BaseMethodTest extends TestCase
 
     // Tests :
 
-    public function testGenerateSignature()
+    public function testGenerateSignature(): void
     {
         $signatureMethod = $this->createTestSignatureMethod();
 
@@ -38,7 +44,7 @@ class BaseMethodTest extends TestCase
     /**
      * @depends testGenerateSignature
      */
-    public function testVerify()
+    public function testVerify(): void
     {
         $signatureMethod = $this->createTestSignatureMethod();
 

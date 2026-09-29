@@ -272,8 +272,11 @@ abstract class OAuth2 extends BaseOAuth
         $this->applyClientCredentialsToRequest($request);
 
         $response = $this->sendRequest($request);
+        if (!is_array($response)) {
+            throw new \UnexpectedValueException('OAuth2 token refresh response must be an array.');
+        }
 
-        $token = $this->createToken(['params' => $response]);
+        $token = $this->createToken(['params' => array_merge($token->getParams(), $response)]);
         $this->setAccessToken($token);
 
         return $token;

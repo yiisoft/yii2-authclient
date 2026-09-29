@@ -14,6 +14,7 @@ use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
 use yii\helpers\Url;
+use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -432,11 +433,16 @@ class AuthAction extends Action
 
     /**
      * @return string client ID
+     * @throws BadRequestHttpException if the client ID query parameter is an array.
      * @since 2.2.12
      */
     public function getClientId()
     {
         $clientId = Yii::$app->getRequest()->getQueryParam($this->clientIdGetParamName);
+
+        if (is_array($clientId)) {
+            throw new BadRequestHttpException('Invalid auth client ID.');
+        }
 
         if (!empty($clientId)) {
             return $clientId;

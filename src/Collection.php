@@ -39,6 +39,7 @@ use Yii;
  * ```
  *
  * @property-read ClientInterface[] $clients List of auth clients.
+ * @property-write array $clients List of auth clients.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0

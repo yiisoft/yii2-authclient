@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @link https://www.yiiframework.com/
+ * @copyright Copyright (c) 2008 Yii Software LLC
+ * @license https://www.yiiframework.com/license/
+ */
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\BaseClient;
@@ -105,7 +111,7 @@ class BaseClientTest extends TestCase
             [
                 [
                     'name' => function ($attributes) {
-                            return $attributes['firstName'] . ' ' . $attributes['lastName'];
+                        return $attributes['firstName'] . ' ' . $attributes['lastName'];
                     },
                 ],
                 [

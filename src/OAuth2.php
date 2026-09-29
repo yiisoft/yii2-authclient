@@ -203,7 +203,7 @@ abstract class OAuth2 extends BaseOAuth
             ->setUrl($this->tokenUrl)
             ->setData(array_merge($defaultParams, $params));
 
-         // Azure AD will complain if there is no `Origin` header.
+        // Azure AD will complain if there is no `Origin` header.
         if ($this->enablePkce) {
             $request->addHeaders(['Origin' => $this->getOrigin()]);
         }

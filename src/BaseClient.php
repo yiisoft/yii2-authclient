@@ -21,14 +21,14 @@ use yii\httpclient\Client;
  *
  * @see ClientInterface
  *
- * @property Client $httpClient Internal HTTP client. Note that the type of this property differs in getter
- * and setter. See [[getHttpClient()]] and [[setHttpClient()]] for details.
+ * @property-read Client $httpClient Internal HTTP client.
+ * @property-write array|Client $httpClient Internal HTTP client.
  * @property string $id Service id.
  * @property string $name Service name.
  * @property array $normalizeUserAttributeMap Normalize user attribute map.
- * @property-read array $requestOptions HTTP request options.
- * @property StateStorageInterface $stateStorage Stage storage. Note that the type of this property differs in
- * getter and setter. See [[getStateStorage()]] and [[setStateStorage()]] for details.
+ * @property array $requestOptions HTTP request options.
+ * @property-read StateStorageInterface $stateStorage Stage storage.
+ * @property-write StateStorageInterface|array|string $stateStorage Stage storage to be used.
  * @property string $title Service title.
  * @property array $userAttributes List of user attributes.
  * @property array $viewOptions View options in format: optionName => optionValue.

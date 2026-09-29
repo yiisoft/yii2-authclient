@@ -151,7 +151,25 @@ parameters:
 			path: src/AuthAction.php
 
 		-
+			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property for property \$httpClient with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
 			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property for property \$normalizeUserAttributeMap with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property for property \$requestOptions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseClient.php
+
+		-
+			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property for property \$stateStorage with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/BaseClient.php
@@ -164,12 +182,6 @@ parameters:
 
 		-
 			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property for property \$viewOptions with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/BaseClient.php
-
-		-
-			message: '#^Class yii\\authclient\\BaseClient has PHPDoc tag @property\-read for property \$requestOptions with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/BaseClient.php
@@ -427,6 +439,18 @@ parameters:
 			path: src/BaseOAuth.php
 
 		-
+			message: '#^Class yii\\authclient\\BaseOAuth has PHPDoc tag @property for property \$accessToken with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
+			message: '#^Class yii\\authclient\\BaseOAuth has PHPDoc tag @property for property \$signatureMethod with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/BaseOAuth.php
+
+		-
 			message: '#^Method yii\\authclient\\BaseOAuth\:\:api\(\) has parameter \$apiSubUrl with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -677,6 +701,12 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/ClientInterface.php
+
+		-
+			message: '#^Class yii\\authclient\\Collection has PHPDoc tag @property for property \$clients with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Collection.php
 
 		-
 			message: '#^Method yii\\authclient\\Collection\:\:createClient\(\) has parameter \$config with no value type specified in iterable type array\.$#'
@@ -943,7 +973,7 @@ parameters:
 			path: src/OAuth2.php
 
 		-
-			message: '#^Class yii\\authclient\\OAuthToken has PHPDoc tag @property\-read for property \$params with no value type specified in iterable type array\.$#'
+			message: '#^Class yii\\authclient\\OAuthToken has PHPDoc tag @property for property \$params with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/OAuthToken.php
@@ -1335,6 +1365,12 @@ parameters:
 		-
 			message: '#^Cannot call method getSecurity\(\) on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
 			identifier: method.nonObject
+			count: 1
+			path: src/OpenIdConnect.php
+
+		-
+			message: '#^Class yii\\authclient\\OpenIdConnect has PHPDoc tag @property for property \$cache with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/OpenIdConnect.php
 
@@ -1897,7 +1933,7 @@ parameters:
 			path: src/widgets/AuthChoice.php
 
 		-
-			message: '#^Class yii\\authclient\\widgets\\AuthChoice has PHPDoc tag @property\-read for property \$baseAuthUrl with no value type specified in iterable type array\.$#'
+			message: '#^Class yii\\authclient\\widgets\\AuthChoice has PHPDoc tag @property for property \$baseAuthUrl with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/widgets/AuthChoice.php
@@ -1977,6 +2013,12 @@ parameters:
 		-
 			message: '#^Access to an undefined property yii\\authclient\\ClientInterface\:\:\$scope\.$#'
 			identifier: property.notFound
+			count: 1
+			path: src/widgets/GooglePlusButton.php
+
+		-
+			message: '#^Class yii\\authclient\\widgets\\GooglePlusButton has PHPDoc tag @property for property \$callback with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/widgets/GooglePlusButton.php
 

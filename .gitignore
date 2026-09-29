@@ -35,3 +35,6 @@ phpunit.phar
 /tests/docker
 /tests/dockerids
 
+# PHP CS Fixer
+.php-cs-fixer.php
+.php-cs-fixer.cache

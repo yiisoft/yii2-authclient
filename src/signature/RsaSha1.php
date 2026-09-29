@@ -17,6 +17,8 @@ namespace yii\authclient\signature;
  *
  * @see RsaSha
  *
+ * @property-read string $name Method name.
+ *
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0
  */

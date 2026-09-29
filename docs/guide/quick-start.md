@@ -213,6 +213,27 @@ Defining list of attributes, which external auth provider should return, depends
   using [[yii\authclient\BaseClient::$normalizeUserAttributeMap]].
 
 
+### Normalizing user attributes
+
+[[yii\authclient\BaseClient::$normalizeUserAttributeMap]] maps each normalized name to a source:
+a string names a raw attribute, an array follows a nested path, and a callable computes a value.
+For example, add this to a client configuration:
+
+```php
+'normalizeUserAttributeMap' => [
+    'about' => 'bio',
+    'language' => ['languages', 0, 'name'],
+    'contact' => static function (array $attributes) {
+        return $attributes['email'] ?? $attributes['name'] ?? null;
+    },
+],
+```
+
+Here, `language` reads `$attributes['languages'][0]['name']`. If any key in that path is missing,
+the mapping does not assign `language`. An array such as `['email', 'name']` reads
+`$attributes['email']['name']`; it does not try `email` and then `name`. Use a callable like the
+`contact` example to choose a fallback. Raw attributes remain available alongside normalized ones.
+
 ## Adding widget to login view
 
 There's ready to use [[yii\authclient\widgets\AuthChoice]] widget to use in views:

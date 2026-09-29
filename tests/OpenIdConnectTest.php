@@ -167,4 +167,39 @@ class OpenIdConnectTest extends TestCase
 
         $this->assertEquals(['sub' => '123'], $userAttributes);
     }
+
+    /**
+     * @dataProvider groupClaimSourceDataProvider
+     */
+    public function testNormalizeGroupClaim(bool $useUserInfo): void
+    {
+        $claims = ['sub' => '123', 'realm_access' => ['roles' => ['editors', 'reviewers']]];
+        $client = $this->getMockBuilder(OpenIdConnect::class)
+            ->onlyMethods(['api', 'loadJws'])
+            ->getMock();
+        $client->configParams = $useUserInfo ? ['userinfo_endpoint' => 'https://example.com/userinfo'] : [];
+        $client->setNormalizeUserAttributeMap(['groups' => ['realm_access', 'roles']]);
+        $client->setAccessToken(new OAuthToken(['params' => ['id_token' => 'test-id-token']]));
+
+        if ($useUserInfo) {
+            $client->expects($this->once())->method('api')
+                ->with('https://example.com/userinfo', 'GET')->willReturn($claims);
+            $client->expects($this->never())->method('loadJws');
+        } else {
+            $client->expects($this->never())->method('api');
+            $client->expects($this->once())->method('loadJws')
+                ->with('test-id-token')->willReturn($claims);
+        }
+
+        $this->assertSame($claims + ['groups' => ['editors', 'reviewers']], $client->getUserAttributes());
+    }
+
+    /**
+     * @return array<string, array{bool}>
+     */
+    public function groupClaimSourceDataProvider(): array
+    {
+        return ['UserInfo' => [true], 'ID token' => [false]];
+    }
+
 }

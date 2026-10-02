@@ -81,5 +81,6 @@ try {
 
 Adapt the error check to your provider's documented response. `invalid_grant` can also mean a
 revoked or otherwise invalid grant, not just an expired refresh token. Do not treat every HTTP
-error as expiration. Clearing the token starts a new authorization flow; it does not log the user
-out of your application or the provider.
+error as expiration. Clearing the token prevents reuse of the rejected credentials; the redirect
+to the auth action starts a new authorization flow. Neither step logs the user out of your
+application or the provider.

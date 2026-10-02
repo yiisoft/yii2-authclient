@@ -191,11 +191,17 @@ class OAuth2Test extends TestCase
         $client = $this->createClient();
         $client->tokenUrl = 'https://example.com/token';
         $client->setHttpClient(['transport' => $transport]);
-        $token = new OAuthToken(['token' => 'expired', 'refreshToken' => 'expired-refresh']);
-        $client->setAccessToken($token);
+        $token = new OAuthToken([
+            'token' => 'expired',
+            'refreshToken' => 'expired-refresh',
+            'expireDuration' => -1,
+        ]);
+        $storedClient = $this->createClient();
+        $storedClient->setAccessToken($token);
+        $this->assertTrue($token->getIsExpired());
 
         try {
-            $client->refreshAccessToken($token);
+            $client->getAccessToken();
             $this->fail('The rejected refresh token must raise an exception.');
         } catch (ClientErrorResponseException $e) {
             $this->assertSame(['error' => 'invalid_grant'], $e->response->getData());

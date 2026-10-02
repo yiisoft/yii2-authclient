@@ -65,7 +65,7 @@ For example, the JSONP response `callback({"openid":"123"});` can be handled in 
 'httpClient' => [
     'on afterSend' => static function (\yii\httpclient\RequestEvent $event) {
         $response = $event->response;
-        if ($response === null) {
+        if ($response === null || !$response->getIsOk()) {
             return;
         }
 
@@ -80,5 +80,5 @@ For example, the JSONP response `callback({"openid":"123"});` can be handled in 
 This example accepts only the known `callback(...)` wrapper and decodes its contents as JSON;
 it does not execute JavaScript. Ordinary JSON responses, including token responses, retain their
 normal parsing. Adjust the wrapper to the provider's documented response format. Malformed JSON
-still raises a parsing exception, and non-successful HTTP responses still raise the auth client's
-response exception.
+in a successful response still raises a parsing exception. Non-successful responses are left untouched
+so the auth client can raise its response exception without attempting to decode the body first.

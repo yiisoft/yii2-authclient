@@ -238,15 +238,15 @@ class BaseClientTest extends TestCase
 
     /**
      * @dataProvider customResponseDataProvider
-     * @param array<string, string> $expected
+     * @param array<string, string>|null $expected
      */
-    public function testCustomResponseHandler(string $content, string $contentType, array $expected): void
+    public function testCustomResponseHandler(string $content, string $contentType, ?array $expected, int $statusCode): void
     {
         $client = $this->createClient();
         $client->setHttpClient([
             'on afterSend' => static function (RequestEvent $event) {
                 $response = $event->response;
-                if ($response === null) {
+                if ($response === null || !$response->getIsOk()) {
                     return;
                 }
                 $content = $response->getContent();
@@ -256,20 +256,26 @@ class BaseClientTest extends TestCase
             },
         ]);
         $httpClient = $client->getHttpClient();
-        $response = $httpClient->createResponse($content, ['content-type' => $contentType, 'http-code' => 200]);
+        $response = $httpClient->createResponse($content, ['content-type' => $contentType, 'http-code' => $statusCode]);
         $httpClient->afterSend($httpClient->get('https://example.com/me'), $response);
 
-        $this->assertSame($expected, $response->getData());
+        if ($expected === null) {
+            $this->assertFalse($response->getIsOk());
+            $this->assertSame($content, $response->getContent());
+        } else {
+            $this->assertSame($expected, $response->getData());
+        }
     }
 
     /**
-     * @return array<string, array{string, string, array<string, string>}>
+     * @return array<string, array{string, string, array<string, string>|null, int}>
      */
     public function customResponseDataProvider(): array
     {
         return [
-            'JSONP' => ['callback( {"openid":"123"} );', 'text/html', ['openid' => '123']],
-            'JSON token response' => ['{"access_token":"token"}', 'application/json', ['access_token' => 'token']],
+            'malformed HTTP error' => ['callback(not JSON);', 'text/html', null, 400],
+            'JSONP' => ['callback( {"openid":"123"} );', 'text/html', ['openid' => '123'], 200],
+            'JSON token response' => ['{"access_token":"token"}', 'application/json', ['access_token' => 'token'], 200],
         ];
     }
 

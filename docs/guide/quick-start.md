@@ -232,7 +232,9 @@ For example, add this to a client configuration:
 Here, `language` reads `$attributes['languages'][0]['name']`. If any key in that path is missing,
 the mapping does not assign `language`. An array such as `['email', 'name']` reads
 `$attributes['email']['name']`; it does not try `email` and then `name`. Use a callable like the
-`contact` example to choose a fallback. Raw attributes remain available alongside normalized ones.
+`contact` example to choose a fallback. Normalization adds values to the attribute array, overwriting
+any raw value with the same key as a normalized name. Other raw attributes remain available. Mappings
+are applied in order, so later mappings and callbacks see values assigned by earlier mappings.
 
 ## Adding widget to login view
 

@@ -247,6 +247,73 @@ There's ready to use [[yii\authclient\widgets\AuthChoice]] widget to use in view
 ]) ?>
 ```
 
+### Custom providers, images and visible labels
+
+By default, `AuthChoice` renders icon links with a `title` tooltip. Its bundled CSS supplies icons
+for the built-in provider names. A custom provider name needs its own image or link text.
+
+Use `begin()` and `end()` with `clientLink()` to supply visible labels:
+
+```php
+<?php
+use yii\authclient\widgets\AuthChoice;
+use yii\helpers\Html;
+
+$authChoice = AuthChoice::begin([
+    'baseAuthUrl' => ['/site/auth'],
+    'popupMode' => false,
+    'autoRender' => false,
+]);
+?>
+<ul class="auth-clients">
+    <?php foreach ($authChoice->getClients() as $client): ?>
+        <li><?= $authChoice->clientLink($client, Html::encode($client->getTitle())) ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php AuthChoice::end(); ?>
+```
+
+For a custom image, pass `Html::img('@web/images/provider.svg', ['alt' => $client->getTitle()])`
+as the link text. To retain a built-in icon and add a visible label below it, use:
+
+```php
+$text = Html::tag('span', '', ['class' => 'auth-icon ' . $client->getName()])
+    . Html::tag('span', Html::encode($client->getTitle()), ['class' => 'auth-title']);
+echo $authChoice->clientLink($client, $text);
+```
+
+`clientLink()` accepts HTML, so encode provider titles when supplying text yourself.
+With `popupMode` disabled, the links navigate normally; no `authchoice()` JavaScript initialization
+is needed. Enable `popupMode` to have the widget register and initialize the popup script.
+
+### Using a different client collection
+
+`AuthChoice::$clientCollection` selects the collection used to render links. The links contain the
+client ID and point to `baseAuthUrl`; they do not forward the collection configuration or OAuth scope.
+Configure the target `AuthAction::$clientCollection` to use the same collection:
+
+```php
+// Controller action configuration:
+'repository-auth' => [
+    'class' => \yii\authclient\AuthAction::class,
+    'clientCollection' => 'repositoryAuthClients',
+    'successCallback' => [$this, 'onAuthSuccess'],
+],
+```
+
+```php
+<?= \yii\authclient\widgets\AuthChoice::widget([
+    'baseAuthUrl' => ['/site/repository-auth'],
+    'clientCollection' => 'repositoryAuthClients',
+    'popupMode' => false,
+]) ?>
+```
+
+For independent authorization flows with different scopes, configure separate actions and client
+configurations. Give clients of the same class distinct IDs across collections to keep their stored
+authentication state separate. Changing the widget's collection alone does not change the target
+action's scope.
+
 ## Note regarding GitHub client
 
 Recently due to potential changes in GitHub callback handling, ensure that `authclient=github` is present in URL query param in Authorization Callback URL to avoid 404 error thrown when GitHub redirects user back to our app.

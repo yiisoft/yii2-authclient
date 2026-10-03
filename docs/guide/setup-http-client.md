@@ -50,3 +50,35 @@ return [
     // ...
 ];
 ```
+
+Custom response formats
+-----------------------
+
+If a provider returns a format the HTTP client cannot parse, configure its `afterSend` event to
+convert that response before the auth client reads it. This replaces the old `processResponse()`
+override used before the switch to `yii2-httpclient`.
+
+For example, the JSONP response `callback({"openid":"123"});` can be handled in that provider's
+`httpClient` configuration:
+
+```php
+'httpClient' => [
+    'on afterSend' => static function (\yii\httpclient\RequestEvent $event) {
+        $response = $event->response;
+        if ($response === null || !$response->getIsOk()) {
+            return;
+        }
+
+        $content = $response->getContent();
+        if (!empty($content) && preg_match('/\A\s*callback\s*\((.*)\)\s*;?\s*\z/s', $content, $matches)) {
+            $response->setData(\yii\helpers\Json::decode($matches[1]));
+        }
+    },
+],
+```
+
+This example accepts only the known `callback(...)` wrapper and decodes its contents as JSON;
+it does not execute JavaScript. Ordinary JSON responses, including token responses, retain their
+normal parsing. Adjust the wrapper to the provider's documented response format. Malformed JSON
+in a successful response still raises a parsing exception. Non-successful responses are left untouched
+so the auth client can raise its response exception without attempting to decode the body first.

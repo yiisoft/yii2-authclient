@@ -12,6 +12,7 @@ use yii\authclient\AuthAction;
 use yii\authclient\Collection;
 use yii\authclient\clients\Google;
 use yii\web\Application;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use Yii;
 
@@ -93,6 +94,48 @@ class AuthActionTest extends TestCase
 
         $_GET['authclient'] = $clientId;
         $this->assertEquals($clientId, $action->getClientId(), 'Unable to get default client ID!');
+    }
+
+    /**
+     * @param array<mixed> $clientId
+     * @dataProvider invalidClientIdDataProvider
+     */
+    public function testRunRejectsArrayClientId(array $clientId): void
+    {
+        $app = Yii::$app;
+        $this->assertInstanceOf(Application::class, $app);
+        $app->set('authClientCollection', [
+            'class' => \yii\authclient\Collection::class,
+        ]);
+        $app->getRequest()->setQueryParams(['authclient' => $clientId]);
+        $action = new AuthAction('auth', new Controller('site', $app), ['defaultClientId' => 'google']);
+
+        $this->expectException(BadRequestHttpException::class);
+        $this->expectExceptionMessage('Invalid auth client ID.');
+
+        $action->run();
+    }
+
+    /**
+     * @return array<string, array{array<mixed>}>
+     */
+    public function invalidClientIdDataProvider(): array
+    {
+        return [
+            'array' => [['google']],
+            'nested array' => [[['google']]],
+            'empty array' => [[]],
+        ];
+    }
+
+    public function testGetClientIdWithCustomParameter(): void
+    {
+        $app = Yii::$app;
+        $this->assertInstanceOf(Application::class, $app);
+        $app->getRequest()->setQueryParams(['provider' => '123']);
+        $action = new AuthAction('auth', new Controller('site', $app), ['clientIdGetParamName' => 'provider']);
+
+        $this->assertSame('123', $action->getClientId());
     }
 
     /**

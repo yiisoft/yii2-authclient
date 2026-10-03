@@ -9,6 +9,8 @@
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\AuthAction;
+use yii\authclient\Collection;
+use yii\authclient\clients\Google;
 use yii\web\Application;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -135,4 +137,40 @@ class AuthActionTest extends TestCase
 
         $this->assertSame('123', $action->getClientId());
     }
+
+    /**
+     * @dataProvider defaultClientDataProvider
+     */
+    public function testRunWithDefaultClient(?string $requestedId, string $expectedId): void
+    {
+        $app = Yii::$app;
+        $this->assertInstanceOf(Application::class, $app);
+        $collection = new Collection(['clients' => [
+            'default' => ['class' => Google::class],
+            'explicit' => ['class' => Google::class],
+        ]]);
+        $app->set('authClientCollection', $collection);
+        $app->getRequest()->setQueryParams($requestedId === null ? [] : ['authclient' => $requestedId]);
+        $action = $this->getMockBuilder(AuthAction::class)
+            ->setConstructorArgs(['auth', new Controller('site', $app), ['defaultClientId' => 'default']])
+            ->onlyMethods(['auth'])
+            ->getMock();
+        $action->expects($this->once())->method('auth')
+            ->with($this->identicalTo($collection->getClient($expectedId)))
+            ->willReturn($app->getResponse());
+
+        $this->assertSame($app->getResponse(), $action->run());
+    }
+
+    /**
+     * @return array<string, array{string|null, string}>
+     */
+    public function defaultClientDataProvider(): array
+    {
+        return [
+            'default client' => [null, 'default'],
+            'explicit client overrides default' => ['explicit', 'explicit'],
+        ];
+    }
+
 }

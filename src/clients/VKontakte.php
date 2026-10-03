@@ -113,7 +113,9 @@ class VKontakte extends OAuth2
     {
         $data = $request->getData();
         $data['v'] = $this->apiVersion;
-        $data['user_ids'] = $accessToken->getParam('user_id');
+        if (!isset($data['user_ids'])) {
+            $data['user_ids'] = $accessToken->getParam('user_id');
+        }
         $data['access_token'] = $accessToken->getToken();
         $request->setData($data);
     }

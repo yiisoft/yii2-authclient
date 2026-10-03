@@ -5,6 +5,7 @@ Yii Framework 2 authclient extension Change Log
 ------------------------
 
 - Bug #225: Return HTTP 400 for array-valued auth client IDs instead of failing during client lookup (samdark)
+- Bug #257: Preserve explicitly supplied user IDs in VKontakte API requests (samdark)
 - Bug #325: Preserve the refresh token when the OAuth2 refresh response omits it (desenvolvedorindie, samdark)
 - Bug #414: Send a valid origin instead of the relative path `/` in the PKCE token request `Origin` header, so providers validating it (e.g. Keycloak) no longer reject the request; the origin is derived from `returnUrl` and can be configured via the new `OAuth2::$origin` property (@luke-)
 

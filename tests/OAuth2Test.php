@@ -10,6 +10,9 @@ namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth2;
 use yii\authclient\OAuthToken;
+use yii\authclient\ClientErrorResponseException;
+use yii\httpclient\MockTransport;
+use yii\httpclient\Response;
 use yii\base\InvalidConfigException;
 
 class OAuth2Test extends TestCase
@@ -177,4 +180,37 @@ class OAuth2Test extends TestCase
         $this->assertStringContainsString('code_challenge=', $builtAuthUrl, 'No code challenge Present!');
         $this->assertStringContainsString('code_challenge_method=S256', $builtAuthUrl, 'No code challenge method Present!');
     }
+
+    public function testRejectedRefreshTokenCanBeCleared(): void
+    {
+        $transport = new MockTransport();
+        $transport->appendResponse(new Response([
+            'headers' => ['http-code' => 400],
+            'data' => ['error' => 'invalid_grant'],
+        ]));
+        $client = $this->createClient();
+        $client->tokenUrl = 'https://example.com/token';
+        $client->setHttpClient(['transport' => $transport]);
+        $token = new OAuthToken([
+            'token' => 'expired',
+            'refreshToken' => 'expired-refresh',
+            'expireDuration' => -1,
+        ]);
+        $storedClient = $this->createClient();
+        $storedClient->setAccessToken($token);
+        $this->assertTrue($token->getIsExpired());
+
+        try {
+            $client->getAccessToken();
+            $this->fail('The rejected refresh token must raise an exception.');
+        } catch (ClientErrorResponseException $e) {
+            $this->assertSame(['error' => 'invalid_grant'], $e->response->getData());
+            $client->setAccessToken(null);
+        }
+
+        $this->assertNull($client->getAccessToken());
+        $restoredClient = $this->createClient();
+        $this->assertNull($restoredClient->getAccessToken());
+    }
+
 }

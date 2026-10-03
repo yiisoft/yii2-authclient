@@ -10,6 +10,8 @@ namespace yiiunit\extensions\authclient;
 
 use yii\authclient\BaseClient;
 use yii\authclient\SessionStateStorage;
+use yii\httpclient\RequestEvent;
+use yii\helpers\Json;
 
 class BaseClientTest extends TestCase
 {
@@ -151,6 +153,21 @@ class BaseClientTest extends TestCase
             ],
             [
                 [
+                    'email' => 'preferredEmail',
+                    'contact' => 'email',
+                ],
+                [
+                    'email' => 'original@example.com',
+                    'preferredEmail' => 'preferred@example.com',
+                    'name' => 'John Smith',
+                ],
+                [
+                    'email' => 'preferred@example.com',
+                    'contact' => 'preferred@example.com',
+                ],
+            ],
+            [
+                [
                     'name' => 'file_get_contents',
                 ],
                 [
@@ -233,4 +250,48 @@ class BaseClientTest extends TestCase
         $stateStorage = $client->getStateStorage();
         $this->assertTrue($stateStorage instanceof SessionStateStorage, 'Unable to get default http client.');
     }
+
+    /**
+     * @dataProvider customResponseDataProvider
+     * @param array<string, string>|null $expected
+     */
+    public function testCustomResponseHandler(string $content, string $contentType, ?array $expected, int $statusCode): void
+    {
+        $client = $this->createClient();
+        $client->setHttpClient([
+            'on afterSend' => static function (RequestEvent $event) {
+                $response = $event->response;
+                if ($response === null || !$response->getIsOk()) {
+                    return;
+                }
+                $content = $response->getContent();
+                if (!empty($content) && preg_match('/\A\s*callback\s*\((.*)\)\s*;?\s*\z/s', $content, $matches)) {
+                    $response->setData(Json::decode($matches[1]));
+                }
+            },
+        ]);
+        $httpClient = $client->getHttpClient();
+        $response = $httpClient->createResponse($content, ['content-type' => $contentType, 'http-code' => $statusCode]);
+        $httpClient->afterSend($httpClient->get('https://example.com/me'), $response);
+
+        if ($expected === null) {
+            $this->assertFalse($response->getIsOk());
+            $this->assertSame($content, $response->getContent());
+        } else {
+            $this->assertSame($expected, $response->getData());
+        }
+    }
+
+    /**
+     * @return array<string, array{string, string, array<string, string>|null, int}>
+     */
+    public function customResponseDataProvider(): array
+    {
+        return [
+            'malformed HTTP error' => ['callback(not JSON);', 'text/html', null, 400],
+            'JSONP' => ['callback( {"openid":"123"} );', 'text/html', ['openid' => '123'], 200],
+            'JSON token response' => ['{"access_token":"token"}', 'application/json', ['access_token' => 'token'], 200],
+        ];
+    }
+
 }

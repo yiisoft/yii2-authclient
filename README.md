@@ -18,6 +18,8 @@ Documentation is at [docs/guide/README.md](https://github.com/yiisoft/yii2-authc
 [![Build Status](https://github.com/yiisoft/yii2-authclient/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-authclient/actions)
 [![codecov](https://codecov.io/gh/yiisoft/yii2-authclient/graph/badge.svg)](https://codecov.io/gh/yiisoft/yii2-authclient)
 
+For applications with one provider, see [direct provider login](docs/guide/authentication.md#using-one-authentication-provider).
+
 Installation
 ------------
 

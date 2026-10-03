@@ -61,7 +61,8 @@ abstract class BaseClient extends Component implements ClientInterface
      * in format: normalizedAttributeName => sourceSpecification
      * 'sourceSpecification' can be:
      * - string, raw attribute name
-     * - array, pass to raw attribute value
+     * - array, a path of keys to a nested raw attribute value, e.g. `['languages', 0, 'name']`.
+     *   This is not a list of alternative attribute names. Use a callable for fallback values.
      * - callable, PHP callback, which should accept array of raw attributes and return normalized value.
      *
      * For example:

@@ -49,3 +49,26 @@ to the `require` section of your composer.json.
 
 > Note: if you are using well-trusted 'OpenID Connect' provider, you may disable [[\yii\authclient\OpenIdConnect::$validateJws]],
   making installation of `web-token` library redundant, however it is not recommended as it violates the protocol specification.
+
+Reading group claims
+--------------------
+
+Custom claims returned by the provider are available through `getUserAttributes()`. Group claim
+names depend on the provider; map the configured source claim to a common name with
+[[\yii\authclient\BaseClient::$normalizeUserAttributeMap]]:
+
+```php
+'normalizeUserAttributeMap' => [
+    'groups' => 'roles', // Use the claim name returned by your provider.
+],
+```
+
+For a nested claim, use a path such as `'groups' => ['realm_access', 'roles']`. In your authentication
+success callback, read `$client->getUserAttributes()['groups'] ?? []` and apply your application's
+own membership or permission rules. Mapping does not request additional claims or assign Yii RBAC
+roles. Configure the provider and any required scopes to return the claim first.
+
+When discovery specifies a `userinfo_endpoint`, this client reads attributes from that endpoint.
+Otherwise, it extracts non-metadata claims from the ID token. If your provider supplies groups only
+in the ID token but also exposes UserInfo, configure it to return the group claim in UserInfo;
+claims from those two sources are not automatically merged.

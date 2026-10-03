@@ -153,6 +153,21 @@ class BaseClientTest extends TestCase
             ],
             [
                 [
+                    'email' => 'preferredEmail',
+                    'contact' => 'email',
+                ],
+                [
+                    'email' => 'original@example.com',
+                    'preferredEmail' => 'preferred@example.com',
+                    'name' => 'John Smith',
+                ],
+                [
+                    'email' => 'preferred@example.com',
+                    'contact' => 'preferred@example.com',
+                ],
+            ],
+            [
+                [
                     'name' => 'file_get_contents',
                 ],
                 [

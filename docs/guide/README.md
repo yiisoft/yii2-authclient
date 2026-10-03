@@ -19,4 +19,5 @@ Additional topics
 * [Creating your own auth clients](creating-your-own-auth-clients.md)
 * [OAuth 2.0 direct authentication](oauth-direct-authentication.md)
 * [OpenID Connect](open-id-connect.md)
+* [Authentication configuration and recovery](authentication.md)
 * [Setup HTTP Client](setup-http-client.md)

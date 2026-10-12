@@ -59,12 +59,12 @@ class OpenIdConnectLogoutTest extends TestCase
     public function testExplicitEndpointAndParametersBypassDiscoveryAndTokenStorage(): void
     {
         $client = $this->getMockBuilder(OpenIdConnect::class)
-            ->onlyMethods(['discoverConfig', 'getAccessToken'])
+            ->onlyMethods(['discoverConfig', 'getAccessTokenWithoutRefresh'])
             ->getMock();
         $client->logoutUrl = 'https://provider.example/logout';
         $client->clientId = 'default-client';
         $client->expects($this->never())->method('discoverConfig');
-        $client->expects($this->never())->method('getAccessToken');
+        $client->expects($this->never())->method('getAccessTokenWithoutRefresh');
 
         $this->assertSame(
             'https://provider.example/logout?client_id=other-client&id_token_hint=explicit-token',
@@ -89,7 +89,7 @@ class OpenIdConnectLogoutTest extends TestCase
         $this->assertSame('https://provider.example/logout?client_id=test-client', $client->buildLogoutUrl());
     }
 
-    public function testExpiredStoredTokenIsNotRefreshed(): void
+    public function testLogoutDoesNotRefreshOrCacheExpiredStoredToken(): void
     {
         $client = new OpenIdConnect(['id' => 'logout-test']);
         $token = new OAuthToken([
@@ -111,35 +111,78 @@ class OpenIdConnectLogoutTest extends TestCase
         $restoredClient->clientId = 'test-client';
         $restoredClient->logoutUrl = 'https://provider.example/logout';
         $restoredClient->method('getStateKeyPrefix')->willReturn(OpenIdConnect::class . '_logout-test_');
-        $restoredClient->expects($this->never())->method('refreshAccessToken');
+        $freshToken = new OAuthToken(['params' => ['id_token' => 'fresh-id-token']]);
+        $refreshed = false;
+        $restoredClient->expects($this->once())->method('refreshAccessToken')->with($token)
+            ->willReturnCallback(static function () use ($freshToken, &$refreshed) {
+                $refreshed = true;
+                return $freshToken;
+            });
 
         $this->assertSame(
             'https://provider.example/logout?client_id=test-client&id_token_hint=old-id-token',
             $restoredClient->buildLogoutUrl()
         );
         $this->assertTrue($restoredClient->autoRefreshAccessToken);
-        $this->assertSame($token, $restoredClient->getAccessToken());
+        $this->assertFalse($refreshed);
+        $this->assertSame($freshToken, $restoredClient->getAccessToken());
 
         $restoredClient->autoRefreshAccessToken = false;
         $restoredClient->buildLogoutUrl();
         $this->assertFalse($restoredClient->autoRefreshAccessToken);
     }
 
-    public function testTokenStorageFailureRestoresAutoRefreshSetting(): void
+    public function testLogoutBypassesRefreshingAccessors(): void
     {
         $client = $this->getMockBuilder(OpenIdConnect::class)
-            ->onlyMethods(['getAccessToken'])
+            ->onlyMethods(['getAccessToken', 'restoreAccessToken'])
             ->getMock();
         $client->logoutUrl = 'https://provider.example/logout';
-        $client->expects($this->once())->method('getAccessToken')
-            ->willThrowException(new \RuntimeException('Token storage unavailable'));
+        $client->clientId = 'test-client';
+        $client->setAccessToken(new OAuthToken(['params' => ['id_token' => 'cached-id-token']]));
+        $client->expects($this->never())->method('getAccessToken');
+        $client->expects($this->never())->method('restoreAccessToken');
 
-        $this->expectException(\RuntimeException::class);
-        try {
-            $client->buildLogoutUrl();
-        } finally {
-            $this->assertTrue($client->autoRefreshAccessToken);
-        }
+        $this->assertSame(
+            'https://provider.example/logout?client_id=test-client&id_token_hint=cached-id-token',
+            $client->buildLogoutUrl()
+        );
+    }
+
+    public function testEmptyEndpointFallsBackToDiscovery(): void
+    {
+        $client = new OpenIdConnect([
+            'logoutUrl' => '',
+            'configParams' => ['end_session_endpoint' => 'https://provider.example/logout'],
+        ]);
+        $this->assertSame('https://provider.example/logout', $client->buildLogoutUrl(['id_token_hint' => null]));
+    }
+
+    public function testEmptyDefaultsAreOmitted(): void
+    {
+        $client = new OpenIdConnect([
+            'logoutUrl' => 'https://provider.example/logout',
+            'clientId' => '',
+        ]);
+        $client->setAccessToken(new OAuthToken(['params' => ['id_token' => '']]));
+        $this->assertSame('https://provider.example/logout', $client->buildLogoutUrl());
+        $this->assertSame(
+            'https://provider.example/logout?client_id=&id_token_hint=',
+            $client->buildLogoutUrl(['client_id' => '', 'id_token_hint' => ''])
+        );
+    }
+
+    public function testUnexpectedStoredTokenIsIgnored(): void
+    {
+        $storage = $this->createMock(\yii\authclient\StateStorageInterface::class);
+        $storage->method('get')->willReturnOnConsecutiveCalls(false, ['id_token' => 'unexpected']);
+        $client = new OpenIdConnect([
+            'logoutUrl' => 'https://provider.example/logout',
+            'stateStorage' => $storage,
+        ]);
+
+        $this->assertSame('https://provider.example/logout', $client->buildLogoutUrl());
+        $this->assertSame('https://provider.example/logout', $client->buildLogoutUrl());
     }
 
     public function testMissingEndpoint(): void

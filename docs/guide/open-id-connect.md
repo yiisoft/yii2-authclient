@@ -82,8 +82,10 @@ It builds a URL for redirecting the user's browser to the identity provider to r
 The provider must support this specification; OIDC login support alone does not imply logout support.
 
 The client reads `end_session_endpoint` from the provider configuration. You can set `logoutUrl`
-explicitly if the provider does not advertise its endpoint. If neither is available, the method
-throws `InvalidConfigException`.
+explicitly if the provider does not advertise its endpoint. A null or empty `logoutUrl` uses discovery.
+If neither endpoint is available, the method throws `InvalidConfigException`. On a cold configuration
+cache, discovery makes a blocking HTTP request and can throw `InvalidResponseException` or
+`\yii\httpclient\Exception`. Handle failures so they do not prevent local logout.
 
 For example, in a controller logout action restricted to POST by `VerbFilter`, with Yii's CSRF
 validation enabled:
@@ -92,13 +94,26 @@ validation enabled:
 /** @var \yii\authclient\OpenIdConnect $client */
 $client = Yii::$app->authClientCollection->getClient('my-oidc-provider');
 
-// Build this before logout destroys the session containing the provider's ID token.
-$logoutUrl = $client->buildLogoutUrl([
-    'post_logout_redirect_uri' => \yii\helpers\Url::to(['/site/logged-out'], true),
-]);
+$logoutUrl = null;
+try {
+    // Build this before logout destroys the session containing the provider's ID token.
+    $logoutUrl = $client->buildLogoutUrl([
+        'post_logout_redirect_uri' => \yii\helpers\Url::to(['/site/logged-out'], true),
+    ]);
+} catch (\Exception $e) {
+    Yii::warning('Unable to initiate provider logout: ' . get_class($e), __METHOD__);
+}
 
 $client->setAccessToken(null);
 Yii::$app->user->logout();
+
+if ($logoutUrl === null) {
+    Yii::$app->session->setFlash(
+        'warning',
+        'You are logged out of this application, but provider logout could not be completed.'
+    );
+    return $this->redirect(['/site/logged-out']);
+}
 
 return $this->redirect($logoutUrl);
 ```
@@ -112,7 +127,12 @@ The method includes `client_id` and, when available, the stored ID token as `id_
 It does not refresh expired access tokens. You can supply an ID token explicitly through
 `id_token_hint`, or set a default parameter to `null` to omit it. Providers may ask for logout
 confirmation, especially when no ID token is supplied. Other parameters, such as `logout_hint`
-and `ui_locales`, can also be passed in the array.
+and `ui_locales`, can also be passed in the array. Empty client IDs and empty stored ID tokens
+are omitted from the defaults.
+
+This helper uses GET, so the ID token may appear in browser history or request logs, and large
+tokens may exceed URL length limits. Pass `'id_token_hint' => null` to omit it when your provider
+supports logout without that hint.
 
 The optional `state` parameter is passed through without generation, storage or validation.
 If your callback needs to correlate a logout request, generate an unpredictable value, retain it

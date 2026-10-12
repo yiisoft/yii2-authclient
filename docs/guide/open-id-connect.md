@@ -72,3 +72,54 @@ When discovery specifies a `userinfo_endpoint`, this client reads attributes fro
 Otherwise, it extracts non-metadata claims from the ID token. If your provider supplies groups only
 in the ID token but also exposes UserInfo, configure it to return the group claim in UserInfo;
 claims from those two sources are not automatically merged.
+
+RP-Initiated Logout
+-------------------
+
+Since version 2.2.19, [[\yii\authclient\OpenIdConnect::buildLogoutUrl()]] supports
+[OpenID Connect RP-Initiated Logout](https://openid.net/specs/openid-connect-rpinitiated-1_0.html).
+It builds a URL for redirecting the user's browser to the identity provider to request logout.
+The provider must support this specification; OIDC login support alone does not imply logout support.
+
+The client reads `end_session_endpoint` from the provider configuration. You can set `logoutUrl`
+explicitly if the provider does not advertise its endpoint. If neither is available, the method
+throws `InvalidConfigException`.
+
+For example, in a controller logout action restricted to POST by `VerbFilter`, with Yii's CSRF
+validation enabled:
+
+```php
+/** @var \yii\authclient\OpenIdConnect $client */
+$client = Yii::$app->authClientCollection->getClient('my-oidc-provider');
+
+// Build this before logout destroys the session containing the provider's ID token.
+$logoutUrl = $client->buildLogoutUrl([
+    'post_logout_redirect_uri' => \yii\helpers\Url::to(['/site/logged-out'], true),
+]);
+
+$client->setAccessToken(null);
+Yii::$app->user->logout();
+
+return $this->redirect($logoutUrl);
+```
+
+Use the client that authenticated the current user. Register the exact `post_logout_redirect_uri`
+with that provider and make the destination accessible to guests. It is separate from the login
+callback (`returnUrl`) and is not added automatically. If you omit it, the provider controls where
+the browser ends up.
+
+The method includes `client_id` and, when available, the stored ID token as `id_token_hint`.
+It does not refresh expired access tokens. You can supply an ID token explicitly through
+`id_token_hint`, or set a default parameter to `null` to omit it. Providers may ask for logout
+confirmation, especially when no ID token is supplied. Other parameters, such as `logout_hint`
+and `ui_locales`, can also be passed in the array.
+
+The optional `state` parameter is passed through without generation, storage or validation.
+If your callback needs to correlate a logout request, generate an unpredictable value, retain it
+across local logout, then compare and consume it in the callback. Do not rely on state stored in
+a session that `Yii::$app->user->logout()` destroys. A public, informational logged-out page does
+not need to perform session-changing work on return.
+
+`buildLogoutUrl()` only builds the URL. Your application must end its local session even if the
+user never returns from the provider. It does not revoke tokens or implement front-channel or
+back-channel logout notifications for other applications.

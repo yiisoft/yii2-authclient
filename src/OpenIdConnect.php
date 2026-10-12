@@ -108,6 +108,12 @@ class OpenIdConnect extends OAuth2
      */
     public $issuerUrl;
     /**
+     * @var string|null logout endpoint URL. If not set, the provider's `end_session_endpoint` is used.
+     * @see buildLogoutUrl()
+     * @since 2.2.19
+     */
+    public $logoutUrl;
+    /**
      * @var bool whether to validate/decrypt JWS received with Auth token.
      * Note: this functionality requires `web-token/jwt-checker`, `web-token/jwt-key-mgmt`, `web-token/jwt-signature`
      * composer package to be installed. You can disable this option in case of usage of trusted OpenIDConnect provider,
@@ -288,6 +294,49 @@ class OpenIdConnect extends OAuth2
         }
 
         return parent::buildAuthUrl($params);
+    }
+
+    /**
+     * Composes the URL for OpenID Connect RP-Initiated Logout.
+     * Redirect the user's browser to this URL to request logout at the provider.
+     * Build the URL before clearing the local session so the stored ID token remains available.
+     * This method does not log out the local user or generate or validate callback state.
+     * @param array<string, mixed> $params logout GET parameters, such as `post_logout_redirect_uri`, `state`,
+     * `logout_hint` and `ui_locales`. The return URI must be registered with the provider.
+     * By default, `client_id` and the stored `id_token_hint` are included. Explicit parameters
+     * override these defaults; use `null` to omit a parameter. Expired tokens are not refreshed.
+     * @return string logout URL.
+     * @throws InvalidConfigException if no logout endpoint is available.
+     * @see https://openid.net/specs/openid-connect-rpinitiated-1_0.html
+     * @since 2.2.19
+     */
+    public function buildLogoutUrl(array $params = [])
+    {
+        $logoutUrl = $this->logoutUrl ?? $this->getConfigParam('end_session_endpoint');
+        if (!is_string($logoutUrl) || $logoutUrl === '') {
+            throw new InvalidConfigException('The OpenID provider does not specify an "end_session_endpoint". Configure "logoutUrl" to use RP-Initiated Logout.');
+        }
+
+        $defaultParams = ['client_id' => $this->clientId];
+        if (!array_key_exists('id_token_hint', $params)) {
+            // Restoring an expired access token normally refreshes it, but logout needs only the original ID token.
+            $autoRefreshAccessToken = $this->autoRefreshAccessToken;
+            $this->autoRefreshAccessToken = false;
+            try {
+                $token = $this->getAccessToken();
+            } finally {
+                $this->autoRefreshAccessToken = $autoRefreshAccessToken;
+            }
+            if ($token !== null) {
+                $defaultParams['id_token_hint'] = $token->getParam('id_token');
+            }
+        }
+
+        $params = array_filter(array_merge($defaultParams, $params), static function ($value) {
+            return $value !== null;
+        });
+
+        return $this->composeUrl($logoutUrl, $params);
     }
 
     /**

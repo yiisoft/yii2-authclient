@@ -88,7 +88,6 @@ abstract class OAuth1 extends BaseOAuth
         $defaultParams = [
             'oauth_consumer_key' => $this->consumerKey,
             'oauth_callback' => $this->getReturnUrl(),
-            //'xoauth_displayname' => Yii::$app->name,
         ];
         if (!empty($this->scope)) {
             $defaultParams['scope'] = $this->scope;

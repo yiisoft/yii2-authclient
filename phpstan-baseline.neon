@@ -877,12 +877,6 @@ parameters:
 			path: src/OAuth2.php
 
 		-
-			message: '#^Cannot access property \$name on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: src/OAuth2.php
-
-		-
 			message: '#^Cannot access property \$security on yii\\console\\Application\|yii\\web\\Application\<yii\\web\\IdentityInterface\>\|null\.$#'
 			identifier: property.nonObject
 			count: 1

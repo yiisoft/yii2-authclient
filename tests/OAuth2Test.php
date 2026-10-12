@@ -61,6 +61,29 @@ class OAuth2Test extends TestCase
         $this->assertStringContainsString(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
 
+    public function testBuildAuthUrlOmitsDisplayNameByDefault(): void
+    {
+        $client = $this->createClient();
+        $client->authUrl = 'https://example.com/authorize';
+        $client->setReturnUrl('https://example.com/callback');
+
+        parse_str((string) parse_url($client->buildAuthUrl(), PHP_URL_QUERY), $params);
+
+        $this->assertArrayNotHasKey('xoauth_displayname', $params);
+    }
+
+    public function testBuildAuthUrlAllowsExplicitDisplayName(): void
+    {
+        $client = $this->createClient();
+        $client->authUrl = 'https://example.com/authorize';
+        $client->setReturnUrl('https://example.com/callback');
+
+        $url = $client->buildAuthUrl(['xoauth_displayname' => 'Custom application']);
+        parse_str((string) parse_url($url, PHP_URL_QUERY), $params);
+
+        $this->assertSame('Custom application', $params['xoauth_displayname']);
+    }
+
     /**
      * @param array<string, int|string> $response
      * @dataProvider refreshAccessTokenDataProvider

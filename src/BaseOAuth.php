@@ -125,6 +125,16 @@ abstract class BaseOAuth extends BaseClient
     }
 
     /**
+     * Reads the current or stored access token without refreshing it or changing the in-memory token.
+     * @return mixed stored token, normally an OAuthToken instance or null.
+     * @since 2.2.19
+     */
+    protected function getAccessTokenWithoutRefresh()
+    {
+        return $this->_accessToken ?? $this->getState('token');
+    }
+
+    /**
      * Set signature method to be used.
      * @param array|signature\BaseMethod $signatureMethod signature method instance or its array configuration.
      * @throws InvalidArgumentException on wrong argument.

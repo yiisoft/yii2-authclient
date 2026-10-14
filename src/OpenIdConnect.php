@@ -108,6 +108,12 @@ class OpenIdConnect extends OAuth2
      */
     public $issuerUrl;
     /**
+     * @var string|null logout endpoint URL. If null or empty, the provider's `end_session_endpoint` is used.
+     * @see buildLogoutUrl()
+     * @since 2.2.19
+     */
+    public $logoutUrl;
+    /**
      * @var bool whether to validate/decrypt JWS received with Auth token.
      * Note: this functionality requires `web-token/jwt-checker`, `web-token/jwt-key-mgmt`, `web-token/jwt-signature`
      * composer package to be installed. You can disable this option in case of usage of trusted OpenIDConnect provider,
@@ -288,6 +294,54 @@ class OpenIdConnect extends OAuth2
         }
 
         return parent::buildAuthUrl($params);
+    }
+
+    /**
+     * Composes the URL for OpenID Connect RP-Initiated Logout.
+     * Redirect the user's browser to this URL to request logout at the provider.
+     * Build the URL before clearing the local session so the stored ID token remains available.
+     * Discovery can fail; ensure local logout still completes if this method throws.
+     * This method does not log out the local user or generate or validate callback state.
+     * @param array<string, mixed> $params logout GET parameters, such as `post_logout_redirect_uri`, `state`,
+     * `logout_hint` and `ui_locales`. The return URI must be registered with the provider.
+     * By default, `client_id` and the stored `id_token_hint` are included. Explicit parameters
+     * override these defaults; use `null` to omit a parameter. Expired tokens are not refreshed.
+     * @return string logout URL.
+     * @throws InvalidConfigException if no logout endpoint is available or the client is misconfigured.
+     * @throws InvalidResponseException if discovery returns an unsuccessful HTTP response.
+     * @throws \yii\httpclient\Exception if the discovery request fails.
+     * @see https://openid.net/specs/openid-connect-rpinitiated-1_0.html
+     * @since 2.2.19
+     */
+    public function buildLogoutUrl(array $params = [])
+    {
+        $logoutUrl = $this->logoutUrl;
+        if ($logoutUrl === null || $logoutUrl === '') {
+            $logoutUrl = $this->getConfigParam('end_session_endpoint');
+        }
+        if (!is_string($logoutUrl) || $logoutUrl === '') {
+            throw new InvalidConfigException('The OpenID provider does not specify an "end_session_endpoint". Configure "logoutUrl" to use RP-Initiated Logout.');
+        }
+
+        $defaultParams = [];
+        if ($this->clientId !== null && $this->clientId !== '') {
+            $defaultParams['client_id'] = $this->clientId;
+        }
+        if (!array_key_exists('id_token_hint', $params)) {
+            $token = $this->getAccessTokenWithoutRefresh();
+            if ($token instanceof OAuthToken) {
+                $idToken = $token->getParam('id_token');
+                if ($idToken !== null && $idToken !== '') {
+                    $defaultParams['id_token_hint'] = $idToken;
+                }
+            }
+        }
+
+        $params = array_filter(array_merge($defaultParams, $params), static function ($value) {
+            return $value !== null;
+        });
+
+        return $this->composeUrl($logoutUrl, $params);
     }
 
     /**

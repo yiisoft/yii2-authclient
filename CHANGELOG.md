@@ -1,8 +1,8 @@
 Yii Framework 2 authclient extension Change Log
 ===============================================
 
-2.2.19 under development
-------------------------
+2.2.19 October 14, 2026
+-----------------------
 
 - Bug #225: Return HTTP 400 for array-valued auth client IDs instead of failing during client lookup (samdark)
 - Bug #257: Preserve explicitly supplied user IDs in VKontakte API requests (samdark)
